@@ -11,6 +11,6 @@ package happybuttons;
 public class HappyButtons {
 
     public static void main(String[] args) {
-        System.out.println("Test github!");
+        System.out.println("Test github!!");
     }
 }
