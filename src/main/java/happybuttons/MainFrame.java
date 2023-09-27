@@ -5,10 +5,8 @@
 package happybuttons;
 
 import java.awt.Image;
-import java.awt.Toolkit;
-import javax.swing.ImageIcon;
 
-// @author Michael Balibrea
+// @author Michael Balibrea (khel)
 
 public class MainFrame extends javax.swing.JFrame {
     public Image icon;
@@ -18,6 +16,12 @@ public class MainFrame extends javax.swing.JFrame {
         
         super.setTitle("Happy Buttons");
         setSize(1366, 768);
+        
+        String btnBGMCancelIcon = HappyButtons.desktopPathDoubleQuote + Utility.strDoubleQuote("\\HappyButtons\\res\\icon\\cancel_12px.png"); 
+        // System.out.print(btnBGM1Icon);
+        btnClearBGM1.setIcon(new javax.swing.ImageIcon(btnBGMCancelIcon));
+        btnClearBGM2.setIcon(new javax.swing.ImageIcon(btnBGMCancelIcon));
+
 
 //        icon = new ImageIcon(this.getClass().getClassLoader().getResource("/wave_wkM_2.png")).getImage();
 //        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("wave_wkM_2.png")));
@@ -33,7 +37,14 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        tfBGM1 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        tfBGM2 = new javax.swing.JTextField();
+        btnClearBGM1 = new javax.swing.JButton();
+        btnClearBGM2 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        tfLastOperation = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -47,7 +58,36 @@ public class MainFrame extends javax.swing.JFrame {
 
         jLabel1.setText("BGM1:");
 
-        jTextField1.setName("tfBGM1"); // NOI18N
+        tfBGM1.setEditable(false);
+        tfBGM1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        tfBGM1.setName("tfBGM1"); // NOI18N
+
+        jLabel2.setText("BGM2:");
+
+        tfBGM2.setEditable(false);
+        tfBGM2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        tfBGM2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfBGM2ActionPerformed(evt);
+            }
+        });
+
+        btnClearBGM1.setToolTipText("Clear BGM1");
+        btnClearBGM1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnClearBGM1.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnClearBGM1.setMinimumSize(new java.awt.Dimension(22, 22));
+
+        btnClearBGM2.setToolTipText("Clear BGM2");
+        btnClearBGM2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnClearBGM2.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnClearBGM2.setMinimumSize(new java.awt.Dimension(22, 22));
+
+        jLabel3.setText("Last Operation:");
+
+        tfLastOperation.setEditable(false);
+        tfLastOperation.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+
+        jButton1.setText("jButton1");
 
         jMenuBar1.setName("mbrMain"); // NOI18N
         jMenuBar1.setOpaque(true);
@@ -68,23 +108,61 @@ public class MainFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(513, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(tfBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(tfBGM2)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnClearBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 720, Short.MAX_VALUE)
+                                .addComponent(jButton1))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnClearBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tfLastOperation, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(tfBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnClearBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(tfBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnClearBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(417, Short.MAX_VALUE))
+                    .addComponent(jLabel3)
+                    .addComponent(tfLastOperation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(648, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tfBGM2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfBGM2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfBGM2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -116,10 +194,17 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClearBGM1;
+    private javax.swing.JButton btnClearBGM2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField tfBGM1;
+    private javax.swing.JTextField tfBGM2;
+    private javax.swing.JTextField tfLastOperation;
     // End of variables declaration//GEN-END:variables
 }

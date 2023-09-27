@@ -16,13 +16,18 @@ import javax.swing.JOptionPane;
  */
 public class HappyButtons {
     public static String desktopPath = "";
+    public static String desktopPathDoubleQuote = "";
     public static MainFrame mf;
     
     public static void main(String[] args) {
-        mf = new MainFrame();
         getDesktopPath();
         checkMainFolder();
         checkSubFolders();
+        
+        desktopPathDoubleQuote = Utility.strDoubleQuote(desktopPath);
+        // System.out.print("Hi " + desktopPathDoubleQuote);
+        
+        mf = new MainFrame();
         mf.setVisible(true);
     }
     
