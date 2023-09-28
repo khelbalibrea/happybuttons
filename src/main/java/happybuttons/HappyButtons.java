@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import javax.swing.JOptionPane;
-
 /**
  *
  * @author Michael Balibrea
@@ -19,7 +18,13 @@ public class HappyButtons {
     public static String desktopPathDoubleQuote = "";
     public static MainFrame mf;
     
+    public static ProfileDatabase[] profileDB = new ProfileDatabase[5];
+    public static int noDB = 0;
+    
+    // Globals
+        
     public static void main(String[] args) {
+        initializeDatabase();
         getDesktopPath();
         checkMainFolder();
         checkSubFolders();
@@ -98,17 +103,17 @@ public class HappyButtons {
     }
     
     // initialize XML as database
-//    public static void initializeDatabase(){
-//        File dbPath = new File(desktopPath + "\\HappyButtons\\happyDB.xml");
-//
-//        for(ctr = 0; ctr < profileDB.length; ctr++) {
-//            if(dbPath.exists()){
-//                ProfileDatabase[] profile = new BeanHelper().readFromXml();
-//                profileDB = profile;
-//            } else {
-//                noDB = 1;
-//                profileDB[ctr] = new ProfileDatabase();
-//            }
-//        }
-//    }
+    public static void initializeDatabase(){
+        File dbPath = new File(desktopPath + "\\HappyButtons\\happyDB.xml");
+
+        for(int ctr = 0; ctr < profileDB.length; ctr++) {
+            if(dbPath.exists()){
+                ProfileDatabase[] profile = new BeanHelper().readFromXml();
+                profileDB = profile;
+            } else {
+                noDB = 1;
+                profileDB[ctr] = new ProfileDatabase();
+            }
+        }
+    }
 }
