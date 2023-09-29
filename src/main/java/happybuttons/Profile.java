@@ -16,6 +16,7 @@ public class Profile {
             sfx49, sfx50;
     String sfxName1, sfxName2, sfxName3, sfxName4, sfxName5;
     String hk1, hk2, hk3, hk4, hk5;
+    
     public String getProfileName(){
         return profileName;
     }

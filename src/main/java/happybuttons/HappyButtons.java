@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 public class HappyButtons {
     public static String desktopPath = "";
     public static String desktopPathDoubleQuote = "";
+    public static String firstCheck = "";
     public static MainFrame mf;
     
     public static ProfileDatabase[] profileDB = new ProfileDatabase[5];
@@ -24,8 +25,8 @@ public class HappyButtons {
     // Globals
         
     public static void main(String[] args) {
-        initializeDatabase();
         getDesktopPath();
+        initializeDatabase();
         checkMainFolder();
         checkSubFolders();
         
@@ -105,15 +106,43 @@ public class HappyButtons {
     // initialize XML as database
     public static void initializeDatabase(){
         File dbPath = new File(desktopPath + "\\HappyButtons\\happyDB.xml");
-
-        for(int ctr = 0; ctr < profileDB.length; ctr++) {
-            if(dbPath.exists()){
-                ProfileDatabase[] profile = new BeanHelper().readFromXml();
-                profileDB = profile;
-            } else {
-                noDB = 1;
+        
+        if(dbPath.exists()){
+//            for(int ctr = 0; ctr < profileDB.length; ctr++) {
+//                ProfileDatabase[] profile = new BeanHelper().readFromXml();
+//                profileDB = profile;
+//            }
+        }
+        else {
+            File file = new File(desktopPath + "\\HappyButtons\\happyDB.xml");
+            noDB = 1;
+            
+            try {
+                file.createNewFile();
+                firstCheck = "[SYSTEM] No database found";
+            } catch(Exception e){
+                firstCheck = "[ERROR]::" + e.toString();
+                mf = new MainFrame();
+                mf.setVisible(true);
+            }
+            
+            for(int ctr = 0; ctr < profileDB.length; ctr++) {
                 profileDB[ctr] = new ProfileDatabase();
             }
         }
+
+//        for(int ctr = 0; ctr < profileDB.length; ctr++) {
+//            if(dbPath.exists()){
+//                System.out.print("File found");
+//                ProfileDatabase[] profile = new BeanHelper().readFromXml();
+//                profileDB = profile;
+//            }
+//            else {
+//                System.out.print("No file found");
+//                File file = new File("happyDB.xml");
+//                noDB = 1;
+//                profileDB[ctr] = new ProfileDatabase();
+//            }
+//        }
     }
 }
