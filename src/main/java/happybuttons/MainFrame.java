@@ -5,6 +5,10 @@
 package happybuttons;
 
 import java.awt.Image;
+import java.io.File;
+import javax.swing.DefaultListModel;
+import javax.swing.DefaultListSelectionModel;
+import javax.swing.JOptionPane;
 
 // @author Michael Balibrea (khel)
 
@@ -13,6 +17,12 @@ public class MainFrame extends javax.swing.JFrame {
     
     // Globals
     public static int bgmVolumeLink = 0;
+    public static DefaultListModel blist = new DefaultListModel();
+    public static DefaultListModel slist = new DefaultListModel();
+    
+    // Jlist populate
+    File bfolder = new File(HappyButtons.desktopPath + "/HappyButtons/bg/");
+    File sfolder = new File(HappyButtons.desktopPath + "/HappyButtons/sfx/");
     
     public MainFrame() {
         initComponents();
@@ -36,6 +46,12 @@ public class MainFrame extends javax.swing.JFrame {
         String btnBGMPlayPauseIcon = HappyButtons.desktopPathDoubleQuote + Utility.strDoubleQuote("\\HappyButtons\\res\\icon\\play_12px.png");
         btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnBGMPlayPauseIcon));
         btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnBGMPlayPauseIcon));
+        
+        listBGM.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+        listSFX.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+        
+        blistFilesForFolder(bfolder);
+        slistFilesForFolder(sfolder);
     }
 
     /**
@@ -65,9 +81,9 @@ public class MainFrame extends javax.swing.JFrame {
         volBGM2 = new javax.swing.JSlider();
         panelJList = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        listBGM = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList<>();
+        listSFX = new javax.swing.JList<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -159,19 +175,21 @@ public class MainFrame extends javax.swing.JFrame {
 
         panelJList.setPreferredSize(new java.awt.Dimension(1354, 180));
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
+        listBGM.setAutoscrolls(false);
+        listBGM.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        listBGM.setDragEnabled(true);
+        listBGM.setMaximumSize(new java.awt.Dimension(180, 673));
+        listBGM.setMinimumSize(new java.awt.Dimension(180, 673));
+        listBGM.setName(""); // NOI18N
+        listBGM.setPreferredSize(new java.awt.Dimension(180, 673));
+        jScrollPane1.setViewportView(listBGM);
 
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(jList2);
+        listSFX.setAutoscrolls(false);
+        listSFX.setDragEnabled(true);
+        listSFX.setMaximumSize(new java.awt.Dimension(180, 673));
+        listSFX.setMinimumSize(new java.awt.Dimension(180, 673));
+        listSFX.setPreferredSize(new java.awt.Dimension(180, 673));
+        jScrollPane2.setViewportView(listSFX);
 
         javax.swing.GroupLayout panelJListLayout = new javax.swing.GroupLayout(panelJList);
         panelJList.setLayout(panelJListLayout);
@@ -184,8 +202,8 @@ public class MainFrame extends javax.swing.JFrame {
         );
         panelJListLayout.setVerticalGroup(
             panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-            .addComponent(jScrollPane2)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+            .addComponent(jScrollPane1)
         );
 
         jMenuBar1.setName("mbrMain"); // NOI18N
@@ -362,14 +380,14 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JList<String> jList2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblLinkBGMVolumes;
+    private javax.swing.JList<String> listBGM;
+    private javax.swing.JList<String> listSFX;
     private javax.swing.JPanel panelJList;
     private javax.swing.JTextField tfBGM1;
     private javax.swing.JTextField tfBGM2;
@@ -378,4 +396,51 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JSlider volBGM1;
     private javax.swing.JSlider volBGM2;
     // End of variables declaration//GEN-END:variables
+    
+    public void blistFilesForFolder(final File folder) {
+        try {
+            File[] bFileList = folder.listFiles();
+        
+            for(File f : bFileList) {
+                blist.addElement(Utility.renameListName(f.getName()));
+            }
+        
+            listBGM.setModel(blist);
+        } catch(Exception e){
+            blist.removeAllElements();
+            blist.addElement("Error loading..");
+            listBGM.setModel(blist);
+            listBGM.setEnabled(false);
+            
+            tfLastOperation.setText("[ERROR]:: Error on loading BGM folder");
+            
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                    "BGM folder might be consisting of different file format. Make sure to only add file(s) with mp3 format\n\nHowever system will proceed starting", 
+                    "BGM Folder Error", 
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }
+    
+    public void slistFilesForFolder(final File folder) {
+        try {
+            File[] sFileList = folder.listFiles();
+        
+            for(File file : sFileList) {
+                slist.addElement(Utility.renameListName(file.getName()));
+            }
+            listSFX.setModel(slist);
+        } catch(Exception e){
+            slist.removeAllElements();
+            slist.addElement("Error loading..");
+            listSFX.setModel(slist);
+            listSFX.setEnabled(false);
+            
+            tfLastOperation.setText("[ERROR]:: Error on loading SFX folder");
+            
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                    "SFX folder might be consisting of different file format. Make sure to only add file(s) with mp3 format\n\nHowever system will proceed starting", 
+                    "SFX Folder Error", 
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }
 }

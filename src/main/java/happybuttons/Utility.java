@@ -14,4 +14,12 @@ public class Utility {
         
         return returnStr;
     }
+    
+    public static String renameListName(String string){
+        int index = string.indexOf(".mp3");
+        
+        String music = string.substring(0, index);
+        
+        return music;
+    }
 }
