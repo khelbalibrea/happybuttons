@@ -26,14 +26,17 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[1366, 768]"/>
+      <Dimension value="[1366, 700]"/>
     </Property>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[1366, 768]"/>
+      <Dimension value="[1366, 700]"/>
+    </Property>
+    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[1366, 700]"/>
     </Property>
     <Property name="resizable" type="boolean" value="false"/>
     <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[1366, 768]"/>
+      <Dimension value="[1366, 733]"/>
     </Property>
   </Properties>
   <SyntheticProperties>
@@ -161,7 +164,7 @@
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="panelJList" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="456" max="32767" attributes="0"/>
+              <EmptySpace pref="388" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

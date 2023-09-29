@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.io.File;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 // @author Michael Balibrea (khel)
@@ -46,6 +47,10 @@ public class MainFrame extends javax.swing.JFrame {
         String btnBGMPlayPauseIcon = HappyButtons.desktopPathDoubleQuote + Utility.strDoubleQuote("\\HappyButtons\\res\\icon\\play_12px.png");
         btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnBGMPlayPauseIcon));
         btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnBGMPlayPauseIcon));
+        
+        ImageIcon imgIcon = new ImageIcon(HappyButtons.desktopPathDoubleQuote + Utility.strDoubleQuote("\\HappyButtons\\res\\icon\\wave.png"));
+        setIconImage(imgIcon.getImage());
+        // ------------------------------ >>
         
         listBGM.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         listSFX.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
@@ -89,10 +94,11 @@ public class MainFrame extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1366, 768));
-        setMinimumSize(new java.awt.Dimension(1366, 768));
+        setMaximumSize(new java.awt.Dimension(1366, 700));
+        setMinimumSize(new java.awt.Dimension(1366, 700));
+        setPreferredSize(new java.awt.Dimension(1366, 700));
         setResizable(false);
-        setSize(new java.awt.Dimension(1366, 768));
+        setSize(new java.awt.Dimension(1366, 733));
 
         jLabel1.setText("BGM1:");
 
@@ -302,7 +308,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(lblLinkBGMVolumes, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelJList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(456, Short.MAX_VALUE))
+                .addContainerGap(388, Short.MAX_VALUE))
         );
 
         pack();
