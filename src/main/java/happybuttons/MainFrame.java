@@ -4,8 +4,12 @@
  */
 package happybuttons;
 
+import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
@@ -20,6 +24,7 @@ public class MainFrame extends javax.swing.JFrame {
     public static int bgmVolumeLink = 0;
     public static DefaultListModel blist = new DefaultListModel();
     public static DefaultListModel slist = new DefaultListModel();
+    public static int draggedList = -1; // -1 not selected, 0 bgm, 1 sfx
     
     // Jlist populate
     File bfolder = new File(HappyButtons.desktopPath + "/HappyButtons/bg/");
@@ -54,9 +59,57 @@ public class MainFrame extends javax.swing.JFrame {
         
         listBGM.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
         listSFX.setSelectionMode(DefaultListSelectionModel.SINGLE_SELECTION);
+        listBGM.setBorder(BorderFactory.createTitledBorder("BGM"));
+        listSFX.setBorder(BorderFactory.createTitledBorder("SFX"));
+        listBGM.setTransferHandler(new DnDListBGM());
+        listSFX.setTransferHandler(new DnDListSFX());
+        tfBGM1.setTransferHandler(new DnDTextfield());
+        tfBGM2.setTransferHandler(new DnDTextfield());
         
         blistFilesForFolder(bfolder);
         slistFilesForFolder(sfolder);
+        
+        tfLastOperation.setBackground(Color.WHITE);
+        
+        tfBGM1.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c)) {
+                    e.consume(); // Stop the event from propagating.
+                }
+            }
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                e.consume();
+            }
+            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                e.consume();
+            }
+        });
+        
+        tfBGM2.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                char c = e.getKeyChar();
+                if (!Character.isDigit(c)) {
+                    e.consume(); // Stop the event from propagating.
+                }
+            }
+            
+            @Override
+            public void keyPressed(KeyEvent e) {
+                e.consume();
+            }
+            
+            @Override
+            public void keyReleased(KeyEvent e) {
+                e.consume();
+            }
+        });
     }
 
     /**
@@ -96,20 +149,19 @@ public class MainFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1366, 700));
         setMinimumSize(new java.awt.Dimension(1366, 700));
-        setPreferredSize(new java.awt.Dimension(1366, 700));
         setResizable(false);
         setSize(new java.awt.Dimension(1366, 733));
 
         jLabel1.setText("BGM1:");
 
-        tfBGM1.setEditable(false);
         tfBGM1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        tfBGM1.setFocusable(false);
         tfBGM1.setName("tfBGM1"); // NOI18N
 
         jLabel2.setText("BGM2:");
 
-        tfBGM2.setEditable(false);
         tfBGM2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        tfBGM2.setFocusable(false);
         tfBGM2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tfBGM2ActionPerformed(evt);
@@ -119,6 +171,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel3.setText("Last Operation:");
 
         tfLastOperation.setEditable(false);
+        tfLastOperation.setForeground(new java.awt.Color(0, 0, 0));
         tfLastOperation.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         tfLastOperation.setMaximumSize(new java.awt.Dimension(22, 600));
         tfLastOperation.setMinimumSize(new java.awt.Dimension(22, 600));
