@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
  */
 public class HappyButtons {
     public static String desktopPath = "";
-    public static String desktopPathDoubleQuote = "";
+    public static String desktopPathDoubleSlash = "";
     public static String firstCheck = "";
     public static MainFrame mf;
     
@@ -30,8 +30,8 @@ public class HappyButtons {
         checkMainFolder();
         checkSubFolders();
         
-        desktopPathDoubleQuote = Utility.strDoubleQuote(desktopPath);
-        // System.out.print("Hi " + desktopPathDoubleQuote);
+        desktopPathDoubleSlash = Utility.strDoubleSlash(desktopPath);
+        System.out.print("Hi " + desktopPathDoubleSlash);
         
         mf = new MainFrame();
         mf.setVisible(true);

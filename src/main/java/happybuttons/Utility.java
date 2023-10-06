@@ -9,16 +9,29 @@ package happybuttons;
  * @author Michael Balibrea
  */
 public class Utility {
-    public static String strDoubleQuote(String str) {
+    public static String strDoubleSlash(String str) {
         String returnStr = str.replaceAll("\\\\", "\\\\\\\\");
         
         return returnStr;
     }
     
-    public static String renameListName(String string){
-        int index = string.indexOf(".mp3");
+    public static String getFileExtension(String filename) {
+        String extension = "";
+
+        int i = filename.lastIndexOf('.');
+        int p = Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\'));
+
+        if (i > p) {
+            extension = filename.substring(i+1);
+        }
         
-        String music = string.substring(0, index);
+        return extension;
+    }
+    
+    public static String renameListName(String filename){
+        int index = filename.indexOf(".wav");
+        
+        String music = filename.substring(0, index);
         
         return music;
     }
