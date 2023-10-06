@@ -17,7 +17,7 @@ import javax.swing.text.JTextComponent;
  *
  * @author Michael Balibrea
  */
-public class DnDTextfield extends TransferHandler {
+public class DnDBGM1Textfield extends TransferHandler {
     public int getSourceActions(JComponent c) {
         return COPY_OR_MOVE;
     }
@@ -42,12 +42,24 @@ public class DnDTextfield extends TransferHandler {
 
     public boolean importData(TransferSupport ts) {
         try {
-            ((JTextComponent) ts.getComponent())
-                .setText((String) ts
-                         .getTransferable()
-                         .getTransferData(DataFlavor.stringFlavor));
+            ((JTextComponent) ts.getComponent()).setText((String) ts.getTransferable().getTransferData(DataFlavor.stringFlavor));
+            
+            if(MainFrame.clipBGM1 != null) {
+                MainFrame.lastFrame1 = 0;
+                MainFrame.clipBGM1.stop();
+
+                String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                MainFrame.btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
+
+                MainFrame.playing1 = 0;
+                MainFrame.pause1 = 0;
+                
+                MainFrame.clipBGM1 = null;
+            }
+            
             return true;
-        } catch(UnsupportedFlavorException | IOException e) {
+        }
+        catch(UnsupportedFlavorException | IOException e) {
             return false;
         }
     }

@@ -254,7 +254,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnClearBGM1">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Clear BGM1"/>
+        <Property name="toolTipText" type="java.lang.String" value="Clear BGM1 and stop"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[22, 22]"/>
         </Property>
@@ -268,7 +268,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnClearBGM2">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Clear BGM2"/>
+        <Property name="toolTipText" type="java.lang.String" value="Clear BGM2 and stop"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[22, 22]"/>
         </Property>
@@ -293,6 +293,9 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPlayPauseBGM1ActionPerformed"/>
       </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="btnPlayPauseBGM2">
       <Properties>
@@ -304,6 +307,9 @@
           <Dimension value="[22, 22]"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JToggleButton" name="togLinkBGMVol">
       <Properties>

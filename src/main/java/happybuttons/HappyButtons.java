@@ -30,8 +30,7 @@ public class HappyButtons {
         checkMainFolder();
         checkSubFolders();
         
-        desktopPathDoubleSlash = Utility.strDoubleSlash(desktopPath);
-        System.out.print("Hi " + desktopPathDoubleSlash);
+        desktopPathDoubleSlash = Utility.strDoubleSlash(desktopPath); // C:\\Users\\Michael Balibrea\\Desktop
         
         mf = new MainFrame();
         mf.setVisible(true);
