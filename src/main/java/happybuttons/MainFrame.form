@@ -351,7 +351,7 @@
     </Component>
     <Component class="javax.swing.JSlider" name="volBGM2">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="BGM1 volume"/>
+        <Property name="toolTipText" type="java.lang.String" value="BGM2 volume"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[200, 20]"/>
         </Property>

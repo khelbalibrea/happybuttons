@@ -562,7 +562,7 @@ public final class MainFrame extends javax.swing.JFrame {
         volBGM1.setMaximumSize(new java.awt.Dimension(200, 20));
         volBGM1.setMinimumSize(new java.awt.Dimension(200, 20));
 
-        volBGM2.setToolTipText("BGM1 volume");
+        volBGM2.setToolTipText("BGM2 volume");
         volBGM2.setMaximumSize(new java.awt.Dimension(200, 20));
         volBGM2.setMinimumSize(new java.awt.Dimension(200, 20));
 
