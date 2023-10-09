@@ -11,7 +11,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -23,7 +26,10 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 // @author Michael Balibrea (khel)
 
@@ -72,6 +78,13 @@ public final class MainFrame extends javax.swing.JFrame {
         btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnBGMPlayPauseIcon));
         btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnBGMPlayPauseIcon));
         
+        String btnAddBGMIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\add_12px.png");
+        btnAddBGM.setIcon(new javax.swing.ImageIcon(btnAddBGMIcon));
+        
+        String btnAddSFXIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\add_12px.png");
+        btnAddSFX.setIcon(new javax.swing.ImageIcon(btnAddSFXIcon));
+        
+        // set frame icon
         ImageIcon imgIcon = new ImageIcon(HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
         setIconImage(imgIcon.getImage());
         // ------------------------------ >>
@@ -131,7 +144,7 @@ public final class MainFrame extends javax.swing.JFrame {
         });
         
         //---------------------------------------------------------------------------------------------------------------- PLAY BGM1 -->
-        btnPlayPauseBGM1.addActionListener(new ActionListener() {
+        btnPlayPauseBGM1.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(clipBGM1 == null) {
@@ -151,8 +164,8 @@ public final class MainFrame extends javax.swing.JFrame {
                         }
                         catch(IOException ioe){
                             JOptionPane.showMessageDialog(HappyButtons.mf, 
-                                    "File IO error exceotion has occured. Please inform the developer", 
-                                    "IO Exception", 
+                                    "Specified BGM may be gone missing or suddenly deleted. If not, inform the developer for this bug", 
+                                    "File IO exception occurred", 
                                     JOptionPane.ERROR_MESSAGE);
 
                             playing1 = 0;
@@ -177,7 +190,7 @@ public final class MainFrame extends javax.swing.JFrame {
                         }
                         catch(UnsupportedAudioFileException uafe){
                             JOptionPane.showMessageDialog(HappyButtons.mf, 
-                                    "Make sure the audio file has genuine wav format. Changing the file extension by renaming it will NOT do the trick", 
+                                    "BGM file may be broken/corrupted. Or make sure the audio file has genuine wav format. Changing the file extension by renaming it will NOT do the trick", 
                                     "Unsupported file", 
                                     JOptionPane.ERROR_MESSAGE);
 
@@ -258,8 +271,8 @@ public final class MainFrame extends javax.swing.JFrame {
                         }
                         catch(IOException ioe){
                             JOptionPane.showMessageDialog(HappyButtons.mf, 
-                                    "File IO error exceotion has occured. Please inform the developer", 
-                                    "IO Exception", 
+                                    "Specified BGM may be gone missing or suddenly deleted. If not, inform the developer for this bug", 
+                                    "File IO exception occured", 
                                     JOptionPane.ERROR_MESSAGE);
 
                             playing2 = 0;
@@ -284,7 +297,7 @@ public final class MainFrame extends javax.swing.JFrame {
                         }
                         catch(UnsupportedAudioFileException uafe){
                             JOptionPane.showMessageDialog(HappyButtons.mf, 
-                                    "Make sure the audio file has genuine wav format. Changing the file extension by renaming it will NOT do the trick", 
+                                    "BGM file may be broken/corrupted. Or make sure the audio file has genuine wav format. Changing the file extension by renaming it will NOT do the trick", 
                                     "Unsupported file", 
                                     JOptionPane.ERROR_MESSAGE);
 
@@ -455,6 +468,8 @@ public final class MainFrame extends javax.swing.JFrame {
         listBGM = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         listSFX = new javax.swing.JList<>();
+        btnAddBGM = new javax.swing.JButton();
+        btnAddSFX = new javax.swing.JButton();
         txtBGMPlay1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -556,10 +571,10 @@ public final class MainFrame extends javax.swing.JFrame {
         listBGM.setAutoscrolls(false);
         listBGM.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         listBGM.setDragEnabled(true);
-        listBGM.setMaximumSize(new java.awt.Dimension(180, 673));
-        listBGM.setMinimumSize(new java.awt.Dimension(180, 673));
+        listBGM.setMaximumSize(new java.awt.Dimension(170, 673));
+        listBGM.setMinimumSize(new java.awt.Dimension(170, 673));
         listBGM.setName(""); // NOI18N
-        listBGM.setPreferredSize(new java.awt.Dimension(180, 673));
+        listBGM.setPreferredSize(new java.awt.Dimension(170, 673));
         jScrollPane1.setViewportView(listBGM);
 
         listSFX.setAutoscrolls(false);
@@ -569,19 +584,52 @@ public final class MainFrame extends javax.swing.JFrame {
         listSFX.setPreferredSize(new java.awt.Dimension(180, 673));
         jScrollPane2.setViewportView(listSFX);
 
+        btnAddBGM.setToolTipText("Add BGM from your file");
+        btnAddBGM.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnAddBGM.setMinimumSize(new java.awt.Dimension(22, 22));
+        btnAddBGM.setPreferredSize(new java.awt.Dimension(22, 22));
+        btnAddBGM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddBGMActionPerformed(evt);
+            }
+        });
+
+        btnAddSFX.setToolTipText("Add SFX from your file");
+        btnAddSFX.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnAddSFX.setMinimumSize(new java.awt.Dimension(22, 22));
+        btnAddSFX.setPreferredSize(new java.awt.Dimension(22, 22));
+        btnAddSFX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddSFXActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelJListLayout = new javax.swing.GroupLayout(panelJList);
         panelJList.setLayout(panelJListLayout);
         panelJListLayout.setHorizontalGroup(
             panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelJListLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddBGM, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE))
+                .addGroup(panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelJListLayout.createSequentialGroup()
+                        .addComponent(btnAddSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE)))
         );
         panelJListLayout.setVerticalGroup(
             panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-            .addComponent(jScrollPane1)
+            .addGroup(panelJListLayout.createSequentialGroup()
+                .addGroup(panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnAddBGM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddSFX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         txtBGMPlay1.setText("0:00 / 0:00");
@@ -610,7 +658,6 @@ public final class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelJList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -652,7 +699,10 @@ public final class MainFrame extends javax.swing.JFrame {
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addComponent(btnPlayPauseBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(btnStopBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(btnStopBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(panelJList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -689,8 +739,8 @@ public final class MainFrame extends javax.swing.JFrame {
                         .addComponent(tfLastOperation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblLinkBGMVolumes, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelJList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(388, Short.MAX_VALUE))
+                .addComponent(panelJList, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(366, Short.MAX_VALUE))
         );
 
         pack();
@@ -728,6 +778,76 @@ public final class MainFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnPlayPauseBGM1ActionPerformed
 
+    private void btnAddBGMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddBGMActionPerformed
+        JFileChooser fc = new JFileChooser();
+        FileFilter filter = new FileNameExtensionFilter("WAV File","wav");
+        fc.setFileFilter(filter);
+        fc.setMultiSelectionEnabled(true);
+        fc.showOpenDialog(HappyButtons.mf);
+        
+        File[] selectedFiles = fc.getSelectedFiles();
+        
+        for(File file : selectedFiles) {
+            try {
+                FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
+                File destCheck = new File(HappyButtons.desktopPath + "\\HappyButtons\\bg\\" + file.getName());
+                
+                if(!destCheck.exists()) {
+                    FileChannel dest = new FileOutputStream(HappyButtons.desktopPath + "\\HappyButtons\\bg\\" + file.getName()).getChannel();
+                
+                    src.transferTo(0,src.size(),dest);
+
+                    src.close();
+                    dest.close();
+                    
+                    blist.addElement(Utility.renameListName(file.getName()));
+                }
+            }
+            catch(IOException ex) {
+                System.out.println(file.getAbsolutePath());
+                JOptionPane.showMessageDialog(HappyButtons.mf,
+                    "Error reading/writing file",
+                    "IO Error", 
+                    JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnAddBGMActionPerformed
+
+    private void btnAddSFXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSFXActionPerformed
+        JFileChooser fc = new JFileChooser();
+        FileFilter filter = new FileNameExtensionFilter("WAV File","wav");
+        fc.setFileFilter(filter);
+        fc.setMultiSelectionEnabled(true);
+        fc.showOpenDialog(HappyButtons.mf);
+        
+        File[] selectedFiles = fc.getSelectedFiles();
+        
+        for(File file : selectedFiles) {
+            try {
+                FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
+                File destCheck = new File(HappyButtons.desktopPath + "\\HappyButtons\\sfx\\" + file.getName());
+                
+                if(!destCheck.exists()) {
+                    FileChannel dest = new FileOutputStream(HappyButtons.desktopPath + "\\HappyButtons\\sfx\\" + file.getName()).getChannel();
+                
+                    src.transferTo(0,src.size(),dest);
+
+                    src.close();
+                    dest.close();
+                    
+                    slist.addElement(Utility.renameListName(file.getName()));
+                }
+            }
+            catch(IOException ex) {
+                System.out.println(file.getAbsolutePath());
+                JOptionPane.showMessageDialog(HappyButtons.mf,
+                    "Error reading/writing file",
+                    "IO Error", 
+                    JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnAddSFXActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -758,6 +878,8 @@ public final class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddBGM;
+    private javax.swing.JButton btnAddSFX;
     private javax.swing.JButton btnClearBGM1;
     private javax.swing.JButton btnClearBGM2;
     public static javax.swing.JButton btnPlayPauseBGM1;
