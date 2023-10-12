@@ -20,6 +20,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
@@ -28,10 +29,12 @@ import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-// @author Michael Balibrea (khel)
+// @author Michael Balibrea (khel) &
 
 public final class MainFrame extends javax.swing.JFrame {
     public Image icon;
@@ -50,6 +53,13 @@ public final class MainFrame extends javax.swing.JFrame {
     public static Clip clipBGM2 = null;
     public static int lastFrame1 = 0;
     public static int lastFrame2 = 0;
+    
+    FloatControl fcBGM1;
+    FloatControl fcBGM2;
+    FloatControl fcSFX;
+    float bgmVol1 = 100f;
+    float bgmVol2 = 100f;
+    float sfxVol = 100f;
     
     // Jlist populate
     File bfolder = new File(HappyButtons.desktopPath + "/HappyButtons/bg/");
@@ -160,6 +170,14 @@ public final class MainFrame extends javax.swing.JFrame {
                         try {
                             String musicPath = bfolder + "\\" + tfBGM1.getText() + ".wav";
                             loadClipBGM1(new File(musicPath));
+                            fcBGM1 = (FloatControl)clipBGM1.getControl(FloatControl.Type.MASTER_GAIN);
+                            if(volBGM1.getValue() == 100) {
+                                fcBGM1.setValue(6f);
+                            }
+                            else {
+                                fcBGM1.setValue(bgmVol1); // float value
+                            }
+                            
                             clipBGM1.start();
                         }
                         catch(IOException ioe){
@@ -267,6 +285,14 @@ public final class MainFrame extends javax.swing.JFrame {
                         try {
                             String musicPath = bfolder + "\\" + tfBGM2.getText() + ".wav";
                             loadClipBGM2(new File(musicPath));
+                            fcBGM2 = (FloatControl)clipBGM2.getControl(FloatControl.Type.MASTER_GAIN);
+                            if(volBGM2.getValue() == 100) {
+                                fcBGM2.setValue(6f);
+                            }
+                            else {
+                                fcBGM2.setValue(bgmVol2); // float value
+                            }
+                            
                             clipBGM2.start();
                         }
                         catch(IOException ioe){
@@ -436,6 +462,84 @@ public final class MainFrame extends javax.swing.JFrame {
                 }
             }
         });
+        
+        //---------------------------------------------------------------------------------------------------------------- BGM VOL1 -->
+        volBGM1.addChangeListener(new ChangeListener() {
+            @Override
+            
+            public void stateChanged(ChangeEvent e) {
+                float f = (float)volBGM1.getValue();
+                
+                try {
+                    if(f >= 50) {
+                        bgmVol1 = 6 - ((100f - f)*(0.22f));
+                    }
+
+                    if(f < 50 && f >= 25) {
+                        bgmVol1 = -5 + (50f - f)*(-0.4f);
+                    }
+
+                    if(f < 25 && f >= 10) {
+                        bgmVol1 = -15 + (25f - f)*(-0.66f);
+                    }
+
+                    if(f < 10) {
+                        bgmVol1 = -25 + (10f - f)*(-5.5f);
+                    }
+
+                    if(playing1 == 1) {
+                        fcBGM1.setValue(bgmVol1); // float value
+                    }
+                    else {
+                        fcBGM1.setValue(bgmVol1); // float value
+                    }
+                }
+                catch(Exception ex) {
+                    
+                }
+                
+                lblVolBGM1.setText("Vol1: " + Integer.toString((int)volBGM1.getValue()));
+            }
+        });
+        
+        //---------------------------------------------------------------------------------------------------------------- BGM VOL2 -->
+        volBGM2.addChangeListener(new ChangeListener() {
+            @Override
+            
+            public void stateChanged(ChangeEvent e) {
+                float f = (float)volBGM2.getValue();
+                
+                try {
+                    if(f >= 50) {
+                        bgmVol2 = 6 - ((100f - f)*(0.22f));
+                    }
+
+                    if(f < 50 && f >= 25) {
+                        bgmVol2 = -5 + (50f - f)*(-0.4f);
+                    }
+
+                    if(f < 25 && f >= 10) {
+                        bgmVol2 = -15 + (25f - f)*(-0.66f);
+                    }
+
+                    if(f < 10) {
+                        bgmVol2 = -25 + (10f - f)*(-5.5f);
+                    }
+
+                    if(playing2 == 1) {
+                        fcBGM2.setValue(bgmVol2); // float value
+                    }
+                    else {
+                        fcBGM2.setValue(bgmVol2); // float value
+                    }
+                }
+                catch(Exception ex) {
+                    
+                }
+                
+                lblVolBGM2.setText("Vol2: " + Integer.toString((int)volBGM2.getValue()));
+            }
+        });
     }
 
     /**
@@ -447,22 +551,10 @@ public final class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        tfBGM1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        tfBGM2 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         tfLastOperation = new javax.swing.JTextField();
-        btnStopBGM1 = new javax.swing.JButton();
-        btnStopBGM2 = new javax.swing.JButton();
-        btnClearBGM1 = new javax.swing.JButton();
-        btnClearBGM2 = new javax.swing.JButton();
-        btnPlayPauseBGM1 = new javax.swing.JButton();
-        btnPlayPauseBGM2 = new javax.swing.JButton();
         togLinkBGMVol = new javax.swing.JToggleButton();
         lblLinkBGMVolumes = new javax.swing.JLabel();
-        volBGM1 = new javax.swing.JSlider();
-        volBGM2 = new javax.swing.JSlider();
         panelJList = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         listBGM = new javax.swing.JList<>();
@@ -470,7 +562,22 @@ public final class MainFrame extends javax.swing.JFrame {
         listSFX = new javax.swing.JList<>();
         btnAddBGM = new javax.swing.JButton();
         btnAddSFX = new javax.swing.JButton();
-        txtBGMPlay1 = new javax.swing.JLabel();
+        panelRow1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        tfBGM1 = new javax.swing.JTextField();
+        btnClearBGM1 = new javax.swing.JButton();
+        btnStopBGM1 = new javax.swing.JButton();
+        btnPlayPauseBGM1 = new javax.swing.JButton();
+        volBGM1 = new javax.swing.JSlider();
+        lblVolBGM1 = new javax.swing.JLabel();
+        panelRow2 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        tfBGM2 = new javax.swing.JTextField();
+        btnClearBGM2 = new javax.swing.JButton();
+        btnStopBGM2 = new javax.swing.JButton();
+        btnPlayPauseBGM2 = new javax.swing.JButton();
+        volBGM2 = new javax.swing.JSlider();
+        lblVolBGM2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -481,22 +588,6 @@ public final class MainFrame extends javax.swing.JFrame {
         setResizable(false);
         setSize(new java.awt.Dimension(1366, 733));
 
-        jLabel1.setText("BGM1:");
-
-        tfBGM1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        tfBGM1.setFocusable(false);
-        tfBGM1.setName("tfBGM1"); // NOI18N
-
-        jLabel2.setText("BGM2:");
-
-        tfBGM2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        tfBGM2.setFocusable(false);
-        tfBGM2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tfBGM2ActionPerformed(evt);
-            }
-        });
-
         jLabel3.setText("Last Operation:");
 
         tfLastOperation.setEditable(false);
@@ -504,45 +595,6 @@ public final class MainFrame extends javax.swing.JFrame {
         tfLastOperation.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         tfLastOperation.setMaximumSize(new java.awt.Dimension(22, 600));
         tfLastOperation.setMinimumSize(new java.awt.Dimension(22, 600));
-
-        btnStopBGM1.setToolTipText("Stop BGM1");
-        btnStopBGM1.setMaximumSize(new java.awt.Dimension(22, 22));
-        btnStopBGM1.setMinimumSize(new java.awt.Dimension(22, 22));
-
-        btnStopBGM2.setToolTipText("Stop BGM2");
-        btnStopBGM2.setMaximumSize(new java.awt.Dimension(22, 22));
-        btnStopBGM2.setMinimumSize(new java.awt.Dimension(22, 22));
-
-        btnClearBGM1.setToolTipText("Clear BGM1 and stop");
-        btnClearBGM1.setMaximumSize(new java.awt.Dimension(22, 22));
-        btnClearBGM1.setMinimumSize(new java.awt.Dimension(22, 22));
-        btnClearBGM1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClearBGM1ActionPerformed(evt);
-            }
-        });
-
-        btnClearBGM2.setToolTipText("Clear BGM2 and stop");
-        btnClearBGM2.setMaximumSize(new java.awt.Dimension(22, 22));
-        btnClearBGM2.setMinimumSize(new java.awt.Dimension(22, 22));
-        btnClearBGM2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClearBGM2ActionPerformed(evt);
-            }
-        });
-
-        btnPlayPauseBGM1.setToolTipText("Play or pause BGM1");
-        btnPlayPauseBGM1.setMaximumSize(new java.awt.Dimension(22, 22));
-        btnPlayPauseBGM1.setMinimumSize(new java.awt.Dimension(22, 22));
-        btnPlayPauseBGM1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPlayPauseBGM1ActionPerformed(evt);
-            }
-        });
-
-        btnPlayPauseBGM2.setToolTipText("Play or pause BGM2");
-        btnPlayPauseBGM2.setMaximumSize(new java.awt.Dimension(22, 22));
-        btnPlayPauseBGM2.setMinimumSize(new java.awt.Dimension(22, 22));
 
         togLinkBGMVol.setText("OFF");
         togLinkBGMVol.setToolTipText("Toggle this ON when you want to inversely link BGM1 vol and BGM2 vol");
@@ -557,14 +609,6 @@ public final class MainFrame extends javax.swing.JFrame {
 
         lblLinkBGMVolumes.setText("Link BGM Volumes");
         lblLinkBGMVolumes.setToolTipText("");
-
-        volBGM1.setToolTipText("BGM1 volume");
-        volBGM1.setMaximumSize(new java.awt.Dimension(200, 20));
-        volBGM1.setMinimumSize(new java.awt.Dimension(200, 20));
-
-        volBGM2.setToolTipText("BGM2 volume");
-        volBGM2.setMaximumSize(new java.awt.Dimension(200, 20));
-        volBGM2.setMinimumSize(new java.awt.Dimension(200, 20));
 
         panelJList.setPreferredSize(new java.awt.Dimension(1354, 180));
 
@@ -632,11 +676,155 @@ public final class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        txtBGMPlay1.setText("0:00 / 0:00");
-        txtBGMPlay1.setMaximumSize(new java.awt.Dimension(60, 22));
-        txtBGMPlay1.setMinimumSize(new java.awt.Dimension(60, 22));
-        txtBGMPlay1.setPreferredSize(new java.awt.Dimension(60, 22));
-        txtBGMPlay1.setVerifyInputWhenFocusTarget(false);
+        jLabel1.setText("BGM1:");
+
+        tfBGM1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        tfBGM1.setFocusable(false);
+        tfBGM1.setName("tfBGM1"); // NOI18N
+
+        btnClearBGM1.setToolTipText("Clear BGM1 and stop");
+        btnClearBGM1.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnClearBGM1.setMinimumSize(new java.awt.Dimension(22, 22));
+        btnClearBGM1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearBGM1ActionPerformed(evt);
+            }
+        });
+
+        btnStopBGM1.setToolTipText("Stop BGM1");
+        btnStopBGM1.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnStopBGM1.setMinimumSize(new java.awt.Dimension(22, 22));
+
+        btnPlayPauseBGM1.setToolTipText("Play or pause BGM1");
+        btnPlayPauseBGM1.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnPlayPauseBGM1.setMinimumSize(new java.awt.Dimension(22, 22));
+        btnPlayPauseBGM1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlayPauseBGM1ActionPerformed(evt);
+            }
+        });
+
+        volBGM1.setToolTipText("BGM1 volume");
+        volBGM1.setValue(100);
+        volBGM1.setMaximumSize(new java.awt.Dimension(200, 20));
+        volBGM1.setMinimumSize(new java.awt.Dimension(200, 20));
+
+        lblVolBGM1.setText("Vol1: 100");
+        lblVolBGM1.setMaximumSize(new java.awt.Dimension(60, 22));
+        lblVolBGM1.setMinimumSize(new java.awt.Dimension(60, 22));
+        lblVolBGM1.setPreferredSize(new java.awt.Dimension(60, 22));
+
+        javax.swing.GroupLayout panelRow1Layout = new javax.swing.GroupLayout(panelRow1);
+        panelRow1.setLayout(panelRow1Layout);
+        panelRow1Layout.setHorizontalGroup(
+            panelRow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRow1Layout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnClearBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblVolBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(volBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnPlayPauseBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnStopBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        panelRow1Layout.setVerticalGroup(
+            panelRow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRow1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelRow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnPlayPauseBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnStopBGM1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRow1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(panelRow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel1)
+                                .addComponent(tfBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnClearBGM1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(volBGM1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblVolBGM1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+        );
+
+        jLabel4.setText("BGM2:");
+
+        tfBGM2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        tfBGM2.setFocusable(false);
+        tfBGM2.setName("tfBGM1"); // NOI18N
+
+        btnClearBGM2.setToolTipText("Clear BGM1 and stop");
+        btnClearBGM2.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnClearBGM2.setMinimumSize(new java.awt.Dimension(22, 22));
+        btnClearBGM2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearBGM2ActionPerformed(evt);
+            }
+        });
+
+        btnStopBGM2.setToolTipText("Stop BGM1");
+        btnStopBGM2.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnStopBGM2.setMinimumSize(new java.awt.Dimension(22, 22));
+
+        btnPlayPauseBGM2.setToolTipText("Play or pause BGM1");
+        btnPlayPauseBGM2.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnPlayPauseBGM2.setMinimumSize(new java.awt.Dimension(22, 22));
+        btnPlayPauseBGM2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPlayPauseBGM2ActionPerformed(evt);
+            }
+        });
+
+        volBGM2.setToolTipText("BGM1 volume");
+        volBGM2.setValue(100);
+        volBGM2.setMaximumSize(new java.awt.Dimension(200, 20));
+        volBGM2.setMinimumSize(new java.awt.Dimension(200, 20));
+
+        lblVolBGM2.setText("Vol2: 100");
+        lblVolBGM2.setMaximumSize(new java.awt.Dimension(60, 22));
+        lblVolBGM2.setMinimumSize(new java.awt.Dimension(60, 22));
+        lblVolBGM2.setPreferredSize(new java.awt.Dimension(60, 22));
+
+        javax.swing.GroupLayout panelRow2Layout = new javax.swing.GroupLayout(panelRow2);
+        panelRow2.setLayout(panelRow2Layout);
+        panelRow2Layout.setHorizontalGroup(
+            panelRow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRow2Layout.createSequentialGroup()
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tfBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnClearBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblVolBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(volBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnPlayPauseBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnStopBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        panelRow2Layout.setVerticalGroup(
+            panelRow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRow2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelRow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnPlayPauseBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnStopBGM2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRow2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(panelRow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel4)
+                                .addComponent(tfBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnClearBGM2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(volBGM2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblVolBGM2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+        );
 
         jMenuBar1.setName("mbrMain"); // NOI18N
         jMenuBar1.setOpaque(true);
@@ -658,80 +846,29 @@ public final class MainFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelRow1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(tfBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(tfBGM2)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnClearBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(volBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(btnClearBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtBGMPlay1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(volBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tfLastOperation, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblLinkBGMVolumes)))
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tfLastOperation, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblLinkBGMVolumes)
                         .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(togLinkBGMVol, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(btnPlayPauseBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(btnStopBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(btnPlayPauseBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(btnStopBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(togLinkBGMVol, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(panelJList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(panelRow2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnStopBGM1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(tfBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnClearBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnPlayPauseBGM1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(volBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtBGMPlay1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnStopBGM2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(tfBGM2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnPlayPauseBGM2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addComponent(btnClearBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(volBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(panelRow1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelRow2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(159, 159, 159)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(togLinkBGMVol, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -740,28 +877,15 @@ public final class MainFrame extends javax.swing.JFrame {
                         .addComponent(lblLinkBGMVolumes, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panelJList, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(366, Short.MAX_VALUE))
+                .addContainerGap(213, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tfBGM2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfBGM2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tfBGM2ActionPerformed
-
     private void btnClearBGM1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearBGM1ActionPerformed
         
     }//GEN-LAST:event_btnClearBGM1ActionPerformed
-
-    private void btnClearBGM2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearBGM2ActionPerformed
-        if(!tfBGM2.getText().isEmpty()){
-            String bgm2Text = tfBGM2.getText();
-            tfBGM2.setText("");
-
-            tfLastOperation.setText("[Clear] BGM2: " + bgm2Text);
-        }
-    }//GEN-LAST:event_btnClearBGM2ActionPerformed
 
     private void togLinkBGMVolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togLinkBGMVolActionPerformed
         if(bgmVolumeLink == 0){
@@ -780,7 +904,7 @@ public final class MainFrame extends javax.swing.JFrame {
 
     private void btnAddBGMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddBGMActionPerformed
         JFileChooser fc = new JFileChooser();
-        FileFilter filter = new FileNameExtensionFilter("WAV File","wav");
+        FileFilter filter = new FileNameExtensionFilter("WAV File", "wav");
         fc.setFileFilter(filter);
         fc.setMultiSelectionEnabled(true);
         fc.showOpenDialog(HappyButtons.mf);
@@ -848,6 +972,14 @@ public final class MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAddSFXActionPerformed
 
+    private void btnClearBGM2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearBGM2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnClearBGM2ActionPerformed
+
+    private void btnPlayPauseBGM2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseBGM2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPlayPauseBGM2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -887,22 +1019,25 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnStopBGM1;
     private javax.swing.JButton btnStopBGM2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblLinkBGMVolumes;
+    private javax.swing.JLabel lblVolBGM1;
+    private javax.swing.JLabel lblVolBGM2;
     private javax.swing.JList<String> listBGM;
     private javax.swing.JList<String> listSFX;
     private javax.swing.JPanel panelJList;
+    private javax.swing.JPanel panelRow1;
+    private javax.swing.JPanel panelRow2;
     private javax.swing.JTextField tfBGM1;
     private javax.swing.JTextField tfBGM2;
     private javax.swing.JTextField tfLastOperation;
     private javax.swing.JToggleButton togLinkBGMVol;
-    private javax.swing.JLabel txtBGMPlay1;
     private javax.swing.JSlider volBGM1;
     private javax.swing.JSlider volBGM2;
     // End of variables declaration//GEN-END:variables
