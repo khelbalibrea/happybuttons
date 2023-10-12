@@ -31,6 +31,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -61,9 +63,11 @@ public final class MainFrame extends javax.swing.JFrame {
     float bgmVol2 = 100f;
     float sfxVol = 100f;
     
-    // Jlist populate
+    // Jlist
     File bfolder = new File(HappyButtons.desktopPath + "/HappyButtons/bg/");
     File sfolder = new File(HappyButtons.desktopPath + "/HappyButtons/sfx/");
+    String selectedBGMItem = "";
+    String selectedSFXItem = "";
     
     public MainFrame() {
         initComponents();
@@ -88,11 +92,17 @@ public final class MainFrame extends javax.swing.JFrame {
         btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnBGMPlayPauseIcon));
         btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnBGMPlayPauseIcon));
         
-        String btnAddBGMIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\add_12px.png");
+        String btnAddBGMIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\add_bgm_12px.png");
         btnAddBGM.setIcon(new javax.swing.ImageIcon(btnAddBGMIcon));
         
-        String btnAddSFXIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\add_12px.png");
+        String btnAddSFXIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\add_sfx_12px.png");
         btnAddSFX.setIcon(new javax.swing.ImageIcon(btnAddSFXIcon));
+        
+        String btnDeleteBGMIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\delete_bgm_14px.png");
+        btnDeleteBGM.setIcon(new javax.swing.ImageIcon(btnDeleteBGMIcon));
+        
+        String btnDeleteSFXIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\delete_sfx_14px.png");
+        btnDeleteSFX.setIcon(new javax.swing.ImageIcon(btnDeleteSFXIcon));
         
         // set frame icon
         ImageIcon imgIcon = new ImageIcon(HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
@@ -112,6 +122,24 @@ public final class MainFrame extends javax.swing.JFrame {
         slistFilesForFolder(sfolder);
         
         tfLastOperation.setBackground(Color.WHITE);
+        
+        listBGM.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent arg0) {
+                if(!arg0.getValueIsAdjusting()) {
+                  selectedBGMItem = listBGM.getSelectedValue();
+                }
+            }
+        });
+        
+        listSFX.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent arg0) {
+                if(!arg0.getValueIsAdjusting()) {
+                  selectedSFXItem = listSFX.getSelectedValue();
+                }
+            }
+        });
         
         tfBGM1.addKeyListener(new KeyAdapter() {
             @Override
@@ -568,6 +596,9 @@ public final class MainFrame extends javax.swing.JFrame {
         listSFX = new javax.swing.JList<>();
         btnAddBGM = new javax.swing.JButton();
         btnAddSFX = new javax.swing.JButton();
+        lblDeleteSFX = new javax.swing.JLabel();
+        btnDeleteBGM = new javax.swing.JButton();
+        btnDeleteSFX = new javax.swing.JButton();
         panelRow1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tfBGM1 = new javax.swing.JTextField();
@@ -608,6 +639,16 @@ public final class MainFrame extends javax.swing.JFrame {
         listBGM.setMinimumSize(new java.awt.Dimension(170, 673));
         listBGM.setName(""); // NOI18N
         listBGM.setPreferredSize(new java.awt.Dimension(170, 673));
+        listBGM.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                listBGMFocusLost(evt);
+            }
+        });
+        listBGM.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                listBGMMouseExited(evt);
+            }
+        });
         jScrollPane1.setViewportView(listBGM);
 
         listSFX.setAutoscrolls(false);
@@ -637,6 +678,31 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        lblDeleteSFX.setToolTipText("Drag here from SFX list to delete");
+        lblDeleteSFX.setMaximumSize(new java.awt.Dimension(22, 22));
+        lblDeleteSFX.setMinimumSize(new java.awt.Dimension(22, 22));
+        lblDeleteSFX.setPreferredSize(new java.awt.Dimension(22, 22));
+
+        btnDeleteBGM.setToolTipText("Delete selected BGM from list");
+        btnDeleteBGM.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnDeleteBGM.setMinimumSize(new java.awt.Dimension(22, 22));
+        btnDeleteBGM.setPreferredSize(new java.awt.Dimension(22, 22));
+        btnDeleteBGM.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteBGMActionPerformed(evt);
+            }
+        });
+
+        btnDeleteSFX.setToolTipText("Delete selected SFX from list");
+        btnDeleteSFX.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnDeleteSFX.setMinimumSize(new java.awt.Dimension(22, 22));
+        btnDeleteSFX.setPreferredSize(new java.awt.Dimension(22, 22));
+        btnDeleteSFX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteSFXActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelJListLayout = new javax.swing.GroupLayout(panelJList);
         panelJList.setLayout(panelJListLayout);
         panelJListLayout.setHorizontalGroup(
@@ -644,11 +710,18 @@ public final class MainFrame extends javax.swing.JFrame {
             .addGroup(panelJListLayout.createSequentialGroup()
                 .addGroup(panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAddBGM, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelJListLayout.createSequentialGroup()
+                        .addComponent(btnAddBGM, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDeleteBGM, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelJListLayout.createSequentialGroup()
                         .addComponent(btnAddSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDeleteSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblDeleteSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE)))
         );
@@ -659,9 +732,12 @@ public final class MainFrame extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
                     .addComponent(jScrollPane2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnAddBGM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAddSFX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnAddBGM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAddSFX, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblDeleteSFX, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDeleteBGM, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnDeleteSFX, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -953,6 +1029,7 @@ public final class MainFrame extends javax.swing.JFrame {
                     dest.close();
                     
                     blist.addElement(Utility.renameListName(file.getName()));
+                    tfLastOperation.setText("[ADDED BGM]:: " + file.getName());
                 }
             }
             catch(IOException ex) {
@@ -988,6 +1065,7 @@ public final class MainFrame extends javax.swing.JFrame {
                     dest.close();
                     
                     slist.addElement(Utility.renameListName(file.getName()));
+                    tfLastOperation.setText("[ADDED SFX]:: " + file.getName());
                 }
             }
             catch(IOException ex) {
@@ -1007,6 +1085,62 @@ public final class MainFrame extends javax.swing.JFrame {
     private void btnPlayPauseBGM2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseBGM2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnPlayPauseBGM2ActionPerformed
+
+    private void listBGMFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_listBGMFocusLost
+
+    }//GEN-LAST:event_listBGMFocusLost
+
+    private void listBGMMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listBGMMouseExited
+        
+    }//GEN-LAST:event_listBGMMouseExited
+
+    private void btnDeleteBGMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteBGMActionPerformed
+        if(selectedBGMItem != "") {
+           File deleteItem = new File(HappyButtons.desktopPathDoubleSlash + "\\HappyButtons\\bg\\" + selectedBGMItem + ".wav");
+            if(deleteItem.delete()) {
+                tfLastOperation.setText("[DELETE BGM]:: " + selectedBGMItem);
+                blist.removeElement(selectedBGMItem);
+                selectedBGMItem = "";
+            }
+            else {
+                JOptionPane.showMessageDialog(HappyButtons.mf, 
+                    "An error occurred when deleting " + selectedBGMItem + ".wav", 
+                    "File deletion error", 
+                    JOptionPane.ERROR_MESSAGE);
+                selectedBGMItem = "";
+            } 
+        }
+        else {
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                        "Please select an item first from BGM list", 
+                        "Nothing selected", 
+                        JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeleteBGMActionPerformed
+
+    private void btnDeleteSFXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSFXActionPerformed
+        if(selectedSFXItem != "") {
+           File deleteItem = new File(HappyButtons.desktopPathDoubleSlash + "\\HappyButtons\\sfx\\" + selectedSFXItem + ".wav");
+            if(deleteItem.delete()) {
+                tfLastOperation.setText("[DELETE SFX]:: " + selectedSFXItem);
+                slist.removeElement(selectedSFXItem);
+                selectedSFXItem = "";
+            }
+            else {
+                JOptionPane.showMessageDialog(HappyButtons.mf, 
+                    "An error occurred when deleting " + selectedSFXItem + ".wav", 
+                    "File deletion error", 
+                    JOptionPane.ERROR_MESSAGE);
+                selectedSFXItem = "";
+            } 
+        }
+        else {
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                        "Please select an item first from SFX list", 
+                        "Nothing selected", 
+                        JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeleteSFXActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1042,6 +1176,8 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnAddSFX;
     private javax.swing.JButton btnClearBGM1;
     private javax.swing.JButton btnClearBGM2;
+    private javax.swing.JButton btnDeleteBGM;
+    private javax.swing.JButton btnDeleteSFX;
     public static javax.swing.JButton btnPlayPauseBGM1;
     public static javax.swing.JButton btnPlayPauseBGM2;
     private javax.swing.JButton btnStopBGM1;
@@ -1054,6 +1190,7 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblDeleteSFX;
     private javax.swing.JLabel lblLinkBGMVolumes;
     private javax.swing.JLabel lblVolBGM1;
     private javax.swing.JLabel lblVolBGM2;
@@ -1119,64 +1256,6 @@ public final class MainFrame extends javax.swing.JFrame {
                     "SFX folder might be consisting of different file format. Make sure to only add file(s) with mp3 format\n\nHowever system will proceed starting", 
                     "SFX Folder Error", 
                     JOptionPane.WARNING_MESSAGE);
-        }
-    }
-    
-    public void operateMedia1(){
-        try {
-            File musicPath = new File(bfolder + "\\" + tfBGM1.getText() + ".wav");
-            
-            media1 = AudioSystem.getAudioInputStream(musicPath);
-            
-            Clip clip = AudioSystem.getClip();
-            clip.open(media1);
-            clip.start();
-            
-//            mediaPlayer1 = new MediaPlayer(media1);
-//            mediaPlayer1.setVolume(vol1.getValue()/100/2);
-
-//            vol1.valueProperty().addListener((Observable observable) -> {
-//                volFocus = 1;
-//                
-//                if(bgmLink == 1){
-//                    vol2.setValue(100 - (vol1.getValue()));
-//                }
-//                
-//                mediaPlayer1.setVolume((vol1.getValue()/100)/2);
-//            });
-        } catch(IOException ioe){
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                    "File IO error exceotion has occured. Please inform the developer", 
-                    "IO Exception", 
-                    JOptionPane.ERROR_MESSAGE);
-            
-            playing1 = 0;
-            pause1 = 0;
-            
-            String btnBGMCancelIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
-            btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnBGMCancelIcon));
-        } catch(LineUnavailableException lue){
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                    "LineUnavailableException error has occured. Please inform the developer", 
-                    "Line Unavailable Exception", 
-                    JOptionPane.ERROR_MESSAGE);
-            
-            playing1 = 0;
-            pause1 = 0;
-            
-            String btnBGMCancelIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
-            btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnBGMCancelIcon));
-        } catch(UnsupportedAudioFileException uafe){
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                    "Make sure the audio file has genuine wav format, renaming the file extension will NOT do the trick", 
-                    "Unsupported file", 
-                    JOptionPane.ERROR_MESSAGE);
-            
-            playing1 = 0;
-            pause1 = 0;
-            
-            String btnBGMCancelIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
-            btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnBGMCancelIcon));
         }
     }
     
