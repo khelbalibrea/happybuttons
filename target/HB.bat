@@ -1,1 +1,0 @@
-java -cp "khel.jar" happybuttons.HappyButtons
