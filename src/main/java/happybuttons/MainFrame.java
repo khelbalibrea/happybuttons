@@ -54,6 +54,7 @@ public final class MainFrame extends javax.swing.JFrame {
     public AudioInputStream media1;
     public static Clip clipBGM1 = null;
     public static Clip clipBGM2 = null;
+    public static Clip clipR1SFX01 = null, clipR1SFX02 = null;
     public static int lastFrame1 = 0;
     public static int lastFrame2 = 0;
     
@@ -609,6 +610,51 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
         
+        //---------------------------------------------------------------------------------------------------------------- SFX VOL -->
+        volSFX.addChangeListener(new ChangeListener() {
+            @Override
+            
+            public void stateChanged(ChangeEvent e) {
+                float f = (float)volSFX.getValue();
+                
+                try {
+                    if(f >= 50) {
+                        sfxVol = 6 - ((100f - f)*(0.22f));
+                    }
+
+                    if(f < 50 && f >= 25) {
+                        sfxVol = -5 + (50f - f)*(-0.4f);
+                    }
+
+                    if(f < 25 && f >= 10) {
+                        sfxVol = -15 + (25f - f)*(-0.66f);
+                    }
+
+                    if(f < 10) {
+                        sfxVol = -25 + (10f - f)*(-5.5f);
+                    }
+
+                    fcSFX.setValue(sfxVol); // float value
+//                    if(playing2 == 1) {
+//                        fcBGM2.setValue(bgmVol2); // float value
+//                    }
+//                    else {
+//                        fcBGM2.setValue(bgmVol2); // float value
+//                    }
+                }
+                catch(Exception ex) {
+                    
+                }
+                
+//                if(bgmVolumeLink == 1) {
+//                    int value = (int)volBGM2.getValue();
+//                    volBGM1.setValue(100 - value);
+//                }
+                
+                lblVolSFX.setText("SFX Vol: " + Integer.toString((int)volSFX.getValue()));
+            }
+        });
+        
         //---------------------------------------------------------------------------------------------------------------- SFX Grp 1 -->
         tfSFXGroup1.addActionListener(new ActionListener() {
             @Override
@@ -1024,7 +1070,7 @@ public final class MainFrame extends javax.swing.JFrame {
         btnEditSFX.setMinimumSize(new java.awt.Dimension(22, 22));
         btnEditSFX.setPreferredSize(new java.awt.Dimension(22, 22));
 
-        lblVolSFX.setText("SFX Vol1: 100");
+        lblVolSFX.setText("SFX Vol: 100");
         lblVolSFX.setMaximumSize(new java.awt.Dimension(85, 22));
         lblVolSFX.setMinimumSize(new java.awt.Dimension(85, 22));
         lblVolSFX.setPreferredSize(new java.awt.Dimension(85, 22));
@@ -1823,7 +1869,24 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteSFXActionPerformed
 
     private void btnR1SFX01ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR1SFX01ActionPerformed
-        
+        if(!lblR1SFX01.getText().equals("blank")){
+            try {
+                String musicPath = sfolder + "\\" + Utility.cleanSFXNaming(lblR1SFX01.getText()) + ".wav";
+                loadClipSFX(new File(musicPath));
+                fcSFX = (FloatControl)clipR1SFX01.getControl(FloatControl.Type.MASTER_GAIN);
+                if(volSFX.getValue() == 100) {
+                    fcSFX.setValue(6f);
+                }
+                else {
+                    fcSFX.setValue(sfxVol); // float value
+                }
+
+                clipR1SFX01.start();
+            }
+            catch(IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+                System.out.println(e.toString());
+            }
+        }
     }//GEN-LAST:event_btnR1SFX01ActionPerformed
 
     private void tfSFXGroup1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfSFXGroup1MouseClicked
@@ -2051,5 +2114,14 @@ public final class MainFrame extends javax.swing.JFrame {
         DataLine.Info info = new DataLine.Info(Clip.class, format);
         this.clipBGM2 = (Clip) AudioSystem.getLine(info);
         this.clipBGM2.open(audioStream);
+    }
+    
+    protected void loadClipSFX(File audioFile) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+
+        AudioFormat format = audioStream.getFormat();
+        DataLine.Info info = new DataLine.Info(Clip.class, format);
+        this.clipR1SFX01 = (Clip) AudioSystem.getLine(info);
+        this.clipR1SFX01.open(audioStream);
     }
 }

@@ -35,4 +35,13 @@ public class Utility {
         
         return music;
     }
+    
+    public static String cleanSFXNaming(String name) {
+        String targetFront = name.copyValueOf("<html><center>".toCharArray());
+        String cleanFront = name.replace(targetFront, "");
+        String targetBack = cleanFront.copyValueOf("</center></html>".toCharArray());
+        String cleanBack = cleanFront.replace(targetBack, "");
+        
+        return cleanBack;
+    }
 }

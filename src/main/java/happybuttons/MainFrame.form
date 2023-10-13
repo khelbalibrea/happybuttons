@@ -712,7 +712,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblVolSFX">
           <Properties>
-            <Property name="text" type="java.lang.String" value="SFX Vol1: 100"/>
+            <Property name="text" type="java.lang.String" value="SFX Vol: 100"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[85, 22]"/>
             </Property>
