@@ -37,14 +37,15 @@ public class DnDListSFX extends TransferHandler {
 
     @Override
     public boolean canImport(TransferSupport support) {
-        Boolean proceed = false;
-        
-        if(support.isDataFlavorSupported(DataFlavor.stringFlavor)){
-            proceed = true;
-        }
-        
-        return proceed;
+//        Boolean proceed = false;
+//        
+//        if(support.isDataFlavorSupported(DataFlavor.stringFlavor)){
+//            proceed = true;
+//        }
+//        
+//        return proceed;
 //        return support.getComponent() instanceof JTextComponent;
+        return false;
     }
     
     @Override
