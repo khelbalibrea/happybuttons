@@ -4,65 +4,82 @@
 
 package happybuttons;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import javax.swing.JOptionPane;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileSystemView;
 /**
  *
  * @author Michael Balibrea
  */
 public class HappyButtons {
-    public static String desktopPath = "";
-    public static String desktopPathDoubleSlash = "";
+    public static String documentsPath = "";
+    public static String documentsPathDoubleSlash = "";
     public static String firstCheck = "";
+    public static int mainFolderChk = 0, bgFolderChk = 0, sfxFolderChk = 0; // if this sets to 1 means bg and sfx folders aren't found, so it is created
     public static MainFrame mf;
+    public static boolean go = false;
     
+    public static DBOperations dbo = new DBOperations();
     public static ProfileDatabase[] profileDB = new ProfileDatabase[5];
     public static int noDB = 0;
     
     // Globals
         
     public static void main(String[] args) {
-        getDesktopPath();
-        initializeDatabase();
-        checkMainFolder();
-        checkSubFolders();
+        getHomePath();
+        start();
+    }
+    
+    public static void start() {
+        while(!go) {
+            checkMainFolder();
+        }
         
-        desktopPathDoubleSlash = Utility.strDoubleSlash(desktopPath); // C:\\Users\\Michael Balibrea\\Desktop
+        checkSubFolders();
+        initializeDatabase();
+        
+        documentsPathDoubleSlash = Utility.strDoubleSlash(documentsPath); // C:\\Users\\<PC NAME>\\Documents
         
         mf = new MainFrame();
         mf.setVisible(true);
     }
     
-    public static void getDesktopPath() {
-        String command = "powershell -command \"[Environment]::GetFolderPath('\"Desktop\"')\"";
+    public static void getHomePath() {
+        JFileChooser fr = new JFileChooser();
+        FileSystemView fw = fr.getFileSystemView();
         
-        try {
-            Process process = Runtime.getRuntime().exec(command);
-
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream()));
-            
-            String line;
-            while ((line = reader.readLine()) != null) {
-                desktopPath = line;
-            }
-            reader.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        documentsPath = fw.getDefaultDirectory().toString();
+//        System.out.println(documentsPath);
+        
+//        THIS IS FOR GETTING DESKTOP PATH USING POWERSHELL IN JAVA
+//        String command = "powershell -command \"[Environment]::GetFolderPath('\"Desktop\"')\"";
+//        try {
+//            Process process = Runtime.getRuntime().exec(command);
+//
+//            BufferedReader reader = new BufferedReader(
+//                    new InputStreamReader(process.getInputStream()));
+//            
+//            String line;
+//            while ((line = reader.readLine()) != null) {
+//                desktopPath = line;
+//            }
+//            reader.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
     
     public static void checkMainFolder(){
-        if(desktopPath != "") {
+        if(documentsPath != "") {
             try{
-                File mainPath = new File(desktopPath);
+                File mainPath = new File(documentsPath + "/HappyButtons");
 
                 if(!mainPath.exists()){
                     mainPath.mkdir();
+                    mainFolderChk = 1;
+                }
+                else {
+                    go = true;
                 }
             } catch(Exception e){
     //            Controller.chkMain = 1;
@@ -73,38 +90,34 @@ public class HappyButtons {
     public static void checkSubFolders(){
         // checking BG folder
         try{
-            File subPath1 = new File(desktopPath + "\\HappyButtons\\bg");
+            File subPath1 = new File(documentsPath + "\\HappyButtons\\bg");
            
             if(!subPath1.exists()){
                 subPath1.mkdir();
-                JOptionPane.showMessageDialog(mf, 
-                    "\"" + desktopPath + "\\HappyButtons\\bg\" folder not found\n\n\"bg\" folder is created. Note that bg sounds involve in some profile saves may gone missing", 
-                    "CRITICAL FOLDER MISSING", 
-                    JOptionPane.WARNING_MESSAGE);
+                bgFolderChk = 1;
             }
-        } catch(Exception e){
+        }
+        catch(Exception e){
 //            Controller.chksub1 = 1;
         }
         
         // checking SFX folder
         try{
-            File subPath1 = new File(desktopPath + "\\HappyButtons\\sfx");
+            File subPath1 = new File(documentsPath + "\\HappyButtons\\sfx");
            
             if(!subPath1.exists()){
                 subPath1.mkdir();
-                JOptionPane.showMessageDialog(mf, 
-                    "\"" + desktopPath + "\\HappyButtons\\sfx\" folder not found\n\n\"sfx\" folder is created. Note that sfx sounds involve in some profile saves may gone missing", 
-                    "CRITICAL FOLDER MISSING", 
-                    JOptionPane.WARNING_MESSAGE);
+                sfxFolderChk = 1;
             }
-        } catch(Exception e){
+        }
+        catch(Exception e){
 //            Controller.chksub1 = 1;
         }
     }
     
     // initialize XML as database
     public static void initializeDatabase(){
-        File dbPath = new File(desktopPath + "\\HappyButtons\\happyDB.xml");
+        File dbPath = new File(documentsPath + "\\HappyButtons\\happyDB.xml");
         
         if(dbPath.exists()){
 //            for(int ctr = 0; ctr < profileDB.length; ctr++) {
@@ -113,13 +126,14 @@ public class HappyButtons {
 //            }
         }
         else {
-            File file = new File(desktopPath + "\\HappyButtons\\happyDB.xml");
+            File file = new File(documentsPath + "\\HappyButtons\\happyDB.xml");
             noDB = 1;
             
             try {
                 file.createNewFile();
                 firstCheck = "[SYSTEM] No database found";
-            } catch(Exception e){
+            }
+            catch(Exception e){
                 firstCheck = "[ERROR]::" + e.toString();
                 mf = new MainFrame();
                 mf.setVisible(true);

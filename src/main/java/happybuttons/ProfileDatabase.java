@@ -9,7 +9,7 @@ package happybuttons;
  * @author Michael Balibrea
  */
 public class ProfileDatabase extends Profile {
-    ProfileDatabase[] profileDB = new ProfileDatabase[5];
+    ProfileDatabase[] profileDB = new ProfileDatabase[1];
 
     public ProfileDatabase(){
         //Todo codes here

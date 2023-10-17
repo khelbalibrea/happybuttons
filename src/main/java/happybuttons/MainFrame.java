@@ -66,10 +66,15 @@ public final class MainFrame extends javax.swing.JFrame {
     float sfxVol = 100f;
     
     // Jlist
-    File bfolder = new File(HappyButtons.desktopPath + "/HappyButtons/bg/");
-    File sfolder = new File(HappyButtons.desktopPath + "/HappyButtons/sfx/");
+    File bfolder = new File(HappyButtons.documentsPath + "/HappyButtons/bg/");
+    File sfolder = new File(HappyButtons.documentsPath + "/HappyButtons/sfx/");
     String selectedBGMItem = "";
     String selectedSFXItem = "";
+    
+    // Profiles
+    Profile profile = new Profile();
+    public static String profileName1 = "Sample", profileName2 = "", profileName3 = "", profileName4 = "", profileName5 = "";
+    public static String sfxGroupName1 = "";
     
     public MainFrame() {
         initComponents();
@@ -81,35 +86,63 @@ public final class MainFrame extends javax.swing.JFrame {
             tfLastOperation.setText(HappyButtons.firstCheck);
         }
         
+        if(HappyButtons.mainFolderChk == 1) {
+            tfLastOperation.setText("[SYSTEM] Some system file resources are missing...");
+        }
+        
+        if(HappyButtons.bgFolderChk == 1) {
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "\"" + HappyButtons.documentsPath + "\\HappyButtons\\bg\" folder not found\n\n\"bg\" folder is created.\nNote that bg sounds involve in some profile saves may gone missing", 
+                "CRITICAL FOLDER MISSING", 
+                JOptionPane.WARNING_MESSAGE);
+            
+            HappyButtons.bgFolderChk = 0;
+        }
+        
+        if(HappyButtons.sfxFolderChk == 1) {
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "\"" + HappyButtons.documentsPath + "\\HappyButtons\\sfx\" folder not found\n\n\"sfx\" folder is created.\nNote that sfx sounds involve in some profile saves may gone missing", 
+                "CRITICAL FOLDER MISSING", 
+                JOptionPane.WARNING_MESSAGE);
+            
+            HappyButtons.sfxFolderChk = 0;
+        }
+        
         // set element icons
-        String btnBGMCancelIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\cancel_12px.png");
+        String btnBGMCancelIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\cancel_12px.png");
         btnClearBGM1.setIcon(new javax.swing.ImageIcon(btnBGMCancelIcon));
         btnClearBGM2.setIcon(new javax.swing.ImageIcon(btnBGMCancelIcon));
         
-        String btnBGMStopIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\stop_12px.png");
+        String btnBGMStopIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\stop_12px.png");
         btnStopBGM1.setIcon(new javax.swing.ImageIcon(btnBGMStopIcon));
         btnStopBGM2.setIcon(new javax.swing.ImageIcon(btnBGMStopIcon));
         
-        String btnBGMPlayPauseIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+        String btnBGMPlayPauseIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
         btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnBGMPlayPauseIcon));
         btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnBGMPlayPauseIcon));
         
-        String btnAddBGMIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\add_bgm_12px.png");
+        String btnAddBGMIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\add_bgm_12px.png");
         btnAddBGM.setIcon(new javax.swing.ImageIcon(btnAddBGMIcon));
         
-        String btnAddSFXIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\add_sfx_12px.png");
+        String btnAddSFXIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\add_sfx_12px.png");
         btnAddSFX.setIcon(new javax.swing.ImageIcon(btnAddSFXIcon));
         
-        String btnDeleteBGMIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\delete_bgm_14px.png");
+        String btnDeleteBGMIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\delete_bgm_14px.png");
         btnDeleteBGM.setIcon(new javax.swing.ImageIcon(btnDeleteBGMIcon));
         
-        String btnDeleteSFXIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\delete_sfx_14px.png");
+        String btnDeleteSFXIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\delete_sfx_14px.png");
         btnDeleteSFX.setIcon(new javax.swing.ImageIcon(btnDeleteSFXIcon));
         
-        String btnEditSFXIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\edit_sfx_14px.png");
+        String btnEditSFXIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\edit_sfx_14px.png");
         btnEditSFX.setIcon(new javax.swing.ImageIcon(btnEditSFXIcon));
         
-        String btnSFXIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave_black_14px.png");
+        String itmNewIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\new_workspace_12px.png");
+        itmNew.setIcon(new javax.swing.ImageIcon(itmNewIcon));
+        
+        String itmSaveIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\save_workspace_12px.png");
+        itmSave.setIcon(new javax.swing.ImageIcon(itmSaveIcon));
+        
+        String btnSFXIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave_black_14px.png");
         btnR1SFX01.setIcon(new javax.swing.ImageIcon(btnSFXIcon));
         btnR1SFX02.setIcon(new javax.swing.ImageIcon(btnSFXIcon));
         btnR1SFX03.setIcon(new javax.swing.ImageIcon(btnSFXIcon));
@@ -123,7 +156,7 @@ public final class MainFrame extends javax.swing.JFrame {
         btnR1SFX11.setIcon(new javax.swing.ImageIcon(btnSFXIcon));
         
         // set frame icon
-        ImageIcon imgIcon = new ImageIcon(HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
+        ImageIcon imgIcon = new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
         setIconImage(imgIcon.getImage());
         // ------------------------------ >>
         
@@ -241,7 +274,7 @@ public final class MainFrame extends javax.swing.JFrame {
                         }
                         catch(IOException ioe){
                             JOptionPane.showMessageDialog(HappyButtons.mf, 
-                                    "Specified BGM may be gone missing or suddenly deleted. If not, inform the developer for this bug", 
+                                    "Specified BGM may be gone missing or suddenly deleted.\nIf not, inform the developer for this bug", 
                                     "File IO exception occurred", 
                                     JOptionPane.ERROR_MESSAGE);
 
@@ -249,7 +282,7 @@ public final class MainFrame extends javax.swing.JFrame {
                             pause1 = 0;
                             errorOccurred = 1;
 
-                            String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                            String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
                             btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
                         }
                         catch(LineUnavailableException lue){
@@ -262,12 +295,12 @@ public final class MainFrame extends javax.swing.JFrame {
                             pause1 = 0;
                             errorOccurred = 1;
 
-                            String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                            String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
                             btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
                         }
                         catch(UnsupportedAudioFileException uafe){
                             JOptionPane.showMessageDialog(HappyButtons.mf, 
-                                    "BGM file may be broken/corrupted. Or make sure the audio file has genuine wav format. Changing the file extension by renaming it will NOT do the trick", 
+                                    "BGM file may be broken/corrupted. Or make sure the audio file has genuine wav format.\nChanging the file extension by renaming it will NOT do the trick", 
                                     "Unsupported file", 
                                     JOptionPane.ERROR_MESSAGE);
 
@@ -275,7 +308,7 @@ public final class MainFrame extends javax.swing.JFrame {
                             pause1 = 0;
                             errorOccurred = 1;
 
-                            String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                            String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
                             btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
                         }
                     }
@@ -301,21 +334,21 @@ public final class MainFrame extends javax.swing.JFrame {
                     if(playing1 == 0 && pause1 == 0){
                         playing1 = 1;
 
-                        String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
+                        String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
                         btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
             //            System.out.println("Play: " + playing1 + ", Pause: " + pause1);
                     }
                     else if(playing1 == 1 && pause1 == 0){
                         pause1 = 1;
 
-                        String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                        String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
                         btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
             //            System.out.println("Play: " + playing1 + ", Pause: " + pause1);
                     }
                     else if(playing1 == 1 && pause1 == 1){
                         pause1 = 0;
 
-                        String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
+                        String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
                         btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
             //            System.out.println("Play: " + playing1 + ", Pause: " + pause1);
                     }
@@ -356,7 +389,7 @@ public final class MainFrame extends javax.swing.JFrame {
                         }
                         catch(IOException ioe){
                             JOptionPane.showMessageDialog(HappyButtons.mf, 
-                                    "Specified BGM may be gone missing or suddenly deleted. If not, inform the developer for this bug", 
+                                    "Specified BGM may be gone missing or suddenly deleted.\nIf not, inform the developer for this bug", 
                                     "File IO exception occured", 
                                     JOptionPane.ERROR_MESSAGE);
 
@@ -364,7 +397,7 @@ public final class MainFrame extends javax.swing.JFrame {
                             pause2 = 0;
                             errorOccurred = 1;
 
-                            String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                            String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
                             btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
                         }
                         catch(LineUnavailableException lue){
@@ -377,12 +410,12 @@ public final class MainFrame extends javax.swing.JFrame {
                             pause2 = 0;
                             errorOccurred = 1;
 
-                            String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                            String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
                             btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
                         }
                         catch(UnsupportedAudioFileException uafe){
                             JOptionPane.showMessageDialog(HappyButtons.mf, 
-                                    "BGM file may be broken/corrupted. Or make sure the audio file has genuine wav format. Changing the file extension by renaming it will NOT do the trick", 
+                                    "BGM file may be broken/corrupted. Or make sure the audio file has genuine wav format.\nChanging the file extension by renaming it will NOT do the trick", 
                                     "Unsupported file", 
                                     JOptionPane.ERROR_MESSAGE);
 
@@ -390,7 +423,7 @@ public final class MainFrame extends javax.swing.JFrame {
                             pause2 = 0;
                             errorOccurred = 1;
 
-                            String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                            String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
                             btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
                         }
                     }
@@ -416,21 +449,21 @@ public final class MainFrame extends javax.swing.JFrame {
                     if(playing2 == 0 && pause2 == 0){
                         playing2 = 1;
 
-                        String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
+                        String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
                         btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
             //            System.out.println("Play: " + playing1 + ", Pause: " + pause1);
                     }
                     else if(playing2 == 1 && pause2 == 0){
                         pause2 = 1;
 
-                        String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                        String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
                         btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
             //            System.out.println("Play: " + playing1 + ", Pause: " + pause1);
                     }
                     else if(playing2 == 1 && pause2 == 1){
                         pause2 = 0;
 
-                        String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
+                        String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
                         btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
             //            System.out.println("Play: " + playing1 + ", Pause: " + pause1);
                     }
@@ -450,7 +483,7 @@ public final class MainFrame extends javax.swing.JFrame {
                     lastFrame1 = 0;
                     clipBGM1.stop();
                     
-                    String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
                     btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
                     
                     playing1 = 0;
@@ -467,7 +500,7 @@ public final class MainFrame extends javax.swing.JFrame {
                     lastFrame2 = 0;
                     clipBGM2.stop();
                     
-                    String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
                     btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
                     
                     playing2 = 0;
@@ -487,7 +520,7 @@ public final class MainFrame extends javax.swing.JFrame {
                     }
                     clipBGM1 = null;
 
-                    String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
                     btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
 
                     playing1 = 0;
@@ -510,7 +543,7 @@ public final class MainFrame extends javax.swing.JFrame {
                     }
                     clipBGM2 = null;
 
-                    String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
                     btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
 
                     playing2 = 0;
@@ -660,6 +693,7 @@ public final class MainFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 tfSFXGroup1.setEditable(false);
+                sfxGroupName1 = tfSFXGroup1.getText();
             }
         });
     }
@@ -749,6 +783,8 @@ public final class MainFrame extends javax.swing.JFrame {
         lblR1SFX11 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        itmNew = new javax.swing.JMenuItem();
+        itmSave = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -1123,6 +1159,11 @@ public final class MainFrame extends javax.swing.JFrame {
         tfSFXGroup1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tfSFXGroup1MouseClicked(evt);
+            }
+        });
+        tfSFXGroup1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfSFXGroup1ActionPerformed(evt);
             }
         });
 
@@ -1652,6 +1693,25 @@ public final class MainFrame extends javax.swing.JFrame {
 
         jMenu1.setText("File");
         jMenu1.setName("menuFile"); // NOI18N
+
+        itmNew.setMnemonic('N');
+        itmNew.setText("New workspace");
+        itmNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmNewActionPerformed(evt);
+            }
+        });
+        jMenu1.add(itmNew);
+
+        itmSave.setMnemonic('S');
+        itmSave.setText("Save workspace");
+        itmSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmSaveActionPerformed(evt);
+            }
+        });
+        jMenu1.add(itmSave);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -1744,10 +1804,10 @@ public final class MainFrame extends javax.swing.JFrame {
         for(File file : selectedFiles) {
             try {
                 FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
-                File destCheck = new File(HappyButtons.desktopPath + "\\HappyButtons\\bg\\" + file.getName());
+                File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\bg\\" + file.getName());
                 
                 if(!destCheck.exists()) {
-                    FileChannel dest = new FileOutputStream(HappyButtons.desktopPath + "\\HappyButtons\\bg\\" + file.getName()).getChannel();
+                    FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\bg\\" + file.getName()).getChannel();
                 
                     src.transferTo(0,src.size(),dest);
 
@@ -1780,10 +1840,10 @@ public final class MainFrame extends javax.swing.JFrame {
         for(File file : selectedFiles) {
             try {
                 FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
-                File destCheck = new File(HappyButtons.desktopPath + "\\HappyButtons\\sfx\\" + file.getName());
+                File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\sfx\\" + file.getName());
                 
                 if(!destCheck.exists()) {
-                    FileChannel dest = new FileOutputStream(HappyButtons.desktopPath + "\\HappyButtons\\sfx\\" + file.getName()).getChannel();
+                    FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\sfx\\" + file.getName()).getChannel();
                 
                     src.transferTo(0,src.size(),dest);
 
@@ -1822,7 +1882,7 @@ public final class MainFrame extends javax.swing.JFrame {
 
     private void btnDeleteBGMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteBGMActionPerformed
         if(selectedBGMItem != "") {
-           File deleteItem = new File(HappyButtons.desktopPathDoubleSlash + "\\HappyButtons\\bg\\" + selectedBGMItem + ".wav");
+           File deleteItem = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\bg\\" + selectedBGMItem + ".wav");
             if(deleteItem.delete()) {
                 tfLastOperation.setText("[DELETE BGM]:: " + selectedBGMItem);
                 blist.removeElement(selectedBGMItem);
@@ -1846,7 +1906,7 @@ public final class MainFrame extends javax.swing.JFrame {
 
     private void btnDeleteSFXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSFXActionPerformed
         if(selectedSFXItem != "") {
-           File deleteItem = new File(HappyButtons.desktopPathDoubleSlash + "\\HappyButtons\\sfx\\" + selectedSFXItem + ".wav");
+           File deleteItem = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\sfx\\" + selectedSFXItem + ".wav");
             if(deleteItem.delete()) {
                 tfLastOperation.setText("[DELETE SFX]:: " + selectedSFXItem);
                 slist.removeElement(selectedSFXItem);
@@ -1935,6 +1995,20 @@ public final class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnR1SFX11ActionPerformed
 
+    private void itmSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSaveActionPerformed
+        DBOperations.indexDB = 0;
+        HappyButtons.profileDB[0] = new ProfileDatabase();
+        (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+    }//GEN-LAST:event_itmSaveActionPerformed
+
+    private void itmNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmNewActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itmNewActionPerformed
+
+    private void tfSFXGroup1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSFXGroup1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfSFXGroup1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1985,11 +2059,11 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnR1SFX09;
     private javax.swing.JButton btnR1SFX10;
     private javax.swing.JButton btnR1SFX11;
-    private javax.swing.JButton btnR1SFX9;
     private javax.swing.JButton btnStopBGM1;
     private javax.swing.JButton btnStopBGM2;
+    private javax.swing.JMenuItem itmNew;
+    private javax.swing.JMenuItem itmSave;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
@@ -2002,17 +2076,17 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lblDeleteSFX;
     private javax.swing.JLabel lblLinkBGMVolumes;
-    private javax.swing.JLabel lblR1SFX01;
-    private javax.swing.JLabel lblR1SFX02;
-    private javax.swing.JLabel lblR1SFX03;
-    private javax.swing.JLabel lblR1SFX04;
-    private javax.swing.JLabel lblR1SFX05;
-    private javax.swing.JLabel lblR1SFX06;
-    private javax.swing.JLabel lblR1SFX07;
-    private javax.swing.JLabel lblR1SFX08;
-    private javax.swing.JLabel lblR1SFX09;
-    private javax.swing.JLabel lblR1SFX10;
-    private javax.swing.JLabel lblR1SFX11;
+    public static javax.swing.JLabel lblR1SFX01;
+    public static javax.swing.JLabel lblR1SFX02;
+    public static javax.swing.JLabel lblR1SFX03;
+    public static javax.swing.JLabel lblR1SFX04;
+    public static javax.swing.JLabel lblR1SFX05;
+    public static javax.swing.JLabel lblR1SFX06;
+    public static javax.swing.JLabel lblR1SFX07;
+    public static javax.swing.JLabel lblR1SFX08;
+    public static javax.swing.JLabel lblR1SFX09;
+    public static javax.swing.JLabel lblR1SFX10;
+    public static javax.swing.JLabel lblR1SFX11;
     private javax.swing.JLabel lblVolBGM1;
     private javax.swing.JLabel lblVolBGM2;
     private javax.swing.JLabel lblVolSFX;
@@ -2029,7 +2103,6 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel panelR1S08;
     private javax.swing.JPanel panelR1S09;
     private javax.swing.JPanel panelR1S10;
-    private javax.swing.JPanel panelR1S9;
     private javax.swing.JPanel panelRight;
     private javax.swing.JPanel panelRow1;
     private javax.swing.JPanel panelRow2;

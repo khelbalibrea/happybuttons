@@ -22,7 +22,7 @@ public class BeanHelper {
         try {
             XMLEncoder encoder = new XMLEncoder(
             new BufferedOutputStream(
-            new FileOutputStream(HappyButtons.desktopPath + "\\HappyButtons\\happyDB.xml")));
+            new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\happyDB.xml")));
 
             encoder.writeObject(profileDB);
             encoder.close();
@@ -37,7 +37,7 @@ public class BeanHelper {
         try {
             XMLDecoder decoder = new XMLDecoder(
             new BufferedInputStream(
-            new FileInputStream(HappyButtons.desktopPath + "\\HappyButtons\\happyDB.xml")));
+            new FileInputStream(HappyButtons.documentsPath + "\\HappyButtons\\happyDB.xml")));
 
             ProfileDatabase = (ProfileDatabase[]) decoder.readObject();
             decoder.close();
