@@ -18,7 +18,7 @@ public class Profile {
 //    String hk1, hk2, hk3, hk4, hk5;
     String r1sfx01 = "", r1sfx02 = "", r1sfx03 = "", r1sfx04 = "", r1sfx05 = "", r1sfx06 = "", r1sfx07 = "", r1sfx08 = "", r1sfx09 = "", r1sfx10 = "", 
             r1sfx11 = "";
-    String sfxGroupName1 = "";
+    String sfxGroupName1 = "", sfxGroupName2 = "", sfxGroupName3 = "", sfxGroupName4 = "", sfxGroupName5 = "";
     
     public String getProfileName(){
         return profileName;
@@ -35,38 +35,38 @@ public class Profile {
     public void setSfxName1(String sfxGroupName1){
         this.sfxGroupName1 = sfxGroupName1;
     }
-//    
-//    public String getSfxName2(){
-//        return sfxName2;
-//    }
-//    
-//    public void setSfxName2(String sfxName2){
-//        this.sfxName2 = sfxName2;
-//    }
-//    
-//    public String getSfxName3(){
-//        return sfxName3;
-//    }
-//    
-//    public void setSfxName3(String sfxName3){
-//        this.sfxName3 = sfxName3;
-//    }
-//    
-//    public String getSfxName4(){
-//        return sfxName4;
-//    }
-//    
-//    public void setSfxName4(String sfxName4){
-//        this.sfxName4 = sfxName4;
-//    }
-//    
-//    public String getSfxName5(){
-//        return sfxName5;
-//    }
-//    
-//    public void setSfxName5(String sfxName5){
-//        this.sfxName5 = sfxName5;
-//    }
+    
+    public String getSfxName2(){
+        return sfxGroupName2;
+    }
+    
+    public void setSfxName2(String sfxGroupName2){
+        this.sfxGroupName2 = sfxGroupName2;
+    }
+    
+    public String getSfxName3(){
+        return sfxGroupName3;
+    }
+    
+    public void setSfxName3(String sfxGroupName3){
+        this.sfxGroupName3 = sfxGroupName3;
+    }
+    
+    public String getSfxName4(){
+        return sfxGroupName4;
+    }
+    
+    public void setSfxName4(String sfxGroupName4){
+        this.sfxGroupName4 = sfxGroupName4;
+    }
+    
+    public String getSfxName5(){
+        return sfxGroupName5;
+    }
+    
+    public void setSfxName5(String sfxGroupName5){
+        this.sfxGroupName5 = sfxGroupName5;
+    }
     
     
     public String getR1Sfx01(){
@@ -76,7 +76,6 @@ public class Profile {
     public void setR1Sfx01(String r1sfx01){
         this.r1sfx01 = r1sfx01;
     }
-    
     
     public String getR1Sfx02(){
         return r1sfx02;

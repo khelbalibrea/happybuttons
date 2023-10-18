@@ -127,20 +127,26 @@ public class HappyButtons {
         }
         else {
             File file = new File(documentsPath + "\\HappyButtons\\happyDB.xml");
-            noDB = 1;
             
             try {
                 file.createNewFile();
                 firstCheck = "[SYSTEM] No database found";
+                noDB = 1;
+                
+                Profile profile = new Profile();
+                for(int ctr = 0; ctr < profileDB.length; ctr++) {
+                    profileDB[ctr] = new ProfileDatabase();
+                    DBOperations.indexDB = ctr;
+                    dbo.saveEnvironment(profileDB, profile);
+                }
+                
+                noDB = 0;
             }
             catch(Exception e){
-                firstCheck = "[ERROR]::" + e.toString();
+//                firstCheck = "[ERROR]::" + e.toString();
+                System.out.println(e.toString());
                 mf = new MainFrame();
                 mf.setVisible(true);
-            }
-            
-            for(int ctr = 0; ctr < profileDB.length; ctr++) {
-                profileDB[ctr] = new ProfileDatabase();
             }
         }
 
