@@ -48,7 +48,7 @@ public class DnDBGM1Textfield extends TransferHandler {
                 MainFrame.lastFrame1 = 0;
                 MainFrame.clipBGM1.stop();
 
-                String btnIcon = HappyButtons.desktopPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
                 MainFrame.btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
 
                 MainFrame.playing1 = 0;
