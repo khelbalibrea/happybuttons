@@ -111,6 +111,9 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="tfSaveProfile1">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnSave1">
           <Properties>
@@ -174,11 +177,17 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="tfSaveProfile2">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnSave2">
           <Properties>
             <Property name="text" type="java.lang.String" value="Save here"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSave2ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
@@ -234,11 +243,17 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="tfSaveProfile3">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnSave3">
           <Properties>
             <Property name="text" type="java.lang.String" value="Save here"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSave3ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel4">
           <Properties>
@@ -294,11 +309,17 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="tfSaveProfile4">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnSave4">
           <Properties>
             <Property name="text" type="java.lang.String" value="Save here"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSave4ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>
@@ -354,11 +375,17 @@
       </Layout>
       <SubComponents>
         <Component class="javax.swing.JTextField" name="tfSaveProfile5">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnSave5">
           <Properties>
             <Property name="text" type="java.lang.String" value="Save here"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSave5ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
           <Properties>

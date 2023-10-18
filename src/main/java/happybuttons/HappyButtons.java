@@ -120,10 +120,10 @@ public class HappyButtons {
         File dbPath = new File(documentsPath + "\\HappyButtons\\happyDB.xml");
         
         if(dbPath.exists()){
-//            for(int ctr = 0; ctr < profileDB.length; ctr++) {
-//                ProfileDatabase[] profile = new BeanHelper().readFromXml();
-//                profileDB = profile;
-//            }
+            for(int ctr = 0; ctr < profileDB.length; ctr++) {
+                ProfileDatabase[] profile = new BeanHelper().readFromXml();
+                profileDB = profile;
+            }
         }
         else {
             File file = new File(documentsPath + "\\HappyButtons\\happyDB.xml");
@@ -149,19 +149,5 @@ public class HappyButtons {
                 mf.setVisible(true);
             }
         }
-
-//        for(int ctr = 0; ctr < profileDB.length; ctr++) {
-//            if(dbPath.exists()){
-//                System.out.print("File found");
-//                ProfileDatabase[] profile = new BeanHelper().readFromXml();
-//                profileDB = profile;
-//            }
-//            else {
-//                System.out.print("No file found");
-//                File file = new File("happyDB.xml");
-//                noDB = 1;
-//                profileDB[ctr] = new ProfileDatabase();
-//            }
-//        }
     }
 }

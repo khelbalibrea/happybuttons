@@ -17,7 +17,7 @@ public class DBOperations {
         
         if(indexDB == 0){
             if(HappyButtons.noDB == 0) {
-                profile.setProfileName("Sample");
+                profile.setProfileName(SaveFrame.profileName1);
             }
             else {
                 profile.setProfileName("");
@@ -25,7 +25,7 @@ public class DBOperations {
         }
         else if(indexDB == 1){
             if(HappyButtons.noDB == 0) {
-                profile.setProfileName("Sample");
+                profile.setProfileName(SaveFrame.profileName2);
             }
             else {
                 profile.setProfileName("");
@@ -33,7 +33,7 @@ public class DBOperations {
         }
         else if(indexDB == 2){
             if(HappyButtons.noDB == 0) {
-                profile.setProfileName("Sample");
+                profile.setProfileName(SaveFrame.profileName3);
             }
             else {
                 profile.setProfileName("");
@@ -41,7 +41,7 @@ public class DBOperations {
         }
         else if(indexDB == 3){
             if(HappyButtons.noDB == 0) {
-                profile.setProfileName("Sample");
+                profile.setProfileName(SaveFrame.profileName4);
             }
             else {
                 profile.setProfileName("");
@@ -49,7 +49,7 @@ public class DBOperations {
         }
         else if(indexDB == 4){
             if(HappyButtons.noDB == 0) {
-                profile.setProfileName("Sample");
+                profile.setProfileName(SaveFrame.profileName5);
             }
             else {
                 profile.setProfileName("");

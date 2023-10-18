@@ -6,14 +6,19 @@ package happybuttons;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Michael Balibrea
  */
 public class SaveFrame extends javax.swing.JDialog {
-
+    public static String profileName1 = "", profileName2 = "", profileName3 = "", profileName4 = "", profileName5 = "";
+    public static String dbSlot1 = "", dbSlot2 = "", dbSlot3 = "", dbSlot4 = "", dbSlot5 = "";
     /**
      * Creates new form Save
      */
@@ -28,6 +33,8 @@ public class SaveFrame extends javax.swing.JDialog {
         // set frame icon
         ImageIcon imgIcon = new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
         setIconImage(imgIcon.getImage());
+        
+        reloadDB(HappyButtons.profileDB);
     }
 
     /**
@@ -66,6 +73,8 @@ public class SaveFrame extends javax.swing.JDialog {
         setResizable(false);
 
         panel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+
+        tfSaveProfile1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         btnSave1.setText("Save here");
         btnSave1.addActionListener(new java.awt.event.ActionListener() {
@@ -107,7 +116,14 @@ public class SaveFrame extends javax.swing.JDialog {
 
         panel6.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
+        tfSaveProfile2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         btnSave2.setText("Save here");
+        btnSave2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSave2ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -142,7 +158,14 @@ public class SaveFrame extends javax.swing.JDialog {
 
         panel7.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
+        tfSaveProfile3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         btnSave3.setText("Save here");
+        btnSave3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSave3ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -177,7 +200,14 @@ public class SaveFrame extends javax.swing.JDialog {
 
         panel8.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
+        tfSaveProfile4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         btnSave4.setText("Save here");
+        btnSave4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSave4ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -212,7 +242,14 @@ public class SaveFrame extends javax.swing.JDialog {
 
         panel9.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
+        tfSaveProfile5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         btnSave5.setText("Save here");
+        btnSave5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSave5ActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -284,9 +321,169 @@ public class SaveFrame extends javax.swing.JDialog {
 
     private void btnSave1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave1ActionPerformed
         DBOperations.indexDB = 0;
-        HappyButtons.profileDB[0] = new ProfileDatabase();
-//        (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+        Profile profile = new Profile();
+        
+        profileName1 = tfSaveProfile1.getText();
+        
+        if(profileName1.equals("")) {
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "Please provide SLOT 1 name", 
+                "Empty name", 
+                JOptionPane.WARNING_MESSAGE);
+        }
+        else if((profileName1.equalsIgnoreCase(dbSlot2) || profileName1.equalsIgnoreCase(dbSlot3) || 
+                profileName1.equalsIgnoreCase(dbSlot4) || profileName1.equalsIgnoreCase(dbSlot5)) && 
+                !profileName1.equals("")
+                ) {
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "SLOT 1 name matches other slot name", 
+                "Duplicate name", 
+                JOptionPane.WARNING_MESSAGE);
+        }
+        else {
+            HappyButtons.profileDB[0] = new ProfileDatabase();
+            (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+            
+            this.dispose();
+            
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "Profile saved!", 
+                "Success", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnSave1ActionPerformed
+
+    private void btnSave2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave2ActionPerformed
+        DBOperations.indexDB = 1;
+        Profile profile = new Profile();
+        
+        profileName2 = tfSaveProfile2.getText();
+        
+        if(profileName2.equals("")) {
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "Please provide SLOT 2 name", 
+                "Empty name", 
+                JOptionPane.WARNING_MESSAGE);
+        }
+        else if((profileName2.equalsIgnoreCase(dbSlot1) || profileName2.equalsIgnoreCase(dbSlot3) || 
+                profileName2.equalsIgnoreCase(dbSlot4) || profileName2.equalsIgnoreCase(dbSlot5)) && 
+                !profileName2.equals("")
+                ) {
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "SLOT 2 name matches other slot name", 
+                "Duplicate name", 
+                JOptionPane.WARNING_MESSAGE);
+        }
+        else {
+            HappyButtons.profileDB[1] = new ProfileDatabase();
+            (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+            
+            this.dispose();
+            
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "Profile saved!", 
+                "Success", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSave2ActionPerformed
+
+    private void btnSave3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave3ActionPerformed
+        DBOperations.indexDB = 2;
+        Profile profile = new Profile();
+        
+        profileName3 = tfSaveProfile3.getText();
+        
+        if(profileName3.equals("")) {
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "Please provide SLOT 3 name", 
+                "Empty name", 
+                JOptionPane.WARNING_MESSAGE);
+        }
+        else if((profileName3.equalsIgnoreCase(dbSlot1) || profileName3.equalsIgnoreCase(dbSlot2) || 
+                profileName3.equalsIgnoreCase(dbSlot4) || profileName3.equalsIgnoreCase(dbSlot5)) && 
+                !profileName3.equals("")
+                ) {
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "SLOT 3 name matches other slot name", 
+                "Duplicate name", 
+                JOptionPane.WARNING_MESSAGE);
+//            System.out.println("1: " + dbSlot1 + "\n2: " + dbSlot2 + "\n3: " + dbSlot3 + "\n4: " + dbSlot4 + "\n5: " + dbSlot5);
+        }
+        else {
+            HappyButtons.profileDB[2] = new ProfileDatabase();
+            (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+            
+            this.dispose();
+            
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "Profile saved!", 
+                "Success", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSave3ActionPerformed
+
+    private void btnSave4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave4ActionPerformed
+        DBOperations.indexDB = 3;
+        Profile profile = new Profile();
+        
+        profileName4 = tfSaveProfile4.getText();
+        
+        if(profileName4.equals("")) {
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "Please provide SLOT 4 name", 
+                "Empty name", 
+                JOptionPane.WARNING_MESSAGE);
+        }
+        else if((profileName4.equalsIgnoreCase(dbSlot1) || profileName4.equalsIgnoreCase(dbSlot2) || 
+                profileName4.equalsIgnoreCase(dbSlot3) || profileName4.equalsIgnoreCase(dbSlot5)) && 
+                !profileName4.equals("")
+                ) {
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "SLOT 4 name matches other slot name", 
+                "Duplicate name", 
+                JOptionPane.WARNING_MESSAGE);
+        }
+        else {
+            HappyButtons.profileDB[3] = new ProfileDatabase();
+            (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+            
+            this.dispose();
+            
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "Profile saved!", 
+                "Success", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSave4ActionPerformed
+
+    private void btnSave5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave5ActionPerformed
+        DBOperations.indexDB = 4;
+        Profile profile = new Profile();
+        
+        profileName5 = tfSaveProfile5.getText();
+        
+        if(profileName5.equals("")) {
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "Please provide SLOT 5 name", 
+                "Empty name", 
+                JOptionPane.WARNING_MESSAGE);
+        }
+        else if((profileName5.equalsIgnoreCase(dbSlot1) || profileName5.equalsIgnoreCase(dbSlot2) || 
+                profileName5.equalsIgnoreCase(dbSlot3) || profileName5.equalsIgnoreCase(dbSlot4)) && 
+                !profileName5.equals("")
+                ) {
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "SLOT 5 name matches other slot name", 
+                "Duplicate name", 
+                JOptionPane.WARNING_MESSAGE);
+        }
+        else {
+            HappyButtons.profileDB[4] = new ProfileDatabase();
+            (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+            
+            this.dispose();
+            
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "Profile saved!", 
+                "Success", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSave5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -329,6 +526,71 @@ public class SaveFrame extends javax.swing.JDialog {
                 dialog.setVisible(true);
             }
         });
+    }
+    
+    public void reloadDB(ProfileDatabase profileDB[]){
+        int loop;
+        
+        for(loop = 0; loop < 5; loop++){
+            try{
+                if(loop == 0){
+                    if(profileDB[loop].getProfileName() == ""){
+                        dbSlot1 = "";
+                    }
+                    else {
+                        dbSlot1 = profileDB[loop].getProfileName();
+                    }
+                    
+                    tfSaveProfile1.setText(dbSlot1);
+                }
+                else if(loop == 1){
+                    if(profileDB[loop].getProfileName() == ""){
+                        dbSlot2 = "";
+                    }
+                    else {
+                        dbSlot2 = profileDB[loop].getProfileName();
+                    }
+                    
+                    tfSaveProfile2.setText(dbSlot2);
+                }
+                else if(loop == 2){
+                    if(profileDB[loop].getProfileName() == ""){
+                        dbSlot3 = "";
+                    }
+                    else {
+                        dbSlot3 = profileDB[loop].getProfileName();
+                    }
+                    
+                    tfSaveProfile3.setText(dbSlot3);
+                }
+                else if(loop == 3){
+                    if(profileDB[loop].getProfileName() == ""){
+                        dbSlot4 = "";
+                    }
+                    else {
+                        dbSlot4 = profileDB[loop].getProfileName();
+                    }
+                    
+                    tfSaveProfile4.setText(dbSlot4);
+                }
+                else if(loop == 4){
+                    if(profileDB[loop].getProfileName() == ""){
+                        dbSlot5 = "";
+                    }
+                    else {
+                        dbSlot5 = profileDB[loop].getProfileName();
+                    }
+                    
+                    tfSaveProfile5.setText(dbSlot5);
+                }
+            }
+            catch(Exception e){
+                JOptionPane.showMessageDialog(HappyButtons.mf, 
+                    "Databse might be renamed or changed externally or might be deleted\n\nSystem err:\n" + e.toString(), 
+                    "Database error", 
+                    JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

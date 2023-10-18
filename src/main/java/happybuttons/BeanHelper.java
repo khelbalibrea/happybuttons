@@ -26,7 +26,8 @@ public class BeanHelper {
 
             encoder.writeObject(profileDB);
             encoder.close();
-        } catch (FileNotFoundException fnfe) {
+        }
+        catch (FileNotFoundException fnfe) {
             JOptionPane.showMessageDialog(null, "XML write error: " + fnfe.toString());
         }
     }
@@ -41,9 +42,11 @@ public class BeanHelper {
 
             ProfileDatabase = (ProfileDatabase[]) decoder.readObject();
             decoder.close();
-        } catch (FileNotFoundException fnfe) {
+        }
+        catch (FileNotFoundException fnfe) {
             JOptionPane.showMessageDialog(null, "XML read error: " + fnfe.toString());
-        }		
+        }
+        
         return ProfileDatabase;
     }
 }
