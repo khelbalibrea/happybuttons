@@ -1996,10 +1996,6 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnR1SFX11ActionPerformed
 
     private void itmSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSaveActionPerformed
-//        DBOperations.indexDB = 0;
-//        HappyButtons.profileDB[0] = new ProfileDatabase();
-//        (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
-        
         SaveFrame saveFrame = new SaveFrame(HappyButtons.mf, true);
         saveFrame.setVisible(true);
     }//GEN-LAST:event_itmSaveActionPerformed
