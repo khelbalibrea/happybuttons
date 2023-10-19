@@ -626,19 +626,19 @@ public final class MainFrame extends javax.swing.JFrame {
                 
                 try {
                     if(f >= 50) {
-                        bgmVol1 = 6 - ((100f - f)*(0.22f));
+                        bgmVol1 = 0 - ((100f - f)*(0.18f));
                     }
 
                     if(f < 50 && f >= 25) {
-                        bgmVol1 = -5 + (50f - f)*(-0.4f);
+                        bgmVol1 = -9 + (50f - f)*(-0.36f);
                     }
 
                     if(f < 25 && f >= 10) {
-                        bgmVol1 = -15 + (25f - f)*(-0.66f);
+                        bgmVol1 = -18 + (25f - f)*(-0.8f);
                     }
 
                     if(f < 10) {
-                        bgmVol1 = -25 + (10f - f)*(-5.5f);
+                        bgmVol1 = -30.5f + (10f - f)*(-5.5f);
                     }
 
                     if(playing1 == 1) {
@@ -670,19 +670,19 @@ public final class MainFrame extends javax.swing.JFrame {
                 
                 try {
                     if(f >= 50) {
-                        bgmVol2 = 6 - ((100f - f)*(0.22f));
+                        bgmVol2 = 0 - ((100f - f)*(0.18f));
                     }
 
                     if(f < 50 && f >= 25) {
-                        bgmVol2 = -5 + (50f - f)*(-0.4f);
+                        bgmVol2 = -9 + (50f - f)*(-0.36f);
                     }
 
                     if(f < 25 && f >= 10) {
-                        bgmVol2 = -15 + (25f - f)*(-0.66f);
+                        bgmVol2 = -18 + (25f - f)*(-0.8f);
                     }
 
                     if(f < 10) {
-                        bgmVol2 = -25 + (10f - f)*(-5.5f);
+                        bgmVol2 = -30.5f + (10f - f)*(-5.5f);
                     }
 
                     if(playing2 == 1) {
@@ -1149,7 +1149,7 @@ public final class MainFrame extends javax.swing.JFrame {
         tfBGM2.setFocusable(false);
         tfBGM2.setName("tfBGM1"); // NOI18N
 
-        btnClearBGM2.setToolTipText("Clear BGM1 and stop");
+        btnClearBGM2.setToolTipText("Clear BGM2 and stop");
         btnClearBGM2.setMaximumSize(new java.awt.Dimension(22, 22));
         btnClearBGM2.setMinimumSize(new java.awt.Dimension(22, 22));
         btnClearBGM2.addActionListener(new java.awt.event.ActionListener() {
@@ -1158,11 +1158,11 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        btnStopBGM2.setToolTipText("Stop BGM1");
+        btnStopBGM2.setToolTipText("Stop BGM2");
         btnStopBGM2.setMaximumSize(new java.awt.Dimension(22, 22));
         btnStopBGM2.setMinimumSize(new java.awt.Dimension(22, 22));
 
-        btnPlayPauseBGM2.setToolTipText("Play or pause BGM1");
+        btnPlayPauseBGM2.setToolTipText("Play or pause BGM2");
         btnPlayPauseBGM2.setMaximumSize(new java.awt.Dimension(22, 22));
         btnPlayPauseBGM2.setMinimumSize(new java.awt.Dimension(22, 22));
         btnPlayPauseBGM2.addActionListener(new java.awt.event.ActionListener() {
@@ -1171,7 +1171,7 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        volBGM2.setToolTipText("BGM1 volume");
+        volBGM2.setToolTipText("BGM2 volume");
         volBGM2.setValue(100);
         volBGM2.setMaximumSize(new java.awt.Dimension(200, 20));
         volBGM2.setMinimumSize(new java.awt.Dimension(200, 20));

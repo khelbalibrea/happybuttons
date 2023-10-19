@@ -546,7 +546,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnClearBGM2">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Clear BGM1 and stop"/>
+            <Property name="toolTipText" type="java.lang.String" value="Clear BGM2 and stop"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[22, 22]"/>
             </Property>
@@ -560,7 +560,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnStopBGM2">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Stop BGM1"/>
+            <Property name="toolTipText" type="java.lang.String" value="Stop BGM2"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[22, 22]"/>
             </Property>
@@ -571,7 +571,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnPlayPauseBGM2">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="Play or pause BGM1"/>
+            <Property name="toolTipText" type="java.lang.String" value="Play or pause BGM2"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[22, 22]"/>
             </Property>
@@ -588,7 +588,7 @@
         </Component>
         <Component class="javax.swing.JSlider" name="volBGM2">
           <Properties>
-            <Property name="toolTipText" type="java.lang.String" value="BGM1 volume"/>
+            <Property name="toolTipText" type="java.lang.String" value="BGM2 volume"/>
             <Property name="value" type="int" value="100"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 20]"/>
