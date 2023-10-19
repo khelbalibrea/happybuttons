@@ -6,7 +6,7 @@ package happybuttons;
 
 /**
  *
- * @author Michael Balibrea
+ * @author Michael Balibrea (khel)
  */
 public class Utility {
     public static String strDoubleSlash(String str) {
@@ -31,9 +31,9 @@ public class Utility {
     public static String renameListName(String filename){
         int index = filename.indexOf(".wav");
         
-        String music = filename.substring(0, index);
+//        String music = filename.substring(0, index);
         
-        return music;
+        return filename.substring(0, index);
     }
     
     public static String cleanSFXNaming(String name) {
@@ -43,5 +43,13 @@ public class Utility {
         String cleanBack = cleanFront.replace(targetBack, "");
         
         return cleanBack;
+    }
+    
+    public static String prepareLabelNaming(String name) {
+        return "<html><center>" + name + "</center></html>";
+    }
+    
+    public static String reduceLabelNaming(String name) {
+        return "";
     }
 }
