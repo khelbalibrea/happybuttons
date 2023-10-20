@@ -379,6 +379,8 @@
                   <Component id="tfBGM1" min="-2" pref="500" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnClearBGM1" min="-2" pref="22" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="chkLoop1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="lblVolBGM1" min="-2" pref="60" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -406,7 +408,10 @@
                               </Group>
                               <Component id="btnClearBGM1" alignment="1" min="-2" pref="22" max="-2" attributes="0"/>
                               <Component id="volBGM1" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblVolBGM1" alignment="1" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                                  <Component id="lblVolBGM1" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                                  <Component id="chkLoop1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
@@ -430,6 +435,9 @@
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="tfBGM1" noResource="true"/>
           </Properties>
+          <Events>
+            <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="tfBGM1PropertyChange"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnClearBGM1">
           <Properties>
@@ -499,6 +507,16 @@
             </Property>
           </Properties>
         </Component>
+        <Component class="javax.swing.JCheckBox" name="chkLoop1">
+          <Properties>
+            <Property name="selected" type="boolean" value="true"/>
+            <Property name="toolTipText" type="java.lang.String" value="Loop BGM1"/>
+            <Property name="focusable" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkLoop1ActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="panelRow2">
@@ -512,6 +530,8 @@
                   <Component id="tfBGM2" min="-2" pref="500" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnClearBGM2" min="-2" pref="22" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="chkLoop2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="lblVolBGM2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -539,7 +559,10 @@
                               </Group>
                               <Component id="btnClearBGM2" alignment="1" min="-2" pref="22" max="-2" attributes="0"/>
                               <Component id="volBGM2" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Component id="lblVolBGM2" alignment="1" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                                  <Component id="lblVolBGM2" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                                  <Component id="chkLoop2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
@@ -563,6 +586,9 @@
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="name" type="java.lang.String" value="tfBGM1" noResource="true"/>
           </Properties>
+          <Events>
+            <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="tfBGM2PropertyChange"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnClearBGM2">
           <Properties>
@@ -631,6 +657,16 @@
               <Dimension value="[60, 22]"/>
             </Property>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="chkLoop2">
+          <Properties>
+            <Property name="selected" type="boolean" value="true"/>
+            <Property name="toolTipText" type="java.lang.String" value="Loop BGM2"/>
+            <Property name="focusable" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkLoop2ActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -3694,6 +3730,7 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="IB"/>
             <Property name="toolTipText" type="java.lang.String" value="Interrupt BGM"/>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>

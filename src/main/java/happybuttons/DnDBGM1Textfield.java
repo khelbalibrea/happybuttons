@@ -32,8 +32,18 @@ public class DnDBGM1Textfield extends TransferHandler {
     }
 
     public boolean canImport(TransferSupport ts) {
-        if(MainFrame.draggedList == 0){ // check if dragged data comes from BGM list
-            return ts.getComponent() instanceof JTextComponent;
+        if(MainFrame.draggedList == 0) { // check if dragged data comes from BGM list
+            if(MainFrame.clipBGM1 == null) {
+                return ts.getComponent() instanceof JTextComponent;
+            }
+            else {
+                if(MainFrame.clipBGM1.isRunning()){
+                    return false;
+                }
+                else {
+                    return ts.getComponent() instanceof JTextComponent;
+                }
+            }
         }
         else {
             return false;

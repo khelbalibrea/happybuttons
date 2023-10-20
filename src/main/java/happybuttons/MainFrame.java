@@ -58,11 +58,11 @@ public final class MainFrame extends javax.swing.JFrame {
     public static Clip clipBGM1 = null;
     public static Clip clipBGM2 = null;
     public static Clip clipSFX = null;
-    public static int lastFrame1 = 0;
-    public static int lastFrame2 = 0;
-    public static int chkSinglePlay = 1;
-    public static int chkStopBGM = 0;
-    public static int rbtnSFX = 0;
+    public static int lastFrame1 = 0, lastFrame2 = 0;
+    public static int chkSinglePlay = 1, chkStopBGM = 0;
+    public static int loop1 = 1, loop2 = 1;
+    public LineListener listenBGM1, listenBGM2;
+    public boolean sfxOperation;
     
     FloatControl fcBGM1;
     FloatControl fcBGM2;
@@ -83,12 +83,6 @@ public final class MainFrame extends javax.swing.JFrame {
     
     // UI Components
     public static String sfxGroupName1 = "", sfxGroupName2 = "", sfxGroupName3 = "";
-//    public static String r1sfx01 = "", r1sfx02 = "", r1sfx03 = "", r1sfx04 = "", r1sfx05 = "", r1sfx06 = "", r1sfx07 = "", r1sfx08 = "", 
-//            r1sfx09 = "", r1sfx10 = "", r1sfx11 = "", 
-//            r2sfx01 = "", r2sfx02 = "", r2sfx03 = "", r2sfx04 = "", r2sfx05 = "", r2sfx06 = "", r2sfx07 = "", r2sfx08 = "", r2sfx09r2sfx01 = "", 
-//            r2sfx10 = "", r2sfx11 = "", 
-//            r3sfx01 = "", r3sfx02 = "", r3sfx03 = "", r3sfx04 = "", r3sfx05 = "", r3sfx06 = "", r3sfx07 = "", r3sfx08 = "", r3sfx09 = "", 
-//            r3sfx10 = "", r3sfx11 = "";
     
     public MainFrame() {
         initComponents();
@@ -315,6 +309,64 @@ public final class MainFrame extends javax.swing.JFrame {
         btnPlayPauseBGM1.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+                sfxOperation = false;
+            
+                listenBGM1 = (LineEvent event) -> {
+                    if(event.getType() == LineEvent.Type.STOP) {
+                        playing1 = 0;
+                        pause1 = 0;
+                        lastFrame1 = 0;
+
+                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                        btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon1));
+
+                        if(loop1 == 1) {
+                            clipBGM1.setFramePosition(0);
+                            clipBGM1.start();
+
+                            playing1 = 1;
+
+                            String btnIcon2 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
+                            btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon2));
+                        }
+//                        if(sfxOperation == true) {
+//                            if(event.getType() == LineEvent.Type.STOP) {
+//                                if(lastFrame1 < clipBGM1.getFrameLength()) {
+//                                    clipBGM1.setFramePosition(lastFrame1);
+//                                }
+//                                else {
+//                                    clipBGM1.setFramePosition(0);
+//                                }
+//                                clipBGM1.start();
+//
+//                                pause1 = 0;
+//                                String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
+//                                btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
+//                                btnPlayPauseBGM1.setEnabled(true);
+//                                btnStopBGM1.setEnabled(true);
+//                            }
+//                        }
+//                        else { // sfxOperation >> false
+//                            playing1 = 0;
+//                            pause1 = 0;
+//                            lastFrame1 = 0;
+//
+//                            String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+//                            btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon1));
+//
+//                            if(loop1 == 1) {
+//                                clipBGM1.setFramePosition(0);
+//                                clipBGM1.start();
+//
+//                                playing1 = 1;
+//
+//                                String btnIcon2 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
+//                                btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon2));
+//                            }
+//                        }
+                    }
+                };
+                
                 if(clipBGM1 == null) {
                     if(tfBGM1.getText().isEmpty()){
                         JOptionPane.showMessageDialog(HappyButtons.mf, 
@@ -336,6 +388,7 @@ public final class MainFrame extends javax.swing.JFrame {
                                 fcBGM1.setValue(bgmVol1); // float value
                             }
                             
+//                            clipBGM1.addLineListener(listenBGM1);
                             clipBGM1.start();
                         }
                         catch(IOException ioe){
@@ -382,7 +435,9 @@ public final class MainFrame extends javax.swing.JFrame {
                 else {
                     if(clipBGM1.isRunning()) {
                         lastFrame1 = clipBGM1.getFramePosition();
+                        clipBGM1.removeLineListener(listenBGM1);
                         clipBGM1.stop();
+                        clipBGM1.addLineListener(listenBGM1);
                     }
                     else {
                         if(lastFrame1 < clipBGM1.getFrameLength()) {
@@ -393,7 +448,6 @@ public final class MainFrame extends javax.swing.JFrame {
                         }
                         clipBGM1.start();
                     }
-
                 }
                 
                 if(errorOccurred == 0){
@@ -430,6 +484,27 @@ public final class MainFrame extends javax.swing.JFrame {
         btnPlayPauseBGM2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                listenBGM2 = (LineEvent event) -> {
+                    if(event.getType() == LineEvent.Type.STOP) {
+                        playing2 = 0;
+                        pause2 = 0;
+                        lastFrame2 = 0;
+
+                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                        btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon1));
+
+                        if(loop2 == 1) {
+                            clipBGM2.setFramePosition(0);
+                            clipBGM2.start();
+                            
+                            playing2 = 1;
+
+                            String btnIcon2 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
+                            btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon2));
+                        }
+                    }
+                };
+                
                 if(clipBGM2 == null) {
                     if(tfBGM2.getText().isEmpty()){
                         JOptionPane.showMessageDialog(HappyButtons.mf, 
@@ -451,6 +526,7 @@ public final class MainFrame extends javax.swing.JFrame {
                                 fcBGM2.setValue(bgmVol2); // float value
                             }
                             
+                            clipBGM2.addLineListener(listenBGM2);
                             clipBGM2.start();
                         }
                         catch(IOException ioe){
@@ -497,7 +573,9 @@ public final class MainFrame extends javax.swing.JFrame {
                 else {
                     if(clipBGM2.isRunning()) {
                         lastFrame2 = clipBGM2.getFramePosition();
+                        clipBGM2.removeLineListener(listenBGM2);
                         clipBGM2.stop();
+                        clipBGM2.addLineListener(listenBGM2);
                     }
                     else {
                         if(lastFrame2 < clipBGM2.getFrameLength()) {
@@ -547,7 +625,10 @@ public final class MainFrame extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 if(clipBGM1 != null) {
                     lastFrame1 = 0;
+                    
+                    clipBGM1.removeLineListener(listenBGM1);
                     clipBGM1.stop();
+                    clipBGM1.addLineListener(listenBGM1);
                     
                     String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
                     btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
@@ -564,13 +645,26 @@ public final class MainFrame extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 if(clipBGM2 != null) {
                     lastFrame2 = 0;
+                    
+                    clipBGM2.removeLineListener(listenBGM2);
                     clipBGM2.stop();
+                    clipBGM2.addLineListener(listenBGM2);
                     
                     String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
                     btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
                     
                     playing2 = 0;
                     pause2 = 0;
+                }
+            }
+        });
+        
+        //---------------------------------------------------------------------------------------------------------------- STOP SFX -->
+        btnStopSFX.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(clipSFX != null) {
+                    clipSFX.stop();
                 }
             }
         });
@@ -582,7 +676,10 @@ public final class MainFrame extends javax.swing.JFrame {
                 if(!tfBGM1.getText().isEmpty()){
                     if(clipBGM1 != null) {
                         lastFrame1 = 0;
+                        
+                        clipBGM1.removeLineListener(listenBGM1);
                         clipBGM1.stop();
+                        clipBGM1.addLineListener(listenBGM1);
                     }
                     clipBGM1 = null;
 
@@ -605,7 +702,10 @@ public final class MainFrame extends javax.swing.JFrame {
                 if(!tfBGM2.getText().isEmpty()){
                     if(clipBGM2 != null) {
                         lastFrame2 = 0;
+                        
+                        clipBGM2.removeLineListener(listenBGM2);
                         clipBGM2.stop();
+                        clipBGM2.addLineListener(listenBGM2);
                     }
                     clipBGM2 = null;
 
@@ -809,6 +909,7 @@ public final class MainFrame extends javax.swing.JFrame {
         btnPlayPauseBGM1 = new javax.swing.JButton();
         volBGM1 = new javax.swing.JSlider();
         lblVolBGM1 = new javax.swing.JLabel();
+        chkLoop1 = new javax.swing.JCheckBox();
         panelRow2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         tfBGM2 = new javax.swing.JTextField();
@@ -817,6 +918,7 @@ public final class MainFrame extends javax.swing.JFrame {
         btnPlayPauseBGM2 = new javax.swing.JButton();
         volBGM2 = new javax.swing.JSlider();
         lblVolBGM2 = new javax.swing.JLabel();
+        chkLoop2 = new javax.swing.JCheckBox();
         panelRow3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         tfLastOperation = new javax.swing.JTextField();
@@ -1071,6 +1173,11 @@ public final class MainFrame extends javax.swing.JFrame {
         tfBGM1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         tfBGM1.setFocusable(false);
         tfBGM1.setName("tfBGM1"); // NOI18N
+        tfBGM1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tfBGM1PropertyChange(evt);
+            }
+        });
 
         btnClearBGM1.setToolTipText("Clear BGM1 and stop");
         btnClearBGM1.setMaximumSize(new java.awt.Dimension(22, 22));
@@ -1104,6 +1211,15 @@ public final class MainFrame extends javax.swing.JFrame {
         lblVolBGM1.setMinimumSize(new java.awt.Dimension(60, 22));
         lblVolBGM1.setPreferredSize(new java.awt.Dimension(60, 22));
 
+        chkLoop1.setSelected(true);
+        chkLoop1.setToolTipText("Loop BGM1");
+        chkLoop1.setFocusable(false);
+        chkLoop1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkLoop1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelRow1Layout = new javax.swing.GroupLayout(panelRow1);
         panelRow1.setLayout(panelRow1Layout);
         panelRow1Layout.setHorizontalGroup(
@@ -1114,6 +1230,8 @@ public final class MainFrame extends javax.swing.JFrame {
                 .addComponent(tfBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnClearBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chkLoop1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblVolBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1138,7 +1256,9 @@ public final class MainFrame extends javax.swing.JFrame {
                                 .addComponent(tfBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(btnClearBGM1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(volBGM1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblVolBGM1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblVolBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(chkLoop1))))))
         );
 
         jLabel4.setText("BGM2:");
@@ -1146,6 +1266,11 @@ public final class MainFrame extends javax.swing.JFrame {
         tfBGM2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         tfBGM2.setFocusable(false);
         tfBGM2.setName("tfBGM1"); // NOI18N
+        tfBGM2.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tfBGM2PropertyChange(evt);
+            }
+        });
 
         btnClearBGM2.setToolTipText("Clear BGM2 and stop");
         btnClearBGM2.setMaximumSize(new java.awt.Dimension(22, 22));
@@ -1179,6 +1304,15 @@ public final class MainFrame extends javax.swing.JFrame {
         lblVolBGM2.setMinimumSize(new java.awt.Dimension(60, 22));
         lblVolBGM2.setPreferredSize(new java.awt.Dimension(60, 22));
 
+        chkLoop2.setSelected(true);
+        chkLoop2.setToolTipText("Loop BGM2");
+        chkLoop2.setFocusable(false);
+        chkLoop2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkLoop2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelRow2Layout = new javax.swing.GroupLayout(panelRow2);
         panelRow2.setLayout(panelRow2Layout);
         panelRow2Layout.setHorizontalGroup(
@@ -1189,6 +1323,8 @@ public final class MainFrame extends javax.swing.JFrame {
                 .addComponent(tfBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnClearBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chkLoop2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblVolBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1213,7 +1349,9 @@ public final class MainFrame extends javax.swing.JFrame {
                                 .addComponent(tfBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(btnClearBGM2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(volBGM2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblVolBGM2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lblVolBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(chkLoop2))))))
         );
 
         jLabel3.setText("Last Operation:");
@@ -2954,6 +3092,7 @@ public final class MainFrame extends javax.swing.JFrame {
 
         chkIB.setText("IB");
         chkIB.setToolTipText("Interrupt BGM");
+        chkIB.setEnabled(false);
         chkIB.setFocusable(false);
         chkIB.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3277,39 +3416,39 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnR1SFX02ActionPerformed
 
     private void btnR1SFX03ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR1SFX03ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR1SFX03.getText());
     }//GEN-LAST:event_btnR1SFX03ActionPerformed
 
     private void btnR1SFX04ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR1SFX04ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR1SFX04.getText());
     }//GEN-LAST:event_btnR1SFX04ActionPerformed
 
     private void btnR1SFX05ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR1SFX05ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR1SFX05.getText());
     }//GEN-LAST:event_btnR1SFX05ActionPerformed
 
     private void btnR1SFX06ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR1SFX06ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR1SFX06.getText());
     }//GEN-LAST:event_btnR1SFX06ActionPerformed
 
     private void btnR1SFX07ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR1SFX07ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR1SFX07.getText());
     }//GEN-LAST:event_btnR1SFX07ActionPerformed
 
     private void btnR1SFX08ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR1SFX08ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR1SFX08.getText());
     }//GEN-LAST:event_btnR1SFX08ActionPerformed
 
     private void btnR1SFX09ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR1SFX09ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR1SFX09.getText());
     }//GEN-LAST:event_btnR1SFX09ActionPerformed
 
     private void btnR1SFX10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR1SFX10ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR1SFX10.getText());
     }//GEN-LAST:event_btnR1SFX10ActionPerformed
 
     private void btnR1SFX11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR1SFX11ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR1SFX11.getText());
     }//GEN-LAST:event_btnR1SFX11ActionPerformed
 
     private void itemSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSaveActionPerformed
@@ -3336,47 +3475,47 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_tfSFXGroup2ActionPerformed
 
     private void btnR2SFX01ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR2SFX01ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR2SFX01.getText());
     }//GEN-LAST:event_btnR2SFX01ActionPerformed
 
     private void btnR2SFX02ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR2SFX02ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR2SFX02.getText());
     }//GEN-LAST:event_btnR2SFX02ActionPerformed
 
     private void btnR2SFX04ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR2SFX04ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR2SFX04.getText());
     }//GEN-LAST:event_btnR2SFX04ActionPerformed
 
     private void btnR2SFX03ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR2SFX03ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR2SFX03.getText());
     }//GEN-LAST:event_btnR2SFX03ActionPerformed
 
     private void btnR2SFX08ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR2SFX08ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR2SFX08.getText());
     }//GEN-LAST:event_btnR2SFX08ActionPerformed
 
     private void btnR2SFX05ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR2SFX05ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR2SFX05.getText());
     }//GEN-LAST:event_btnR2SFX05ActionPerformed
 
     private void btnR2SFX07ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR2SFX07ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR2SFX07.getText());
     }//GEN-LAST:event_btnR2SFX07ActionPerformed
 
     private void btnR2SFX06ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR2SFX06ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR2SFX06.getText());
     }//GEN-LAST:event_btnR2SFX06ActionPerformed
 
     private void btnR2SFX09ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR2SFX09ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR2SFX09.getText());
     }//GEN-LAST:event_btnR2SFX09ActionPerformed
 
     private void btnR2SFX10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR2SFX10ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR2SFX10.getText());
     }//GEN-LAST:event_btnR2SFX10ActionPerformed
 
     private void btnR2SFX11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR2SFX11ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR2SFX11.getText());
     }//GEN-LAST:event_btnR2SFX11ActionPerformed
 
     private void itmLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmLoadActionPerformed
@@ -3391,51 +3530,51 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_tfSFXGroup3MouseClicked
 
     private void tfSFXGroup3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSFXGroup3ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_tfSFXGroup3ActionPerformed
 
     private void btnR3SFX01ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR3SFX01ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR3SFX01.getText());
     }//GEN-LAST:event_btnR3SFX01ActionPerformed
 
     private void btnR3SFX02ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR3SFX02ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR3SFX02.getText());
     }//GEN-LAST:event_btnR3SFX02ActionPerformed
 
     private void btnR3SFX04ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR3SFX04ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR3SFX04.getText());
     }//GEN-LAST:event_btnR3SFX04ActionPerformed
 
     private void btnR3SFX03ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR3SFX03ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR3SFX03.getText());
     }//GEN-LAST:event_btnR3SFX03ActionPerformed
 
     private void btnR3SFX08ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR3SFX08ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR3SFX08.getText());
     }//GEN-LAST:event_btnR3SFX08ActionPerformed
 
     private void btnR3SFX05ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR3SFX05ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR3SFX05.getText());
     }//GEN-LAST:event_btnR3SFX05ActionPerformed
 
     private void btnR3SFX07ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR3SFX07ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR3SFX07.getText());
     }//GEN-LAST:event_btnR3SFX07ActionPerformed
 
     private void btnR3SFX06ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR3SFX06ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR3SFX06.getText());
     }//GEN-LAST:event_btnR3SFX06ActionPerformed
 
     private void btnR3SFX09ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR3SFX09ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR3SFX09.getText());
     }//GEN-LAST:event_btnR3SFX09ActionPerformed
 
     private void btnR3SFX10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR3SFX10ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR3SFX10.getText());
     }//GEN-LAST:event_btnR3SFX10ActionPerformed
 
     private void btnR3SFX11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR3SFX11ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR3SFX11.getText());
     }//GEN-LAST:event_btnR3SFX11ActionPerformed
 
     private void chkSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkSPActionPerformed
@@ -3455,6 +3594,32 @@ public final class MainFrame extends javax.swing.JFrame {
             chkStopBGM = 0;
         }
     }//GEN-LAST:event_chkIBActionPerformed
+
+    private void chkLoop1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkLoop1ActionPerformed
+        if(chkLoop1.isSelected()) {
+            loop1 = 1;
+        }
+        else {
+            loop1 = 0;
+        }
+    }//GEN-LAST:event_chkLoop1ActionPerformed
+
+    private void chkLoop2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkLoop2ActionPerformed
+        if(chkLoop2.isSelected()) {
+            loop2 = 1;
+        }
+        else {
+            loop2 = 0;
+        }
+    }//GEN-LAST:event_chkLoop2ActionPerformed
+
+    private void tfBGM1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tfBGM1PropertyChange
+        
+    }//GEN-LAST:event_tfBGM1PropertyChange
+
+    private void tfBGM2PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tfBGM2PropertyChange
+        
+    }//GEN-LAST:event_tfBGM2PropertyChange
 
     /**
      * @param args the command line arguments
@@ -3531,6 +3696,8 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnStopBGM2;
     private javax.swing.JButton btnStopSFX;
     private javax.swing.JCheckBox chkIB;
+    private javax.swing.JCheckBox chkLoop1;
+    private javax.swing.JCheckBox chkLoop2;
     private javax.swing.JCheckBox chkSP;
     private javax.swing.JMenuItem itemSave;
     private javax.swing.JMenuItem itmLoad;
@@ -3725,6 +3892,7 @@ public final class MainFrame extends javax.swing.JFrame {
     }
     
     public void playSFX(String sfxName) {
+        sfxOperation = true;
         if(!sfxName.equals("blank")){
             if(chkSinglePlay == 0 && chkStopBGM == 0) {
                 try {
@@ -3825,7 +3993,9 @@ public final class MainFrame extends javax.swing.JFrame {
                 if(clipBGM1 != null) {
                     if(clipBGM1.isRunning()) {
                         lastFrame1 = clipBGM1.getFramePosition();
+                        clipBGM1.removeLineListener(listenBGM1);
                         clipBGM1.stop();
+                        clipBGM1.addLineListener(listenBGM1);
                         
                         LineListener listener = (LineEvent event) -> {
                             if(event.getType() == LineEvent.Type.STOP) {
@@ -3858,7 +4028,9 @@ public final class MainFrame extends javax.swing.JFrame {
                 if(clipBGM2 != null) {
                     if(clipBGM2.isRunning()) {
                         lastFrame2 = clipBGM2.getFramePosition();
+                        clipBGM2.removeLineListener(listenBGM2);
                         clipBGM2.stop();
+                        clipBGM2.addLineListener(listenBGM2);
 
                         LineListener listener = (LineEvent event) -> {
                             if(event.getType() == LineEvent.Type.STOP) {
@@ -3912,7 +4084,9 @@ public final class MainFrame extends javax.swing.JFrame {
                         if(clipBGM1 != null) {
                             if(clipBGM1.isRunning()) {
                                 lastFrame1 = clipBGM1.getFramePosition();
+                                clipBGM1.removeLineListener(listenBGM1);
                                 clipBGM1.stop();
+                                clipBGM1.addLineListener(listenBGM1);
 
                                 LineListener listener = (LineEvent event) -> {
                                     if(event.getType() == LineEvent.Type.STOP) {
@@ -3949,7 +4123,9 @@ public final class MainFrame extends javax.swing.JFrame {
                         if(clipBGM2 != null) {
                             if(clipBGM2.isRunning()) {
                                 lastFrame2 = clipBGM2.getFramePosition();
+                                clipBGM2.removeLineListener(listenBGM2);
                                 clipBGM2.stop();
+                                clipBGM2.addLineListener(listenBGM2);
 
                                 LineListener listener = (LineEvent event) -> {
                                     if(event.getType() == LineEvent.Type.STOP) {
