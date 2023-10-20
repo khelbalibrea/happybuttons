@@ -11,8 +11,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -24,6 +22,8 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.LineEvent;
+import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
@@ -53,12 +53,16 @@ public final class MainFrame extends javax.swing.JFrame {
     
     // globals for media playing
     public static int playing1 = 0, playing2 = 0, pause1 = 0, pause2 = 0;
+    public static int sfxPlaying = 0;
     public AudioInputStream media1;
     public static Clip clipBGM1 = null;
     public static Clip clipBGM2 = null;
-    public static Clip clipR1SFX01 = null, clipR1SFX02 = null;
+    public static Clip clipSFX = null;
     public static int lastFrame1 = 0;
     public static int lastFrame2 = 0;
+    public static int chkSinglePlay = 1;
+    public static int chkStopBGM = 0;
+    public static int rbtnSFX = 0;
     
     FloatControl fcBGM1;
     FloatControl fcBGM2;
@@ -143,8 +147,8 @@ public final class MainFrame extends javax.swing.JFrame {
         String btnDeleteSFXIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\delete_sfx_14px.png");
         btnDeleteSFX.setIcon(new javax.swing.ImageIcon(btnDeleteSFXIcon));
         
-        String btnEditSFXIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\edit_sfx_14px.png");
-        btnEditSFX.setIcon(new javax.swing.ImageIcon(btnEditSFXIcon));
+        String btnStopSFXIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\stop_sfx_12px.png");
+        btnStopSFX.setIcon(new javax.swing.ImageIcon(btnStopSFXIcon));
         
         String itmNewIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\new_workspace_12px.png");
         itmNew.setIcon(new javax.swing.ImageIcon(itmNewIcon));
@@ -326,7 +330,7 @@ public final class MainFrame extends javax.swing.JFrame {
                             loadClipBGM1(new File(musicPath));
                             fcBGM1 = (FloatControl)clipBGM1.getControl(FloatControl.Type.MASTER_GAIN);
                             if(volBGM1.getValue() == 100) {
-                                fcBGM1.setValue(6f);
+                                fcBGM1.setValue(0f);
                             }
                             else {
                                 fcBGM1.setValue(bgmVol1); // float value
@@ -441,7 +445,7 @@ public final class MainFrame extends javax.swing.JFrame {
                             loadClipBGM2(new File(musicPath));
                             fcBGM2 = (FloatControl)clipBGM2.getControl(FloatControl.Type.MASTER_GAIN);
                             if(volBGM2.getValue() == 100) {
-                                fcBGM2.setValue(6f);
+                                fcBGM2.setValue(0f);
                             }
                             else {
                                 fcBGM2.setValue(bgmVol2); // float value
@@ -776,16 +780,6 @@ public final class MainFrame extends javax.swing.JFrame {
                 sfxGroupName3 = tfSFXGroup3.getText();
             }
         });
-        
-        //---------------------------------------------------------------------------------------------------------------- Label changed -->
-//        lblR1SFX01.addPropertyChangeListener(new PropertyChangeListener() {
-//            @Override
-//            public void propertyChange(PropertyChangeEvent evt) {
-//                r1sfx01 = lblR1SFX01.getText();
-//                System.out.println(r1sfx01);
-//            }
-//            
-//        });
     }
 
     /**
@@ -829,7 +823,6 @@ public final class MainFrame extends javax.swing.JFrame {
         togLinkBGMVol = new javax.swing.JToggleButton();
         lblLinkBGMVolumes = new javax.swing.JLabel();
         panelRow6 = new javax.swing.JPanel();
-        btnEditSFX = new javax.swing.JButton();
         lblVolSFX = new javax.swing.JLabel();
         volSFX = new javax.swing.JSlider();
         jSeparator1 = new javax.swing.JSeparator();
@@ -945,6 +938,11 @@ public final class MainFrame extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         btnR3SFX11 = new javax.swing.JButton();
         lblR3SFX11 = new javax.swing.JLabel();
+        btnStopSFX = new javax.swing.JButton();
+        panelRadio = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        chkIB = new javax.swing.JCheckBox();
+        chkSP = new javax.swing.JCheckBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itmNew = new javax.swing.JMenuItem();
@@ -1265,11 +1263,6 @@ public final class MainFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        btnEditSFX.setToolTipText("Edit SFX buttons");
-        btnEditSFX.setMaximumSize(new java.awt.Dimension(22, 22));
-        btnEditSFX.setMinimumSize(new java.awt.Dimension(22, 22));
-        btnEditSFX.setPreferredSize(new java.awt.Dimension(22, 22));
-
         lblVolSFX.setText("SFX Vol: 100");
         lblVolSFX.setMaximumSize(new java.awt.Dimension(85, 22));
         lblVolSFX.setMinimumSize(new java.awt.Dimension(85, 22));
@@ -1288,18 +1281,15 @@ public final class MainFrame extends javax.swing.JFrame {
                 .addComponent(lblVolSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(volSFX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnEditSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panelRow6Layout.setVerticalGroup(
             panelRow6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRow6Layout.createSequentialGroup()
+                .addGap(3, 3, 3)
                 .addGroup(panelRow6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnEditSFX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(panelRow6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(volSFX, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblVolSFX, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(volSFX, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblVolSFX, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -2952,6 +2942,58 @@ public final class MainFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        btnStopSFX.setToolTipText("Stop SFX");
+        btnStopSFX.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnStopSFX.setMinimumSize(new java.awt.Dimension(22, 22));
+        btnStopSFX.setPreferredSize(new java.awt.Dimension(22, 22));
+
+        panelRadio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel2.setText("SFX State:");
+
+        chkIB.setText("IB");
+        chkIB.setToolTipText("Interrupt BGM");
+        chkIB.setFocusable(false);
+        chkIB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkIBActionPerformed(evt);
+            }
+        });
+
+        chkSP.setSelected(true);
+        chkSP.setText("SP");
+        chkSP.setToolTipText("Single play");
+        chkSP.setFocusable(false);
+        chkSP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkSPActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelRadioLayout = new javax.swing.GroupLayout(panelRadio);
+        panelRadio.setLayout(panelRadioLayout);
+        panelRadioLayout.setHorizontalGroup(
+            panelRadioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelRadioLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(24, 24, 24)
+                .addComponent(chkSP)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chkIB)
+                .addContainerGap())
+        );
+        panelRadioLayout.setVerticalGroup(
+            panelRadioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRadioLayout.createSequentialGroup()
+                .addGap(0, 2, Short.MAX_VALUE)
+                .addGroup(panelRadioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(chkIB)
+                    .addComponent(chkSP)))
+        );
+
         jMenuBar1.setName("mbrMain"); // NOI18N
         jMenuBar1.setOpaque(true);
 
@@ -3001,7 +3043,12 @@ public final class MainFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(panelRow6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(panelRow6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(22, 22, 22)
+                                .addComponent(panelRadio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnStopSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(panelRow1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(panelRow2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(panelRow3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -3028,13 +3075,22 @@ public final class MainFrame extends javax.swing.JFrame {
                 .addComponent(panelJList, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
-                .addComponent(panelRow6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panelRow6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(btnStopSFX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(panelRadio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(panelRight, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(55, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(panelSFX1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3207,24 +3263,7 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteSFXActionPerformed
 
     private void btnR1SFX01ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR1SFX01ActionPerformed
-        if(!lblR1SFX01.getText().equals("blank")){
-            try {
-                String musicPath = sfolder + "\\" + Utility.cleanSFXNaming(lblR1SFX01.getText()) + ".wav";
-                loadClipSFX(new File(musicPath));
-                fcSFX = (FloatControl)clipR1SFX01.getControl(FloatControl.Type.MASTER_GAIN);
-                if(volSFX.getValue() == 100) {
-                    fcSFX.setValue(6f);
-                }
-                else {
-                    fcSFX.setValue(sfxVol); // float value
-                }
-
-                clipR1SFX01.start();
-            }
-            catch(IOException | LineUnavailableException | UnsupportedAudioFileException e) {
-                System.out.println(e.toString());
-            }
-        }
+        playSFX(lblR1SFX01.getText());
     }//GEN-LAST:event_btnR1SFX01ActionPerformed
 
     private void tfSFXGroup1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfSFXGroup1MouseClicked
@@ -3234,7 +3273,7 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_tfSFXGroup1MouseClicked
 
     private void btnR1SFX02ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR1SFX02ActionPerformed
-        // TODO add your handling code here:
+        playSFX(lblR1SFX02.getText());
     }//GEN-LAST:event_btnR1SFX02ActionPerformed
 
     private void btnR1SFX03ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR1SFX03ActionPerformed
@@ -3399,6 +3438,24 @@ public final class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnR3SFX11ActionPerformed
 
+    private void chkSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkSPActionPerformed
+        if(chkSP.isSelected()) {
+            chkSinglePlay = 1;
+        }
+        else {
+            chkSinglePlay = 0;
+        }
+    }//GEN-LAST:event_chkSPActionPerformed
+
+    private void chkIBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkIBActionPerformed
+        if(chkIB.isSelected()) {
+            chkStopBGM = 1;
+        }
+        else {
+            chkStopBGM = 0;
+        }
+    }//GEN-LAST:event_chkIBActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -3435,7 +3492,6 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnClearBGM2;
     private javax.swing.JButton btnDeleteBGM;
     private javax.swing.JButton btnDeleteSFX;
-    private javax.swing.JButton btnEditSFX;
     public static javax.swing.JButton btnPlayPauseBGM1;
     public static javax.swing.JButton btnPlayPauseBGM2;
     private javax.swing.JButton btnR1SFX01;
@@ -3473,10 +3529,14 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnR3SFX11;
     private javax.swing.JButton btnStopBGM1;
     private javax.swing.JButton btnStopBGM2;
+    private javax.swing.JButton btnStopSFX;
+    private javax.swing.JCheckBox chkIB;
+    private javax.swing.JCheckBox chkSP;
     private javax.swing.JMenuItem itemSave;
     private javax.swing.JMenuItem itmLoad;
     private javax.swing.JMenuItem itmNew;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
@@ -3562,6 +3622,7 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel panelR1S7;
     private javax.swing.JPanel panelR1S8;
     private javax.swing.JPanel panelR1S9;
+    private javax.swing.JPanel panelRadio;
     private javax.swing.JPanel panelRight;
     private javax.swing.JPanel panelRow1;
     private javax.swing.JPanel panelRow2;
@@ -3659,7 +3720,457 @@ public final class MainFrame extends javax.swing.JFrame {
 
         AudioFormat format = audioStream.getFormat();
         DataLine.Info info = new DataLine.Info(Clip.class, format);
-        this.clipR1SFX01 = (Clip) AudioSystem.getLine(info);
-        this.clipR1SFX01.open(audioStream);
+        this.clipSFX = (Clip) AudioSystem.getLine(info);
+        this.clipSFX.open(audioStream);
+    }
+    
+    public void playSFX(String sfxName) {
+        if(!sfxName.equals("blank")){
+            if(chkSinglePlay == 0 && chkStopBGM == 0) {
+                try {
+                    String musicPath = sfolder + "\\" + Utility.cleanSFXNaming(sfxName) + ".wav";
+                    loadClipSFX(new File(musicPath));
+                    fcSFX = (FloatControl)clipSFX.getControl(FloatControl.Type.MASTER_GAIN);
+                    if(volSFX.getValue() == 100) {
+                        fcSFX.setValue(6f);
+                    }
+                    else {
+                        fcSFX.setValue(sfxVol); // float value
+                    }
+                    
+                    clipSFX.start();
+                }
+                catch(IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+                    tfLastOperation.setText("[ERROR]:: " + e.toString());
+                }
+            }
+            else if(chkSinglePlay == 1 && chkStopBGM == 0) {
+                if(clipSFX != null) {
+                    if(clipSFX.isRunning()) {
+                        clipSFX.stop();
+
+                        try {
+                            String musicPath = sfolder + "\\" + Utility.cleanSFXNaming(sfxName) + ".wav";
+                            loadClipSFX(new File(musicPath));
+                            fcSFX = (FloatControl)clipSFX.getControl(FloatControl.Type.MASTER_GAIN);
+                            if(volSFX.getValue() == 100) {
+                                fcSFX.setValue(6f);
+                            }
+                            else {
+                                fcSFX.setValue(sfxVol); // float value
+                            }
+
+                            clipSFX.start();
+                        }
+                        catch(IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+                            tfLastOperation.setText("[ERROR]:: " + e.toString());
+                        }
+                    }
+                    else {
+                        try {
+                            String musicPath = sfolder + "\\" + Utility.cleanSFXNaming(sfxName) + ".wav";
+                            loadClipSFX(new File(musicPath));
+                            fcSFX = (FloatControl)clipSFX.getControl(FloatControl.Type.MASTER_GAIN);
+                            if(volSFX.getValue() == 100) {
+                                fcSFX.setValue(6f);
+                            }
+                            else {
+                                fcSFX.setValue(sfxVol); // float value
+                            }
+
+                            clipSFX.start();
+                        }
+                        catch(IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+                            tfLastOperation.setText("[ERROR]:: " + e.toString());
+                        }
+                    }
+                }
+                else {
+                    try {
+                        String musicPath = sfolder + "\\" + Utility.cleanSFXNaming(sfxName) + ".wav";
+                        loadClipSFX(new File(musicPath));
+                        fcSFX = (FloatControl)clipSFX.getControl(FloatControl.Type.MASTER_GAIN);
+                        if(volSFX.getValue() == 100) {
+                            fcSFX.setValue(6f);
+                        }
+                        else {
+                            fcSFX.setValue(sfxVol); // float value
+                        }
+                        
+                        sfxPlaying = 1;
+                        clipSFX.start();
+                    }
+                    catch(IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+                        sfxPlaying = 0;
+                        tfLastOperation.setText("[ERROR]:: " + e.toString());
+                    }
+                }
+            }
+            else if(chkSinglePlay == 0 && chkStopBGM == 1) {
+                try {
+                    String musicPath = sfolder + "\\" + Utility.cleanSFXNaming(sfxName) + ".wav";
+                    loadClipSFX(new File(musicPath));
+                    fcSFX = (FloatControl)clipSFX.getControl(FloatControl.Type.MASTER_GAIN);
+                    if(volSFX.getValue() == 100) {
+                        fcSFX.setValue(6f);
+                    }
+                    else {
+                        fcSFX.setValue(sfxVol); // float value
+                    }
+                }
+                catch(IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+                    tfLastOperation.setText("[ERROR]:: " + e.toString());
+                }
+                
+                if(clipBGM1 != null) {
+                    if(clipBGM1.isRunning()) {
+                        lastFrame1 = clipBGM1.getFramePosition();
+                        clipBGM1.stop();
+                        
+                        LineListener listener = (LineEvent event) -> {
+                            if(event.getType() == LineEvent.Type.STOP) {
+                                if(lastFrame1 < clipBGM1.getFrameLength()) {
+                                    clipBGM1.setFramePosition(lastFrame1);
+                                }
+                                else {
+                                    clipBGM1.setFramePosition(0);
+                                }
+                                clipBGM1.start();
+
+                                pause1 = 0;
+                                String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
+                                btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                btnPlayPauseBGM1.setEnabled(true);
+                                btnStopBGM1.setEnabled(true);
+                            }
+                        };
+                        
+                        pause1 = 1;
+                        String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                        btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
+                        btnPlayPauseBGM1.setEnabled(false);
+                        btnStopBGM1.setEnabled(false);
+                        
+                        clipSFX.addLineListener(listener);
+                    }
+                }
+                
+                if(clipBGM2 != null) {
+                    if(clipBGM2.isRunning()) {
+                        lastFrame2 = clipBGM2.getFramePosition();
+                        clipBGM2.stop();
+
+                        LineListener listener = (LineEvent event) -> {
+                            if(event.getType() == LineEvent.Type.STOP) {
+                                if(lastFrame2 < clipBGM2.getFrameLength()) {
+                                    clipBGM2.setFramePosition(lastFrame2);
+                                }
+                                else {
+                                    clipBGM2.setFramePosition(0);
+                                }
+                                clipBGM2.start();
+
+                                pause2 = 0;
+                                String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
+                                btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                btnPlayPauseBGM2.setEnabled(true);
+                                btnStopBGM2.setEnabled(true);
+                            }
+                        };
+
+                        pause2 = 1;
+                        String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                        btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
+                        btnPlayPauseBGM2.setEnabled(false);
+                        btnStopBGM2.setEnabled(false);
+
+                        clipSFX.addLineListener(listener);
+                    }
+                }
+                clipSFX.start();
+            }
+            else if(chkSinglePlay == 1 && chkStopBGM == 1) {
+                if(clipSFX != null) {
+                    if(clipSFX.isRunning()) {
+                        clipSFX.stop();
+                        
+                        try {
+                            String musicPath = sfolder + "\\" + Utility.cleanSFXNaming(sfxName) + ".wav";
+                            loadClipSFX(new File(musicPath));
+                            fcSFX = (FloatControl)clipSFX.getControl(FloatControl.Type.MASTER_GAIN);
+                            if(volSFX.getValue() == 100) {
+                                fcSFX.setValue(6f);
+                            }
+                            else {
+                                fcSFX.setValue(sfxVol); // float value
+                            }
+                        }
+                        catch(IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+                            tfLastOperation.setText("[ERROR]:: " + e.toString());
+                        }
+
+                        if(clipBGM1 != null) {
+                            if(clipBGM1.isRunning()) {
+                                lastFrame1 = clipBGM1.getFramePosition();
+                                clipBGM1.stop();
+
+                                LineListener listener = (LineEvent event) -> {
+                                    if(event.getType() == LineEvent.Type.STOP) {
+                                        if(lastFrame1 < clipBGM1.getFrameLength()) {
+                                            clipBGM1.setFramePosition(lastFrame1);
+                                        }
+                                        else {
+                                            clipBGM1.setFramePosition(0);
+                                        }
+
+                                        if(clipSFX.isRunning()) {
+                                            clipSFX.stop();
+                                        }
+                                        clipBGM1.start();
+
+                                        pause1 = 0;
+                                        String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
+                                        btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                        btnPlayPauseBGM1.setEnabled(true);
+                                        btnStopBGM1.setEnabled(true);
+                                    }
+                                };
+
+                                pause1 = 1;
+                                String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                                btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                btnPlayPauseBGM1.setEnabled(false);
+                                btnStopBGM1.setEnabled(false);
+
+                                clipSFX.addLineListener(listener);
+                            }
+                        }
+
+                        if(clipBGM2 != null) {
+                            if(clipBGM2.isRunning()) {
+                                lastFrame2 = clipBGM2.getFramePosition();
+                                clipBGM2.stop();
+
+                                LineListener listener = (LineEvent event) -> {
+                                    if(event.getType() == LineEvent.Type.STOP) {
+                                        if(lastFrame2 < clipBGM2.getFrameLength()) {
+                                            clipBGM2.setFramePosition(lastFrame2);
+                                        }
+                                        else {
+                                            clipBGM2.setFramePosition(0);
+                                        }
+
+                                        if(clipSFX.isRunning()) {
+                                            clipSFX.stop();
+                                        }
+
+                                        clipBGM2.start();
+
+                                        pause2 = 0;
+                                        String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
+                                        btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                        btnPlayPauseBGM2.setEnabled(true);
+                                        btnStopBGM2.setEnabled(true);
+                                    }
+                                };
+
+                                pause2 = 1;
+                                String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                                btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                btnPlayPauseBGM2.setEnabled(false);
+                                btnStopBGM2.setEnabled(false);
+
+                                clipSFX.addLineListener(listener);
+                            }
+                        }
+                        clipSFX.start();
+                    }
+                    else {
+                        try {
+                            String musicPath = sfolder + "\\" + Utility.cleanSFXNaming(lblR1SFX01.getText()) + ".wav";
+                            loadClipSFX(new File(musicPath));
+                            fcSFX = (FloatControl)clipSFX.getControl(FloatControl.Type.MASTER_GAIN);
+                            if(volSFX.getValue() == 100) {
+                                fcSFX.setValue(6f);
+                            }
+                            else {
+                                fcSFX.setValue(sfxVol); // float value
+                            }
+                        }
+                        catch(IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+                            tfLastOperation.setText("[ERROR]:: " + e.toString());
+                        }
+
+                        if(clipBGM1 != null) {
+                            if(clipBGM1.isRunning()) {
+                                lastFrame1 = clipBGM1.getFramePosition();
+                                clipBGM1.stop();
+
+                                LineListener listener = (LineEvent event) -> {
+                                    if(event.getType() == LineEvent.Type.STOP) {
+                                        if(lastFrame1 < clipBGM1.getFrameLength()) {
+                                            clipBGM1.setFramePosition(lastFrame1);
+                                        }
+                                        else {
+                                            clipBGM1.setFramePosition(0);
+                                        }
+
+                                        if(clipSFX.isRunning()) {
+                                            clipSFX.stop();
+                                        }
+                                        clipBGM1.start();
+
+                                        pause1 = 0;
+                                        String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
+                                        btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                        btnPlayPauseBGM1.setEnabled(true);
+                                        btnStopBGM1.setEnabled(true);
+                                    }
+                                };
+
+                                pause1 = 1;
+                                String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                                btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                btnPlayPauseBGM1.setEnabled(false);
+                                btnStopBGM1.setEnabled(false);
+
+                                clipSFX.addLineListener(listener);
+                            }
+                        }
+
+                        if(clipBGM2 != null) {
+                            if(clipBGM2.isRunning()) {
+                                lastFrame2 = clipBGM2.getFramePosition();
+                                clipBGM2.stop();
+
+                                LineListener listener = (LineEvent event) -> {
+                                    if(event.getType() == LineEvent.Type.STOP) {
+                                        if(lastFrame2 < clipBGM2.getFrameLength()) {
+                                            clipBGM2.setFramePosition(lastFrame2);
+                                        }
+                                        else {
+                                            clipBGM2.setFramePosition(0);
+                                        }
+
+                                        if(clipSFX.isRunning()) {
+                                            clipSFX.stop();
+                                        }
+
+                                        clipBGM2.start();
+
+                                        pause2 = 0;
+                                        String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
+                                        btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                        btnPlayPauseBGM2.setEnabled(true);
+                                        btnStopBGM2.setEnabled(true);
+                                    }
+                                };
+
+                                pause2 = 1;
+                                String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                                btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                btnPlayPauseBGM2.setEnabled(false);
+                                btnStopBGM2.setEnabled(false);
+
+                                clipSFX.addLineListener(listener);
+                            }
+                        }
+                        clipSFX.start();
+                    }
+                }
+                else {
+                    try {
+                        String musicPath = sfolder + "\\" + Utility.cleanSFXNaming(sfxName) + ".wav";
+                        loadClipSFX(new File(musicPath));
+                        fcSFX = (FloatControl)clipSFX.getControl(FloatControl.Type.MASTER_GAIN);
+                        if(volSFX.getValue() == 100) {
+                            fcSFX.setValue(6f);
+                        }
+                        else {
+                            fcSFX.setValue(sfxVol); // float value
+                        }
+                    }
+                    catch(IOException | LineUnavailableException | UnsupportedAudioFileException e) {
+                        tfLastOperation.setText("[ERROR]:: " + e.toString());
+                    }
+
+                    if(clipBGM1 != null) {
+                        if(clipBGM1.isRunning()) {
+                            lastFrame1 = clipBGM1.getFramePosition();
+                            clipBGM1.stop();
+
+                            LineListener listener = (LineEvent event) -> {
+                                if(event.getType() == LineEvent.Type.STOP) {
+                                    if(lastFrame1 < clipBGM1.getFrameLength()) {
+                                        clipBGM1.setFramePosition(lastFrame1);
+                                    }
+                                    else {
+                                        clipBGM1.setFramePosition(0);
+                                    }
+
+                                    if(clipSFX.isRunning()) {
+                                        clipSFX.stop();
+                                    }
+                                    clipBGM1.start();
+
+                                    pause1 = 0;
+                                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
+                                    btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                    btnPlayPauseBGM1.setEnabled(true);
+                                    btnStopBGM1.setEnabled(true);
+                                }
+                            };
+
+                            pause1 = 1;
+                            String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                            btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
+                            btnPlayPauseBGM1.setEnabled(false);
+                            btnStopBGM1.setEnabled(false);
+
+                            clipSFX.addLineListener(listener);
+                        }
+                    }
+
+                    if(clipBGM2 != null) {
+                        if(clipBGM2.isRunning()) {
+                            lastFrame2 = clipBGM2.getFramePosition();
+                            clipBGM2.stop();
+
+                            LineListener listener = (LineEvent event) -> {
+                                if(event.getType() == LineEvent.Type.STOP) {
+                                    if(lastFrame2 < clipBGM2.getFrameLength()) {
+                                        clipBGM2.setFramePosition(lastFrame2);
+                                    }
+                                    else {
+                                        clipBGM2.setFramePosition(0);
+                                    }
+
+                                    if(clipSFX.isRunning()) {
+                                        clipSFX.stop();
+                                    }
+
+                                    clipBGM2.start();
+
+                                    pause2 = 0;
+                                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
+                                    btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                    btnPlayPauseBGM2.setEnabled(true);
+                                    btnStopBGM2.setEnabled(true);
+                                }
+                            };
+
+                            pause2 = 1;
+                            String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+                            btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
+                            btnPlayPauseBGM2.setEnabled(false);
+                            btnStopBGM2.setEnabled(false);
+
+                            clipSFX.addLineListener(listener);
+                        }
+                    }
+                    clipSFX.start();
+                }
+            }
+        }
     }
 }
