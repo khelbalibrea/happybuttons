@@ -84,6 +84,7 @@ public final class MainFrame extends javax.swing.JFrame {
     // Profiles
     Profile profile = new Profile();
     public static String profileName1 = "Sample", profileName2 = "", profileName3 = "", profileName4 = "", profileName5 = "";
+    public static String loadedProfile = "", savedProfile = "";
     
     // UI Components
     public static String sfxGroupName1 = "", sfxGroupName2 = "", sfxGroupName3 = "";
@@ -3439,6 +3440,12 @@ public final class MainFrame extends javax.swing.JFrame {
     private void itemSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSaveActionPerformed
         SaveFrame saveFrame = new SaveFrame(HappyButtons.mf, true);
         saveFrame.setVisible(true);
+        
+        if(!saveFrame.isShowing()) {
+            if(!"error".equals(savedProfile)) {
+                super.setTitle("Happy Buttons - (" + savedProfile + ")");
+            }
+        }
     }//GEN-LAST:event_itemSaveActionPerformed
 
     private void itmNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmNewActionPerformed
@@ -3506,6 +3513,12 @@ public final class MainFrame extends javax.swing.JFrame {
     private void itmLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmLoadActionPerformed
         LoadFrame loadFrame = new LoadFrame(HappyButtons.mf, true);
         loadFrame.setVisible(true);
+        
+        if(!loadFrame.isShowing()) {
+            if(!"error".equals(loadedProfile)) {
+                super.setTitle("Happy Buttons - (" + loadedProfile + ")");
+            }
+        }
     }//GEN-LAST:event_itmLoadActionPerformed
 
     private void tfSFXGroup3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfSFXGroup3MouseClicked

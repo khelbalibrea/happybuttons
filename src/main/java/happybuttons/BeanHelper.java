@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  * @author Michael Balibrea
  */
 public class BeanHelper {
-    public void writeToXml(ProfileDatabase[] profileDB) {		
+    public boolean writeToXml(ProfileDatabase[] profileDB) {		
         try {
             XMLEncoder encoder = new XMLEncoder(
             new BufferedOutputStream(
@@ -26,9 +26,12 @@ public class BeanHelper {
 
             encoder.writeObject(profileDB);
             encoder.close();
+            
+            return true;
         }
         catch (FileNotFoundException fnfe) {
             JOptionPane.showMessageDialog(null, "XML write error: " + fnfe.toString());
+            return false;
         }
     }
 	

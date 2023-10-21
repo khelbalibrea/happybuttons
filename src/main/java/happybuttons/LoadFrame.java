@@ -6,9 +6,6 @@ package happybuttons;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -19,6 +16,7 @@ import javax.swing.JOptionPane;
 public class LoadFrame extends javax.swing.JDialog {
     public static String profileName1 = "", profileName2 = "", profileName3 = "", profileName4 = "", profileName5 = "";
     public static String dbSlot1 = "", dbSlot2 = "", dbSlot3 = "", dbSlot4 = "", dbSlot5 = "";
+    
     /**
      * Creates new form Save
      */
@@ -375,27 +373,27 @@ public class LoadFrame extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoad1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoad1ActionPerformed
-        (HappyButtons.dbo).loadEnvironment(HappyButtons.profileDB, 0);
+        MainFrame.loadedProfile = (HappyButtons.dbo).loadEnvironment(HappyButtons.profileDB, 0);
         this.dispose();
     }//GEN-LAST:event_btnLoad1ActionPerformed
 
     private void btnLoad2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoad2ActionPerformed
-        (HappyButtons.dbo).loadEnvironment(HappyButtons.profileDB, 1);
+        MainFrame.loadedProfile = (HappyButtons.dbo).loadEnvironment(HappyButtons.profileDB, 1);
         this.dispose();
     }//GEN-LAST:event_btnLoad2ActionPerformed
 
     private void btnLoad3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoad3ActionPerformed
-        (HappyButtons.dbo).loadEnvironment(HappyButtons.profileDB, 2);
+        MainFrame.loadedProfile = (HappyButtons.dbo).loadEnvironment(HappyButtons.profileDB, 2);
         this.dispose();
     }//GEN-LAST:event_btnLoad3ActionPerformed
 
     private void btnLoad4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoad4ActionPerformed
-        (HappyButtons.dbo).loadEnvironment(HappyButtons.profileDB, 3);
+        MainFrame.loadedProfile = (HappyButtons.dbo).loadEnvironment(HappyButtons.profileDB, 3);
         this.dispose();
     }//GEN-LAST:event_btnLoad4ActionPerformed
 
     private void btnLoad5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoad5ActionPerformed
-        (HappyButtons.dbo).loadEnvironment(HappyButtons.profileDB, 4);
+        MainFrame.loadedProfile = (HappyButtons.dbo).loadEnvironment(HappyButtons.profileDB, 4);
         this.dispose();
     }//GEN-LAST:event_btnLoad5ActionPerformed
 

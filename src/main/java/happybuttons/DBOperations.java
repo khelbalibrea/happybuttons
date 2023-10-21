@@ -14,10 +14,12 @@ public class DBOperations {
     public static int count = 0;
     public static int indexDB = -1;
     
-    public void saveEnvironment(ProfileDatabase profileDB[], Profile profile){
+    public boolean saveEnvironment(ProfileDatabase profileDB[], Profile profile){
+        String profileNameSet = "";
         if(indexDB == 0){
             if(HappyButtons.noDB == 0) {
                 profile.setProfileName(SaveFrame.profileName1);
+                profileNameSet = SaveFrame.profileName1;
             }
             else {
                 profile.setProfileName("");
@@ -26,6 +28,7 @@ public class DBOperations {
         else if(indexDB == 1){
             if(HappyButtons.noDB == 0) {
                 profile.setProfileName(SaveFrame.profileName2);
+                profileNameSet = SaveFrame.profileName2;
             }
             else {
                 profile.setProfileName("");
@@ -34,6 +37,7 @@ public class DBOperations {
         else if(indexDB == 2){
             if(HappyButtons.noDB == 0) {
                 profile.setProfileName(SaveFrame.profileName3);
+                profileNameSet = SaveFrame.profileName3;
             }
             else {
                 profile.setProfileName("");
@@ -42,6 +46,7 @@ public class DBOperations {
         else if(indexDB == 3){
             if(HappyButtons.noDB == 0) {
                 profile.setProfileName(SaveFrame.profileName4);
+                profileNameSet = SaveFrame.profileName4;
             }
             else {
                 profile.setProfileName("");
@@ -50,6 +55,7 @@ public class DBOperations {
         else if(indexDB == 4){
             if(HappyButtons.noDB == 0) {
                 profile.setProfileName(SaveFrame.profileName5);
+                profileNameSet = SaveFrame.profileName5;
             }
             else {
                 profile.setProfileName("");
@@ -188,13 +194,21 @@ public class DBOperations {
         profileDB[indexDB].setR3Sfx10(profile.getR3Sfx10());
         profileDB[indexDB].setR3Sfx11(profile.getR3Sfx11());
         
-        new BeanHelper().writeToXml(profileDB);
+        boolean saved = new BeanHelper().writeToXml(profileDB);
+        if(saved) {
+            MainFrame.savedProfile = profileNameSet;
+        }
+        else {
+            MainFrame.savedProfile = "error";
+        }
         
         count = 0;
         indexDB = -1;
+        
+        return saved;
     }
     
-    public void loadEnvironment(ProfileDatabase profileDB[], int index){
+    public String loadEnvironment(ProfileDatabase profileDB[], int index){
         ViewProfiles profileDetails = new ViewProfiles();
         
         if(profileDB[index].getProfileName() != ""){
@@ -241,16 +255,19 @@ public class DBOperations {
             (MainFrame.tfSFXGroup3).setText(profileDB[index].getSfxName3());
             
             JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "SLOT " + (index + 1) + " loaded", 
+                profileDB[index].getProfileName() + " profile loaded", 
                 "Success", 
                 JOptionPane.INFORMATION_MESSAGE);
             
+            String profileName = profileDB[index].getProfileName();
+            return profileName;
         }
         else {
             JOptionPane.showMessageDialog(HappyButtons.mf, 
                 "SLOT " + (index + 1) + " failed to load", 
                 "Load failed", 
                 JOptionPane.ERROR_MESSAGE);
+            return "error";
         }
     }
 }
