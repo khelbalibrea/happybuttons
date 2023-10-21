@@ -26,12 +26,16 @@ import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
@@ -89,6 +93,23 @@ public final class MainFrame extends javax.swing.JFrame {
         
         super.setTitle("Happy Buttons");
         setSize(1366, 768);
+        
+        Action actSfxSP = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(chkSP.isSelected()) {
+                    chkSinglePlay = 0;
+                    chkSP.setSelected(false);
+                }
+                else {
+                    chkSinglePlay = 1;
+                    chkSP.setSelected(true);
+                }
+            }
+        };
+        String key = "SP";
+        chkSP.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.ALT_DOWN_MASK), key);
+        chkSP.getActionMap().put(key, actSfxSP);
         
         if(!HappyButtons.firstCheck.equals("")) {
             tfLastOperation.setText(HappyButtons.firstCheck);
@@ -309,8 +330,6 @@ public final class MainFrame extends javax.swing.JFrame {
         btnPlayPauseBGM1.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                sfxOperation = false;
-            
                 listenBGM1 = (LineEvent event) -> {
                     if(event.getType() == LineEvent.Type.STOP) {
                         playing1 = 0;
@@ -323,47 +342,12 @@ public final class MainFrame extends javax.swing.JFrame {
                         if(loop1 == 1) {
                             clipBGM1.setFramePosition(0);
                             clipBGM1.start();
-
+                            
                             playing1 = 1;
 
                             String btnIcon2 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
                             btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon2));
                         }
-//                        if(sfxOperation == true) {
-//                            if(event.getType() == LineEvent.Type.STOP) {
-//                                if(lastFrame1 < clipBGM1.getFrameLength()) {
-//                                    clipBGM1.setFramePosition(lastFrame1);
-//                                }
-//                                else {
-//                                    clipBGM1.setFramePosition(0);
-//                                }
-//                                clipBGM1.start();
-//
-//                                pause1 = 0;
-//                                String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
-//                                btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
-//                                btnPlayPauseBGM1.setEnabled(true);
-//                                btnStopBGM1.setEnabled(true);
-//                            }
-//                        }
-//                        else { // sfxOperation >> false
-//                            playing1 = 0;
-//                            pause1 = 0;
-//                            lastFrame1 = 0;
-//
-//                            String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
-//                            btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon1));
-//
-//                            if(loop1 == 1) {
-//                                clipBGM1.setFramePosition(0);
-//                                clipBGM1.start();
-//
-//                                playing1 = 1;
-//
-//                                String btnIcon2 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
-//                                btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon2));
-//                            }
-//                        }
                     }
                 };
                 
@@ -388,13 +372,13 @@ public final class MainFrame extends javax.swing.JFrame {
                                 fcBGM1.setValue(bgmVol1); // float value
                             }
                             
-//                            clipBGM1.addLineListener(listenBGM1);
+                            clipBGM1.addLineListener(listenBGM1);
                             clipBGM1.start();
                         }
                         catch(IOException ioe){
                             JOptionPane.showMessageDialog(HappyButtons.mf, 
                                     "Specified BGM may be gone missing or suddenly deleted.\nIf not, inform the developer for this bug", 
-                                    "File IO exception occurred", 
+                                    "File IO exception occured", 
                                     JOptionPane.ERROR_MESSAGE);
 
                             playing1 = 0;
@@ -448,6 +432,7 @@ public final class MainFrame extends javax.swing.JFrame {
                         }
                         clipBGM1.start();
                     }
+
                 }
                 
                 if(errorOccurred == 0){
