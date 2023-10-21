@@ -952,6 +952,7 @@ public final class MainFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnR1SFX11 = new javax.swing.JButton();
         lblR1SFX11 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         panelSFX2 = new javax.swing.JPanel();
         tfSFXGroup2 = new javax.swing.JTextField();
         jSeparator3 = new javax.swing.JSeparator();
@@ -1935,7 +1936,7 @@ public final class MainFrame extends javax.swing.JFrame {
         panelSFXGroup1Layout.setVerticalGroup(
             panelSFXGroup1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSFXGroup1Layout.createSequentialGroup()
-                .addComponent(panelR1S01, javax.swing.GroupLayout.PREFERRED_SIZE, 70, Short.MAX_VALUE)
+                .addComponent(panelR1S01, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(panelSFXGroup1Layout.createSequentialGroup()
                 .addGroup(panelSFXGroup1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -1949,8 +1950,10 @@ public final class MainFrame extends javax.swing.JFrame {
                     .addComponent(panelR1S04, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(panelR1S03, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(panelR1S02, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 2, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        jLabel5.setText("SFX Group Names");
 
         javax.swing.GroupLayout panelSFX1Layout = new javax.swing.GroupLayout(panelSFX1);
         panelSFX1.setLayout(panelSFX1Layout);
@@ -1958,8 +1961,13 @@ public final class MainFrame extends javax.swing.JFrame {
             panelSFX1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSFX1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(tfSFXGroup1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelSFX1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelSFX1Layout.createSequentialGroup()
+                        .addComponent(tfSFXGroup1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSFX1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(55, 55, 55)))
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelSFXGroup1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1970,6 +1978,8 @@ public final class MainFrame extends javax.swing.JFrame {
             .addComponent(panelSFXGroup1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSFX1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfSFXGroup1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
         );
@@ -3449,11 +3459,11 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_itemSaveActionPerformed
 
     private void itmNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmNewActionPerformed
-        // TODO add your handling code here:
+        tfBGM1.setText("");
     }//GEN-LAST:event_itmNewActionPerformed
 
     private void tfSFXGroup1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSFXGroup1ActionPerformed
-        // TODO add your handling code here:
+        sfxGroupName1 = tfSFXGroup1.getText();
     }//GEN-LAST:event_tfSFXGroup1ActionPerformed
 
     private void tfSFXGroup2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfSFXGroup2MouseClicked
@@ -3463,7 +3473,7 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_tfSFXGroup2MouseClicked
 
     private void tfSFXGroup2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSFXGroup2ActionPerformed
-        // TODO add your handling code here:
+        sfxGroupName2 = tfSFXGroup2.getText();
     }//GEN-LAST:event_tfSFXGroup2ActionPerformed
 
     private void btnR2SFX01ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR2SFX01ActionPerformed
@@ -3528,7 +3538,7 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_tfSFXGroup3MouseClicked
 
     private void tfSFXGroup3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSFXGroup3ActionPerformed
-        
+        sfxGroupName3 = tfSFXGroup3.getText();
     }//GEN-LAST:event_tfSFXGroup3ActionPerformed
 
     private void btnR3SFX01ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR3SFX01ActionPerformed
@@ -3704,6 +3714,7 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
