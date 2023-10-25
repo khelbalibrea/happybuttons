@@ -463,6 +463,9 @@
               <Dimension value="[22, 22]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnStopBGM1ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnPlayPauseBGM1">
           <Properties>
@@ -614,6 +617,9 @@
               <Dimension value="[22, 22]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnStopBGM2ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnPlayPauseBGM2">
           <Properties>
