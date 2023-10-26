@@ -372,228 +372,6 @@ public final class MainFrame extends javax.swing.JFrame {
                 e.consume();
             }
         });
-        
-        //---------------------------------------------------------------------------------------------------------------- STOP SFX -->
-        btnStopSFX.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(clipSFX != null) {
-                    clipSFX.stop();
-                }
-            }
-        });
-        
-        //---------------------------------------------------------------------------------------------------------------- CLEAR BGM1 -->
-        btnClearBGM1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(!tfBGM1.getText().isEmpty()){
-                    if(clipBGM1 != null) {
-                        lastFrame1 = 0;
-                        
-                        clipBGM1.removeLineListener(listenBGM1);
-                        clipBGM1.stop();
-                        clipBGM1.addLineListener(listenBGM1);
-                    }
-                    clipBGM1 = null;
-
-                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
-                    btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
-
-                    playing1 = 0;
-                    pause1 = 0;
-
-                    tfLastOperation.setText("[Clear] BGM1: " + tfBGM1.getText());
-                    tfBGM1.setText("");
-                }
-            }
-        });
-        
-        //---------------------------------------------------------------------------------------------------------------- CLEAR BGM2 -->
-        btnClearBGM2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(!tfBGM2.getText().isEmpty()){
-                    if(clipBGM2 != null) {
-                        lastFrame2 = 0;
-                        
-                        clipBGM2.removeLineListener(listenBGM2);
-                        clipBGM2.stop();
-                        clipBGM2.addLineListener(listenBGM2);
-                    }
-                    clipBGM2 = null;
-
-                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
-                    btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
-
-                    playing2 = 0;
-                    pause2 = 0;
-
-                    tfLastOperation.setText("[Clear] BGM2: " + tfBGM2.getText());
-                    tfBGM2.setText("");
-                }
-            }
-        });
-        
-        //---------------------------------------------------------------------------------------------------------------- BGM VOL1 -->
-        volBGM1.addChangeListener(new ChangeListener() {
-            @Override
-            
-            public void stateChanged(ChangeEvent e) {
-                float f = (float)volBGM1.getValue();
-                
-                try {
-                    if(f >= 50) {
-                        bgmVol1 = 0 - ((100f - f)*(0.18f));
-                    }
-
-                    if(f < 50 && f >= 25) {
-                        bgmVol1 = -9 + (50f - f)*(-0.36f);
-                    }
-
-                    if(f < 25 && f >= 10) {
-                        bgmVol1 = -18 + (25f - f)*(-0.8f);
-                    }
-
-                    if(f < 10) {
-                        bgmVol1 = -30.5f + (10f - f)*(-5.5f);
-                    }
-
-                    if(playing1 == 1) {
-                        fcBGM1.setValue(bgmVol1); // float value
-                    }
-                    else {
-                        fcBGM1.setValue(bgmVol1); // float value
-                    }
-                }
-                catch(Exception ex) {
-                    
-                }
-                
-                if(bgmVolumeLink == 1) {
-                    int value = (int)volBGM1.getValue();
-                    volBGM2.setValue(100 - value);
-                }
-                
-                lblVolBGM1.setText("Vol1: " + Integer.toString((int)volBGM1.getValue()));
-            }
-        });
-        
-        //---------------------------------------------------------------------------------------------------------------- BGM VOL2 -->
-        volBGM2.addChangeListener(new ChangeListener() {
-            @Override
-            
-            public void stateChanged(ChangeEvent e) {
-                float f = (float)volBGM2.getValue();
-                
-                try {
-                    if(f >= 50) {
-                        bgmVol2 = 0 - ((100f - f)*(0.18f));
-                    }
-
-                    if(f < 50 && f >= 25) {
-                        bgmVol2 = -9 + (50f - f)*(-0.36f);
-                    }
-
-                    if(f < 25 && f >= 10) {
-                        bgmVol2 = -18 + (25f - f)*(-0.8f);
-                    }
-
-                    if(f < 10) {
-                        bgmVol2 = -30.5f + (10f - f)*(-5.5f);
-                    }
-
-                    if(playing2 == 1) {
-                        fcBGM2.setValue(bgmVol2); // float value
-                    }
-                    else {
-                        fcBGM2.setValue(bgmVol2); // float value
-                    }
-                }
-                catch(Exception ex) {
-                    
-                }
-                
-                if(bgmVolumeLink == 1) {
-                    int value = (int)volBGM2.getValue();
-                    volBGM1.setValue(100 - value);
-                }
-                
-                lblVolBGM2.setText("Vol2: " + Integer.toString((int)volBGM2.getValue()));
-            }
-        });
-        
-        //---------------------------------------------------------------------------------------------------------------- SFX VOL -->
-        volSFX.addChangeListener(new ChangeListener() {
-            @Override
-            
-            public void stateChanged(ChangeEvent e) {
-                float f = (float)volSFX.getValue();
-                
-                try {
-                    if(f >= 50) {
-                        sfxVol = 6 - ((100f - f)*(0.22f));
-                    }
-
-                    if(f < 50 && f >= 25) {
-                        sfxVol = -5 + (50f - f)*(-0.4f);
-                    }
-
-                    if(f < 25 && f >= 10) {
-                        sfxVol = -15 + (25f - f)*(-0.66f);
-                    }
-
-                    if(f < 10) {
-                        sfxVol = -25 + (10f - f)*(-5.5f);
-                    }
-
-                    fcSFX.setValue(sfxVol); // float value
-//                    if(playing2 == 1) {
-//                        fcBGM2.setValue(bgmVol2); // float value
-//                    }
-//                    else {
-//                        fcBGM2.setValue(bgmVol2); // float value
-//                    }
-                }
-                catch(Exception ex) {
-                    
-                }
-                
-//                if(bgmVolumeLink == 1) {
-//                    int value = (int)volBGM2.getValue();
-//                    volBGM1.setValue(100 - value);
-//                }
-                
-                lblVolSFX.setText("SFX Vol: " + Integer.toString((int)volSFX.getValue()));
-            }
-        });
-        
-        //---------------------------------------------------------------------------------------------------------------- SFX Grp 1 -->
-        tfSFXGroup1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tfSFXGroup1.setEditable(false);
-                sfxGroupName1 = tfSFXGroup1.getText();
-            }
-        });
-        
-        //---------------------------------------------------------------------------------------------------------------- SFX Grp 2 -->
-        tfSFXGroup2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tfSFXGroup2.setEditable(false);
-                sfxGroupName2 = tfSFXGroup2.getText();
-            }
-        });
-        
-        //---------------------------------------------------------------------------------------------------------------- SFX Grp 3 -->
-        tfSFXGroup3.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tfSFXGroup3.setEditable(false);
-                sfxGroupName3 = tfSFXGroup3.getText();
-            }
-        });
     }
 
     /**
@@ -893,6 +671,11 @@ public final class MainFrame extends javax.swing.JFrame {
                 tfBGM1PropertyChange(evt);
             }
         });
+        tfBGM1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                tfBGM1KeyPressed(evt);
+            }
+        });
 
         btnClearBGM1.setToolTipText("Clear BGM1 and stop");
         btnClearBGM1.setMaximumSize(new java.awt.Dimension(22, 22));
@@ -925,6 +708,11 @@ public final class MainFrame extends javax.swing.JFrame {
         volBGM1.setValue(100);
         volBGM1.setMaximumSize(new java.awt.Dimension(200, 20));
         volBGM1.setMinimumSize(new java.awt.Dimension(200, 20));
+        volBGM1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                volBGM1StateChanged(evt);
+            }
+        });
 
         lblVolBGM1.setText("Vol1: 100");
         lblVolBGM1.setMaximumSize(new java.awt.Dimension(60, 22));
@@ -1023,6 +811,11 @@ public final class MainFrame extends javax.swing.JFrame {
         volBGM2.setValue(100);
         volBGM2.setMaximumSize(new java.awt.Dimension(200, 20));
         volBGM2.setMinimumSize(new java.awt.Dimension(200, 20));
+        volBGM2.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                volBGM2StateChanged(evt);
+            }
+        });
 
         lblVolBGM2.setText("Vol2: 100");
         lblVolBGM2.setMaximumSize(new java.awt.Dimension(60, 22));
@@ -1135,6 +928,11 @@ public final class MainFrame extends javax.swing.JFrame {
         volSFX.setValue(100);
         volSFX.setMaximumSize(new java.awt.Dimension(200, 20));
         volSFX.setMinimumSize(new java.awt.Dimension(200, 20));
+        volSFX.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                volSFXStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelRow6Layout = new javax.swing.GroupLayout(panelRow6);
         panelRow6.setLayout(panelRow6Layout);
@@ -2818,6 +2616,11 @@ public final class MainFrame extends javax.swing.JFrame {
         btnStopSFX.setMaximumSize(new java.awt.Dimension(22, 22));
         btnStopSFX.setMinimumSize(new java.awt.Dimension(22, 22));
         btnStopSFX.setPreferredSize(new java.awt.Dimension(22, 22));
+        btnStopSFX.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStopSFXActionPerformed(evt);
+            }
+        });
 
         panelRadio.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
 
@@ -2977,7 +2780,25 @@ public final class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnClearBGM1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearBGM1ActionPerformed
-        
+        if(!tfBGM1.getText().isEmpty()){
+            if(clipBGM1 != null) {
+                lastFrame1 = 0;
+
+                clipBGM1.removeLineListener(listenBGM1);
+                clipBGM1.stop();
+                clipBGM1.addLineListener(listenBGM1);
+            }
+            clipBGM1 = null;
+
+            String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+            btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
+
+            playing1 = 0;
+            pause1 = 0;
+
+            tfLastOperation.setText("[Clear] BGM1: " + tfBGM1.getText());
+            tfBGM1.setText("");
+        }
     }//GEN-LAST:event_btnClearBGM1ActionPerformed
 
     private void togLinkBGMVolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_togLinkBGMVolActionPerformed
@@ -3203,7 +3024,25 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddSFXActionPerformed
 
     private void btnClearBGM2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearBGM2ActionPerformed
-        // TODO add your handling code here:
+        if(!tfBGM2.getText().isEmpty()){
+            if(clipBGM2 != null) {
+                lastFrame2 = 0;
+
+                clipBGM2.removeLineListener(listenBGM2);
+                clipBGM2.stop();
+                clipBGM2.addLineListener(listenBGM2);
+            }
+            clipBGM2 = null;
+
+            String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
+            btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
+
+            playing2 = 0;
+            pause2 = 0;
+
+            tfLastOperation.setText("[Clear] BGM2: " + tfBGM2.getText());
+            tfBGM2.setText("");
+        }
     }//GEN-LAST:event_btnClearBGM2ActionPerformed
 
     private void btnPlayPauseBGM2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseBGM2ActionPerformed
@@ -3463,6 +3302,7 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_itmNewActionPerformed
 
     private void tfSFXGroup1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSFXGroup1ActionPerformed
+        tfSFXGroup1.setEditable(false);
         sfxGroupName1 = tfSFXGroup1.getText();
     }//GEN-LAST:event_tfSFXGroup1ActionPerformed
 
@@ -3473,6 +3313,7 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_tfSFXGroup2MouseClicked
 
     private void tfSFXGroup2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSFXGroup2ActionPerformed
+        tfSFXGroup2.setEditable(false);
         sfxGroupName2 = tfSFXGroup2.getText();
     }//GEN-LAST:event_tfSFXGroup2ActionPerformed
 
@@ -3538,6 +3379,7 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_tfSFXGroup3MouseClicked
 
     private void tfSFXGroup3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfSFXGroup3ActionPerformed
+        tfSFXGroup3.setEditable(false);
         sfxGroupName3 = tfSFXGroup3.getText();
     }//GEN-LAST:event_tfSFXGroup3ActionPerformed
 
@@ -3660,6 +3502,134 @@ public final class MainFrame extends javax.swing.JFrame {
             pause2 = 0;
         }
     }//GEN-LAST:event_btnStopBGM2ActionPerformed
+
+    private void volBGM1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_volBGM1StateChanged
+        float f = (float)volBGM1.getValue();
+                
+        try {
+            if(f >= 50) {
+                bgmVol1 = 0 - ((100f - f)*(0.18f));
+            }
+
+            if(f < 50 && f >= 25) {
+                bgmVol1 = -9 + (50f - f)*(-0.36f);
+            }
+
+            if(f < 25 && f >= 10) {
+                bgmVol1 = -18 + (25f - f)*(-0.8f);
+            }
+
+            if(f < 10) {
+                bgmVol1 = -30.5f + (10f - f)*(-5.5f);
+            }
+
+            if(playing1 == 1) {
+                fcBGM1.setValue(bgmVol1); // float value
+            }
+            else {
+                fcBGM1.setValue(bgmVol1); // float value
+            }
+        }
+        catch(Exception ex) {
+
+        }
+
+        if(bgmVolumeLink == 1) {
+            int value = (int)volBGM1.getValue();
+            volBGM2.setValue(100 - value);
+        }
+
+        lblVolBGM1.setText("Vol1: " + Integer.toString((int)volBGM1.getValue()));
+    }//GEN-LAST:event_volBGM1StateChanged
+
+    private void volBGM2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_volBGM2StateChanged
+        float f = (float)volBGM2.getValue();
+                
+        try {
+            if(f >= 50) {
+                bgmVol2 = 0 - ((100f - f)*(0.18f));
+            }
+
+            if(f < 50 && f >= 25) {
+                bgmVol2 = -9 + (50f - f)*(-0.36f);
+            }
+
+            if(f < 25 && f >= 10) {
+                bgmVol2 = -18 + (25f - f)*(-0.8f);
+            }
+
+            if(f < 10) {
+                bgmVol2 = -30.5f + (10f - f)*(-5.5f);
+            }
+
+            if(playing2 == 1) {
+                fcBGM2.setValue(bgmVol2); // float value
+            }
+            else {
+                fcBGM2.setValue(bgmVol2); // float value
+            }
+        }
+        catch(Exception ex) {
+
+        }
+
+        if(bgmVolumeLink == 1) {
+            int value = (int)volBGM2.getValue();
+            volBGM1.setValue(100 - value);
+        }
+
+        lblVolBGM2.setText("Vol2: " + Integer.toString((int)volBGM2.getValue()));
+    }//GEN-LAST:event_volBGM2StateChanged
+
+    private void volSFXStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_volSFXStateChanged
+        float f = (float)volSFX.getValue();
+                
+        try {
+            if(f >= 50) {
+                sfxVol = 6 - ((100f - f)*(0.22f));
+            }
+
+            if(f < 50 && f >= 25) {
+                sfxVol = -5 + (50f - f)*(-0.4f);
+            }
+
+            if(f < 25 && f >= 10) {
+                sfxVol = -15 + (25f - f)*(-0.66f);
+            }
+
+            if(f < 10) {
+                sfxVol = -25 + (10f - f)*(-5.5f);
+            }
+
+            fcSFX.setValue(sfxVol); // float value
+//                    if(playing2 == 1) {
+//                        fcBGM2.setValue(bgmVol2); // float value
+//                    }
+//                    else {
+//                        fcBGM2.setValue(bgmVol2); // float value
+//                    }
+        }
+        catch(Exception ex) {
+
+        }
+
+//                if(bgmVolumeLink == 1) {
+//                    int value = (int)volBGM2.getValue();
+//                    volBGM1.setValue(100 - value);
+//                }
+
+        lblVolSFX.setText("SFX Vol: " + Integer.toString((int)volSFX.getValue()));
+    }//GEN-LAST:event_volSFXStateChanged
+
+    private void btnStopSFXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFXActionPerformed
+        if(clipSFX != null) {
+            clipSFX.stop();
+        }
+    }//GEN-LAST:event_btnStopSFXActionPerformed
+
+    private void tfBGM1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfBGM1KeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfBGM1KeyPressed
 
     /**
      * @param args the command line arguments

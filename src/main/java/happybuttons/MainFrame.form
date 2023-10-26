@@ -437,6 +437,7 @@
           </Properties>
           <Events>
             <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="tfBGM1PropertyChange"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tfBGM1KeyPressed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btnClearBGM1">
@@ -495,6 +496,9 @@
               <Dimension value="[200, 20]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="volBGM1StateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblVolBGM1">
           <Properties>
@@ -649,6 +653,9 @@
               <Dimension value="[200, 20]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="volBGM2StateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lblVolBGM2">
           <Properties>
@@ -810,6 +817,9 @@
               <Dimension value="[200, 20]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="volSFXStateChanged"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -3699,6 +3709,9 @@
           <Dimension value="[22, 22]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnStopSFXActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="panelRadio">
       <Properties>
