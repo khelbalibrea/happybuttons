@@ -17,6 +17,7 @@ public class Profile {
             r3sfx01 = "", r3sfx02 = "", r3sfx03 = "", r3sfx04 = "", r3sfx05 = "", r3sfx06 = "", r3sfx07 = "", r3sfx08 = "", r3sfx09 = "", 
             r3sfx10 = "", r3sfx11 = "";
     String sfxGroupName1 = "", sfxGroupName2 = "", sfxGroupName3 = "";
+    String strBGM = "", strSFX = "";
     
     public String getProfileName(){
         return profileName;
@@ -24,6 +25,22 @@ public class Profile {
     
     public void setProfileName(String profileName){
         this.profileName = profileName;
+    }
+    
+    public String getStrBGM(){
+        return strBGM;
+    }
+    
+    public void setStrBGM(String strBGM){
+        this.strBGM = strBGM;
+    }
+    
+    public String getStrSFX(){
+        return strSFX;
+    }
+    
+    public void setStrSFX(String strSFX){
+        this.strSFX = strSFX;
     }
     
     public String getSfxName1(){
@@ -328,5 +345,8 @@ public class Profile {
         sfxGroupName1 = null;
         sfxGroupName2 = null;
         sfxGroupName3 = null;
+        
+        strBGM = null;
+        strSFX = null;
     }
 }

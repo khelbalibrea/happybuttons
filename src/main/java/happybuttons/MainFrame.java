@@ -7,7 +7,6 @@ package happybuttons;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -36,8 +35,6 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
@@ -84,7 +81,7 @@ public final class MainFrame extends javax.swing.JFrame {
     // Profiles
     Profile profile = new Profile();
     public static String profileName1 = "Sample", profileName2 = "", profileName3 = "", profileName4 = "", profileName5 = "";
-    public static String loadedProfile = "", savedProfile = "";
+    public static String loadedProfile = "", savedProfile = "", strBGM = "", strSFX = "";
     
     // UI Components
     public static String sfxGroupName1 = "", sfxGroupName2 = "", sfxGroupName3 = "";
@@ -3287,6 +3284,30 @@ public final class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnR1SFX11ActionPerformed
 
     private void itemSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSaveActionPerformed
+        int listBGMSize = listBGM.getModel().getSize();
+        strBGM = "";
+        
+        for(int ctr = 0; ctr < listBGMSize; ctr++){
+            if(ctr == 0) {
+                strBGM = listBGM.getModel().getElementAt(ctr);
+            }
+            else if(ctr > 0 && ctr <= (listBGMSize - 1)) {
+                strBGM = strBGM + ":" + listBGM.getModel().getElementAt(ctr);
+            }
+        }
+        
+        int listSFXSize = listSFX.getModel().getSize();
+        strSFX = "";
+        
+        for(int ctr = 0; ctr < listSFXSize; ctr++){
+            if(ctr == 0) {
+                strSFX = listSFX.getModel().getElementAt(ctr);
+            }
+            else if(ctr > 0 && ctr <= (listSFXSize - 1)) {
+                strSFX = strSFX + ":" + listSFX.getModel().getElementAt(ctr);
+            }
+        }
+        
         SaveFrame saveFrame = new SaveFrame(HappyButtons.mf, true);
         saveFrame.setVisible(true);
         

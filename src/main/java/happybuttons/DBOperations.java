@@ -74,6 +74,16 @@ public class DBOperations {
             profile.setSfxName3("");
         }
         
+        // =================================================================================================== Set BGM and SFX list
+        if(HappyButtons.noDB == 0) {
+            profile.setStrBGM(MainFrame.strBGM);
+            profile.setStrSFX(MainFrame.strSFX);
+        }
+        else {
+            profile.setStrBGM("");
+            profile.setStrSFX("");
+        }
+        
         // =================================================================================================== Set SFXs
         if(HappyButtons.noDB == 0) {
             profile.setR1Sfx01(Utility.cleanSFXNaming(MainFrame.lblR1SFX01.getText()));
@@ -149,6 +159,9 @@ public class DBOperations {
             profile.setR3Sfx10("blank");
             profile.setR3Sfx11("blank");
         }
+        // =================================================================================================== Get list BGM and SFX
+        profileDB[indexDB].setStrBGM(profile.getStrBGM());
+        profileDB[indexDB].setStrSFX(profile.getStrSFX());
         
         // =================================================================================================== Get profile name and grp sfx names
         profileDB[indexDB].setProfileName(profile.getProfileName());
