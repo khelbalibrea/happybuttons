@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -105,7 +106,11 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         }
 
         btnDelete.setText("Delete");
-        btnDelete.setEnabled(false);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -132,6 +137,82 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int selectedRow = tblResources.getSelectedRow();
+        String selectedItem = "";
+        String selectedType = "";
+        File filePath = null;
+        
+        if(selectedRow != -1) {
+            selectedItem = model.getValueAt(selectedRow, 0).toString();
+            selectedType = model.getValueAt(selectedRow, 1).toString();
+            
+            String str = "";
+            if(selectedType.equals("BGM")) {
+                filePath = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\bg\\" + selectedItem + ".wav");
+            }
+            else if(selectedType.equals("SFX")) {
+                filePath = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\sfx\\" + selectedItem + ".wav");
+            }
+
+            if(filePath.delete()) {
+                model.removeRow(selectedRow);
+
+                if(selectedType.equals("BGM")) {
+                    (MainFrame.blist).removeElement(selectedItem);
+                    
+                    // gets the new list in bgm jlist
+//                    int listBGMSize = (MainFrame.listBGM).getModel().getSize();
+//                    MainFrame.strBGM = "";
+//
+//                    for(int ctr = 0; ctr < listBGMSize; ctr++){
+//                        if(ctr == 0) {
+//                            MainFrame.strBGM = (MainFrame.listBGM).getModel().getElementAt(ctr);
+//                        }
+//                        else if(ctr > 0 && ctr <= (listBGMSize - 1)) {
+//                            MainFrame.strBGM = MainFrame.strBGM + ":" + (MainFrame.listBGM).getModel().getElementAt(ctr);
+//                        }
+//                    }
+//                    
+//                    // save automatically after deletion
+//                    Profile profile = new Profile();
+//                    HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
+//                    (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+                }
+                else if(selectedType.equals("SFX")) {
+                    (MainFrame.slist).removeElement(selectedItem);
+                    
+                    // gets the new list in sfx jlist
+//                    int listSFXSize = (MainFrame.listSFX).getModel().getSize();
+//                    MainFrame.strSFX = "";
+//
+//                    for(int ctr = 0; ctr < listSFXSize; ctr++){
+//                        if(ctr == 0) {
+//                            MainFrame.strSFX = (MainFrame.listSFX).getModel().getElementAt(ctr);
+//                        }
+//                        else if(ctr > 0 && ctr <= (listSFXSize - 1)) {
+//                            MainFrame.strSFX = MainFrame.strSFX + ":" + (MainFrame.listSFX).getModel().getElementAt(ctr);
+//                        }
+//                    }
+//                    
+//                    // save automatically after deletion
+//                    Profile profile = new Profile();
+//                    HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
+//                    (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+                }
+
+                selectedItem = "";
+            }
+            else {
+                JOptionPane.showMessageDialog(HappyButtons.mf, 
+                    "An error occurred when deleting " + selectedItem + ".wav", 
+                    "File deletion error", 
+                    JOptionPane.ERROR_MESSAGE);
+                selectedItem = "";
+            } 
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments

@@ -2984,8 +2984,12 @@ public final class MainFrame extends javax.swing.JFrame {
                     dest.close();
                 }
                 
-                blist.addElement(Utility.renameListName(file.getName()));
-                tfLastOperation.setText("[ADDED BGM]:: " + file.getName());
+                if(!blist.contains(Utility.renameListName(file.getName()))) {
+                    blist.addElement(Utility.renameListName(file.getName()));
+                    tfLastOperation.setText("[ADDED BGM]:: " + file.getName());
+                }
+                
+                listBGM.setModel(blist);
             }
             catch(IOException ex) {
                 System.out.println(file.getAbsolutePath());
@@ -3020,8 +3024,12 @@ public final class MainFrame extends javax.swing.JFrame {
                     dest.close();
                 }
                 
-                slist.addElement(Utility.renameListName(file.getName()));
-                tfLastOperation.setText("[ADDED SFX]:: " + file.getName());
+                if(!slist.contains(Utility.renameListName(file.getName()))) {
+                    slist.addElement(Utility.renameListName(file.getName()));
+                    tfLastOperation.setText("[ADDED SFX]:: " + file.getName());
+                }
+                
+                listSFX.setModel(slist);
             }
             catch(IOException ex) {
                 System.out.println(file.getAbsolutePath());
@@ -3200,19 +3208,22 @@ public final class MainFrame extends javax.swing.JFrame {
 
     private void btnDeleteBGMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteBGMActionPerformed
         if(selectedBGMItem != "") {
-           File deleteItem = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\bg\\" + selectedBGMItem + ".wav");
-            if(deleteItem.delete()) {
-                tfLastOperation.setText("[DELETE BGM]:: " + selectedBGMItem);
-                blist.removeElement(selectedBGMItem);
-                selectedBGMItem = "";
-            }
-            else {
-                JOptionPane.showMessageDialog(HappyButtons.mf, 
-                    "An error occurred when deleting " + selectedBGMItem + ".wav", 
-                    "File deletion error", 
-                    JOptionPane.ERROR_MESSAGE);
-                selectedBGMItem = "";
-            } 
+            tfLastOperation.setText("[DELETE BGM]:: " + selectedBGMItem);
+            blist.removeElement(selectedBGMItem);
+            selectedBGMItem = "";
+//           File deleteItem = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\bg\\" + selectedBGMItem + ".wav");
+//            if(deleteItem.delete()) {
+//                tfLastOperation.setText("[DELETE BGM]:: " + selectedBGMItem);
+//                blist.removeElement(selectedBGMItem);
+//                selectedBGMItem = "";
+//            }
+//            else {
+//                JOptionPane.showMessageDialog(HappyButtons.mf, 
+//                    "An error occurred when deleting " + selectedBGMItem + ".wav", 
+//                    "File deletion error", 
+//                    JOptionPane.ERROR_MESSAGE);
+//                selectedBGMItem = "";
+//            } 
         }
         else {
             JOptionPane.showMessageDialog(HappyButtons.mf, 
@@ -3224,19 +3235,39 @@ public final class MainFrame extends javax.swing.JFrame {
 
     private void btnDeleteSFXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteSFXActionPerformed
         if(selectedSFXItem != "") {
-           File deleteItem = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\sfx\\" + selectedSFXItem + ".wav");
-            if(deleteItem.delete()) {
-                tfLastOperation.setText("[DELETE SFX]:: " + selectedSFXItem);
+            if(Utility.searchSFX(selectedSFXItem) > 0) {
+                int confirm = JOptionPane.showConfirmDialog(HappyButtons.mf, 
+                                "\'" + selectedSFXItem + "\' is used on one or more of the SFX buttons. Are you sure you want to remove this item from SFX list?\n", 
+                                "In-use item", 
+                                JOptionPane.YES_NO_OPTION);
+                
+                if(confirm == 0) {
+                    Utility.blankSFXLabel(selectedSFXItem);
+                    
+                    tfLastOperation.setText("[REMOVE SFX]:: " + selectedSFXItem);
+                    slist.removeElement(selectedSFXItem);
+                    selectedSFXItem = "";
+                }
+            }
+            else {
+                tfLastOperation.setText("[REMOVE SFX]:: " + selectedSFXItem);
                 slist.removeElement(selectedSFXItem);
                 selectedSFXItem = "";
             }
-            else {
-                JOptionPane.showMessageDialog(HappyButtons.mf, 
-                    "An error occurred when deleting " + selectedSFXItem + ".wav", 
-                    "File deletion error", 
-                    JOptionPane.ERROR_MESSAGE);
-                selectedSFXItem = "";
-            } 
+            
+//           File deleteItem = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\sfx\\" + selectedSFXItem + ".wav");
+//            if(deleteItem.delete()) {
+//                tfLastOperation.setText("[DELETE SFX]:: " + selectedSFXItem);
+//                slist.removeElement(selectedSFXItem);
+//                selectedSFXItem = "";
+//            }
+//            else {
+//                JOptionPane.showMessageDialog(HappyButtons.mf, 
+//                    "An error occurred when deleting " + selectedSFXItem + ".wav", 
+//                    "File deletion error", 
+//                    JOptionPane.ERROR_MESSAGE);
+//                selectedSFXItem = "";
+//            } 
         }
         else {
             JOptionPane.showMessageDialog(HappyButtons.mf, 

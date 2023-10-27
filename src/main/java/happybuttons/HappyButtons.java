@@ -22,6 +22,7 @@ public class HappyButtons {
     public static DBOperations dbo = new DBOperations();
     public static ProfileDatabase[] profileDB = new ProfileDatabase[5];
     public static int noDB = 0;
+    public static int loadedDB = -1;
     
     // Globals
         

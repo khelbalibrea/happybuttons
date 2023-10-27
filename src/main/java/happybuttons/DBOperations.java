@@ -4,6 +4,7 @@
  */
 package happybuttons;
 
+import java.io.File;
 import java.util.Arrays;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -218,6 +219,7 @@ public class DBOperations {
         }
         
         count = 0;
+        HappyButtons.loadedDB = indexDB;
         indexDB = -1;
         
         return saved;
@@ -284,6 +286,8 @@ public class DBOperations {
                 JOptionPane.INFORMATION_MESSAGE);
             
             String profileName = profileDB[index].getProfileName();
+            HappyButtons.loadedDB = index;
+            
             return profileName;
         }
         else {
@@ -296,10 +300,30 @@ public class DBOperations {
     }
     
     public void loadJLists(ProfileDatabase profileDB[], int index) {
-        // Loading BGM list
+        // ------------------------------------------------------------------------------------ Loading BGM list
         String[] arrBGM = Utility.splitMusicParts(profileDB[index].getStrBGM());
-        (MainFrame.blist).removeAllElements();
+        int bgmLost = 0;
+        String goneBGMs = "";
+        int numbering = 1;
         
+        for(String music : arrBGM) {
+            File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\bg\\" + music + ".wav");
+            if(!destCheck.exists()) {
+                int removedIndex = Utility.findArrIndex(arrBGM, music);
+                arrBGM = Utility.removeElementInArr(arrBGM, removedIndex);
+                bgmLost++;
+                if(!goneBGMs.equals("")) {
+                    goneBGMs = goneBGMs + "(" + numbering + ") " + music + "\n";
+                    numbering++;
+                }
+                else {
+                    goneBGMs = "(" + numbering + ") " + music + "\n";
+                    numbering++;
+                }
+            }
+        }
+        
+        (MainFrame.blist).removeAllElements();
         for(String music : arrBGM) {
             (MainFrame.blist).addElement(music);
         }
@@ -307,16 +331,79 @@ public class DBOperations {
         // Sort JList
         sortJList(MainFrame.blist, 0); // 0 - bgm, 1 - sfx
         
-        // Loading SFX list
+        // ------------------------------------------------------------------------------------ Loading SFX list
         String[] arrSFX = Utility.splitMusicParts(profileDB[index].getStrSFX());
-        (MainFrame.slist).removeAllElements();
+        int sfxLost = 0;
+        String goneSFXs = "";
+        String sfxGone = "";
+        numbering = 1;
         
+        for(String music : arrSFX) {
+            File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\sfx\\" + music + ".wav");
+            if(!destCheck.exists()) {
+                int removedIndex = Utility.findArrIndex(arrSFX, music);
+                arrSFX = Utility.removeElementInArr(arrSFX, removedIndex);
+                sfxLost++;
+                if(goneSFXs.equals("")) {
+                    goneSFXs = "(" + numbering + ") " + music + "\n";
+                    numbering++;
+                    sfxGone = music;
+                }
+                else {
+                    goneSFXs = goneSFXs + "(" + numbering + ") " + music + "\n";
+                    numbering++;
+                    sfxGone = sfxGone + ":" + music;
+                }
+            }
+        }
+        
+        (MainFrame.slist).removeAllElements();
         for(String music : arrSFX) {
             (MainFrame.slist).addElement(music);
         }
         
         // Sort JList
         sortJList(MainFrame.slist, 1); // 0 - bgm, 1 - sfx
+        
+        if(bgmLost > 0 || sfxLost > 0) {
+            String text = "";
+            if(bgmLost > 0) {
+                text = bgmLost + " item(s) not found in BGM resource list: \n" + goneBGMs + "\n";
+            }
+            
+            if(sfxLost > 0) {
+                if(bgmLost > 0) {
+                    text = text + sfxLost + " item(s) not found in SFX resource list: \n" + goneSFXs + "\n\n\n";
+                    bgmLost = 0;
+                    goneBGMs = "";
+                }
+                else {
+                    text = sfxLost + " item(s) not found in SFX resource list: \n" + goneSFXs + "\n\n\n";
+                    bgmLost = 0;
+                    goneBGMs = "";
+                }
+            }
+            
+            text = text + "<html><strong>NOTE:</strong></html>\nMissing bgm items are removed from BGM list\nand missing sfx items are removed from SFX list and SFX buttons";
+            
+            JOptionPane.showMessageDialog(HappyButtons.mf,
+                    text,
+                    "File(s) missing", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
+        
+        // clear sfx buttons that are not found
+        if(sfxLost > 0) {
+            String[] sfx = Utility.splitMusicParts(sfxGone);
+            
+            for(int i = 0; i < sfx.length; i++) {
+                Utility.blankSFXLabel(sfx[i]);
+            }
+            sfxLost = 0;
+            sfxGone = "";
+            goneSFXs = "";
+        }
+        numbering = 1;
     }
     
     public void sortJList(DefaultListModel list, int listType) {
