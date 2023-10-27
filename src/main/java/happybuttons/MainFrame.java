@@ -2977,15 +2977,15 @@ public final class MainFrame extends javax.swing.JFrame {
                 
                 if(!destCheck.exists()) {
                     FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\bg\\" + file.getName()).getChannel();
-                
+                    
                     src.transferTo(0,src.size(),dest);
 
                     src.close();
                     dest.close();
-                    
-                    blist.addElement(Utility.renameListName(file.getName()));
-                    tfLastOperation.setText("[ADDED BGM]:: " + file.getName());
                 }
+                
+                blist.addElement(Utility.renameListName(file.getName()));
+                tfLastOperation.setText("[ADDED BGM]:: " + file.getName());
             }
             catch(IOException ex) {
                 System.out.println(file.getAbsolutePath());
@@ -3018,10 +3018,10 @@ public final class MainFrame extends javax.swing.JFrame {
 
                     src.close();
                     dest.close();
-                    
-                    slist.addElement(Utility.renameListName(file.getName()));
-                    tfLastOperation.setText("[ADDED SFX]:: " + file.getName());
                 }
+                
+                slist.addElement(Utility.renameListName(file.getName()));
+                tfLastOperation.setText("[ADDED SFX]:: " + file.getName());
             }
             catch(IOException ex) {
                 System.out.println(file.getAbsolutePath());
