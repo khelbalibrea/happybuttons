@@ -307,8 +307,8 @@ public final class MainFrame extends javax.swing.JFrame {
         btnStopBGM2.getActionMap().put(keyStop2, actBgmStop2);
         
         // -------------------------------------------------------------------------------------------------------------- LISTING JLIST -->
-        blistFilesForFolder(bfolder);
-        slistFilesForFolder(sfolder);
+//        blistFilesForFolder(bfolder);
+//        slistFilesForFolder(sfolder);
         
         tfLastOperation.setBackground(Color.WHITE);
         
@@ -3788,8 +3788,8 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblVolBGM1;
     private javax.swing.JLabel lblVolBGM2;
     private javax.swing.JLabel lblVolSFX;
-    private javax.swing.JList<String> listBGM;
-    private javax.swing.JList<String> listSFX;
+    public static javax.swing.JList<String> listBGM;
+    public static javax.swing.JList<String> listSFX;
     private javax.swing.JPanel panelJList;
     private javax.swing.JPanel panelR1S01;
     private javax.swing.JPanel panelR1S02;

@@ -4,6 +4,8 @@
  */
 package happybuttons;
 
+import java.util.regex.Pattern;
+
 /**
  *
  * @author Michael Balibrea (khel)
@@ -51,5 +53,23 @@ public class Utility {
     
     public static String reduceLabelNaming(String name) {
         return "";
+    }
+    
+    public static String[] splitMusicParts(String str) {
+        String[] parts = str.split(Pattern.quote(":"));
+        
+        return parts;
+    }
+    
+    public static int countChar(String str, char c) {
+        int count = 0;
+    
+        for(int i = 0; i < str.length(); i++) {
+            if(str.charAt(i) == c) {
+                count++;
+            }
+        }
+
+        return count;
     }
 }

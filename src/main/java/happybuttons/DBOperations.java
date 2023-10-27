@@ -4,6 +4,8 @@
  */
 package happybuttons;
 
+import java.util.Arrays;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -224,7 +226,7 @@ public class DBOperations {
     public String loadEnvironment(ProfileDatabase profileDB[], int index){
         ViewProfiles profileDetails = new ViewProfiles();
         
-        if(profileDB[index].getProfileName() != ""){
+        if(profileDB[index].getProfileName() != "") {
             profileDetails.setProfileDetails(profileDB, index);
             
             (MainFrame.lblR1SFX01).setText(Utility.prepareLabelNaming(profileDB[index].getR1Sfx01()));
@@ -263,6 +265,11 @@ public class DBOperations {
             (MainFrame.lblR3SFX10).setText(Utility.prepareLabelNaming(profileDB[index].getR3Sfx10()));
             (MainFrame.lblR3SFX11).setText(Utility.prepareLabelNaming(profileDB[index].getR3Sfx11()));
             
+            MainFrame.strBGM = profileDB[index].getStrBGM();
+            MainFrame.strSFX = profileDB[index].getStrSFX();
+            
+            loadJLists(profileDB, index);
+            
             (MainFrame.tfSFXGroup1).setText(profileDB[index].getSfxName1());
             (MainFrame.tfSFXGroup2).setText(profileDB[index].getSfxName2());
             (MainFrame.tfSFXGroup3).setText(profileDB[index].getSfxName3());
@@ -285,6 +292,58 @@ public class DBOperations {
                 "Load failed", 
                 JOptionPane.ERROR_MESSAGE);
             return "error";
+        }
+    }
+    
+    public void loadJLists(ProfileDatabase profileDB[], int index) {
+        // Loading BGM list
+        String[] arrBGM = Utility.splitMusicParts(profileDB[index].getStrBGM());
+        (MainFrame.blist).removeAllElements();
+        
+        for(String music : arrBGM) {
+            (MainFrame.blist).addElement(music);
+        }
+        
+        // Sort JList
+        sortJList(MainFrame.blist, 0); // 0 - bgm, 1 - sfx
+        
+        // Loading SFX list
+        String[] arrSFX = Utility.splitMusicParts(profileDB[index].getStrSFX());
+        (MainFrame.slist).removeAllElements();
+        
+        for(String music : arrSFX) {
+            (MainFrame.slist).addElement(music);
+        }
+        
+        // Sort JList
+        sortJList(MainFrame.slist, 1); // 0 - bgm, 1 - sfx
+    }
+    
+    public void sortJList(DefaultListModel list, int listType) {
+        int n = list.getSize();
+        String[] data = new String[n];
+        
+        for(int i = 0; i < n; i++) {
+            data[i] = (String) list.getElementAt(i);
+        }
+        
+        Arrays.sort(data);
+        
+        if(listType == 0) {
+            (MainFrame.blist).removeAllElements();
+            
+            for(String music : data) {
+                (MainFrame.blist).addElement(music);
+            }
+            (MainFrame.listBGM).setModel(MainFrame.blist);
+        }
+        else {
+            (MainFrame.slist).removeAllElements();
+            
+            for(String music : data) {
+                (MainFrame.slist).addElement(music);
+            }
+            (MainFrame.listSFX).setModel(MainFrame.slist);
         }
     }
 }
