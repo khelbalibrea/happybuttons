@@ -267,6 +267,10 @@ public class DBOperations {
             (MainFrame.tfSFXGroup2).setText(profileDB[index].getSfxName2());
             (MainFrame.tfSFXGroup3).setText(profileDB[index].getSfxName3());
             
+            MainFrame.sfxGroupName1 = profileDB[index].getSfxName1();
+            MainFrame.sfxGroupName2 = profileDB[index].getSfxName2();
+            MainFrame.sfxGroupName3 = profileDB[index].getSfxName3();
+            
             JOptionPane.showMessageDialog(HappyButtons.mf, 
                 profileDB[index].getProfileName() + " profile loaded", 
                 "Success", 
