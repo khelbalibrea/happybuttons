@@ -152,8 +152,11 @@ public final class MainFrame extends javax.swing.JFrame {
         String itmSaveIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\save_workspace_12px.png");
         itemSave.setIcon(new javax.swing.ImageIcon(itmSaveIcon));
         
-        String itmLoadIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\load_12px.png");
+        String itmLoadIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\download_12px.png");
         itmLoad.setIcon(new javax.swing.ImageIcon(itmLoadIcon));
+        
+        String itmResourceManagerIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\maintenance_12px.png");
+        itmResouceManager.setIcon(new javax.swing.ImageIcon(itmResourceManagerIcon));
         
         String btnSFXIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave_black_14px.png");
         btnR1SFX01.setIcon(new javax.swing.ImageIcon(btnSFXIcon));
@@ -540,7 +543,8 @@ public final class MainFrame extends javax.swing.JFrame {
         itmNew = new javax.swing.JMenuItem();
         itemSave = new javax.swing.JMenuItem();
         itmLoad = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        itmTools = new javax.swing.JMenu();
+        itmResouceManager = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1366, 700));
@@ -2701,9 +2705,18 @@ public final class MainFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
-        jMenu2.setName("menuEdit"); // NOI18N
-        jMenuBar1.add(jMenu2);
+        itmTools.setText("Tools");
+        itmTools.setName("menuEdit"); // NOI18N
+
+        itmResouceManager.setText("Resources");
+        itmResouceManager.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmResouceManagerActionPerformed(evt);
+            }
+        });
+        itmTools.add(itmResouceManager);
+
+        jMenuBar1.add(itmTools);
 
         setJMenuBar(jMenuBar1);
 
@@ -3652,6 +3665,11 @@ public final class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfBGM1KeyPressed
 
+    private void itmResouceManagerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmResouceManagerActionPerformed
+        ResourceManagerFrame rsFrame = new ResourceManagerFrame(HappyButtons.mf, true);
+        rsFrame.setVisible(true);
+    }//GEN-LAST:event_itmResouceManagerActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -3733,13 +3751,14 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemSave;
     private javax.swing.JMenuItem itmLoad;
     private javax.swing.JMenuItem itmNew;
+    private javax.swing.JMenuItem itmResouceManager;
+    private javax.swing.JMenu itmTools;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
