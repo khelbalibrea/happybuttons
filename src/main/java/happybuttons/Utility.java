@@ -85,6 +85,19 @@ public class Utility {
         return index;
     }
     
+    public static String[] addElementInArr(int arrSize, String arr[], String addStr) { 
+       String newarr[] = new String[arrSize + 1];
+       int i;
+       
+       for(i = 0; i < arrSize; i++) {
+           newarr[i] = arr[i]; 
+       }
+       
+       newarr[arrSize] = addStr; 
+   
+       return newarr; 
+   } 
+    
     public static String[] removeElementInArr(String arr[], int index) {
         String[] copy = new String[arr.length - 1];
 
@@ -95,6 +108,37 @@ public class Utility {
         }
         
         return copy;
+    }
+    
+    public static boolean doesArrHasElement(String arr[], String search) {
+        boolean itHas = false;
+        
+        for(String data : arr) {
+            if (data.equals(search)) {
+                itHas = true;
+            }
+        }
+        
+        return itHas;
+    }
+    
+    public static String[] strToArr(String str) {
+        String[] arr = str.split(Pattern.quote(":"));
+        
+        return arr;
+    }
+    
+    public static String arrToStr(String[] arr) {
+        String arrStr = "";
+        for(String data : arr) {
+            if (arrStr.equals("")) {
+                arrStr = data;
+            } else {
+                arrStr = arrStr + ", " + data;
+            }
+        }
+        
+        return arrStr;
     }
     
     public static int searchSFX(String search) {

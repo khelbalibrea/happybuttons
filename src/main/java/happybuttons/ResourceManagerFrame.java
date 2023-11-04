@@ -49,12 +49,22 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         
         String[] arrBGM = new String[bFileList.length];
         for(File f : bFileList) {
-            model.insertRow(model.getRowCount(), new Object[]{Utility.renameListName(f.getName()), "BGM"});
+            String bgmList = "";
+            bgmList = (HappyButtons.dbo).checkBgmInProfiles(HappyButtons.profileDB, Utility.renameListName(f.getName()));
+            
+            model.insertRow(model.getRowCount(), new Object[]{
+                Utility.renameListName(f.getName()), "BGM", bgmList
+            });
         }
         
         String[] arrSFX = new String[sFileList.length];
         for(File f : sFileList) {
-            model.insertRow(model.getRowCount(), new Object[]{Utility.renameListName(f.getName()), "SFX"});
+            String sfxList = "";
+            sfxList = (HappyButtons.dbo).checkSfxInProfiles(HappyButtons.profileDB, Utility.renameListName(f.getName()));
+            
+            model.insertRow(model.getRowCount(), new Object[]{
+                Utility.renameListName(f.getName()), "SFX", sfxList
+            });
         }
     }
 
@@ -80,30 +90,18 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Sound item", "Type"
+                "Sound item", "Type", "Profile"
             }
         ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, true, false
             };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
         jScrollPane1.setViewportView(tblResources);
-        if (tblResources.getColumnModel().getColumnCount() > 0) {
-            tblResources.getColumnModel().getColumn(0).setResizable(false);
-            tblResources.getColumnModel().getColumn(0).setPreferredWidth(120);
-            tblResources.getColumnModel().getColumn(1).setResizable(false);
-        }
 
         btnDelete.setText("Delete");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {

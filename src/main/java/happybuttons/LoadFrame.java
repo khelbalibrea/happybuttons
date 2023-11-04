@@ -446,7 +446,7 @@ public class LoadFrame extends javax.swing.JDialog {
         int loop;
         
         for(loop = 0; loop < 5; loop++){
-            try{
+            try {
                 if(loop == 0){
                     if(profileDB[loop].getProfileName() == ""){
                         dbSlot1 = "";

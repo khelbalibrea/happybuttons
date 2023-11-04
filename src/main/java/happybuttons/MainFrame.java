@@ -384,15 +384,15 @@ public final class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         panelJList = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listBGM = new javax.swing.JList<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        listSFX = new javax.swing.JList<>();
         btnAddBGM = new javax.swing.JButton();
         btnAddSFX = new javax.swing.JButton();
         lblDeleteSFX = new javax.swing.JLabel();
         btnDeleteBGM = new javax.swing.JButton();
         btnDeleteSFX = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        listSFX = new javax.swing.JList<>();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        listBGM = new javax.swing.JList<>();
         panelRow1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tfBGM1 = new javax.swing.JTextField();
@@ -545,6 +545,7 @@ public final class MainFrame extends javax.swing.JFrame {
         itmLoad = new javax.swing.JMenuItem();
         itmTools = new javax.swing.JMenu();
         itmResouceManager = new javax.swing.JMenuItem();
+        itmAbout = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1366, 700));
@@ -552,32 +553,6 @@ public final class MainFrame extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(1366, 733));
 
         panelJList.setPreferredSize(new java.awt.Dimension(1354, 180));
-
-        listBGM.setAutoscrolls(false);
-        listBGM.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        listBGM.setDragEnabled(true);
-        listBGM.setMaximumSize(new java.awt.Dimension(170, 673));
-        listBGM.setMinimumSize(new java.awt.Dimension(170, 673));
-        listBGM.setName(""); // NOI18N
-        listBGM.setPreferredSize(new java.awt.Dimension(170, 673));
-        listBGM.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                listBGMFocusLost(evt);
-            }
-        });
-        listBGM.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                listBGMMouseExited(evt);
-            }
-        });
-        jScrollPane1.setViewportView(listBGM);
-
-        listSFX.setAutoscrolls(false);
-        listSFX.setDragEnabled(true);
-        listSFX.setMaximumSize(new java.awt.Dimension(180, 673));
-        listSFX.setMinimumSize(new java.awt.Dimension(180, 673));
-        listSFX.setPreferredSize(new java.awt.Dimension(180, 673));
-        jScrollPane2.setViewportView(listSFX);
 
         btnAddBGM.setToolTipText("Add BGM from your file");
         btnAddBGM.setMaximumSize(new java.awt.Dimension(22, 22));
@@ -624,18 +599,26 @@ public final class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        listSFX.setDragEnabled(true);
+        jScrollPane3.setViewportView(listSFX);
+
+        listBGM.setDragEnabled(true);
+        jScrollPane2.setViewportView(listBGM);
+
         javax.swing.GroupLayout panelJListLayout = new javax.swing.GroupLayout(panelJList);
         panelJList.setLayout(panelJListLayout);
         panelJListLayout.setHorizontalGroup(
             panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelJListLayout.createSequentialGroup()
-                .addGroup(panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(panelJListLayout.createSequentialGroup()
                         .addComponent(btnAddBGM, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDeleteBGM, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDeleteBGM, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(629, 629, 629))
+                    .addGroup(panelJListLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelJListLayout.createSequentialGroup()
                         .addComponent(btnAddSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -644,14 +627,14 @@ public final class MainFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblDeleteSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE)))
         );
         panelJListLayout.setVerticalGroup(
             panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelJListLayout.createSequentialGroup()
                 .addGroup(panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2))
+                    .addComponent(jScrollPane3)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(btnAddBGM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -2718,6 +2701,14 @@ public final class MainFrame extends javax.swing.JFrame {
 
         jMenuBar1.add(itmTools);
 
+        itmAbout.setText("About");
+        itmAbout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                itmAboutMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(itmAbout);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -3197,14 +3188,6 @@ public final class MainFrame extends javax.swing.JFrame {
             errorOccurred = 0;
         }
     }//GEN-LAST:event_btnPlayPauseBGM2ActionPerformed
-
-    private void listBGMFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_listBGMFocusLost
-
-    }//GEN-LAST:event_listBGMFocusLost
-
-    private void listBGMMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listBGMMouseExited
-        
-    }//GEN-LAST:event_listBGMMouseExited
 
     private void btnDeleteBGMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteBGMActionPerformed
         if(selectedBGMItem != "") {
@@ -3701,6 +3684,11 @@ public final class MainFrame extends javax.swing.JFrame {
         rsFrame.setVisible(true);
     }//GEN-LAST:event_itmResouceManagerActionPerformed
 
+    private void itmAboutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itmAboutMouseClicked
+        AboutFrame aboutFrame = new AboutFrame(HappyButtons.mf, true);
+        aboutFrame.setVisible(true);
+    }//GEN-LAST:event_itmAboutMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -3780,6 +3768,7 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox chkLoop2;
     private javax.swing.JCheckBox chkSP;
     private javax.swing.JMenuItem itemSave;
+    private javax.swing.JMenu itmAbout;
     private javax.swing.JMenuItem itmLoad;
     private javax.swing.JMenuItem itmNew;
     private javax.swing.JMenuItem itmResouceManager;
@@ -3794,8 +3783,8 @@ public final class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;

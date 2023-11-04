@@ -433,4 +433,47 @@ public class DBOperations {
             (MainFrame.listSFX).setModel(MainFrame.slist);
         }
     }
+    
+    public static String checkBgmInProfiles(ProfileDatabase[] profileDB, String search) {
+        String strBGMList = "";
+        
+        for(int ctr = 0; ctr < 5; ctr++) {
+            String str = profileDB[ctr].getStrBGM(); // get the strBGM from DB
+            String[] arr = Utility.strToArr(str); // convert string to array
+            
+            int found = Utility.findArrIndex(arr, search); // search the search item in array
+            if(found >= 0) {
+                if(strBGMList.equals("")) {
+                    strBGMList = profileDB[ctr].getProfileName();
+                }
+                else {
+                    strBGMList = strBGMList + ", " + profileDB[ctr].getProfileName();
+                }
+            }
+        }
+        
+        return strBGMList;
+    }
+    
+    public static String checkSfxInProfiles(ProfileDatabase[] profileDB, String search) {
+        String strSFXList = "";
+        
+        for(int ctr = 0; ctr < 5; ctr++) {
+            String str = profileDB[ctr].getStrSFX(); // get the strSFX from DB
+            String[] arr = Utility.strToArr(str); // convert string to array
+            
+            int found = Utility.findArrIndex(arr, search); // search the search item in array
+            if(found >= 0) {
+                System.out.println("Found in " + ctr);
+                if(strSFXList.equals("")) {
+                    strSFXList = profileDB[ctr].getProfileName();
+                }
+                else {
+                    strSFXList = strSFXList + ", " + profileDB[ctr].getProfileName();
+                }
+            }
+        }
+        
+        return strSFXList;
+    }
 }
