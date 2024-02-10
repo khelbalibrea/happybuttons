@@ -66,16 +66,16 @@ public class DBOperations {
         }
         
         // =================================================================================================== Set SFX group name
-        if(HappyButtons.noDB == 0) {
-            profile.setSfxName1(MainFrame.sfxGroupName1);
-            profile.setSfxName2(MainFrame.sfxGroupName2);
-            profile.setSfxName3(MainFrame.sfxGroupName3);
-        }
-        else {
-            profile.setSfxName1("");
-            profile.setSfxName2("");
-            profile.setSfxName3("");
-        }
+//        if(HappyButtons.noDB == 0) {
+//            profile.setSfxName1(MainFrame.sfxGroupName1);
+//            profile.setSfxName2(MainFrame.sfxGroupName2);
+//            profile.setSfxName3(MainFrame.sfxGroupName3);
+//        }
+//        else {
+//            profile.setSfxName1("");
+//            profile.setSfxName2("");
+//            profile.setSfxName3("");
+//        }
         
         // =================================================================================================== Set BGM and SFX list
         if(HappyButtons.noDB == 0) {
@@ -100,6 +100,9 @@ public class DBOperations {
             profile.setR1Sfx09(Utility.cleanSFXNaming(MainFrame.lblR1SFX09.getText()));
             profile.setR1Sfx10(Utility.cleanSFXNaming(MainFrame.lblR1SFX10.getText()));
             profile.setR1Sfx11(Utility.cleanSFXNaming(MainFrame.lblR1SFX11.getText()));
+            profile.setR1Sfx12(Utility.cleanSFXNaming(MainFrame.lblR1SFX12.getText()));
+            profile.setR1Sfx13(Utility.cleanSFXNaming(MainFrame.lblR1SFX13.getText()));
+            profile.setR1Sfx14(Utility.cleanSFXNaming(MainFrame.lblR1SFX14.getText()));
             
             profile.setR2Sfx01(Utility.cleanSFXNaming(MainFrame.lblR2SFX01.getText()));
             profile.setR2Sfx02(Utility.cleanSFXNaming(MainFrame.lblR2SFX02.getText()));
@@ -112,7 +115,10 @@ public class DBOperations {
             profile.setR2Sfx09(Utility.cleanSFXNaming(MainFrame.lblR2SFX09.getText()));
             profile.setR2Sfx10(Utility.cleanSFXNaming(MainFrame.lblR2SFX10.getText()));
             profile.setR2Sfx11(Utility.cleanSFXNaming(MainFrame.lblR2SFX11.getText()));
-            
+            profile.setR2Sfx12(Utility.cleanSFXNaming(MainFrame.lblR2SFX12.getText()));
+            profile.setR2Sfx13(Utility.cleanSFXNaming(MainFrame.lblR2SFX13.getText()));
+            profile.setR2Sfx14(Utility.cleanSFXNaming(MainFrame.lblR2SFX14.getText()));
+//            
             profile.setR3Sfx01(Utility.cleanSFXNaming(MainFrame.lblR3SFX01.getText()));
             profile.setR3Sfx02(Utility.cleanSFXNaming(MainFrame.lblR3SFX02.getText()));
             profile.setR3Sfx03(Utility.cleanSFXNaming(MainFrame.lblR3SFX03.getText()));
@@ -124,6 +130,9 @@ public class DBOperations {
             profile.setR3Sfx09(Utility.cleanSFXNaming(MainFrame.lblR3SFX09.getText()));
             profile.setR3Sfx10(Utility.cleanSFXNaming(MainFrame.lblR3SFX10.getText()));
             profile.setR3Sfx11(Utility.cleanSFXNaming(MainFrame.lblR3SFX11.getText()));
+            profile.setR3Sfx12(Utility.cleanSFXNaming(MainFrame.lblR3SFX12.getText()));
+            profile.setR3Sfx13(Utility.cleanSFXNaming(MainFrame.lblR3SFX13.getText()));
+            profile.setR3Sfx14(Utility.cleanSFXNaming(MainFrame.lblR3SFX14.getText()));
         }
         else {
             profile.setR1Sfx01("blank");
@@ -137,6 +146,9 @@ public class DBOperations {
             profile.setR1Sfx09("blank");
             profile.setR1Sfx10("blank");
             profile.setR1Sfx11("blank");
+            profile.setR1Sfx12("blank");
+            profile.setR1Sfx13("blank");
+            profile.setR1Sfx14("blank");
             
             profile.setR2Sfx01("blank");
             profile.setR2Sfx02("blank");
@@ -149,6 +161,9 @@ public class DBOperations {
             profile.setR2Sfx09("blank");
             profile.setR2Sfx10("blank");
             profile.setR2Sfx11("blank");
+            profile.setR2Sfx12("blank");
+            profile.setR2Sfx13("blank");
+            profile.setR2Sfx14("blank");
             
             profile.setR3Sfx01("blank");
             profile.setR3Sfx02("blank");
@@ -161,6 +176,9 @@ public class DBOperations {
             profile.setR3Sfx09("blank");
             profile.setR3Sfx10("blank");
             profile.setR3Sfx11("blank");
+            profile.setR3Sfx12("blank");
+            profile.setR3Sfx13("blank");
+            profile.setR3Sfx14("blank");
         }
         // =================================================================================================== Get list BGM and SFX
         profileDB[indexDB].setStrBGM(profile.getStrBGM());
@@ -169,9 +187,9 @@ public class DBOperations {
         // =================================================================================================== Get profile name and grp sfx names
         profileDB[indexDB].setProfileName(profile.getProfileName());
             
-        profileDB[indexDB].setSfxName1(profile.getSfxName1());
-        profileDB[indexDB].setSfxName2(profile.getSfxName2());
-        profileDB[indexDB].setSfxName3(profile.getSfxName3());
+//        profileDB[indexDB].setSfxName1(profile.getSfxName1());
+//        profileDB[indexDB].setSfxName2(profile.getSfxName2());
+//        profileDB[indexDB].setSfxName3(profile.getSfxName3());
         
         // =================================================================================================== Get SFXs
         profileDB[indexDB].setR1Sfx01(profile.getR1Sfx01());
@@ -185,6 +203,9 @@ public class DBOperations {
         profileDB[indexDB].setR1Sfx09(profile.getR1Sfx09());
         profileDB[indexDB].setR1Sfx10(profile.getR1Sfx10());
         profileDB[indexDB].setR1Sfx11(profile.getR1Sfx11());
+        profileDB[indexDB].setR1Sfx12(profile.getR1Sfx12());
+        profileDB[indexDB].setR1Sfx13(profile.getR1Sfx13());
+        profileDB[indexDB].setR1Sfx14(profile.getR1Sfx14());
         
         profileDB[indexDB].setR2Sfx01(profile.getR2Sfx01());
         profileDB[indexDB].setR2Sfx02(profile.getR2Sfx02());
@@ -197,6 +218,9 @@ public class DBOperations {
         profileDB[indexDB].setR2Sfx09(profile.getR2Sfx09());
         profileDB[indexDB].setR2Sfx10(profile.getR2Sfx10());
         profileDB[indexDB].setR2Sfx11(profile.getR2Sfx11());
+        profileDB[indexDB].setR2Sfx12(profile.getR2Sfx12());
+        profileDB[indexDB].setR2Sfx13(profile.getR2Sfx13());
+        profileDB[indexDB].setR2Sfx14(profile.getR2Sfx14());
         
         profileDB[indexDB].setR3Sfx01(profile.getR3Sfx01());
         profileDB[indexDB].setR3Sfx02(profile.getR3Sfx02());
@@ -209,6 +233,9 @@ public class DBOperations {
         profileDB[indexDB].setR3Sfx09(profile.getR3Sfx09());
         profileDB[indexDB].setR3Sfx10(profile.getR3Sfx10());
         profileDB[indexDB].setR3Sfx11(profile.getR3Sfx11());
+        profileDB[indexDB].setR3Sfx12(profile.getR3Sfx12());
+        profileDB[indexDB].setR3Sfx13(profile.getR3Sfx13());
+        profileDB[indexDB].setR3Sfx14(profile.getR3Sfx14());
         
         boolean saved = new BeanHelper().writeToXml(profileDB);
         if(saved) {
@@ -242,6 +269,9 @@ public class DBOperations {
             (MainFrame.lblR1SFX09).setText(Utility.prepareLabelNaming(profileDB[index].getR1Sfx09()));
             (MainFrame.lblR1SFX10).setText(Utility.prepareLabelNaming(profileDB[index].getR1Sfx10()));
             (MainFrame.lblR1SFX11).setText(Utility.prepareLabelNaming(profileDB[index].getR1Sfx11()));
+            (MainFrame.lblR1SFX12).setText(Utility.prepareLabelNaming(profileDB[index].getR1Sfx12()));
+            (MainFrame.lblR1SFX13).setText(Utility.prepareLabelNaming(profileDB[index].getR1Sfx13()));
+            (MainFrame.lblR1SFX14).setText(Utility.prepareLabelNaming(profileDB[index].getR1Sfx14()));
             
             (MainFrame.lblR2SFX01).setText(Utility.prepareLabelNaming(profileDB[index].getR2Sfx01()));
             (MainFrame.lblR2SFX02).setText(Utility.prepareLabelNaming(profileDB[index].getR2Sfx02()));
@@ -254,7 +284,10 @@ public class DBOperations {
             (MainFrame.lblR2SFX09).setText(Utility.prepareLabelNaming(profileDB[index].getR2Sfx09()));
             (MainFrame.lblR2SFX10).setText(Utility.prepareLabelNaming(profileDB[index].getR2Sfx10()));
             (MainFrame.lblR2SFX11).setText(Utility.prepareLabelNaming(profileDB[index].getR2Sfx11()));
-            
+            (MainFrame.lblR2SFX12).setText(Utility.prepareLabelNaming(profileDB[index].getR2Sfx12()));
+            (MainFrame.lblR2SFX13).setText(Utility.prepareLabelNaming(profileDB[index].getR2Sfx13()));
+            (MainFrame.lblR2SFX14).setText(Utility.prepareLabelNaming(profileDB[index].getR2Sfx14()));
+//            
             (MainFrame.lblR3SFX01).setText(Utility.prepareLabelNaming(profileDB[index].getR3Sfx01()));
             (MainFrame.lblR3SFX02).setText(Utility.prepareLabelNaming(profileDB[index].getR3Sfx02()));
             (MainFrame.lblR3SFX03).setText(Utility.prepareLabelNaming(profileDB[index].getR3Sfx03()));
@@ -266,19 +299,22 @@ public class DBOperations {
             (MainFrame.lblR3SFX09).setText(Utility.prepareLabelNaming(profileDB[index].getR3Sfx09()));
             (MainFrame.lblR3SFX10).setText(Utility.prepareLabelNaming(profileDB[index].getR3Sfx10()));
             (MainFrame.lblR3SFX11).setText(Utility.prepareLabelNaming(profileDB[index].getR3Sfx11()));
+            (MainFrame.lblR3SFX12).setText(Utility.prepareLabelNaming(profileDB[index].getR3Sfx12()));
+            (MainFrame.lblR3SFX13).setText(Utility.prepareLabelNaming(profileDB[index].getR3Sfx13()));
+            (MainFrame.lblR3SFX14).setText(Utility.prepareLabelNaming(profileDB[index].getR3Sfx14()));
             
             MainFrame.strBGM = profileDB[index].getStrBGM();
             MainFrame.strSFX = profileDB[index].getStrSFX();
             
             loadJLists(profileDB, index);
             
-            (MainFrame.tfSFXGroup1).setText(profileDB[index].getSfxName1());
-            (MainFrame.tfSFXGroup2).setText(profileDB[index].getSfxName2());
-            (MainFrame.tfSFXGroup3).setText(profileDB[index].getSfxName3());
+//            (MainFrame.tfSFXGroup1).setText(profileDB[index].getSfxName1());
+//            (MainFrame.tfSFXGroup2).setText(profileDB[index].getSfxName2());
+//            (MainFrame.tfSFXGroup3).setText(profileDB[index].getSfxName3());
             
-            MainFrame.sfxGroupName1 = profileDB[index].getSfxName1();
-            MainFrame.sfxGroupName2 = profileDB[index].getSfxName2();
-            MainFrame.sfxGroupName3 = profileDB[index].getSfxName3();
+//            MainFrame.sfxGroupName1 = profileDB[index].getSfxName1();
+//            MainFrame.sfxGroupName2 = profileDB[index].getSfxName2();
+//            MainFrame.sfxGroupName3 = profileDB[index].getSfxName3();
             
             JOptionPane.showMessageDialog(HappyButtons.mf, 
                 profileDB[index].getProfileName() + " profile loaded", 

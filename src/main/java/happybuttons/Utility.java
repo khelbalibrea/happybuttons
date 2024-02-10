@@ -155,6 +155,9 @@ public class Utility {
         if(search.equals(cleanSFXNaming(MainFrame.lblR1SFX09.getText()))) { found++; }
         if(search.equals(cleanSFXNaming(MainFrame.lblR1SFX10.getText()))) { found++; }
         if(search.equals(cleanSFXNaming(MainFrame.lblR1SFX11.getText()))) { found++; }
+        if(search.equals(cleanSFXNaming(MainFrame.lblR1SFX12.getText()))) { found++; }
+        if(search.equals(cleanSFXNaming(MainFrame.lblR1SFX13.getText()))) { found++; }
+        if(search.equals(cleanSFXNaming(MainFrame.lblR1SFX14.getText()))) { found++; }
         
         if(search.equals(cleanSFXNaming(MainFrame.lblR2SFX01.getText()))) { found++; }
         if(search.equals(cleanSFXNaming(MainFrame.lblR2SFX02.getText()))) { found++; }
@@ -167,7 +170,10 @@ public class Utility {
         if(search.equals(cleanSFXNaming(MainFrame.lblR2SFX09.getText()))) { found++; }
         if(search.equals(cleanSFXNaming(MainFrame.lblR2SFX10.getText()))) { found++; }
         if(search.equals(cleanSFXNaming(MainFrame.lblR2SFX11.getText()))) { found++; }
-        
+        if(search.equals(cleanSFXNaming(MainFrame.lblR2SFX12.getText()))) { found++; }
+        if(search.equals(cleanSFXNaming(MainFrame.lblR2SFX13.getText()))) { found++; }
+        if(search.equals(cleanSFXNaming(MainFrame.lblR2SFX14.getText()))) { found++; }
+//        
         if(search.equals(cleanSFXNaming(MainFrame.lblR3SFX01.getText()))) { found++; }
         if(search.equals(cleanSFXNaming(MainFrame.lblR3SFX02.getText()))) { found++; }
         if(search.equals(cleanSFXNaming(MainFrame.lblR3SFX03.getText()))) { found++; }
@@ -179,6 +185,9 @@ public class Utility {
         if(search.equals(cleanSFXNaming(MainFrame.lblR3SFX09.getText()))) { found++; }
         if(search.equals(cleanSFXNaming(MainFrame.lblR3SFX10.getText()))) { found++; }
         if(search.equals(cleanSFXNaming(MainFrame.lblR3SFX11.getText()))) { found++; }
+        if(search.equals(cleanSFXNaming(MainFrame.lblR3SFX12.getText()))) { found++; }
+        if(search.equals(cleanSFXNaming(MainFrame.lblR3SFX13.getText()))) { found++; }
+        if(search.equals(cleanSFXNaming(MainFrame.lblR3SFX14.getText()))) { found++; }
         
         return found;
     }
@@ -195,6 +204,9 @@ public class Utility {
         if(str.equals(cleanSFXNaming(MainFrame.lblR1SFX09.getText()))) { MainFrame.lblR1SFX09.setText("blank"); }
         if(str.equals(cleanSFXNaming(MainFrame.lblR1SFX10.getText()))) { MainFrame.lblR1SFX10.setText("blank"); }
         if(str.equals(cleanSFXNaming(MainFrame.lblR1SFX11.getText()))) { MainFrame.lblR1SFX11.setText("blank"); }
+        if(str.equals(cleanSFXNaming(MainFrame.lblR1SFX12.getText()))) { MainFrame.lblR1SFX12.setText("blank"); }
+        if(str.equals(cleanSFXNaming(MainFrame.lblR1SFX13.getText()))) { MainFrame.lblR1SFX13.setText("blank"); }
+        if(str.equals(cleanSFXNaming(MainFrame.lblR1SFX14.getText()))) { MainFrame.lblR1SFX14.setText("blank"); }
         
         if(str.equals(cleanSFXNaming(MainFrame.lblR2SFX01.getText()))) { MainFrame.lblR2SFX01.setText("blank"); }
         if(str.equals(cleanSFXNaming(MainFrame.lblR2SFX02.getText()))) { MainFrame.lblR2SFX02.setText("blank"); }
@@ -207,7 +219,10 @@ public class Utility {
         if(str.equals(cleanSFXNaming(MainFrame.lblR2SFX09.getText()))) { MainFrame.lblR2SFX09.setText("blank"); }
         if(str.equals(cleanSFXNaming(MainFrame.lblR2SFX10.getText()))) { MainFrame.lblR2SFX10.setText("blank"); }
         if(str.equals(cleanSFXNaming(MainFrame.lblR2SFX11.getText()))) { MainFrame.lblR2SFX11.setText("blank"); }
-        
+        if(str.equals(cleanSFXNaming(MainFrame.lblR2SFX12.getText()))) { MainFrame.lblR2SFX12.setText("blank"); }
+        if(str.equals(cleanSFXNaming(MainFrame.lblR2SFX13.getText()))) { MainFrame.lblR2SFX13.setText("blank"); }
+        if(str.equals(cleanSFXNaming(MainFrame.lblR2SFX14.getText()))) { MainFrame.lblR2SFX14.setText("blank"); }
+//        
         if(str.equals(cleanSFXNaming(MainFrame.lblR3SFX01.getText()))) { MainFrame.lblR3SFX01.setText("blank"); }
         if(str.equals(cleanSFXNaming(MainFrame.lblR3SFX02.getText()))) { MainFrame.lblR3SFX02.setText("blank"); }
         if(str.equals(cleanSFXNaming(MainFrame.lblR3SFX03.getText()))) { MainFrame.lblR3SFX03.setText("blank"); }
@@ -219,5 +234,8 @@ public class Utility {
         if(str.equals(cleanSFXNaming(MainFrame.lblR3SFX09.getText()))) { MainFrame.lblR3SFX09.setText("blank"); }
         if(str.equals(cleanSFXNaming(MainFrame.lblR3SFX10.getText()))) { MainFrame.lblR3SFX10.setText("blank"); }
         if(str.equals(cleanSFXNaming(MainFrame.lblR3SFX11.getText()))) { MainFrame.lblR3SFX11.setText("blank"); }
+        if(str.equals(cleanSFXNaming(MainFrame.lblR3SFX12.getText()))) { MainFrame.lblR3SFX12.setText("blank"); }
+        if(str.equals(cleanSFXNaming(MainFrame.lblR3SFX13.getText()))) { MainFrame.lblR3SFX13.setText("blank"); }
+        if(str.equals(cleanSFXNaming(MainFrame.lblR3SFX14.getText()))) { MainFrame.lblR3SFX14.setText("blank"); }
     }
 }

@@ -11,12 +11,12 @@ package happybuttons;
 public class Profile {
     String profileName;
     String r1sfx01 = "", r1sfx02 = "", r1sfx03 = "", r1sfx04 = "", r1sfx05 = "", r1sfx06 = "", r1sfx07 = "", r1sfx08 = "", r1sfx09 = "", r1sfx10 = "", 
-            r1sfx11 = "", 
+            r1sfx11 = "", r1sfx12 = "", r1sfx13 = "", r1sfx14 = "", 
             r2sfx01 = "", r2sfx02 = "", r2sfx03 = "", r2sfx04 = "", r2sfx05 = "", r2sfx06 = "", r2sfx07 = "", r2sfx08 = "", r2sfx09 = "", 
-            r2sfx10 = "", r2sfx11 = "", 
+            r2sfx10 = "", r2sfx11 = "", r2sfx12 = "", r2sfx13 = "", r2sfx14 = "", 
             r3sfx01 = "", r3sfx02 = "", r3sfx03 = "", r3sfx04 = "", r3sfx05 = "", r3sfx06 = "", r3sfx07 = "", r3sfx08 = "", r3sfx09 = "", 
-            r3sfx10 = "", r3sfx11 = "";
-    String sfxGroupName1 = "", sfxGroupName2 = "", sfxGroupName3 = "";
+            r3sfx10 = "", r3sfx11 = "", r3sfx12 = "", r3sfx13 = "", r3sfx14 = ""; 
+//    String sfxGroupName1 = "", sfxGroupName2 = "", sfxGroupName3 = "";
     String strBGM = "", strSFX = "";
     
     public String getProfileName(){
@@ -43,29 +43,29 @@ public class Profile {
         this.strSFX = strSFX;
     }
     
-    public String getSfxName1(){
-        return sfxGroupName1;
-    }
-    
-    public void setSfxName1(String sfxGroupName1){
-        this.sfxGroupName1 = sfxGroupName1;
-    }
-    
-    public String getSfxName2(){
-        return sfxGroupName2;
-    }
-    
-    public void setSfxName2(String sfxGroupName2){
-        this.sfxGroupName2 = sfxGroupName2;
-    }
-    
-    public String getSfxName3(){
-        return sfxGroupName3;
-    }
-    
-    public void setSfxName3(String sfxGroupName3){
-        this.sfxGroupName3 = sfxGroupName3;
-    }
+//    public String getSfxName1(){
+//        return sfxGroupName1;
+//    }
+//    
+//    public void setSfxName1(String sfxGroupName1){
+//        this.sfxGroupName1 = sfxGroupName1;
+//    }
+//    
+//    public String getSfxName2(){
+//        return sfxGroupName2;
+//    }
+//    
+//    public void setSfxName2(String sfxGroupName2){
+//        this.sfxGroupName2 = sfxGroupName2;
+//    }
+//    
+//    public String getSfxName3(){
+//        return sfxGroupName3;
+//    }
+//    
+//    public void setSfxName3(String sfxGroupName3){
+//        this.sfxGroupName3 = sfxGroupName3;
+//    }
     
     public String getR1Sfx01(){
         return r1sfx01;
@@ -156,6 +156,30 @@ public class Profile {
         this.r1sfx11 = r1sfx11;
     }
     
+    public String getR1Sfx12(){
+        return r1sfx12;
+    }
+    
+    public void setR1Sfx12(String r1sfx12){
+        this.r1sfx12 = r1sfx12;
+    }
+    
+    public String getR1Sfx13(){
+        return r1sfx13;
+    }
+    
+    public void setR1Sfx13(String r1sfx13){
+        this.r1sfx13 = r1sfx13;
+    }
+    
+    public String getR1Sfx14(){
+        return r1sfx14;
+    }
+    
+    public void setR1Sfx14(String r1sfx14){
+        this.r1sfx14 = r1sfx14;
+    }
+    
     public String getR2Sfx01(){
         return r2sfx01;
     }
@@ -242,6 +266,30 @@ public class Profile {
     
     public void setR2Sfx11(String r2sfx11){
         this.r2sfx11 = r2sfx11;
+    }
+    
+    public String getR2Sfx12(){
+        return r2sfx12;
+    }
+    
+    public void setR2Sfx12(String r2sfx12){
+        this.r2sfx12 = r2sfx12;
+    }
+    
+    public String getR2Sfx13(){
+        return r2sfx13;
+    }
+    
+    public void setR2Sfx13(String r2sfx13){
+        this.r2sfx13 = r2sfx13;
+    }
+    
+    public String getR2Sfx14(){
+        return r2sfx14;
+    }
+    
+    public void setR2Sfx14(String r2sfx14){
+        this.r2sfx14 = r2sfx14;
     }
     
     public String getR3Sfx01(){
@@ -332,19 +380,43 @@ public class Profile {
         this.r3sfx11 = r3sfx11;
     }
     
+    public String getR3Sfx12(){
+        return r3sfx12;
+    }
+    
+    public void setR3Sfx12(String r3sfx12){
+        this.r3sfx12 = r3sfx12;
+    }
+    
+    public String getR3Sfx13(){
+        return r3sfx13;
+    }
+    
+    public void setR3Sfx13(String r3sfx13){
+        this.r3sfx13 = r3sfx13;
+    }
+    
+    public String getR3Sfx14(){
+        return r3sfx14;
+    }
+    
+    public void setR3Sfx14(String r3sfx14){
+        this.r3sfx14 = r3sfx14;
+    }
+    
     public Profile(){
         profileName = null;
         
         r1sfx01 = null; r1sfx02 = null; r1sfx03 = null; r1sfx04 = null; r1sfx05 = null; r1sfx06 = null; r1sfx07 = null; r1sfx08 = null; 
-        r1sfx09 = null; r1sfx10 = null; r1sfx11 = null;
+        r1sfx09 = null; r1sfx10 = null; r1sfx11 = null; r1sfx12 = null; r1sfx13 = null; r1sfx14 = null; 
         r2sfx01 = null; r2sfx02 = null; r2sfx03 = null; r2sfx04 = null; r2sfx05 = null; r2sfx06 = null; r2sfx07 = null; r2sfx08 = null; 
-        r2sfx09 = null; r2sfx10 = null; r2sfx11 = null;
+        r2sfx09 = null; r2sfx10 = null; r2sfx11 = null; r2sfx12 = null; r2sfx13 = null; r2sfx14 = null; 
         r3sfx01 = null; r3sfx02 = null; r3sfx03 = null; r3sfx04 = null; r3sfx05 = null; r3sfx06 = null; r3sfx07 = null; r3sfx08 = null; 
-        r3sfx09 = null; r3sfx10 = null; r3sfx11 = null;
+        r3sfx09 = null; r3sfx10 = null; r3sfx11 = null; r3sfx12 = null; r3sfx13 = null; r3sfx14 = null; 
         
-        sfxGroupName1 = null;
-        sfxGroupName2 = null;
-        sfxGroupName3 = null;
+//        sfxGroupName1 = null;
+//        sfxGroupName2 = null;
+//        sfxGroupName3 = null;
         
         strBGM = null;
         strSFX = null;
