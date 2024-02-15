@@ -52,4 +52,40 @@ public class BeanHelper {
         
         return ProfileDatabase;
     }
+    
+    // -------------------------------------------------------------------------------------------------------- UI Preferences
+    public boolean writeToXmlUI(UIPreference[] uiDB) {		
+        try {
+            XMLEncoder encoder = new XMLEncoder(
+            new BufferedOutputStream(
+            new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\uidb.xml")));
+
+            encoder.writeObject(uiDB);
+            encoder.close();
+            
+            return true;
+        }
+        catch (FileNotFoundException fnfe) {
+            JOptionPane.showMessageDialog(null, "XML write error: " + fnfe.toString());
+            return false;
+        }
+    }
+    
+    public UIPreference[] readFromXmlUI() {
+        UIPreference UIPreference[] = null;
+
+        try {
+            XMLDecoder decoder = new XMLDecoder(
+            new BufferedInputStream(
+            new FileInputStream(HappyButtons.documentsPath + "\\HappyButtons\\uidb.xml")));
+
+            UIPreference = (UIPreference[]) decoder.readObject();
+            decoder.close();
+        }
+        catch (FileNotFoundException fnfe) {
+            JOptionPane.showMessageDialog(null, "XML read error: " + fnfe.toString());
+        }
+        
+        return UIPreference;
+    }
 }

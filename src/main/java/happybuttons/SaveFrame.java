@@ -4,10 +4,17 @@
  */
 package happybuttons;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -16,6 +23,7 @@ import javax.swing.JOptionPane;
 public class SaveFrame extends javax.swing.JDialog {
     public static String profileName1 = "", profileName2 = "", profileName3 = "", profileName4 = "", profileName5 = "";
     public static String dbSlot1 = "", dbSlot2 = "", dbSlot3 = "", dbSlot4 = "", dbSlot5 = "";
+    String theme = HappyButtons.uiTheme;
     /**
      * Creates new form Save
      */
@@ -30,6 +38,8 @@ public class SaveFrame extends javax.swing.JDialog {
         // set frame icon
         ImageIcon imgIcon = new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
         setIconImage(imgIcon.getImage());
+        
+        setupTheme();
         
         reloadDB(HappyButtons.profileDB);
     }
@@ -316,6 +326,7 @@ public class SaveFrame extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+       
     private void btnSave1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSave1ActionPerformed
         DBOperations.indexDB = 0;
         Profile profile = new Profile();
@@ -587,6 +598,143 @@ public class SaveFrame extends javax.swing.JDialog {
                     "Database error", 
                     JOptionPane.ERROR_MESSAGE);
             }
+        }
+    }
+    
+    private void setupTheme() {
+        if(theme.equals("light")) {
+            // ------------------------------------------------------------------------------- PANELS
+            this.getContentPane().setBackground(new JDialog().getBackground());
+            
+            panel1.setBackground(new JPanel().getBackground());
+            panel1.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+            
+            panel6.setBackground(new JPanel().getBackground());
+            panel6.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+            
+            panel7.setBackground(new JPanel().getBackground());
+            panel7.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+            
+            panel8.setBackground(new JPanel().getBackground());
+            panel8.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+            
+            panel9.setBackground(new JPanel().getBackground());
+            panel9.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+            
+            // ------------------------------------------------------------------------------- LABELS
+            jLabel1.setBackground(new JLabel().getBackground());
+            jLabel1.setForeground(new JLabel().getForeground());
+            
+            jLabel3.setBackground(new JLabel().getBackground());
+            jLabel3.setForeground(new JLabel().getForeground());
+            
+            jLabel4.setBackground(new JLabel().getBackground());
+            jLabel4.setForeground(new JLabel().getForeground());
+            
+            jLabel5.setBackground(new JLabel().getBackground());
+            jLabel5.setForeground(new JLabel().getForeground());
+            
+            jLabel6.setBackground(new JLabel().getBackground());
+            jLabel6.setForeground(new JLabel().getForeground());
+            
+            // ------------------------------------------------------------------------------- BUTTONS
+            btnSave1.setBackground(new JButton().getBackground());
+            btnSave1.setForeground(new JButton().getForeground());
+            
+            btnSave2.setBackground(new JButton().getBackground());
+            btnSave2.setForeground(new JButton().getForeground());
+            
+            btnSave3.setBackground(new JButton().getBackground());
+            btnSave3.setForeground(new JButton().getForeground());
+            
+            btnSave4.setBackground(new JButton().getBackground());
+            btnSave4.setForeground(new JButton().getForeground());
+            
+            btnSave5.setBackground(new JButton().getBackground());
+            btnSave5.setForeground(new JButton().getForeground());
+            
+            // ------------------------------------------------------------------------------- TEXT FIELDS
+            tfSaveProfile1.setBackground(new JTextField().getBackground());
+            tfSaveProfile1.setForeground(new JTextField().getForeground());
+            
+            tfSaveProfile2.setBackground(new JTextField().getBackground());
+            tfSaveProfile2.setForeground(new JTextField().getForeground());
+            
+            tfSaveProfile3.setBackground(new JTextField().getBackground());
+            tfSaveProfile3.setForeground(new JTextField().getForeground());
+            
+            tfSaveProfile4.setBackground(new JTextField().getBackground());
+            tfSaveProfile4.setForeground(new JTextField().getForeground());
+            
+            tfSaveProfile5.setBackground(new JTextField().getBackground());
+            tfSaveProfile5.setForeground(new JTextField().getForeground());
+        }
+        else if(theme.equals("dark")) {
+            // ------------------------------------------------------------------------------- PANELS
+            this.getContentPane().setBackground(Color.DARK_GRAY);
+            
+            panel1.setBackground(Color.DARK_GRAY);
+            panel1.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            
+            panel6.setBackground(Color.DARK_GRAY);
+            panel6.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            
+            panel7.setBackground(Color.DARK_GRAY);
+            panel7.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            
+            panel8.setBackground(Color.DARK_GRAY);
+            panel8.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            
+            panel9.setBackground(Color.DARK_GRAY);
+            panel9.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            
+            // ------------------------------------------------------------------------------- LABELS
+            jLabel1.setBackground(Color.DARK_GRAY);
+            jLabel1.setForeground(Color.LIGHT_GRAY);
+            
+            jLabel3.setBackground(Color.DARK_GRAY);
+            jLabel3.setForeground(Color.LIGHT_GRAY);
+            
+            jLabel4.setBackground(Color.DARK_GRAY);
+            jLabel4.setForeground(Color.LIGHT_GRAY);
+            
+            jLabel5.setBackground(Color.DARK_GRAY);
+            jLabel5.setForeground(Color.LIGHT_GRAY);
+            
+            jLabel6.setBackground(Color.DARK_GRAY);
+            jLabel6.setForeground(Color.LIGHT_GRAY);
+            
+            // ------------------------------------------------------------------------------- BUTTONS
+            btnSave1.setBackground(Color.GRAY);
+            btnSave1.setForeground(Color.WHITE);
+            
+            btnSave2.setBackground(Color.GRAY);
+            btnSave2.setForeground(Color.WHITE);
+            
+            btnSave3.setBackground(Color.GRAY);
+            btnSave3.setForeground(Color.WHITE);
+            
+            btnSave4.setBackground(Color.GRAY);
+            btnSave4.setForeground(Color.WHITE);
+            
+            btnSave5.setBackground(Color.GRAY);
+            btnSave5.setForeground(Color.WHITE);
+            
+            // ------------------------------------------------------------------------------- TEXT FIELDS
+            tfSaveProfile1.setBackground(Color.DARK_GRAY);
+            tfSaveProfile1.setForeground(Color.LIGHT_GRAY);
+            
+            tfSaveProfile2.setBackground(Color.DARK_GRAY);
+            tfSaveProfile2.setForeground(Color.LIGHT_GRAY);
+            
+            tfSaveProfile3.setBackground(Color.DARK_GRAY);
+            tfSaveProfile3.setForeground(Color.LIGHT_GRAY);
+            
+            tfSaveProfile4.setBackground(Color.DARK_GRAY);
+            tfSaveProfile4.setForeground(Color.LIGHT_GRAY);
+            
+            tfSaveProfile5.setBackground(Color.DARK_GRAY);
+            tfSaveProfile5.setForeground(Color.LIGHT_GRAY);
         }
     }
 

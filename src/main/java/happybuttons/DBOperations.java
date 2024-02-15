@@ -252,6 +252,21 @@ public class DBOperations {
         return saved;
     }
     
+    public boolean autoSaveUISettings(UIPreference uiPref[], UIProfile uiProfile){
+        uiProfile.setPrevTheme(HappyButtons.uiTheme);
+        uiPref[0].setPrevTheme(uiProfile.getPrevTheme());
+        new BeanHelper().writeToXmlUI(uiPref);
+        
+        return true;
+    }
+    
+    public void loadPreviousTheme(UIPreference uiPref[], int index) {
+        ViewProfiles uiDetails = new ViewProfiles();
+        
+        uiDetails.setUISettings(uiPref, index);
+        HappyButtons.uiTheme = uiPref[index].getPrevTheme();
+    }
+    
     public String loadEnvironment(ProfileDatabase profileDB[], int index){
         ViewProfiles profileDetails = new ViewProfiles();
         

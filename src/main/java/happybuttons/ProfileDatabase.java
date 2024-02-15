@@ -12,6 +12,6 @@ public class ProfileDatabase extends Profile {
     ProfileDatabase[] profileDB = new ProfileDatabase[5];
 
     public ProfileDatabase(){
-        //Todo codes here
+        
     }
 }

@@ -6,17 +6,18 @@ package happybuttons;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 
 /**
  *
  * @author Michael Balibrea
  */
 public class AboutFrame extends javax.swing.JDialog {
+    String theme = HappyButtons.uiTheme;
 
     /**
      * Creates new form AboutFrame
@@ -36,6 +37,8 @@ public class AboutFrame extends javax.swing.JDialog {
         
         ImageIcon minobaIcon = new ImageIcon(new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\minoba.png")).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
         lblMinoba.setIcon(minobaIcon);
+        
+        setupTheme();
     }
 
     /**
@@ -157,4 +160,59 @@ public class AboutFrame extends javax.swing.JDialog {
     private javax.swing.JLabel lblIcon;
     private javax.swing.JLabel lblMinoba;
     // End of variables declaration//GEN-END:variables
+
+    private void setupTheme() {
+        // Setting up theme
+        if(theme.equals("light")) {
+            // ------------------------------------------------------------------------------- PANELS
+            this.getContentPane().setBackground(new JDialog().getBackground());
+            
+            // ------------------------------------------------------------------------------- LABELS
+            lblIcon.setBackground(new JLabel().getBackground());
+            lblIcon.setForeground(new JLabel().getForeground());
+            lblIcon.setOpaque(true);
+            
+            lblHappyButtons.setBackground(new JLabel().getBackground());
+            lblHappyButtons.setForeground(new JLabel().getForeground());
+            lblHappyButtons.setOpaque(true);
+            
+            lblMinoba.setBackground(new JLabel().getBackground());
+            lblMinoba.setForeground(new JLabel().getForeground());
+            lblMinoba.setOpaque(true);
+            
+            jLabel1.setBackground(new JLabel().getBackground());
+            jLabel1.setForeground(new JLabel().getForeground());
+            jLabel1.setOpaque(true);
+            
+            jLabel2.setBackground(new JLabel().getBackground());
+            jLabel2.setForeground(new JLabel().getForeground());
+            jLabel2.setOpaque(true);
+        }
+        if(theme.equals("dark")) {
+            // ------------------------------------------------------------------------------- PANELS
+            this.getContentPane().setBackground(Color.DARK_GRAY);
+            
+            // ------------------------------------------------------------------------------- LABELS
+            lblIcon.setBackground(Color.DARK_GRAY);
+            lblIcon.setForeground(Color.LIGHT_GRAY);
+            lblIcon.setOpaque(true);
+            
+            lblHappyButtons.setBackground(Color.DARK_GRAY);
+            lblHappyButtons.setForeground(Color.LIGHT_GRAY);
+            lblHappyButtons.setOpaque(true);
+            
+            lblMinoba.setBackground(Color.DARK_GRAY);
+            lblMinoba.setForeground(Color.LIGHT_GRAY);
+            lblMinoba.setOpaque(true);
+            
+            jLabel1.setBackground(Color.DARK_GRAY);
+            jLabel1.setForeground(Color.LIGHT_GRAY);
+            jLabel1.setOpaque(true);
+            
+            jLabel2.setBackground(Color.DARK_GRAY);
+            jLabel2.setForeground(Color.LIGHT_GRAY);
+            jLabel2.setOpaque(true);
+            
+        }
+    }
 }

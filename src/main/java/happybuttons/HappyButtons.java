@@ -21,8 +21,10 @@ public class HappyButtons {
     
     public static DBOperations dbo = new DBOperations();
     public static ProfileDatabase[] profileDB = new ProfileDatabase[5];
+    public static UIPreference[] uiDB = new UIPreference[1];
     public static int noDB = 0;
     public static int loadedDB = -1;
+    public static String uiTheme = "";
     
     // Globals
         
@@ -38,11 +40,19 @@ public class HappyButtons {
         
         checkSubFolders();
         initializeDatabase();
+        setupUIPreferences();
         
         documentsPathDoubleSlash = Utility.strDoubleSlash(documentsPath); // C:\\Users\\<PC NAME>\\Documents
         
         mf = new MainFrame();
         mf.setVisible(true);
+        
+        loadUISettings();
+    }
+    
+    public static void loadUISettings() {
+        dbo.loadPreviousTheme(uiDB, 0);
+        SystemClass.UITheme(uiTheme);
     }
     
     public static void getHomePath() {
@@ -148,6 +158,41 @@ public class HappyButtons {
                 System.out.println(e.toString());
                 mf = new MainFrame();
                 mf.setVisible(true);
+            }
+        }
+    }
+    
+    public static void setupUIPreferences(){
+        File dbPath = new File(documentsPath + "\\HappyButtons\\uidb.xml");
+        
+        if(dbPath.exists()){
+            for(int ctr = 0; ctr < uiDB.length; ctr++) {
+                UIPreference[] uiProf = new BeanHelper().readFromXmlUI();
+                uiDB = uiProf;
+            }
+        }
+        else {
+            File file = new File(documentsPath + "\\HappyButtons\\uidb.xml");
+            
+            try {
+                file.createNewFile();
+//                firstCheck = "[SYSTEM] No database found";
+//                noDB = 1;
+                
+                UIProfile uiProfile = new UIProfile();
+                for(int ctr = 0; ctr < uiDB.length; ctr++) {
+                    uiDB[ctr] = new UIPreference();
+//                    DBOperations.indexDB = ctr;
+                    dbo.autoSaveUISettings(uiDB, uiProfile);
+                }
+                
+//                noDB = 0;
+            }
+            catch(Exception e){
+//                firstCheck = "[ERROR]::" + e.toString();
+//                System.out.println(e.toString());
+//                mf = new MainFrame();
+//                mf.setVisible(true);
             }
         }
     }
