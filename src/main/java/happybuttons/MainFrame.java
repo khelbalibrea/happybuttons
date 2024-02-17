@@ -81,7 +81,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     String selectedSFXItem = "";
     
     // Profiles
-    public static String profileName1 = "Sample", profileName2 = "", profileName3 = "", profileName4 = "", profileName5 = "";
+    public static String profileName1 = "", profileName2 = "", profileName3 = "", profileName4 = "", profileName5 = "";
     public static String loadedProfile = "", savedProfile = "", strBGM = "", strSFX = "";
     
     // UI Components
@@ -3104,8 +3104,18 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         if(bgmVolumeLink == 0){
             togLinkBGMVol.setText("ON");
             
-            int valueVol1 = (int)volBGM1.getValue();
-            volBGM2.setValue(100 - valueVol1);
+            if(clipBGM1 != null && clipBGM1.isRunning()) {
+                int valueVol1 = (int)volBGM1.getValue();
+                volBGM2.setValue(100 - valueVol1);
+            }
+            else if(clipBGM2 != null && clipBGM2.isRunning()) {
+                int valueVol2 = (int)volBGM2.getValue();
+                volBGM1.setValue(100 - valueVol2);
+            }
+            else {
+                int valueVol1 = (int)volBGM1.getValue();
+                volBGM2.setValue(100 - valueVol1);
+            }
             
             bgmVolumeLink = 1;
         }
@@ -3372,7 +3382,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                     btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon2));
                 }
             }
-        };
+        }; // &
 
         if(clipBGM2 == null) {
             if(tfBGM2.getText().isEmpty()){
@@ -3594,7 +3604,54 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_itemSaveActionPerformed
 
     private void itmNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmNewActionPerformed
-        tfBGM1.setText("");
+        if((clipBGM1 != null && clipBGM1.isRunning()) || (clipBGM2 != null && clipBGM2.isRunning())) {
+            tfLastOperation.setText("CANNOT CREATE NEW WORKSPACE, PLEASE STOP RUNNING BGM/SFX");
+        }
+        else {
+            clipBGM1 = null; clipBGM2 = null; clipSFX = null;
+            blist.removeAllElements(); slist.removeAllElements();
+            bgmVolumeLink = 0;
+            
+            draggedList = -1;
+            errorOccurred = 0;
+            
+            playing1 = 0; playing2 = 0; pause1 = 0; pause2 = 0;
+            sfxPlaying = 0;
+            lastFrame1 = 0; lastFrame2 = 0;
+            chkSinglePlay = 1; chkStopBGM = 0;
+            loop1 = 1; loop2 = 1;
+            
+            bgmVol1 = 100f; bgmVol2 = 100f; sfxVol = 100f;
+            
+            selectedBGMItem = ""; selectedSFXItem = "";
+            profileName1 = ""; profileName2 = ""; profileName3 = ""; profileName4 = ""; profileName5 = "";
+            loadedProfile = ""; savedProfile = ""; strBGM = ""; strSFX = "";
+            
+            tfBGM1.setText("");
+            tfBGM2.setText("");
+            tfLastOperation.setText("NEW WORKSPACE CREATED");
+            
+            volBGM1.setValue(100); volBGM2.setValue(100); volSFX.setValue(100);
+            chkLoop1.setSelected(true); chkLoop2.setSelected(true);
+            chkSP.setSelected(true); chkIB.setSelected(false);
+            togLinkBGMVol.setSelected(false); togLinkBGMVol.setText("OFF");
+            
+            lblR1SFX01.setText("blank"); lblR1SFX02.setText("blank"); lblR1SFX03.setText("blank"); lblR1SFX04.setText("blank");
+            lblR1SFX05.setText("blank"); lblR1SFX06.setText("blank"); lblR1SFX07.setText("blank"); lblR1SFX08.setText("blank");
+            lblR1SFX09.setText("blank"); lblR1SFX10.setText("blank"); lblR1SFX11.setText("blank"); lblR1SFX12.setText("blank");
+            lblR1SFX13.setText("blank"); lblR1SFX14.setText("blank");
+            
+            lblR2SFX01.setText("blank"); lblR2SFX02.setText("blank"); lblR2SFX03.setText("blank"); lblR2SFX04.setText("blank");
+            lblR2SFX05.setText("blank"); lblR2SFX06.setText("blank"); lblR2SFX07.setText("blank"); lblR2SFX08.setText("blank");
+            lblR2SFX09.setText("blank"); lblR2SFX10.setText("blank"); lblR2SFX11.setText("blank"); lblR2SFX12.setText("blank");
+            lblR2SFX13.setText("blank"); lblR2SFX14.setText("blank");
+            
+            lblR3SFX01.setText("blank"); lblR3SFX02.setText("blank"); lblR3SFX03.setText("blank"); lblR3SFX04.setText("blank");
+            lblR3SFX05.setText("blank"); lblR3SFX06.setText("blank"); lblR3SFX07.setText("blank"); lblR3SFX08.setText("blank");
+            lblR3SFX09.setText("blank"); lblR3SFX10.setText("blank"); lblR3SFX11.setText("blank"); lblR3SFX12.setText("blank");
+            lblR3SFX13.setText("blank"); lblR3SFX14.setText("blank");
+            
+        }
     }//GEN-LAST:event_itmNewActionPerformed
 
     private void itmLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmLoadActionPerformed
@@ -3701,7 +3758,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
 
             if(f < 10) {
-                bgmVol1 = -30.5f + (10f - f)*(-5.5f);
+                bgmVol1 = -30f + (10f - f)*(-5f);
             }
 
             if(playing1 == 1) {
@@ -3724,6 +3781,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_volBGM1StateChanged
 
     private void volBGM2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_volBGM2StateChanged
+        System.out.println("Vol 2: " + volBGM2.getValue());
         float f = (float)volBGM2.getValue();
                 
         try {
@@ -3740,7 +3798,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
 
             if(f < 10) {
-                bgmVol2 = -30.5f + (10f - f)*(-5.5f);
+                bgmVol2 = -30f + (10f - f)*(-5f);
             }
 
             if(playing2 == 1) {
@@ -3753,6 +3811,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         catch(Exception ex) {
 
         }
+        System.out.println("BGM Vol: " + bgmVol2);
 
         if(bgmVolumeLink == 1) {
             int value = (int)volBGM2.getValue();

@@ -66,7 +66,7 @@ public class AboutFrame extends javax.swing.JDialog {
         lblHappyButtons.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
         lblHappyButtons.setText("Happy Buttons");
 
-        jLabel1.setText("Minoba (Michael Balibrea)");
+        jLabel1.setText("MI-chael   NO-jor   BA-librea");
 
         jLabel2.setText("Email: balibreamichael@gmail.com");
 

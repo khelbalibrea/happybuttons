@@ -97,7 +97,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Minoba (Michael Balibrea)"/>
+        <Property name="text" type="java.lang.String" value="MI-chael   NO-jor   BA-librea"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
