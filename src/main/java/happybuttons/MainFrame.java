@@ -3261,81 +3261,105 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_btnPlayPauseBGM1ActionPerformed
 
     private void btnAddBGMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddBGMActionPerformed
-        JFileChooser fc = new JFileChooser();
-        FileFilter filter = new FileNameExtensionFilter("WAV File", "wav");
-        fc.setFileFilter(filter);
-        fc.setMultiSelectionEnabled(true);
-        fc.showOpenDialog(HappyButtons.mf);
+        Object[] options = {"Add from App Resource", "Add from My files"};
         
-        File[] selectedFiles = fc.getSelectedFiles();
+        int choice = JOptionPane.showOptionDialog(HappyButtons.mf, "Select path where to get BGM files",
+                "Get BGM source",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
         
-        for(File file : selectedFiles) {
-            try {
-                FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
-                File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\bg\\" + file.getName());
-                
-                if(!destCheck.exists()) {
-                    FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\bg\\" + file.getName()).getChannel();
-                    
-                    src.transferTo(0,src.size(),dest);
+        if(choice == 0){
+            AddBGMFrame addBgmFrame = new AddBGMFrame(HappyButtons.mf, true);
+            addBgmFrame.setVisible(true);
+        }
+        else if(choice == 1) {
+            JFileChooser fc = new JFileChooser();
+            FileFilter filter = new FileNameExtensionFilter("WAV File", "wav");
+            fc.setFileFilter(filter);
+            fc.setMultiSelectionEnabled(true);
+            fc.showOpenDialog(HappyButtons.mf);
 
-                    src.close();
-                    dest.close();
+            File[] selectedFiles = fc.getSelectedFiles();
+
+            for(File file : selectedFiles) {
+                try {
+                    FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
+                    File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\bg\\" + file.getName());
+
+                    if(!destCheck.exists()) {
+                        FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\bg\\" + file.getName()).getChannel();
+
+                        src.transferTo(0,src.size(),dest);
+
+                        src.close();
+                        dest.close();
+                    }
+
+                    if(!blist.contains(Utility.renameListName(file.getName()))) {
+                        blist.addElement(Utility.renameListName(file.getName()));
+                        tfLastOperation.setText("[ADDED BGM]:: " + file.getName());
+                    }
+
+                    listBGM.setModel(blist);
                 }
-                
-                if(!blist.contains(Utility.renameListName(file.getName()))) {
-                    blist.addElement(Utility.renameListName(file.getName()));
-                    tfLastOperation.setText("[ADDED BGM]:: " + file.getName());
+                catch(IOException ex) {
+                    System.out.println(file.getAbsolutePath());
+                    JOptionPane.showMessageDialog(HappyButtons.mf,
+                        "Error reading/writing file",
+                        "IO Error", 
+                        JOptionPane.ERROR_MESSAGE);
                 }
-                
-                listBGM.setModel(blist);
-            }
-            catch(IOException ex) {
-                System.out.println(file.getAbsolutePath());
-                JOptionPane.showMessageDialog(HappyButtons.mf,
-                    "Error reading/writing file",
-                    "IO Error", 
-                    JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnAddBGMActionPerformed
 
     private void btnAddSFXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSFXActionPerformed
-        JFileChooser fc = new JFileChooser();
-        FileFilter filter = new FileNameExtensionFilter("WAV File","wav");
-        fc.setFileFilter(filter);
-        fc.setMultiSelectionEnabled(true);
-        fc.showOpenDialog(HappyButtons.mf);
+        Object[] options = {"Add from App Resource", "Add from My files"};
         
-        File[] selectedFiles = fc.getSelectedFiles();
+        int choice = JOptionPane.showOptionDialog(HappyButtons.mf, "Select path where to get SFX files",
+                "Get SFX source",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
         
-        for(File file : selectedFiles) {
-            try {
-                FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
-                File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\sfx\\" + file.getName());
-                
-                if(!destCheck.exists()) {
-                    FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\sfx\\" + file.getName()).getChannel();
-                
-                    src.transferTo(0,src.size(),dest);
+        if(choice == 0) {
+            AddSFXFrame addSfxFrame = new AddSFXFrame(HappyButtons.mf, true);
+            addSfxFrame.setVisible(true);
+        }
+        else if(choice == 1) {
+            JFileChooser fc = new JFileChooser();
+            FileFilter filter = new FileNameExtensionFilter("WAV File","wav");
+            fc.setFileFilter(filter);
+            fc.setMultiSelectionEnabled(true);
+            fc.showOpenDialog(HappyButtons.mf);
 
-                    src.close();
-                    dest.close();
+            File[] selectedFiles = fc.getSelectedFiles();
+
+            for(File file : selectedFiles) {
+                try {
+                    FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
+                    File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\sfx\\" + file.getName());
+
+                    if(!destCheck.exists()) {
+                        FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\sfx\\" + file.getName()).getChannel();
+
+                        src.transferTo(0,src.size(),dest);
+
+                        src.close();
+                        dest.close();
+                    }
+
+                    if(!slist.contains(Utility.renameListName(file.getName()))) {
+                        slist.addElement(Utility.renameListName(file.getName()));
+                        tfLastOperation.setText("[ADDED SFX]:: " + file.getName());
+                    }
+
+                    listSFX.setModel(slist);
                 }
-                
-                if(!slist.contains(Utility.renameListName(file.getName()))) {
-                    slist.addElement(Utility.renameListName(file.getName()));
-                    tfLastOperation.setText("[ADDED SFX]:: " + file.getName());
+                catch(IOException ex) {
+                    System.out.println(file.getAbsolutePath());
+                    JOptionPane.showMessageDialog(HappyButtons.mf,
+                        "Error reading/writing file",
+                        "IO Error", 
+                        JOptionPane.ERROR_MESSAGE);
                 }
-                
-                listSFX.setModel(slist);
-            }
-            catch(IOException ex) {
-                System.out.println(file.getAbsolutePath());
-                JOptionPane.showMessageDialog(HappyButtons.mf,
-                    "Error reading/writing file",
-                    "IO Error", 
-                    JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnAddSFXActionPerformed
@@ -4349,7 +4373,10 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public void playSFX(String sfxName) {
         sfxOperation = true;
         
-        if(sfxName.equals("blank") || sfxName.equals("<html><center>blank</center></html>") || sfxName.equals("null")) {
+        if(sfxName.equals("blank") || 
+            sfxName.equals("<html><center>blank</center></html>") || 
+            sfxName.equals("null") || 
+            sfxName.equals("<html><center>null</center></html>")) {
             tfLastOperation.setText("NO SFX TO PLAY");
 //            JOptionPane.showMessageDialog(HappyButtons.mf, 
 //                            "Nothing to play", 

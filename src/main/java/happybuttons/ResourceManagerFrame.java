@@ -4,13 +4,15 @@
  */
 package happybuttons;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -18,6 +20,7 @@ import javax.swing.table.TableModel;
  */
 public class ResourceManagerFrame extends javax.swing.JDialog {
     DefaultTableModel model;
+    String theme = HappyButtons.uiTheme;
     /**
      * Creates new form ResourceManagerFrame
      */
@@ -35,6 +38,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         
         tblResources.setAutoCreateRowSorter(true);
         
+        setupTheme();
         populateTable();
     }
     
@@ -90,11 +94,11 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Sound item", "Type", "Profile"
+                "Sound item", "Type", "Used in (Profile)"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -136,6 +140,21 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void setupTheme() {
+        if(theme.equals("light")) {
+            this.getContentPane().setBackground(new JDialog().getBackground());
+            
+            btnDelete.setBackground(new JButton().getBackground());
+            btnDelete.setForeground(new JButton().getForeground());
+        }
+        else if(theme.equals("dark")) {
+            this.getContentPane().setBackground(Color.DARK_GRAY);
+            
+            btnDelete.setBackground(Color.GRAY);
+            btnDelete.setForeground(Color.WHITE);
+        }
+    }
+    
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int selectedRow = tblResources.getSelectedRow();
         String selectedItem = "";
@@ -143,75 +162,85 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         File filePath = null;
         
         if(selectedRow != -1) {
-            selectedItem = model.getValueAt(selectedRow, 0).toString();
-            selectedType = model.getValueAt(selectedRow, 1).toString();
+            int confirmation = JOptionPane.showConfirmDialog(null, 
+                    "Are you sure you want to permanently delete selected item(s)?", 
+                    "Delete items", 
+                    JOptionPane.YES_NO_OPTION, 
+                    JOptionPane.WARNING_MESSAGE);
             
-            String str = "";
-            if(selectedType.equals("BGM")) {
-                filePath = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\bg\\" + selectedItem + ".wav");
-            }
-            else if(selectedType.equals("SFX")) {
-                filePath = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\sfx\\" + selectedItem + ".wav");
-            }
+            if(confirmation == 0) {
+                selectedItem = model.getValueAt(selectedRow, 0).toString();
+                selectedType = model.getValueAt(selectedRow, 1).toString();
 
-            if(filePath.delete()) {
-                model.removeRow(selectedRow);
-
+                String str = "";
                 if(selectedType.equals("BGM")) {
-                    (MainFrame.blist).removeElement(selectedItem);
-                    
-                    // gets the new list in bgm jlist
-//                    int listBGMSize = (MainFrame.listBGM).getModel().getSize();
-//                    MainFrame.strBGM = "";
-//
-//                    for(int ctr = 0; ctr < listBGMSize; ctr++){
-//                        if(ctr == 0) {
-//                            MainFrame.strBGM = (MainFrame.listBGM).getModel().getElementAt(ctr);
-//                        }
-//                        else if(ctr > 0 && ctr <= (listBGMSize - 1)) {
-//                            MainFrame.strBGM = MainFrame.strBGM + ":" + (MainFrame.listBGM).getModel().getElementAt(ctr);
-//                        }
-//                    }
-//                    
-//                    // save automatically after deletion
-//                    Profile profile = new Profile();
-//                    HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
-//                    (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+                    filePath = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\bg\\" + selectedItem + ".wav");
                 }
                 else if(selectedType.equals("SFX")) {
-                    (MainFrame.slist).removeElement(selectedItem);
-                    
-                    // gets the new list in sfx jlist
-//                    int listSFXSize = (MainFrame.listSFX).getModel().getSize();
-//                    MainFrame.strSFX = "";
-//
-//                    for(int ctr = 0; ctr < listSFXSize; ctr++){
-//                        if(ctr == 0) {
-//                            MainFrame.strSFX = (MainFrame.listSFX).getModel().getElementAt(ctr);
-//                        }
-//                        else if(ctr > 0 && ctr <= (listSFXSize - 1)) {
-//                            MainFrame.strSFX = MainFrame.strSFX + ":" + (MainFrame.listSFX).getModel().getElementAt(ctr);
-//                        }
-//                    }
-//                    
-//                    // save automatically after deletion
-//                    Profile profile = new Profile();
-//                    HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
-//                    (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+                    filePath = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\sfx\\" + selectedItem + ".wav");
                 }
 
-                selectedItem = "";
+                if(filePath.delete()) {
+                    model.removeRow(selectedRow);
+
+                    if(selectedType.equals("BGM")) {
+                        (MainFrame.blist).removeElement(selectedItem);
+
+                        // gets the new list in bgm jlist
+    //                    int listBGMSize = (MainFrame.listBGM).getModel().getSize();
+    //                    MainFrame.strBGM = "";
+    //
+    //                    for(int ctr = 0; ctr < listBGMSize; ctr++){
+    //                        if(ctr == 0) {
+    //                            MainFrame.strBGM = (MainFrame.listBGM).getModel().getElementAt(ctr);
+    //                        }
+    //                        else if(ctr > 0 && ctr <= (listBGMSize - 1)) {
+    //                            MainFrame.strBGM = MainFrame.strBGM + ":" + (MainFrame.listBGM).getModel().getElementAt(ctr);
+    //                        }
+    //                    }
+    //                    
+    //                    // save automatically after deletion
+    //                    Profile profile = new Profile();
+    //                    HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
+    //                    (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+                    }
+                    else if(selectedType.equals("SFX")) {
+                        (MainFrame.slist).removeElement(selectedItem);
+
+                        // gets the new list in sfx jlist
+    //                    int listSFXSize = (MainFrame.listSFX).getModel().getSize();
+    //                    MainFrame.strSFX = "";
+    //
+    //                    for(int ctr = 0; ctr < listSFXSize; ctr++){
+    //                        if(ctr == 0) {
+    //                            MainFrame.strSFX = (MainFrame.listSFX).getModel().getElementAt(ctr);
+    //                        }
+    //                        else if(ctr > 0 && ctr <= (listSFXSize - 1)) {
+    //                            MainFrame.strSFX = MainFrame.strSFX + ":" + (MainFrame.listSFX).getModel().getElementAt(ctr);
+    //                        }
+    //                    }
+    //                    
+    //                    // save automatically after deletion
+    //                    Profile profile = new Profile();
+    //                    HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
+    //                    (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+                    }
+
+                    selectedItem = "";
+                }
+                else {
+                    JOptionPane.showMessageDialog(HappyButtons.mf, 
+                        "An error occurred when deleting " + selectedItem + ".wav", 
+                        "File deletion error", 
+                        JOptionPane.ERROR_MESSAGE);
+                    selectedItem = "";
+                }
             }
-            else {
-                JOptionPane.showMessageDialog(HappyButtons.mf, 
-                    "An error occurred when deleting " + selectedItem + ".wav", 
-                    "File deletion error", 
-                    JOptionPane.ERROR_MESSAGE);
-                selectedItem = "";
-            } 
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    
+    
     /**
      * @param args the command line arguments
      */

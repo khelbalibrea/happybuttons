@@ -555,6 +555,25 @@ public class SystemClass {
         else if(themeProfile.equals("dark")) { // ------------------------------------------------------------------------------- DARK THEME
             HappyButtons.mf.getContentPane().setBackground(Color.DARK_GRAY);
             
+            // -------------------------------------------------------------------------------------- LIST
+            MainFrame.listBGM.setBackground(Color.DARK_GRAY);
+            MainFrame.listBGM.setForeground(Color.LIGHT_GRAY);
+            MainFrame.listBGM.setBorder(BorderFactory.createTitledBorder(null, 
+                    "BGM", 
+                    TitledBorder.LEFT, 
+                    TitledBorder.TOP, 
+                    new Font("segoe", Font.BOLD,12), 
+                    Color.LIGHT_GRAY));
+            
+            MainFrame.listSFX.setBackground(Color.DARK_GRAY);
+            MainFrame.listSFX.setForeground(Color.LIGHT_GRAY);
+            MainFrame.listSFX.setBorder(BorderFactory.createTitledBorder(null, 
+                    "SFX", 
+                    TitledBorder.LEFT, 
+                    TitledBorder.TOP, 
+                    new Font("segoe", Font.BOLD,12), 
+                    Color.LIGHT_GRAY));
+            
             // -------------------------------------------------------------------------------------- MENU BAR
             MainFrame.jMenuBar1.setOpaque(true);
             MainFrame.jMenuBar1.setBackground(Color.BLACK);
@@ -823,25 +842,6 @@ public class SystemClass {
             // -------------------------------------------------------------------------------------- TOGGLE BUTTON
             MainFrame.togLinkBGMVol.setBackground(Color.GRAY);
             MainFrame.togLinkBGMVol.setForeground(Color.WHITE);
-            
-            // -------------------------------------------------------------------------------------- LIST
-            MainFrame.listBGM.setBackground(Color.DARK_GRAY);
-            MainFrame.listBGM.setForeground(Color.LIGHT_GRAY);
-            MainFrame.listBGM.setBorder(BorderFactory.createTitledBorder(null, 
-                    "BGM", 
-                    TitledBorder.LEFT, 
-                    TitledBorder.TOP, 
-                    new Font("segoe", Font.BOLD,12), 
-                    Color.LIGHT_GRAY));
-            
-            MainFrame.listSFX.setBackground(Color.DARK_GRAY);
-            MainFrame.listSFX.setForeground(Color.LIGHT_GRAY);
-            MainFrame.listSFX.setBorder(BorderFactory.createTitledBorder(null, 
-                    "SFX", 
-                    TitledBorder.LEFT, 
-                    TitledBorder.TOP, 
-                    new Font("segoe", Font.BOLD,12), 
-                    Color.LIGHT_GRAY));
             
             // -------------------------------------------------------------------------------------- TEXT FIELDS
             MainFrame.tfBGM1.setBackground(Color.DARK_GRAY);
