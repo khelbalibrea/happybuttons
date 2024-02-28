@@ -24,4 +24,12 @@
         <maven.compiler.target>17</maven.compiler.target>
         <exec.mainClass>happybuttons.HappyButtons</exec.mainClass>
     </properties>
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/uk.co.caprica/vlcj -->
+        <dependency>
+            <groupId>uk.co.caprica</groupId>
+            <artifactId>vlcj</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+    </dependencies>
 </project>

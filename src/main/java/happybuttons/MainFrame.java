@@ -3008,6 +3008,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 itmAboutMouseClicked(evt);
             }
         });
+        itmAbout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmAboutActionPerformed(evt);
+            }
+        });
         jMenuBar1.add(itmAbout);
 
         jMenuTime.setText("Time: ");
@@ -3900,8 +3905,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_itmResourceManagerActionPerformed
 
     private void itmAboutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itmAboutMouseClicked
-        AboutFrame aboutFrame = new AboutFrame(HappyButtons.mf, true);
-        aboutFrame.setVisible(true);
+//        AboutFrame aboutFrame = new AboutFrame(HappyButtons.mf, true);
+//        aboutFrame.setVisible(true);
+        
+        VLCFrame vlcFrame = new VLCFrame();
+        vlcFrame.setVisible(true);
     }//GEN-LAST:event_itmAboutMouseClicked
 
     private void btnR1SFX14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR1SFX14ActionPerformed
@@ -4076,6 +4084,10 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         UIThemeFrame uiThemeFrame = new UIThemeFrame(HappyButtons.mf, true);
         uiThemeFrame.setVisible(true);
     }//GEN-LAST:event_itmUIThemeActionPerformed
+
+    private void itmAboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmAboutActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_itmAboutActionPerformed
 
     /**
      * @param args the command line arguments
