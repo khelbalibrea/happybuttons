@@ -594,7 +594,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1366, 700));
         setName("mainFrame"); // NOI18N
-        setResizable(false);
         setSize(new java.awt.Dimension(1366, 733));
 
         panelJList.setPreferredSize(new java.awt.Dimension(1354, 180));

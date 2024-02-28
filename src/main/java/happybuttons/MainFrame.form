@@ -124,7 +124,6 @@
       <Dimension value="[1366, 700]"/>
     </Property>
     <Property name="name" type="java.lang.String" value="mainFrame" noResource="true"/>
-    <Property name="resizable" type="boolean" value="false"/>
     <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[1366, 733]"/>
     </Property>
