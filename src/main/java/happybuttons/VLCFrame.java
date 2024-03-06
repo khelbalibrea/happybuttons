@@ -37,6 +37,7 @@ public class VLCFrame extends javax.swing.JFrame {
         setIconImage(imgIcon.getImage());
         
         canvasMain.setBackground(Color.BLACK);
+        canvasMain.setVisible(false);
         
         NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:/Program Files/VideoLAN/VLC");
         Native.loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class);
@@ -44,7 +45,7 @@ public class VLCFrame extends javax.swing.JFrame {
         MediaPlayerFactory mpf = new MediaPlayerFactory();
         EmbeddedMediaPlayer emp = mpf.newEmbeddedMediaPlayer(new Win32FullScreenStrategy(this));
         
-        emp.toggleFullScreen();
+//        emp.toggleFullScreen();
         emp.setEnableMouseInputHandling(false);
         emp.setEnableKeyInputHandling(false);
         

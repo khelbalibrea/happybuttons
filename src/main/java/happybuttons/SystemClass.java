@@ -620,6 +620,8 @@ public class SystemClass {
             
             MainFrame.panelRadio.setBackground(Color.DARK_GRAY);
             MainFrame.panelRadio.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+            MainFrame.panelHappyLoop.setBackground(Color.DARK_GRAY);
+            MainFrame.panelHappyLoop.setBorder(BorderFactory.createLineBorder(Color.GRAY));
             
             MainFrame.panelSFX1.setBackground(Color.DARK_GRAY);
             MainFrame.panelSFX1.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -885,6 +887,10 @@ public class SystemClass {
             MainFrame.lblSFXState.setBackground(Color.DARK_GRAY);
             MainFrame.lblSFXState.setForeground(Color.WHITE);
             MainFrame.lblSFXState.setOpaque(true);
+            
+            MainFrame.lblHappyLoop.setBackground(Color.DARK_GRAY);
+            MainFrame.lblHappyLoop.setForeground(Color.WHITE);
+            MainFrame.lblHappyLoop.setOpaque(true);
             
             MainFrame.lblR1SFX01.setBackground(Color.DARK_GRAY);
             MainFrame.lblR1SFX01.setForeground(Color.WHITE);

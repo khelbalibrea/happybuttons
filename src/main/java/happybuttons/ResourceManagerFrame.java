@@ -81,13 +81,23 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        tabPanel = new javax.swing.JTabbedPane();
+        panelBgmSfx = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblResources = new javax.swing.JTable();
-        btnDelete = new javax.swing.JButton();
+        btnDeleteBS = new javax.swing.JButton();
+        panelHappyLoop = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblHappyLoop = new javax.swing.JTable();
+        btnAddHL = new javax.swing.JButton();
+        btnDeleteHL = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(700, 290));
         setMinimumSize(new java.awt.Dimension(700, 290));
+        setResizable(false);
+
+        panelBgmSfx.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tblResources.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -107,35 +117,48 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         });
         jScrollPane1.setViewportView(tblResources);
 
-        btnDelete.setText("Delete");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+        panelBgmSfx.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 594, 291));
+
+        btnDeleteBS.setText("Delete");
+        btnDeleteBS.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
+                btnDeleteBSActionPerformed(evt);
             }
         });
+        panelBgmSfx.add(btnDeleteBS, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 10, 90, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnDelete)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE))
-                .addContainerGap())
-        );
+        tabPanel.addTab("BGM / SFX", panelBgmSfx);
+
+        panelHappyLoop.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tblHappyLoop.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Video item", "Used in (Profile)"
+            }
+        ));
+        jScrollPane2.setViewportView(tblHappyLoop);
+        if (tblHappyLoop.getColumnModel().getColumnCount() > 0) {
+            tblHappyLoop.getColumnModel().getColumn(0).setResizable(false);
+            tblHappyLoop.getColumnModel().getColumn(1).setResizable(false);
+        }
+
+        panelHappyLoop.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 300));
+
+        btnAddHL.setText("Add");
+        panelHappyLoop.add(btnAddHL, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 10, 90, -1));
+
+        btnDeleteHL.setText("Delete");
+        panelHappyLoop.add(btnDeleteHL, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 40, 90, -1));
+
+        tabPanel.addTab("Happy Loop", panelHappyLoop);
+
+        getContentPane().add(tabPanel, java.awt.BorderLayout.PAGE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -144,18 +167,18 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         if(theme.equals("light")) {
             this.getContentPane().setBackground(new JDialog().getBackground());
             
-            btnDelete.setBackground(new JButton().getBackground());
-            btnDelete.setForeground(new JButton().getForeground());
+            btnDeleteBS.setBackground(new JButton().getBackground());
+            btnDeleteBS.setForeground(new JButton().getForeground());
         }
         else if(theme.equals("dark")) {
             this.getContentPane().setBackground(Color.DARK_GRAY);
             
-            btnDelete.setBackground(Color.GRAY);
-            btnDelete.setForeground(Color.WHITE);
+            btnDeleteBS.setBackground(Color.GRAY);
+            btnDeleteBS.setForeground(Color.WHITE);
         }
     }
     
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+    private void btnDeleteBSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteBSActionPerformed
         int selectedRow = tblResources.getSelectedRow();
         String selectedItem = "";
         String selectedType = "";
@@ -237,7 +260,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                 }
             }
         }
-    }//GEN-LAST:event_btnDeleteActionPerformed
+    }//GEN-LAST:event_btnDeleteBSActionPerformed
 
     
     
@@ -285,8 +308,15 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnAddHL;
+    private javax.swing.JButton btnDeleteBS;
+    private javax.swing.JButton btnDeleteHL;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPanel panelBgmSfx;
+    private javax.swing.JPanel panelHappyLoop;
+    private javax.swing.JTabbedPane tabPanel;
+    private javax.swing.JTable tblHappyLoop;
     private javax.swing.JTable tblResources;
     // End of variables declaration//GEN-END:variables
 }
