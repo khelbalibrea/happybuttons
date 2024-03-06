@@ -4154,55 +4154,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_btnStopSFX1ActionPerformed
 
     private void btnStopSFX2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFX2ActionPerformed
-        Object[] options = {"Add from App resource", "Add from My PC files"};
         
-        int choice = JOptionPane.showOptionDialog(HappyButtons.mf, "Select path where to get video files",
-                "Get Video items",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-        
-        if(choice == 0) {
-//            AddSFXFrame addSfxFrame = new AddSFXFrame(HappyButtons.mf, true);
-//            addSfxFrame.setVisible(true);
-        }
-        else if(choice == 1) {
-            JFileChooser fc = new JFileChooser();
-            FileFilter filter = new FileNameExtensionFilter("MP4 File","mp4");
-            fc.setFileFilter(filter);
-            fc.setMultiSelectionEnabled(true);
-            fc.showOpenDialog(HappyButtons.mf);
-
-            File[] selectedFiles = fc.getSelectedFiles();
-
-            for(File file : selectedFiles) {
-                try {
-                    FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
-                    File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + file.getName());
-
-                    if(!destCheck.exists()) {
-                        FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + file.getName()).getChannel();
-
-                        src.transferTo(0,src.size(),dest);
-
-                        src.close();
-                        dest.close();
-                    }
-                    
-                    if(cboModel.getIndexOf(Utility.renameVideoName(file.getName())) < 0) {
-                        cboModel.addElement(Utility.renameVideoName(file.getName()));
-                        tfLastOperation.setText("[ADDED VIDEO]:: " + file.getName());
-                    }
-                    
-                    cboVidLoop.setModel(cboModel);
-                }
-                catch(IOException ex) {
-                    System.out.println(file.getAbsolutePath());
-                    JOptionPane.showMessageDialog(HappyButtons.mf,
-                        "Error reading/writing file",
-                        "IO Error", 
-                        JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }
     }//GEN-LAST:event_btnStopSFX2ActionPerformed
 
     private void btnStopSFX3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFX3ActionPerformed

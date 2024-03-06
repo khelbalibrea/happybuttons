@@ -5,6 +5,7 @@
 package happybuttons;
 
 import java.util.regex.Pattern;
+import javax.swing.JTable;
 
 /**
  *
@@ -141,12 +142,23 @@ public class Utility {
         for(String data : arr) {
             if (arrStr.equals("")) {
                 arrStr = data;
-            } else {
+            }
+            else {
                 arrStr = arrStr + ", " + data;
             }
         }
         
         return arrStr;
+    }
+    
+    public static boolean searchInTableCol(JTable table, String strSearch, int col) {
+        boolean ret = false;
+        
+        for(int i = 0; i < table.getRowCount(); i++){
+            ret = table.getValueAt(i, col).equals(strSearch);
+        }
+        
+        return ret;
     }
     
     public static int searchSFX(String search) {

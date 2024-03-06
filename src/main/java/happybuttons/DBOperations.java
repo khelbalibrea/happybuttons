@@ -572,7 +572,7 @@ public class DBOperations {
             
             int found = Utility.findArrIndex(arr, search); // search the search item in array
             if(found >= 0) {
-                System.out.println("Found in " + ctr);
+//                System.out.println("Found in " + ctr);
                 if(strSFXList.equals("")) {
                     strSFXList = profileDB[ctr].getProfileName();
                 }
@@ -583,5 +583,26 @@ public class DBOperations {
         }
         
         return strSFXList;
+    }
+    
+    public static String checkVideoLoopInProfiles(ProfileDatabase[] profileDB, String search) {
+        String strVideoLoopList = "";
+        
+        for(int ctr = 0; ctr < 5; ctr++) {
+            String str = profileDB[ctr].getVidLoop(); // get the strVidLoop from DB
+            String[] arr = Utility.strToArr(str); // convert string to array
+            
+            int found = Utility.findArrIndex(arr, search); // search the search item in array
+            if(found >= 0) {
+                if(strVideoLoopList.equals("")) {
+                    strVideoLoopList = profileDB[ctr].getProfileName();
+                }
+                else {
+                    strVideoLoopList = strVideoLoopList + ", " + profileDB[ctr].getProfileName();
+                }
+            }
+        }
+        
+        return strVideoLoopList;
     }
 }

@@ -8,10 +8,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Michael Balibrea
  */
 public class ResourceManagerFrame extends javax.swing.JDialog {
-    DefaultTableModel model;
+    DefaultTableModel tblModelBS, tblModelVL;
     String theme = HappyButtons.uiTheme;
     /**
      * Creates new form ResourceManagerFrame
@@ -39,35 +46,50 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         tblResources.setAutoCreateRowSorter(true);
         
         setupTheme();
-        populateTable();
+        populateBSTable();
+        populateVLTable();
     }
     
-    public void populateTable() {
+    public void populateBSTable() {
         File bfolder = new File(HappyButtons.documentsPath + "/HappyButtons/bg/");
         File sfolder = new File(HappyButtons.documentsPath + "/HappyButtons/sfx/");
         
         File[] bFileList = bfolder.listFiles();
         File[] sFileList = sfolder.listFiles();
         
-        model = (DefaultTableModel) tblResources.getModel();
+        tblModelBS = (DefaultTableModel) tblResources.getModel();
         
-        String[] arrBGM = new String[bFileList.length];
         for(File f : bFileList) {
             String bgmList = "";
             bgmList = (HappyButtons.dbo).checkBgmInProfiles(HappyButtons.profileDB, Utility.renameListName(f.getName()));
             
-            model.insertRow(model.getRowCount(), new Object[]{
+            tblModelBS.insertRow(tblModelBS.getRowCount(), new Object[]{
                 Utility.renameListName(f.getName()), "BGM", bgmList
             });
         }
         
-        String[] arrSFX = new String[sFileList.length];
         for(File f : sFileList) {
             String sfxList = "";
             sfxList = (HappyButtons.dbo).checkSfxInProfiles(HappyButtons.profileDB, Utility.renameListName(f.getName()));
             
-            model.insertRow(model.getRowCount(), new Object[]{
+            tblModelBS.insertRow(tblModelBS.getRowCount(), new Object[]{
                 Utility.renameListName(f.getName()), "SFX", sfxList
+            });
+        }
+    }
+    
+    public void populateVLTable() {
+        File vlFolder = new File(HappyButtons.documentsPath + "/HappyButtons/hlvids/");
+        File[] vlFileList = vlFolder.listFiles();
+        
+        tblModelVL = (DefaultTableModel) tblVideoLoop.getModel();
+        
+        for(File f : vlFileList) {
+            String videoLoopList = "";
+            videoLoopList = (HappyButtons.dbo).checkVideoLoopInProfiles(HappyButtons.profileDB, Utility.renameVideoName(f.getName()));
+            
+            tblModelVL.insertRow(tblModelVL.getRowCount(), new Object[]{
+                Utility.renameVideoName(f.getName()), videoLoopList
             });
         }
     }
@@ -88,8 +110,9 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         btnDeleteBS = new javax.swing.JButton();
         panelHappyLoop = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblHappyLoop = new javax.swing.JTable();
-        btnDeleteHL = new javax.swing.JButton();
+        tblVideoLoop = new javax.swing.JTable();
+        btnDeleteVL = new javax.swing.JButton();
+        btnAddVL = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(700, 290));
@@ -130,29 +153,39 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
 
         panelHappyLoop.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tblHappyLoop.setModel(new javax.swing.table.DefaultTableModel(
+        tblVideoLoop.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Video item", "Used in (Profile)"
             }
         ));
-        jScrollPane2.setViewportView(tblHappyLoop);
-        if (tblHappyLoop.getColumnModel().getColumnCount() > 0) {
-            tblHappyLoop.getColumnModel().getColumn(0).setResizable(false);
-            tblHappyLoop.getColumnModel().getColumn(1).setResizable(false);
+        jScrollPane2.setViewportView(tblVideoLoop);
+        if (tblVideoLoop.getColumnModel().getColumnCount() > 0) {
+            tblVideoLoop.getColumnModel().getColumn(0).setResizable(false);
+            tblVideoLoop.getColumnModel().getColumn(1).setResizable(false);
         }
 
         panelHappyLoop.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 300));
 
-        btnDeleteHL.setText("Delete");
-        panelHappyLoop.add(btnDeleteHL, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 10, 90, -1));
+        btnDeleteVL.setText("Delete");
+        btnDeleteVL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteVLActionPerformed(evt);
+            }
+        });
+        panelHappyLoop.add(btnDeleteVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 40, 90, -1));
 
-        tabPanel.addTab("Happy Loop", panelHappyLoop);
+        btnAddVL.setText("Add");
+        btnAddVL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddVLActionPerformed(evt);
+            }
+        });
+        panelHappyLoop.add(btnAddVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 10, 90, -1));
+
+        tabPanel.addTab("Video Loop", panelHappyLoop);
 
         getContentPane().add(tabPanel, java.awt.BorderLayout.PAGE_START);
 
@@ -188,8 +221,8 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                     JOptionPane.WARNING_MESSAGE);
             
             if(confirmation == 0) {
-                selectedItem = model.getValueAt(selectedRow, 0).toString();
-                selectedType = model.getValueAt(selectedRow, 1).toString();
+                selectedItem = tblModelBS.getValueAt(selectedRow, 0).toString();
+                selectedType = tblModelBS.getValueAt(selectedRow, 1).toString();
 
                 String str = "";
                 if(selectedType.equals("BGM")) {
@@ -200,7 +233,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                 }
 
                 if(filePath.delete()) {
-                    model.removeRow(selectedRow);
+                    tblModelBS.removeRow(selectedRow);
 
                     if(selectedType.equals("BGM")) {
                         (MainFrame.blist).removeElement(selectedItem);
@@ -258,6 +291,89 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnDeleteBSActionPerformed
 
+    private void btnAddVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddVLActionPerformed
+        JFileChooser fc = new JFileChooser();
+        FileFilter filter = new FileNameExtensionFilter("MP4 File","mp4");
+        fc.setFileFilter(filter);
+        fc.setMultiSelectionEnabled(true);
+        fc.showOpenDialog(HappyButtons.mf);
+
+        File[] selectedFiles = fc.getSelectedFiles();
+
+        for(File file : selectedFiles) {
+            try {
+                FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
+                File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + file.getName());
+
+                if(!destCheck.exists()) {
+                    FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + file.getName()).getChannel();
+
+                    src.transferTo(0,src.size(),dest);
+
+                    src.close();
+                    dest.close();
+                }
+
+                if((MainFrame.cboModel).getIndexOf(Utility.renameVideoName(file.getName())) < 0) {
+                    (MainFrame.cboModel).addElement(Utility.renameVideoName(file.getName()));
+                    (MainFrame.tfLastOperation).setText("[ADDED VIDEO]:: " + file.getName());
+                }
+                
+                if(!Utility.searchInTableCol(tblVideoLoop, Utility.renameVideoName(file.getName()), 0)) {
+                    tblModelVL.insertRow(tblModelVL.getRowCount(), new Object[]{
+                        Utility.renameVideoName(file.getName()), ""
+                    });
+                }
+
+                (MainFrame.cboVidLoop).setModel(MainFrame.cboModel);
+            }
+            catch(IOException ex) {
+                System.out.println(file.getAbsolutePath());
+                JOptionPane.showMessageDialog(HappyButtons.mf,
+                    "Error reading/writing file",
+                    "IO Error", 
+                    JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnAddVLActionPerformed
+
+    private void btnDeleteVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteVLActionPerformed
+        int selectedRow = tblVideoLoop.getSelectedRow();
+        String selectedItem = "";
+        File filePath = null;
+        
+        if(selectedRow != -1) {
+            int confirmation = JOptionPane.showConfirmDialog(null, 
+                    "Are you sure you want to permanently delete selected item(s)?", 
+                    "Delete items", 
+                    JOptionPane.YES_NO_OPTION, 
+                    JOptionPane.WARNING_MESSAGE);
+            
+            if(confirmation == 0) {
+                selectedItem = tblModelVL.getValueAt(selectedRow, 0).toString();
+
+                String str = "";
+                filePath = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\hlvids\\" + selectedItem + ".mp4");
+
+                if(filePath.delete()) {
+                    tblModelVL.removeRow(selectedRow);
+
+                    (MainFrame.cboModel).removeElement(selectedItem);
+                    (MainFrame.cboVidLoop).removeItem(selectedItem);
+
+                    selectedItem = "";
+                }
+                else {
+                    JOptionPane.showMessageDialog(HappyButtons.mf, 
+                        "An error occurred when deleting " + selectedItem + ".mp4", 
+                        "File deletion error", 
+                        JOptionPane.ERROR_MESSAGE);
+                    selectedItem = "";
+                }
+            }
+        }
+    }//GEN-LAST:event_btnDeleteVLActionPerformed
+
     
     
     /**
@@ -304,14 +420,15 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddVL;
     private javax.swing.JButton btnDeleteBS;
-    private javax.swing.JButton btnDeleteHL;
+    private javax.swing.JButton btnDeleteVL;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel panelBgmSfx;
     private javax.swing.JPanel panelHappyLoop;
     private javax.swing.JTabbedPane tabPanel;
-    private javax.swing.JTable tblHappyLoop;
     private javax.swing.JTable tblResources;
+    private javax.swing.JTable tblVideoLoop;
     // End of variables declaration//GEN-END:variables
 }
