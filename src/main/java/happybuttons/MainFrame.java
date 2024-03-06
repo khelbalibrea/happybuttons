@@ -9,6 +9,8 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -363,6 +365,70 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             public void valueChanged(ListSelectionEvent arg0) {
                 if(!arg0.getValueIsAdjusting()) {
                   selectedSFXItem = listSFX.getSelectedValue();
+                }
+            }
+        });
+        
+        listBGM.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    int index = listBGM.locationToIndex(e.getPoint());
+                    if(index != -1) {
+                        String selectedItem = (String)blist.getElementAt(index);
+                        
+                        if(tfBGM1.getText().isBlank()) {
+                            tfBGM1.setText(selectedItem);
+                        }
+                        else {
+                            if(playing1 == 0) {
+                                if(tfBGM2.getText().isBlank()) {
+                                    tfBGM2.setText(selectedItem);
+                                }
+                                else {
+                                    if(playing2 == 1) {
+                                        tfBGM1.setText(selectedItem);
+                                    }
+                                    else {
+                                        tfBGM1.setText(selectedItem);
+                                    }
+                                }
+                            }
+                            else {
+                                if(tfBGM2.getText().isBlank()) {
+                                    tfBGM2.setText(selectedItem);
+                                }
+                                else {
+                                    if(playing2 == 1) {
+                                        tfLastOperation.setText("BGMs are busy, cannot input selected BGM");
+                                    }
+                                    else {
+                                        tfBGM2.setText(selectedItem);
+                                    }
+                                }
+                            }
+                        }
+                        
+//                        if(tfBGM1.getText().equals("") && playing1 == 0) {
+//                            tfBGM1.setText(selectedItem);
+//                        }
+//                        else if(!tfBGM1.getText().equals("") && playing1 == 0) {
+//                            if(tfBGM2.getText().equals("") && playing2 == 0) {
+//                                tfBGM2.setText(selectedItem);
+//                            }
+//                            else {
+////                                tfLastOperation.setText("<html><span style='color: red;'>BGMs are busy, cannot input selected BGM</span></html>");
+//                                tfLastOperation.setText("BGMs are busy, cannot input selected BGM");
+//                            }
+//                        }
+//                        else if(!tfBGM1.getText().equals("") && playing1 == 1) {
+//                            if(!tfBGM2.getText().equals("") && playing2 == 0) {
+//                                tfBGM2.setText(selectedItem);
+//                            }
+//                            else {
+//                                
+//                            }
+//                        }
+                    }
                 }
             }
         });
@@ -1017,7 +1083,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         lblHappyLoop.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblHappyLoop.setText("Happy Loop:");
 
-        cboVidLoop.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboVidLoop.setMaximumRowCount(100);
         cboVidLoop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboVidLoopActionPerformed(evt);
@@ -3061,7 +3127,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         .addComponent(lblVolSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(volSFX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67)
+                        .addGap(18, 18, 18)
                         .addComponent(lblSFXState, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(chkSP, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3072,8 +3138,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblHappyLoop)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnStopSFX2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnStopSFX1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3108,8 +3174,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                     .addComponent(btnStopSFX1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnStopSFX2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnStopSFX3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblHappyLoop)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelSFX1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3694,6 +3760,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         else {
             clipBGM1 = null; clipBGM2 = null; clipSFX = null;
             blist.removeAllElements(); slist.removeAllElements();
+            cboVidLoop.removeAllItems();
             bgmVolumeLink = 0;
             
             draggedList = -1;
@@ -3709,7 +3776,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             
             selectedBGMItem = ""; selectedSFXItem = "";
             profileName1 = ""; profileName2 = ""; profileName3 = ""; profileName4 = ""; profileName5 = "";
-            loadedProfile = ""; savedProfile = ""; strBGM = ""; strSFX = "";
+            loadedProfile = ""; savedProfile = ""; strBGM = ""; strSFX = ""; strHappyLoop = "";
             
             tfBGM1.setText("");
             tfBGM2.setText("");
@@ -3961,11 +4028,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_itmResourceManagerActionPerformed
 
     private void itmAboutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itmAboutMouseClicked
-//        AboutFrame aboutFrame = new AboutFrame(HappyButtons.mf, true);
-//        aboutFrame.setVisible(true);
-        
-        new VLCFrame();
-//        vlcFrame.setVisible(true);
+        AboutFrame aboutFrame = new AboutFrame(HappyButtons.mf, true);
+        aboutFrame.setVisible(true);
     }//GEN-LAST:event_itmAboutMouseClicked
 
     private void btnR1SFX14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnR1SFX14ActionPerformed
@@ -4154,7 +4218,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_btnStopSFX1ActionPerformed
 
     private void btnStopSFX2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFX2ActionPerformed
-        
+        new VLCFrame();
     }//GEN-LAST:event_btnStopSFX2ActionPerformed
 
     private void btnStopSFX3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFX3ActionPerformed
