@@ -449,13 +449,15 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         tfLastOperation = new javax.swing.JTextField();
         togLinkBGMVol = new javax.swing.JToggleButton();
         lblLinkBGMVolumes = new javax.swing.JLabel();
-        panelRow6 = new javax.swing.JPanel();
-        panelRadio = new javax.swing.JPanel();
-        lblSFXState = new javax.swing.JLabel();
-        chkIB = new javax.swing.JCheckBox();
-        chkSP = new javax.swing.JCheckBox();
-        btnStopSFX = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        volSFX = new javax.swing.JSlider();
+        lblVolSFX = new javax.swing.JLabel();
+        lblSFXState = new javax.swing.JLabel();
+        chkSP = new javax.swing.JCheckBox();
+        chkIB = new javax.swing.JCheckBox();
+        btnStopSFX = new javax.swing.JButton();
+        lblHappyLoop = new javax.swing.JLabel();
+        cboVidLoop = new javax.swing.JComboBox<>();
         panelSFX1 = new javax.swing.JPanel();
         panelR1S01 = new javax.swing.JPanel();
         btnR1SFX01 = new javax.swing.JButton();
@@ -585,11 +587,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         panelR3S14 = new javax.swing.JPanel();
         btnR3SFX14 = new javax.swing.JButton();
         lblR3SFX14 = new javax.swing.JLabel();
-        lblVolSFX = new javax.swing.JLabel();
-        volSFX = new javax.swing.JSlider();
-        panelHappyLoop = new javax.swing.JPanel();
-        lblHappyLoop = new javax.swing.JLabel();
-        cboVidLoop = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itmNew = new javax.swing.JMenuItem();
@@ -683,7 +680,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         .addComponent(btnDeleteSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblDeleteSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 577, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane3))
                 .addContainerGap())
         );
@@ -886,7 +883,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 .addComponent(btnClearBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(chkLoop2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 377, Short.MAX_VALUE)
                 .addComponent(lblVolBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(volBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -964,18 +961,23 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        lblSFXState.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblSFXState.setText("SFX State:");
-
-        chkIB.setText("IB");
-        chkIB.setToolTipText("Interrupt BGM");
-        chkIB.setEnabled(false);
-        chkIB.setFocusable(false);
-        chkIB.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkIBActionPerformed(evt);
+        volSFX.setToolTipText("BGM1 volume");
+        volSFX.setValue(100);
+        volSFX.setMaximumSize(new java.awt.Dimension(200, 20));
+        volSFX.setMinimumSize(new java.awt.Dimension(200, 20));
+        volSFX.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                volSFXStateChanged(evt);
             }
         });
+
+        lblVolSFX.setText("SFX Vol: 100");
+        lblVolSFX.setMaximumSize(new java.awt.Dimension(85, 22));
+        lblVolSFX.setMinimumSize(new java.awt.Dimension(85, 22));
+        lblVolSFX.setPreferredSize(new java.awt.Dimension(85, 22));
+
+        lblSFXState.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblSFXState.setText("SFX State:");
 
         chkSP.setSelected(true);
         chkSP.setText("SP");
@@ -987,28 +989,15 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
         });
 
-        javax.swing.GroupLayout panelRadioLayout = new javax.swing.GroupLayout(panelRadio);
-        panelRadio.setLayout(panelRadioLayout);
-        panelRadioLayout.setHorizontalGroup(
-            panelRadioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRadioLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblSFXState)
-                .addGap(24, 24, 24)
-                .addComponent(chkSP)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(chkIB)
-                .addContainerGap())
-        );
-        panelRadioLayout.setVerticalGroup(
-            panelRadioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRadioLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(panelRadioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblSFXState)
-                    .addComponent(chkIB)
-                    .addComponent(chkSP)))
-        );
+        chkIB.setText("IB");
+        chkIB.setToolTipText("Interrupt BGM");
+        chkIB.setEnabled(false);
+        chkIB.setFocusable(false);
+        chkIB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkIBActionPerformed(evt);
+            }
+        });
 
         btnStopSFX.setToolTipText("Stop SFX");
         btnStopSFX.setMaximumSize(new java.awt.Dimension(22, 22));
@@ -1020,25 +1009,15 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
         });
 
-        javax.swing.GroupLayout panelRow6Layout = new javax.swing.GroupLayout(panelRow6);
-        panelRow6.setLayout(panelRow6Layout);
-        panelRow6Layout.setHorizontalGroup(
-            panelRow6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRow6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelRadio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnStopSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(334, Short.MAX_VALUE))
-        );
-        panelRow6Layout.setVerticalGroup(
-            panelRow6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRow6Layout.createSequentialGroup()
-                .addGroup(panelRow6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnStopSFX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panelRadio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
+        lblHappyLoop.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblHappyLoop.setText("Happy Loop:");
+
+        cboVidLoop.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboVidLoop.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboVidLoopActionPerformed(evt);
+            }
+        });
 
         panelR1S01.setMaximumSize(new java.awt.Dimension(90, 88));
         panelR1S01.setMinimumSize(new java.awt.Dimension(90, 88));
@@ -2945,46 +2924,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 .addGap(1, 1, 1))
         );
 
-        lblVolSFX.setText("SFX Vol: 100");
-        lblVolSFX.setMaximumSize(new java.awt.Dimension(85, 22));
-        lblVolSFX.setMinimumSize(new java.awt.Dimension(85, 22));
-        lblVolSFX.setPreferredSize(new java.awt.Dimension(85, 22));
-
-        volSFX.setToolTipText("BGM1 volume");
-        volSFX.setValue(100);
-        volSFX.setMaximumSize(new java.awt.Dimension(200, 20));
-        volSFX.setMinimumSize(new java.awt.Dimension(200, 20));
-        volSFX.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                volSFXStateChanged(evt);
-            }
-        });
-
-        lblHappyLoop.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblHappyLoop.setText("Happy Loop:");
-
-        cboVidLoop.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        javax.swing.GroupLayout panelHappyLoopLayout = new javax.swing.GroupLayout(panelHappyLoop);
-        panelHappyLoop.setLayout(panelHappyLoopLayout);
-        panelHappyLoopLayout.setHorizontalGroup(
-            panelHappyLoopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelHappyLoopLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblHappyLoop)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(106, Short.MAX_VALUE))
-        );
-        panelHappyLoopLayout.setVerticalGroup(
-            panelHappyLoopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelHappyLoopLayout.createSequentialGroup()
-                .addGap(0, 1, Short.MAX_VALUE)
-                .addGroup(panelHappyLoopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblHappyLoop)
-                    .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-
         jMenuBar1.setName("mbrMain"); // NOI18N
         jMenuBar1.setOpaque(true);
 
@@ -3063,40 +3002,50 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(panelJList, 1340, 1340, Short.MAX_VALUE)
-                            .addComponent(panelRow1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelRow2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelRow3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panelSFX1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panelSFX2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panelSFX3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(21, 21, 21))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblVolSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblVolSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(volSFX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(67, 67, 67)
+                                .addComponent(lblSFXState, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(chkSP, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(panelRow6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(chkIB, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnStopSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblHappyLoop)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(24, 24, 24))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(panelJList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1317, Short.MAX_VALUE)
+                                    .addComponent(panelRow2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(panelRow1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(panelRow3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(22, 22, 22))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(panelHappyLoop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(panelSFX1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(panelSFX2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(panelSFX3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 22, Short.MAX_VALUE))))
+                        .addGap(16, 16, 16))))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {chkIB, chkSP});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(panelRow1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelRow2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3106,20 +3055,25 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 .addComponent(panelJList, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelHappyLoop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(panelRow6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addComponent(volSFX, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblVolSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                        .addComponent(lblVolSFX, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblSFXState)
+                        .addComponent(chkIB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(chkSP))
+                    .addComponent(btnStopSFX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(volSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblHappyLoop)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelSFX1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelSFX2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelSFX3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         pack();
@@ -4132,6 +4086,10 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         // TODO add your handling code here:
     }//GEN-LAST:event_itmAboutActionPerformed
 
+    private void cboVidLoopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboVidLoopActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboVidLoopActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -4288,7 +4246,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JLabel lblVolSFX;
     public static javax.swing.JList<String> listBGM;
     public static javax.swing.JList<String> listSFX;
-    public static javax.swing.JPanel panelHappyLoop;
     public static javax.swing.JPanel panelJList;
     public static javax.swing.JPanel panelR1S01;
     public static javax.swing.JPanel panelR1S02;
@@ -4332,11 +4289,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JPanel panelR3S12;
     public static javax.swing.JPanel panelR3S13;
     public static javax.swing.JPanel panelR3S14;
-    public static javax.swing.JPanel panelRadio;
     public static javax.swing.JPanel panelRow1;
     public static javax.swing.JPanel panelRow2;
     public static javax.swing.JPanel panelRow3;
-    public static javax.swing.JPanel panelRow6;
     public static javax.swing.JPanel panelSFX1;
     public static javax.swing.JPanel panelSFX2;
     public static javax.swing.JPanel panelSFX3;

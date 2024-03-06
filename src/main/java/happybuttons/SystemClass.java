@@ -76,10 +76,12 @@ public class SystemClass {
             MainFrame.panelRow2.setBackground(new JPanel().getBackground());
             MainFrame.panelRow3.setBackground(new JPanel().getBackground());
             MainFrame.panelJList.setBackground(new JPanel().getBackground());
-            MainFrame.panelRow6.setBackground(new JPanel().getBackground());
-            
-            MainFrame.panelRadio.setBackground(new JPanel().getBackground());
-            MainFrame.panelRadio.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+//            MainFrame.panelSFXOptions.setBackground(new JPanel().getBackground());
+//            
+//            MainFrame.panelSFXOptions.setBackground(new JPanel().getBackground());
+//            MainFrame.panelSFXOptions.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+//            MainFrame.panelHappyLoop.setBackground(new JPanel().getBackground());
+//            MainFrame.panelHappyLoop.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
             
             MainFrame.panelSFX1.setBackground(new JPanel().getBackground());
             MainFrame.panelSFX1.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
@@ -616,12 +618,12 @@ public class SystemClass {
             MainFrame.panelRow2.setBackground(Color.DARK_GRAY);
             MainFrame.panelRow3.setBackground(Color.DARK_GRAY);
             MainFrame.panelJList.setBackground(Color.DARK_GRAY);
-            MainFrame.panelRow6.setBackground(Color.DARK_GRAY);
-            
-            MainFrame.panelRadio.setBackground(Color.DARK_GRAY);
-            MainFrame.panelRadio.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-            MainFrame.panelHappyLoop.setBackground(Color.DARK_GRAY);
-            MainFrame.panelHappyLoop.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+//            MainFrame.panelSFXOptions.setBackground(Color.DARK_GRAY);
+//            
+//            MainFrame.panelSFXOptions.setBackground(Color.DARK_GRAY);
+//            MainFrame.panelSFXOptions.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+//            MainFrame.panelHappyLoop.setBackground(Color.DARK_GRAY);
+//            MainFrame.panelHappyLoop.setBorder(BorderFactory.createLineBorder(Color.GRAY));
             
             MainFrame.panelSFX1.setBackground(Color.DARK_GRAY);
             MainFrame.panelSFX1.setBorder(BorderFactory.createLineBorder(Color.GRAY));

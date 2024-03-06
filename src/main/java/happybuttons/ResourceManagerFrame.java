@@ -89,7 +89,6 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         panelHappyLoop = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblHappyLoop = new javax.swing.JTable();
-        btnAddHL = new javax.swing.JButton();
         btnDeleteHL = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -150,11 +149,8 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
 
         panelHappyLoop.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 300));
 
-        btnAddHL.setText("Add");
-        panelHappyLoop.add(btnAddHL, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 10, 90, -1));
-
         btnDeleteHL.setText("Delete");
-        panelHappyLoop.add(btnDeleteHL, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 40, 90, -1));
+        panelHappyLoop.add(btnDeleteHL, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 10, 90, -1));
 
         tabPanel.addTab("Happy Loop", panelHappyLoop);
 
@@ -308,7 +304,6 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddHL;
     private javax.swing.JButton btnDeleteBS;
     private javax.swing.JButton btnDeleteHL;
     private javax.swing.JScrollPane jScrollPane1;
