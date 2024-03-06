@@ -82,7 +82,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     
     // Profiles
     public static String profileName1 = "", profileName2 = "", profileName3 = "", profileName4 = "", profileName5 = "";
-    public static String loadedProfile = "", savedProfile = "", strBGM = "", strSFX = "";
+    public static String loadedProfile = "", savedProfile = "", strBGM = "", strSFX = "", strHappyLoop = "";
     
     // UI Components
     public static String sfxGroupName1 = "", sfxGroupName2 = "", sfxGroupName3 = "";
@@ -121,6 +121,15 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 JOptionPane.WARNING_MESSAGE);
             
             HappyButtons.sfxFolderChk = 0;
+        }
+        
+        if(HappyButtons.happyloopFolderChk == 1) {
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "\"" + HappyButtons.documentsPath + "\\HappyButtons\\hlvids\" folder not found\n\n\"hlvids\" folder is created.\nNote that Happy Loop videos involve in some profile saves may gone missing", 
+                "CRITICAL FOLDER MISSING", 
+                JOptionPane.WARNING_MESSAGE);
+            
+            HappyButtons.happyloopFolderChk = 0;
         }
         
         // set element icons

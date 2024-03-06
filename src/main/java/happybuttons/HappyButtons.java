@@ -15,7 +15,7 @@ public class HappyButtons {
     public static String documentsPath = "";
     public static String documentsPathDoubleSlash = "";
     public static String firstCheck = "";
-    public static int mainFolderChk = 0, bgFolderChk = 0, sfxFolderChk = 0; // if this sets to 1 means bg and sfx folders aren't found, so it is created
+    public static int mainFolderChk = 0, bgFolderChk = 0, sfxFolderChk = 0, happyloopFolderChk = 0; // if this sets to 1 means required folders aren't found, so it is created
     public static MainFrame mf;
     public static boolean go = false;
     
@@ -100,7 +100,7 @@ public class HappyButtons {
     
     public static void checkSubFolders(){
         // checking BG folder
-        try{
+        try {
             File subPath1 = new File(documentsPath + "\\HappyButtons\\bg");
            
             if(!subPath1.exists()){
@@ -109,11 +109,11 @@ public class HappyButtons {
             }
         }
         catch(Exception e){
-//            Controller.chksub1 = 1;
+            
         }
         
         // checking SFX folder
-        try{
+        try {
             File subPath1 = new File(documentsPath + "\\HappyButtons\\sfx");
            
             if(!subPath1.exists()){
@@ -122,7 +122,20 @@ public class HappyButtons {
             }
         }
         catch(Exception e){
-//            Controller.chksub1 = 1;
+            
+        }
+        
+        // checking Happy Loop vids folder
+        try {
+            File subPath1 = new File(documentsPath + "\\HappyButtons\\hlvids");
+           
+            if(!subPath1.exists()){
+                subPath1.mkdir();
+                happyloopFolderChk = 1;
+            }
+        }
+        catch(Exception e){
+            
         }
     }
     
