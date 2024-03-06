@@ -587,6 +587,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         panelR3S14 = new javax.swing.JPanel();
         btnR3SFX14 = new javax.swing.JButton();
         lblR3SFX14 = new javax.swing.JLabel();
+        btnStopSFX1 = new javax.swing.JButton();
+        btnStopSFX2 = new javax.swing.JButton();
+        btnStopSFX3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itmNew = new javax.swing.JMenuItem();
@@ -2924,6 +2927,36 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 .addGap(1, 1, 1))
         );
 
+        btnStopSFX1.setToolTipText("Stop SFX");
+        btnStopSFX1.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnStopSFX1.setMinimumSize(new java.awt.Dimension(22, 22));
+        btnStopSFX1.setPreferredSize(new java.awt.Dimension(22, 22));
+        btnStopSFX1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStopSFX1ActionPerformed(evt);
+            }
+        });
+
+        btnStopSFX2.setToolTipText("Stop SFX");
+        btnStopSFX2.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnStopSFX2.setMinimumSize(new java.awt.Dimension(22, 22));
+        btnStopSFX2.setPreferredSize(new java.awt.Dimension(22, 22));
+        btnStopSFX2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStopSFX2ActionPerformed(evt);
+            }
+        });
+
+        btnStopSFX3.setToolTipText("Stop SFX");
+        btnStopSFX3.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnStopSFX3.setMinimumSize(new java.awt.Dimension(22, 22));
+        btnStopSFX3.setPreferredSize(new java.awt.Dimension(22, 22));
+        btnStopSFX3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnStopSFX3ActionPerformed(evt);
+            }
+        });
+
         jMenuBar1.setName("mbrMain"); // NOI18N
         jMenuBar1.setOpaque(true);
 
@@ -3010,27 +3043,10 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                             .addComponent(panelSFX1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(panelSFX2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(panelSFX3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(21, 21, 21))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblVolSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(volSFX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(67, 67, 67)
-                                .addComponent(lblSFXState, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(chkSP, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(chkIB, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnStopSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblHappyLoop)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(24, 24, 24))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(panelJList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1317, Short.MAX_VALUE)
@@ -3038,7 +3054,30 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                                     .addComponent(panelRow1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(panelRow3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(16, 16, 16))))
+                        .addGap(16, 16, 16))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblVolSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(volSFX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(67, 67, 67)
+                        .addComponent(lblSFXState, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(chkSP, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(chkIB, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnStopSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblHappyLoop)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnStopSFX2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnStopSFX1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnStopSFX3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40))))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {chkIB, chkSP});
@@ -3064,6 +3103,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         .addComponent(chkSP))
                     .addComponent(btnStopSFX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(volSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnStopSFX1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnStopSFX2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnStopSFX3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lblHappyLoop)))
@@ -4090,6 +4132,66 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         // TODO add your handling code here:
     }//GEN-LAST:event_cboVidLoopActionPerformed
 
+    private void btnStopSFX1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFX1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnStopSFX1ActionPerformed
+
+    private void btnStopSFX2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFX2ActionPerformed
+        Object[] options = {"Add from App resource", "Add from My PC files"};
+        
+        int choice = JOptionPane.showOptionDialog(HappyButtons.mf, "Select path where to get video files",
+                "Get Video items",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+        
+        if(choice == 0) {
+//            AddSFXFrame addSfxFrame = new AddSFXFrame(HappyButtons.mf, true);
+//            addSfxFrame.setVisible(true);
+        }
+        else if(choice == 1) {
+            JFileChooser fc = new JFileChooser();
+            FileFilter filter = new FileNameExtensionFilter("MP4 File","mp4");
+            fc.setFileFilter(filter);
+            fc.setMultiSelectionEnabled(true);
+            fc.showOpenDialog(HappyButtons.mf);
+
+            File[] selectedFiles = fc.getSelectedFiles();
+
+            for(File file : selectedFiles) {
+                try {
+                    FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
+                    File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + file.getName());
+
+                    if(!destCheck.exists()) {
+                        FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + file.getName()).getChannel();
+
+                        src.transferTo(0,src.size(),dest);
+
+                        src.close();
+                        dest.close();
+                    }
+
+//                    if(!slist.contains(Utility.renameListName(file.getName()))) {
+//                        slist.addElement(Utility.renameListName(file.getName()));
+//                        tfLastOperation.setText("[ADDED SFX]:: " + file.getName());
+//                    }
+//
+//                    listSFX.setModel(slist);
+                }
+                catch(IOException ex) {
+                    System.out.println(file.getAbsolutePath());
+                    JOptionPane.showMessageDialog(HappyButtons.mf,
+                        "Error reading/writing file",
+                        "IO Error", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+    }//GEN-LAST:event_btnStopSFX2ActionPerformed
+
+    private void btnStopSFX3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFX3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnStopSFX3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -4173,6 +4275,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JButton btnStopBGM1;
     public static javax.swing.JButton btnStopBGM2;
     public static javax.swing.JButton btnStopSFX;
+    public static javax.swing.JButton btnStopSFX1;
+    public static javax.swing.JButton btnStopSFX2;
+    public static javax.swing.JButton btnStopSFX3;
     private javax.swing.JComboBox<String> cboVidLoop;
     public static javax.swing.JCheckBox chkIB;
     public static javax.swing.JCheckBox chkLoop1;
