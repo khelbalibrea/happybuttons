@@ -18,7 +18,7 @@ public class Profile {
             r3sfx10 = "", r3sfx11 = "", r3sfx12 = "", r3sfx13 = "", r3sfx14 = ""; 
 //    String sfxGroupName1 = "", sfxGroupName2 = "", sfxGroupName3 = "";
     String strBGM = "", strSFX = "";
-    String vidLoop = "";
+    String strVidLoop = "";
     
     public String getProfileName(){
         return profileName;
@@ -45,11 +45,11 @@ public class Profile {
     }
     
     public String getVidLoop() {
-        return vidLoop;
+        return strVidLoop;
     }
     
     public void setVidLoop(String strVidLoop) {
-        this.vidLoop = strVidLoop;
+        this.strVidLoop = strVidLoop;
     }
     
 //    public String getSfxName1(){

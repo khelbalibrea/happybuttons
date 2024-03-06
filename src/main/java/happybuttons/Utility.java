@@ -38,6 +38,14 @@ public class Utility {
         return filename.substring(0, index);
     }
     
+    public static String renameVideoName(String filename){
+        int index = filename.indexOf(".mp4");
+        
+//        String music = filename.substring(0, index);
+        
+        return filename.substring(0, index);
+    }
+    
     public static String cleanSFXNaming(String name) {
         String targetFront = name.copyValueOf("<html><center>".toCharArray());
         String cleanFront = name.replace(targetFront, "");

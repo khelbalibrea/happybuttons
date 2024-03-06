@@ -30,6 +30,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
@@ -53,6 +54,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static DefaultListModel slist = new DefaultListModel();
     public static int draggedList = -1; // -1 not selected, 0 bgm, 1 sfx
     public static int errorOccurred = 0;
+    public static DefaultComboBoxModel cboModel = new DefaultComboBoxModel();
     
     // globals for media playing
     public static int playing1 = 0, playing2 = 0, pause1 = 0, pause2 = 0;
@@ -3636,6 +3638,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_btnDeleteSFXActionPerformed
 
     private void itemSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSaveActionPerformed
+        // BGMs
         int listBGMSize = listBGM.getModel().getSize();
         strBGM = "";
         
@@ -3648,6 +3651,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
         }
         
+        // SFXs
         int listSFXSize = listSFX.getModel().getSize();
         strSFX = "";
         
@@ -3657,6 +3661,19 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
             else if(ctr > 0 && ctr <= (listSFXSize - 1)) {
                 strSFX = strSFX + ":" + listSFX.getModel().getElementAt(ctr);
+            }
+        }
+        
+        // Happy Loop videos
+        int cboHappyLoopSize = cboVidLoop.getModel().getSize();
+        strHappyLoop = "";
+        
+        for(int ctr = 0; ctr < cboHappyLoopSize; ctr++) {
+            if(ctr == 0) {
+                strHappyLoop = cboVidLoop.getModel().getElementAt(ctr);
+            }
+            else if(ctr > 0 && ctr <= (cboHappyLoopSize - 1)) {
+                strHappyLoop = strHappyLoop + ":" + cboVidLoop.getModel().getElementAt(ctr);
             }
         }
         
@@ -4169,13 +4186,13 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         src.close();
                         dest.close();
                     }
-
-//                    if(!slist.contains(Utility.renameListName(file.getName()))) {
-//                        slist.addElement(Utility.renameListName(file.getName()));
-//                        tfLastOperation.setText("[ADDED SFX]:: " + file.getName());
-//                    }
-//
-//                    listSFX.setModel(slist);
+                    
+                    if(cboModel.getIndexOf(Utility.renameVideoName(file.getName())) < 0) {
+                        cboModel.addElement(Utility.renameVideoName(file.getName()));
+                        tfLastOperation.setText("[ADDED VIDEO]:: " + file.getName());
+                    }
+                    
+                    cboVidLoop.setModel(cboModel);
                 }
                 catch(IOException ex) {
                     System.out.println(file.getAbsolutePath());
@@ -4278,7 +4295,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JButton btnStopSFX1;
     public static javax.swing.JButton btnStopSFX2;
     public static javax.swing.JButton btnStopSFX3;
-    private javax.swing.JComboBox<String> cboVidLoop;
+    public static javax.swing.JComboBox<String> cboVidLoop;
     public static javax.swing.JCheckBox chkIB;
     public static javax.swing.JCheckBox chkLoop1;
     public static javax.swing.JCheckBox chkLoop2;

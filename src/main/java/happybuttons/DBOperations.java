@@ -6,6 +6,7 @@ package happybuttons;
 
 import java.io.File;
 import java.util.Arrays;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -15,7 +16,9 @@ import javax.swing.JOptionPane;
  */
 public class DBOperations {
     public static int count = 0;
-    public static int indexDB = -1;
+    public static int indexDB = -1, bgmLost = 0, sfxLost = 0, vidLost = 0;
+    String sfxGone = "";
+    String textError = "";
     
     public boolean saveEnvironment(ProfileDatabase profileDB[], Profile profile){
         String profileNameSet = "";
@@ -77,14 +80,16 @@ public class DBOperations {
 //            profile.setSfxName3("");
 //        }
         
-        // =================================================================================================== Set BGM and SFX list
+        // =================================================================================================== Set BGM and SFX list, Vid loop
         if(HappyButtons.noDB == 0) {
             profile.setStrBGM(MainFrame.strBGM);
             profile.setStrSFX(MainFrame.strSFX);
+            profile.setVidLoop(MainFrame.strHappyLoop);
         }
         else {
             profile.setStrBGM("");
             profile.setStrSFX("");
+            profile.setVidLoop("");
         }
         
         // =================================================================================================== Set SFXs
@@ -183,6 +188,7 @@ public class DBOperations {
         // =================================================================================================== Get list BGM and SFX
         profileDB[indexDB].setStrBGM(profile.getStrBGM());
         profileDB[indexDB].setStrSFX(profile.getStrSFX());
+        profileDB[indexDB].setVidLoop(profile.getVidLoop());
         
         // =================================================================================================== Get profile name and grp sfx names
         profileDB[indexDB].setProfileName(profile.getProfileName());
@@ -320,8 +326,10 @@ public class DBOperations {
             
             MainFrame.strBGM = profileDB[index].getStrBGM();
             MainFrame.strSFX = profileDB[index].getStrSFX();
+            MainFrame.strHappyLoop = profileDB[index].getVidLoop();
             
             loadJLists(profileDB, index);
+            loadJComboBox(profileDB, index);
             
 //            (MainFrame.tfSFXGroup1).setText(profileDB[index].getSfxName1());
 //            (MainFrame.tfSFXGroup2).setText(profileDB[index].getSfxName2());
@@ -350,10 +358,84 @@ public class DBOperations {
         }
     }
     
+    public void loadJComboBox(ProfileDatabase profileDB[], int index) {
+        String[] arrVid = Utility.splitMusicParts(profileDB[index].getVidLoop());
+        String goneVids = "";
+        int numbering = 1;
+        
+        for(String vid : arrVid) {
+            File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + vid + ".mp4");
+            if(!destCheck.exists()) {
+                int removedIndex = Utility.findArrIndex(arrVid, vid);
+                arrVid = Utility.removeElementInArr(arrVid, removedIndex);
+                vidLost++;
+                if(!goneVids.equals("")) {
+                    goneVids = goneVids + "(" + numbering + ") " + vid + ".mp4\n";
+                    numbering++;
+                }
+                else {
+                    goneVids = "(" + numbering + ") " + vid + ".mp4\n";
+                    numbering++;
+                }
+            }
+        }
+        
+        (MainFrame.cboVidLoop).removeAllItems();
+        for(String vid : arrVid) {
+            (MainFrame.cboVidLoop).addItem(vid);
+            (MainFrame.cboModel).addElement(vid);
+        }
+        
+        sortJComboBox(MainFrame.cboModel);
+        
+        if(vidLost > 0) {
+            textError = textError + vidLost + " item(s) not found in Happy Loop resource list: \n" + goneVids + "\n";
+            goneVids = "";
+        }
+        
+        if(!textError.equals("")) {
+            int total = bgmLost + sfxLost + vidLost;
+            String header = "<html><span style='color:red;'>" + total + " ITEM(s) MISSING:</span></html>" + "\n\n";
+            textError = header + textError + "\n\n<html><strong>NOTE:</strong></html>\n• Missing bgm items are removed from BGM list\n• Missing sfx items are removed from SFX list and SFX buttons"
+                    + "\n• Missing video items are removed in Happy Loop Combo box\n\n\n";
+            
+            JOptionPane.showMessageDialog(HappyButtons.mf,
+                    textError,
+                    "File(s) missing", 
+                    JOptionPane.ERROR_MESSAGE);
+            
+            // clear sfx buttons that are not found
+            if(sfxLost > 0) {
+                String[] sfx = Utility.splitMusicParts(sfxGone);
+
+                for(int i = 0; i < sfx.length; i++) {
+                    Utility.blankSFXLabel(sfx[i]);
+                }
+            }
+            numbering = 1;
+        }
+    }
+    
+    public void sortJComboBox(DefaultComboBoxModel cbo) {
+        int n = cbo.getSize();
+        String[] data = new String[n];
+        
+        for(int i = 0; i < n; i++) {
+            data[i] = (String) cbo.getElementAt(i);
+        }
+        
+        Arrays.sort(data);
+        
+        (MainFrame.cboModel).removeAllElements();
+        for(String vid : data) {
+            (MainFrame.cboModel).addElement(vid);
+        }
+        (MainFrame.cboVidLoop).setModel(MainFrame.cboModel);
+    }
+    
     public void loadJLists(ProfileDatabase profileDB[], int index) {
         // ------------------------------------------------------------------------------------ Loading BGM list
         String[] arrBGM = Utility.splitMusicParts(profileDB[index].getStrBGM());
-        int bgmLost = 0;
         String goneBGMs = "";
         int numbering = 1;
         
@@ -364,11 +446,11 @@ public class DBOperations {
                 arrBGM = Utility.removeElementInArr(arrBGM, removedIndex);
                 bgmLost++;
                 if(!goneBGMs.equals("")) {
-                    goneBGMs = goneBGMs + "(" + numbering + ") " + music + "\n";
+                    goneBGMs = goneBGMs + "(" + numbering + ") " + music + ".wav\n";
                     numbering++;
                 }
                 else {
-                    goneBGMs = "(" + numbering + ") " + music + "\n";
+                    goneBGMs = "(" + numbering + ") " + music + ".wav\n";
                     numbering++;
                 }
             }
@@ -384,9 +466,7 @@ public class DBOperations {
         
         // ------------------------------------------------------------------------------------ Loading SFX list
         String[] arrSFX = Utility.splitMusicParts(profileDB[index].getStrSFX());
-        int sfxLost = 0;
         String goneSFXs = "";
-        String sfxGone = "";
         numbering = 1;
         
         for(String music : arrSFX) {
@@ -396,12 +476,12 @@ public class DBOperations {
                 arrSFX = Utility.removeElementInArr(arrSFX, removedIndex);
                 sfxLost++;
                 if(goneSFXs.equals("")) {
-                    goneSFXs = "(" + numbering + ") " + music + "\n";
+                    goneSFXs = "(" + numbering + ") " + music + ".wav\n";
                     numbering++;
                     sfxGone = music;
                 }
                 else {
-                    goneSFXs = goneSFXs + "(" + numbering + ") " + music + "\n";
+                    goneSFXs = goneSFXs + "(" + numbering + ") " + music + ".wav\n";
                     numbering++;
                     sfxGone = sfxGone + ":" + music;
                 }
@@ -417,44 +497,21 @@ public class DBOperations {
         sortJList(MainFrame.slist, 1); // 0 - bgm, 1 - sfx
         
         if(bgmLost > 0 || sfxLost > 0) {
-            String text = "";
             if(bgmLost > 0) {
-                text = bgmLost + " item(s) not found in BGM resource list: \n" + goneBGMs + "\n";
+                textError = bgmLost + " item(s) not found in BGM resource list: \n" + goneBGMs + "\n";
             }
             
             if(sfxLost > 0) {
                 if(bgmLost > 0) {
-                    text = text + sfxLost + " item(s) not found in SFX resource list: \n" + goneSFXs + "\n\n\n";
-                    bgmLost = 0;
+                    textError = textError + sfxLost + " item(s) not found in SFX resource list: \n" + goneSFXs + "\n";
                     goneBGMs = "";
                 }
                 else {
-                    text = sfxLost + " item(s) not found in SFX resource list: \n" + goneSFXs + "\n\n\n";
-                    bgmLost = 0;
+                    textError = textError + " item(s) not found in SFX resource list: \n" + goneSFXs + "\n";
                     goneBGMs = "";
                 }
             }
-            
-            text = text + "<html><strong>NOTE:</strong></html>\nMissing bgm items are removed from BGM list\nand missing sfx items are removed from SFX list and SFX buttons";
-            
-            JOptionPane.showMessageDialog(HappyButtons.mf,
-                    text,
-                    "File(s) missing", 
-                    JOptionPane.ERROR_MESSAGE);
         }
-        
-        // clear sfx buttons that are not found
-        if(sfxLost > 0) {
-            String[] sfx = Utility.splitMusicParts(sfxGone);
-            
-            for(int i = 0; i < sfx.length; i++) {
-                Utility.blankSFXLabel(sfx[i]);
-            }
-            sfxLost = 0;
-            sfxGone = "";
-            goneSFXs = "";
-        }
-        numbering = 1;
     }
     
     public void sortJList(DefaultListModel list, int listType) {
