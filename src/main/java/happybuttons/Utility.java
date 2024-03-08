@@ -6,6 +6,7 @@ package happybuttons;
 
 import java.util.regex.Pattern;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -164,7 +165,7 @@ public class Utility {
         return arrStr;
     }
     
-    public static boolean searchInTableCol(JTable table, String strSearch, int col) {
+    public static boolean searchInTableCol(DefaultTableModel table, String strSearch, int col) {
         boolean ret = false;
         
         for(int i = 0; i < table.getRowCount(); i++){

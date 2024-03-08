@@ -447,7 +447,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
 //                        (MainFrame.tfLastOperation).setText("[ADDED VIDEO]:: " + file.getName());
 //                    }
 
-                    if(!Utility.searchInTableCol(tblVideoLoop, Utility.renameVideoName(file.getName()), 0)) {
+                    if(Utility.searchInTableCol(tblModelVL, Utility.renameVideoName(file.getName()), 0) == false) {
                         tblModelVL.insertRow(tblModelVL.getRowCount(), new Object[]{
                             Utility.renameVideoName(file.getName()), ""
                         });
