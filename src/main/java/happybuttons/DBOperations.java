@@ -383,7 +383,7 @@ public class DBOperations {
         for(String music : arrBGM) {
             File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\bg\\" + music + ".wav");
             if(!destCheck.exists()) {
-                int removedIndex = Utility.findArrIndex(arrBGM, music);
+                int removedIndex = Utility.findIndexInStrArr(arrBGM, music);
                 arrBGM = Utility.removeElementInArr(arrBGM, removedIndex);
                 bgmLost++;
                 if(!goneBGMs.equals("")) {
@@ -415,7 +415,7 @@ public class DBOperations {
         for(String music : arrSFX) {
             File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\sfx\\" + music + ".wav");
             if(!destCheck.exists()) {
-                int removedIndex = Utility.findArrIndex(arrSFX, music);
+                int removedIndex = Utility.findIndexInStrArr(arrSFX, music);
                 arrSFX = Utility.removeElementInArr(arrSFX, removedIndex);
                 sfxLost++;
                 if(goneSFXs.equals("")) {
@@ -449,7 +449,7 @@ public class DBOperations {
             if(!vid.equals("")) {
                 File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + vid + ".mp4");
                 if(!destCheck.exists()) {
-                    int removedIndex = Utility.findArrIndex(arrVid, vid);
+                    int removedIndex = Utility.findIndexInStrArr(arrVid, vid);
                     arrVid = Utility.removeElementInArr(arrVid, removedIndex);
                     vidLost++;
                     if(!goneVids.equals("")) {
@@ -561,7 +561,7 @@ public class DBOperations {
             String str = profileDB[ctr].getStrBGM(); // get the strBGM from DB
             String[] arr = Utility.strToArr(str); // convert string to array
             
-            int found = Utility.findArrIndex(arr, search); // search the search item in array
+            int found = Utility.findIndexInStrArr(arr, search); // search the search item in array
             if(found >= 0) {
                 if(strBGMList.equals("")) {
                     strBGMList = profileDB[ctr].getProfileName();
@@ -582,7 +582,7 @@ public class DBOperations {
             String str = profileDB[ctr].getStrSFX(); // get the strSFX from DB
             String[] arr = Utility.strToArr(str); // convert string to array
             
-            int found = Utility.findArrIndex(arr, search); // search the search item in array
+            int found = Utility.findIndexInStrArr(arr, search); // search the search item in array
             if(found >= 0) {
 //                System.out.println("Found in " + ctr);
                 if(strSFXList.equals("")) {
@@ -604,7 +604,7 @@ public class DBOperations {
             String str = profileDB[ctr].getStrVidLoop(); // get the strVidLoop from DB
             String[] arr = Utility.strToArr(str); // convert string to array
             
-            int found = Utility.findArrIndex(arr, search); // search the search item in array
+            int found = Utility.findIndexInStrArr(arr, search); // search the search item in array
             if(found >= 0) {
                 if(strVideoLoopList.equals("")) {
                     strVideoLoopList = profileDB[ctr].getProfileName();

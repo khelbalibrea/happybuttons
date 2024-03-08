@@ -3759,6 +3759,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             tfLastOperation.setText("CANNOT CREATE NEW WORKSPACE, PLEASE STOP RUNNING BGM/SFX");
         }
         else {
+            super.setTitle("Happy Buttons");
+            
             clipBGM1 = null; clipBGM2 = null; clipSFX = null;
             blist.removeAllElements(); slist.removeAllElements();
             cboVidLoop.removeAllItems();
@@ -3803,7 +3805,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             lblR3SFX05.setText("blank"); lblR3SFX06.setText("blank"); lblR3SFX07.setText("blank"); lblR3SFX08.setText("blank");
             lblR3SFX09.setText("blank"); lblR3SFX10.setText("blank"); lblR3SFX11.setText("blank"); lblR3SFX12.setText("blank");
             lblR3SFX13.setText("blank"); lblR3SFX14.setText("blank");
-            
         }
     }//GEN-LAST:event_itmNewActionPerformed
 

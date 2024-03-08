@@ -82,7 +82,7 @@ public class Utility {
         return count;
     }
     
-    public static int findArrIndex(String arr[], String str) {
+    public static int findIndexInStrArr(String arr[], String str) {
         int index = -1;
         
         for(int ctr = 0; ctr < arr.length; ctr++) {
@@ -107,6 +107,19 @@ public class Utility {
        return newarr; 
    } 
     
+    public static int[] addElementInIntArr(int arrSize, int arr[], int addThis) { 
+       int newarr[] = new int[arrSize + 1];
+       int i;
+       
+       for(i = 0; i < arrSize; i++) {
+           newarr[i] = arr[i]; 
+       }
+       
+       newarr[arrSize] = addThis; 
+   
+       return newarr; 
+   } 
+    
     public static String[] removeElementInArr(String arr[], int index) {
         String[] copy = new String[arr.length - 1];
 
@@ -119,7 +132,7 @@ public class Utility {
         return copy;
     }
     
-    public static boolean doesArrHasElement(String arr[], String search) {
+    public static boolean doesStrArrHasElement(String arr[], String search) {
         boolean itHas = false;
         
         for(String data : arr) {
@@ -257,5 +270,11 @@ public class Utility {
         if(str.equals(cleanSFXNaming(MainFrame.lblR3SFX12.getText()))) { MainFrame.lblR3SFX12.setText("blank"); }
         if(str.equals(cleanSFXNaming(MainFrame.lblR3SFX13.getText()))) { MainFrame.lblR3SFX13.setText("blank"); }
         if(str.equals(cleanSFXNaming(MainFrame.lblR3SFX14.getText()))) { MainFrame.lblR3SFX14.setText("blank"); }
+    }
+    
+    public static void testPrintIntArray(int[] arr) {
+        for(int ctr = 0; ctr < arr.length; ctr++) {
+            System.out.println(arr[ctr]);
+        }
     }
 }
