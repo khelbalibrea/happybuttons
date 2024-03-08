@@ -77,6 +77,7 @@ public class AddSFXFrame extends javax.swing.JDialog {
         btnAdd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         tblSFXList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {

@@ -64,7 +64,7 @@ public class Utility {
         return "";
     }
     
-    public static String[] splitMusicParts(String str) {
+    public static String[] splitParts(String str) {
         String[] parts = str.split(Pattern.quote(":"));
         
         return parts;
@@ -94,7 +94,7 @@ public class Utility {
         return index;
     }
     
-    public static String[] addElementInArr(int arrSize, String arr[], String addStr) { 
+    public static String[] addElementInStrArr(int arrSize, String arr[], String addStr) { 
        String newarr[] = new String[arrSize + 1];
        int i;
        

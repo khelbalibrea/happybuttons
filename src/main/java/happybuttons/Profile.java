@@ -17,8 +17,7 @@ public class Profile {
             r3sfx01 = "", r3sfx02 = "", r3sfx03 = "", r3sfx04 = "", r3sfx05 = "", r3sfx06 = "", r3sfx07 = "", r3sfx08 = "", r3sfx09 = "", 
             r3sfx10 = "", r3sfx11 = "", r3sfx12 = "", r3sfx13 = "", r3sfx14 = ""; 
 //    String sfxGroupName1 = "", sfxGroupName2 = "", sfxGroupName3 = "";
-    String strBGM = "", strSFX = "";
-    String strVidLoop = "";
+    String strBGM = "", strSFX = "", strVidLoop = "";
     
     public String getProfileName(){
         return profileName;
@@ -44,11 +43,11 @@ public class Profile {
         this.strSFX = strSFX;
     }
     
-    public String getVidLoop() {
+    public String getStrVidLoop() {
         return strVidLoop;
     }
     
-    public void setVidLoop(String strVidLoop) {
+    public void setStrVidLoop(String strVidLoop) {
         this.strVidLoop = strVidLoop;
     }
     
@@ -429,5 +428,23 @@ public class Profile {
         
         strBGM = null;
         strSFX = null;
+        strVidLoop = null;
+        
+//        profileName = "";
+//        
+//        r1sfx01 = ""; r1sfx02 = ""; r1sfx03 = ""; r1sfx04 = ""; r1sfx05 = ""; r1sfx06 = ""; r1sfx07 = ""; r1sfx08 = ""; 
+//        r1sfx09 = ""; r1sfx10 = ""; r1sfx11 = ""; r1sfx12 = ""; r1sfx13 = ""; r1sfx14 = ""; 
+//        r2sfx01 = ""; r2sfx02 = ""; r2sfx03 = ""; r2sfx04 = ""; r2sfx05 = ""; r2sfx06 = ""; r2sfx07 = ""; r2sfx08 = ""; 
+//        r2sfx09 = ""; r2sfx10 = ""; r2sfx11 = ""; r2sfx12 = ""; r2sfx13 = ""; r2sfx14 = ""; 
+//        r3sfx01 = ""; r3sfx02 = ""; r3sfx03 = ""; r3sfx04 = ""; r3sfx05 = ""; r3sfx06 = ""; r3sfx07 = ""; r3sfx08 = ""; 
+//        r3sfx09 = ""; r3sfx10 = ""; r3sfx11 = ""; r3sfx12 = ""; r3sfx13 = ""; r3sfx14 = ""; 
+//        
+////        sfxGroupName1 = "";
+////        sfxGroupName2 = "";
+////        sfxGroupName3 = "";
+//        
+//        strBGM = "";
+//        strSFX = "";
+//        strVidLoop = "";
     }
 }

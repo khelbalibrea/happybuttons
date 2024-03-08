@@ -86,7 +86,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     
     // Profiles
     public static String profileName1 = "", profileName2 = "", profileName3 = "", profileName4 = "", profileName5 = "";
-    public static String loadedProfile = "", savedProfile = "", strBGM = "", strSFX = "", strHappyLoop = "";
+    public static String loadedProfile = "", savedProfile = "", strBGM = "", strSFX = "", strVidLoop = "";
+    public static int loadedIndexProfile = -1;
     
     // UI Components
     public static String sfxGroupName1 = "", sfxGroupName2 = "", sfxGroupName3 = "";
@@ -3732,14 +3733,14 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         
         // Happy Loop videos
         int cboHappyLoopSize = cboVidLoop.getModel().getSize();
-        strHappyLoop = "";
+        strVidLoop = "";
         
         for(int ctr = 0; ctr < cboHappyLoopSize; ctr++) {
             if(ctr == 0) {
-                strHappyLoop = cboVidLoop.getModel().getElementAt(ctr);
+                strVidLoop = cboVidLoop.getModel().getElementAt(ctr);
             }
             else if(ctr > 0 && ctr <= (cboHappyLoopSize - 1)) {
-                strHappyLoop = strHappyLoop + ":" + cboVidLoop.getModel().getElementAt(ctr);
+                strVidLoop = strVidLoop + ":" + cboVidLoop.getModel().getElementAt(ctr);
             }
         }
         
@@ -3776,7 +3777,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             
             selectedBGMItem = ""; selectedSFXItem = "";
             profileName1 = ""; profileName2 = ""; profileName3 = ""; profileName4 = ""; profileName5 = "";
-            loadedProfile = ""; savedProfile = ""; strBGM = ""; strSFX = ""; strHappyLoop = "";
+            loadedProfile = ""; savedProfile = ""; strBGM = ""; strSFX = ""; strVidLoop = "";
+            loadedIndexProfile = -1;
             
             tfBGM1.setText("");
             tfBGM2.setText("");
@@ -4214,11 +4216,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_cboVidLoopActionPerformed
 
     private void btnStopSFX1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFX1ActionPerformed
-        // TODO add your handling code here:
+        new VLCFrame();
     }//GEN-LAST:event_btnStopSFX1ActionPerformed
 
     private void btnStopSFX2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFX2ActionPerformed
-        new VLCFrame();
+        
     }//GEN-LAST:event_btnStopSFX2ActionPerformed
 
     private void btnStopSFX3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFX3ActionPerformed
