@@ -107,6 +107,10 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Plugins"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="itmPluginsMouseClicked"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itmPluginsActionPerformed"/>
+              </Events>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
               </AuxValues>
@@ -212,7 +216,7 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnStopSFX2" min="-2" pref="22" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnStopSFX1" min="-2" pref="22" max="-2" attributes="0"/>
+                      <Component id="btnPlayVL" min="-2" pref="22" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="btnStopSFX3" min="-2" pref="22" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
@@ -243,7 +247,7 @@
                   </Group>
                   <Component id="btnStopSFX" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="volSFX" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
-                  <Component id="btnStopSFX1" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnPlayVL" min="-2" max="-2" attributes="0"/>
                   <Component id="btnStopSFX2" min="-2" max="-2" attributes="0"/>
                   <Component id="btnStopSFX3" min="-2" max="-2" attributes="0"/>
                   <Group type="103" alignment="1" groupAlignment="3" attributes="0">
@@ -4604,7 +4608,7 @@
         </Container>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnStopSFX1">
+    <Component class="javax.swing.JButton" name="btnPlayVL">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="Stop SFX"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -4618,7 +4622,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnStopSFX1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPlayVLActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>

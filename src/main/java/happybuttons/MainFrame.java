@@ -638,7 +638,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         panelR3S14 = new javax.swing.JPanel();
         btnR3SFX14 = new javax.swing.JButton();
         lblR3SFX14 = new javax.swing.JLabel();
-        btnStopSFX1 = new javax.swing.JButton();
+        btnPlayVL = new javax.swing.JButton();
         btnStopSFX2 = new javax.swing.JButton();
         btnStopSFX3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -2980,13 +2980,13 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 .addGap(1, 1, 1))
         );
 
-        btnStopSFX1.setToolTipText("Stop SFX");
-        btnStopSFX1.setMaximumSize(new java.awt.Dimension(22, 22));
-        btnStopSFX1.setMinimumSize(new java.awt.Dimension(22, 22));
-        btnStopSFX1.setPreferredSize(new java.awt.Dimension(22, 22));
-        btnStopSFX1.addActionListener(new java.awt.event.ActionListener() {
+        btnPlayVL.setToolTipText("Stop SFX");
+        btnPlayVL.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnPlayVL.setMinimumSize(new java.awt.Dimension(22, 22));
+        btnPlayVL.setPreferredSize(new java.awt.Dimension(22, 22));
+        btnPlayVL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStopSFX1ActionPerformed(evt);
+                btnPlayVLActionPerformed(evt);
             }
         });
 
@@ -3068,6 +3068,16 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         itmTools.add(itmResourceManager);
 
         itmPlugins.setText("Plugins");
+        itmPlugins.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                itmPluginsMouseClicked(evt);
+            }
+        });
+        itmPlugins.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmPluginsActionPerformed(evt);
+            }
+        });
         itmTools.add(itmPlugins);
 
         jMenuBar1.add(itmTools);
@@ -3134,7 +3144,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnStopSFX2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnStopSFX1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnPlayVL, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnStopSFX3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(40, 40, 40))))
@@ -3163,7 +3173,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         .addComponent(chkSP))
                     .addComponent(btnStopSFX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(volSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnStopSFX1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPlayVL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnStopSFX2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnStopSFX3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -4207,9 +4217,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         // TODO add your handling code here:
     }//GEN-LAST:event_cboVidLoopActionPerformed
 
-    private void btnStopSFX1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFX1ActionPerformed
+    private void btnPlayVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayVLActionPerformed
         new VLCFrame();
-    }//GEN-LAST:event_btnStopSFX1ActionPerformed
+    }//GEN-LAST:event_btnPlayVLActionPerformed
 
     private void btnStopSFX2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFX2ActionPerformed
         
@@ -4218,6 +4228,16 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     private void btnStopSFX3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFX3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnStopSFX3ActionPerformed
+
+    private void itmPluginsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itmPluginsMouseClicked
+        PluginsFrame pluginFrame = new PluginsFrame(HappyButtons.mf, true);
+        pluginFrame.setVisible(true);
+    }//GEN-LAST:event_itmPluginsMouseClicked
+
+    private void itmPluginsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmPluginsActionPerformed
+        PluginsFrame pluginFrame = new PluginsFrame(HappyButtons.mf, true);
+        pluginFrame.setVisible(true);
+    }//GEN-LAST:event_itmPluginsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -4257,6 +4277,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JButton btnDeleteSFX;
     public static javax.swing.JButton btnPlayPauseBGM1;
     public static javax.swing.JButton btnPlayPauseBGM2;
+    public static javax.swing.JButton btnPlayVL;
     public static javax.swing.JButton btnR1SFX01;
     public static javax.swing.JButton btnR1SFX02;
     public static javax.swing.JButton btnR1SFX03;
@@ -4302,7 +4323,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JButton btnStopBGM1;
     public static javax.swing.JButton btnStopBGM2;
     public static javax.swing.JButton btnStopSFX;
-    public static javax.swing.JButton btnStopSFX1;
     public static javax.swing.JButton btnStopSFX2;
     public static javax.swing.JButton btnStopSFX3;
     public static javax.swing.JComboBox<String> cboVidLoop;

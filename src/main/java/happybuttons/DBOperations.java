@@ -260,6 +260,10 @@ public class DBOperations {
     public boolean autoSaveUISettings(UIPreference uiPref[], UIProfile uiProfile){
         uiProfile.setPrevTheme(HappyButtons.uiTheme);
         uiPref[0].setPrevTheme(uiProfile.getPrevTheme());
+        
+        uiProfile.setVlcjPath(HappyButtons.vlcjPath);
+        uiPref[0].setVlcjPath(uiProfile.getVlcjPath());
+        
         new BeanHelper().writeToXmlUI(uiPref);
         
         return true;
@@ -270,6 +274,7 @@ public class DBOperations {
         
         uiDetails.setUISettings(uiPref, index);
         HappyButtons.uiTheme = uiPref[index].getPrevTheme();
+        HappyButtons.vlcjPath = uiPref[index].getVlcjPath();
     }
     
     public String loadEnvironment(ProfileDatabase profileDB[], int index){

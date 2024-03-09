@@ -24,7 +24,7 @@ public class HappyButtons {
     public static UIPreference[] uiDB = new UIPreference[1];
     public static int noDB = 0;
     public static int loadedDB = -1;
-    public static String uiTheme = "";
+    public static String uiTheme = "", vlcjPath = "";
     
     // Globals
         
@@ -53,6 +53,7 @@ public class HappyButtons {
     public static void loadUISettings() {
         dbo.loadPreviousTheme(uiDB, 0);
         SystemClass.UITheme(uiTheme);
+        SystemClass.setupVLPlayButton();
     }
     
     public static void getHomePath() {

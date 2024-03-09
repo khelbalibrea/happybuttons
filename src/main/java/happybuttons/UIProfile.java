@@ -10,6 +10,7 @@ package happybuttons;
  */
 public class UIProfile {
     String prevTheme;
+    String vlcjPath;
     
     public String getPrevTheme(){
         return prevTheme;
@@ -19,7 +20,16 @@ public class UIProfile {
         this.prevTheme = prevTheme;
     }
     
+    public String getVlcjPath(){
+        return vlcjPath;
+    }
+    
+    public void setVlcjPath(String vlcjPath){
+        this.vlcjPath = vlcjPath;
+    }
+    
     public UIProfile(){
         prevTheme = null;
+        vlcjPath = null;
     }
 }

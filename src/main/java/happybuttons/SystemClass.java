@@ -1104,11 +1104,20 @@ public class SystemClass {
     }
     
     public static void themeUIFrame(String theme) {
-        if(theme.equals("dark")) { System.out.print(1);
+        if(theme.equals("dark")) { // System.out.print(1);
             UIThemeFrame.panel1.setBackground(Color.DARK_GRAY);
             
             UIThemeFrame.panelBox.setBackground(Color.DARK_GRAY);
             UIThemeFrame.panelBox.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        }
+    }
+    
+    public static void setupVLPlayButton() {
+        if(!(HappyButtons.vlcjPath).equals("")) {
+            (MainFrame.btnPlayVL).setEnabled(true);
+        }
+        else {
+            (MainFrame.btnPlayVL).setEnabled(false);
         }
     }
     
