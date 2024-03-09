@@ -71,13 +71,13 @@ public class PluginsFrame extends javax.swing.JDialog {
                 timer.start();
             }
         });
+        tfVlcjPath.setFocusable(false);
+        tfVlcjPath.setText((HappyButtons.uiDB[0]).getVlcjPath());
         
         loadFrame();
     }
     
     public void autosave() {
-        HappyButtons.vlcjPath = tfVlcjPath.getText();
-        
         UIProfile ui = new UIProfile();
         HappyButtons.dbo.autoSaveUISettings(HappyButtons.uiDB, ui);
     }
@@ -93,7 +93,7 @@ public class PluginsFrame extends javax.swing.JDialog {
             lblBuiltIn.setForeground(Color.RED);
             
             rbtnVlcjPath.setSelected(true);
-            tfVlcjPath.setEnabled(true);
+            tfVlcjPath.setFocusable(true);
             tfVlcjPath.setText(HappyButtons.vlcjPath);
         }
         else {
@@ -102,9 +102,11 @@ public class PluginsFrame extends javax.swing.JDialog {
             lblBuiltIn.setVisible(true);
             lblBuiltIn.setText("VLCj plugins found, all good!");
             lblBuiltIn.setForeground(darkGreen);
+            HappyButtons.vlcjPath = HappyButtons.documentsPath + "\\HappyButtons\\plugins\\vlcj";
+            autosave();
             
             rbtnVlcjPath.setSelected(false);
-            tfVlcjPath.setEnabled(false);
+            tfVlcjPath.setFocusable(false);
         }
     }
     
@@ -149,6 +151,8 @@ public class PluginsFrame extends javax.swing.JDialog {
                         lblCheck.setForeground(Color.RED);
                         
                         HappyButtons.vlcjPath = "";
+                        (MainFrame.btnPlayVL).setEnabled(false);
+                        autosave();
                     }
                 }
             });
@@ -168,6 +172,9 @@ public class PluginsFrame extends javax.swing.JDialog {
             lblCheck.setVisible(true);
             lblCheck.setText("Path not found");
             lblCheck.setForeground(Color.RED);
+            (MainFrame.btnPlayVL).setEnabled(false);
+            HappyButtons.vlcjPath = "";
+            autosave();
             
 //            Timer timer = new Timer(5000, new ActionListener() {
 //                @Override
@@ -209,6 +216,11 @@ public class PluginsFrame extends javax.swing.JDialog {
 
         buttonGroup1.add(rbtnBuiltIn);
         rbtnBuiltIn.setText("Built-in");
+        rbtnBuiltIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnBuiltInActionPerformed(evt);
+            }
+        });
         panelVlcj.add(rbtnBuiltIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -217,6 +229,11 @@ public class PluginsFrame extends javax.swing.JDialog {
 
         buttonGroup1.add(rbtnVlcjPath);
         rbtnVlcjPath.setText("Specified path");
+        rbtnVlcjPath.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnVlcjPathActionPerformed(evt);
+            }
+        });
         panelVlcj.add(rbtnVlcjPath, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
 
         lblBuiltIn.setText("Text");
@@ -232,6 +249,17 @@ public class PluginsFrame extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void rbtnBuiltInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnBuiltInActionPerformed
+        HappyButtons.vlcjPath = HappyButtons.documentsPath + "\\HappyButtons\\plugins\\vlcj";
+    }//GEN-LAST:event_rbtnBuiltInActionPerformed
+
+    private void rbtnVlcjPathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnVlcjPathActionPerformed
+        tfVlcjPath.setFocusable(true);
+        tfVlcjPath.setText(HappyButtons.uiDB[0].getVlcjPath());
+        
+        check();
+    }//GEN-LAST:event_rbtnVlcjPathActionPerformed
 
     /**
      * @param args the command line arguments

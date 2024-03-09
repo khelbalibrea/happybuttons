@@ -9,8 +9,7 @@ package happybuttons;
  * @author Michael Balibrea
  */
 public class UIProfile {
-    String prevTheme;
-    String vlcjPath;
+    String prevTheme, vlcjPath;
     
     public String getPrevTheme(){
         return prevTheme;
