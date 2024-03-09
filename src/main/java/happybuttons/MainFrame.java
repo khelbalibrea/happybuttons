@@ -177,6 +177,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         String itmResourceManagerIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\maintenance_12px.png");
         itmResourceManager.setIcon(new javax.swing.ImageIcon(itmResourceManagerIcon));
         
+        String itmPluginsIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\plugins_12px.png");
+        itmPlugins.setIcon(new javax.swing.ImageIcon(itmPluginsIcon));
+        
         String btnSFXIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave_black_14px.png");
         btnR1SFX01.setIcon(new javax.swing.ImageIcon(btnSFXIcon));
         btnR1SFX02.setIcon(new javax.swing.ImageIcon(btnSFXIcon));
@@ -643,9 +646,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         itmNew = new javax.swing.JMenuItem();
         itemSave = new javax.swing.JMenuItem();
         itmLoad = new javax.swing.JMenuItem();
+        menuPreferences = new javax.swing.JMenu();
+        itmUITheme = new javax.swing.JMenuItem();
         itmTools = new javax.swing.JMenu();
         itmResourceManager = new javax.swing.JMenuItem();
-        itmUITheme = new javax.swing.JMenuItem();
+        itmPlugins = new javax.swing.JMenuItem();
         itmAbout = new javax.swing.JMenu();
         jMenuTime = new javax.swing.JMenu();
 
@@ -3039,6 +3044,18 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
         jMenuBar1.add(jMenu1);
 
+        menuPreferences.setText("Preferences");
+
+        itmUITheme.setText("UI Theme");
+        itmUITheme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmUIThemeActionPerformed(evt);
+            }
+        });
+        menuPreferences.add(itmUITheme);
+
+        jMenuBar1.add(menuPreferences);
+
         itmTools.setText("Tools");
         itmTools.setName("menuEdit"); // NOI18N
 
@@ -3050,13 +3067,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         });
         itmTools.add(itmResourceManager);
 
-        itmUITheme.setText("UI Theme");
-        itmUITheme.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itmUIThemeActionPerformed(evt);
-            }
-        });
-        itmTools.add(itmUITheme);
+        itmPlugins.setText("Plugins");
+        itmTools.add(itmPlugins);
 
         jMenuBar1.add(itmTools);
 
@@ -4302,6 +4314,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JMenu itmAbout;
     public static javax.swing.JMenuItem itmLoad;
     public static javax.swing.JMenuItem itmNew;
+    public static javax.swing.JMenuItem itmPlugins;
     public static javax.swing.JMenuItem itmResourceManager;
     public static javax.swing.JMenu itmTools;
     public static javax.swing.JMenuItem itmUITheme;
@@ -4366,6 +4379,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JLabel lblVolSFX;
     public static javax.swing.JList<String> listBGM;
     public static javax.swing.JList<String> listSFX;
+    public static javax.swing.JMenu menuPreferences;
     public static javax.swing.JPanel panelJList;
     public static javax.swing.JPanel panelR1S01;
     public static javax.swing.JPanel panelR1S02;

@@ -43,6 +43,7 @@ public class SystemClass {
             MainFrame.jMenu1.setForeground(new JMenu().getForeground());
             MainFrame.itmTools.setForeground(new JMenu().getForeground());
             MainFrame.itmAbout.setForeground(new JMenu().getForeground());
+            MainFrame.menuPreferences.setForeground(new JMenu().getForeground());
             MainFrame.jMenuTime.setForeground(new JMenu().getForeground());
             
             // -------------------------------------------------------------------------------------- MENU ITEMS
@@ -71,6 +72,11 @@ public class SystemClass {
             MainFrame.itmUITheme.setForeground(new JMenuItem().getForeground());
             MainFrame.itmUITheme.setIcon(new javax.swing.ImageIcon(itmUIThemeIcon));
             
+            String itmPluginsIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\plugins_12px.png");
+            MainFrame.itmPlugins.setBackground(new JMenuItem().getBackground());
+            MainFrame.itmPlugins.setForeground(new JMenuItem().getForeground());
+            MainFrame.itmPlugins.setIcon(new javax.swing.ImageIcon(itmPluginsIcon));
+                        
             // -------------------------------------------------------------------------------------- PANELS
             MainFrame.panelRow1.setBackground(new JPanel().getBackground());
             MainFrame.panelRow2.setBackground(new JPanel().getBackground());
@@ -585,6 +591,7 @@ public class SystemClass {
             MainFrame.jMenu1.setForeground(Color.lightGray);
             MainFrame.itmTools.setForeground(Color.lightGray);
             MainFrame.itmAbout.setForeground(Color.lightGray);
+            MainFrame.menuPreferences.setForeground(Color.lightGray);
             MainFrame.jMenuTime.setForeground(Color.gray);
             
             // -------------------------------------------------------------------------------------- MENU ITEMS
@@ -612,6 +619,11 @@ public class SystemClass {
             MainFrame.itmUITheme.setBackground(Color.darkGray);
             MainFrame.itmUITheme.setForeground(Color.lightGray);
             MainFrame.itmUITheme.setIcon(new javax.swing.ImageIcon(itmUIThemeIcon));
+            
+            String itmPluginsIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_plugins_12px.png");
+            MainFrame.itmPlugins.setBackground(Color.darkGray);
+            MainFrame.itmPlugins.setForeground(Color.lightGray);
+            MainFrame.itmPlugins.setIcon(new javax.swing.ImageIcon(itmPluginsIcon));
             
             // -------------------------------------------------------------------------------------- PANELS
             MainFrame.panelRow1.setBackground(Color.DARK_GRAY);
