@@ -408,27 +408,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                                 }
                             }
                         }
-                        
-//                        if(tfBGM1.getText().equals("") && playing1 == 0) {
-//                            tfBGM1.setText(selectedItem);
-//                        }
-//                        else if(!tfBGM1.getText().equals("") && playing1 == 0) {
-//                            if(tfBGM2.getText().equals("") && playing2 == 0) {
-//                                tfBGM2.setText(selectedItem);
-//                            }
-//                            else {
-////                                tfLastOperation.setText("<html><span style='color: red;'>BGMs are busy, cannot input selected BGM</span></html>");
-//                                tfLastOperation.setText("BGMs are busy, cannot input selected BGM");
-//                            }
-//                        }
-//                        else if(!tfBGM1.getText().equals("") && playing1 == 1) {
-//                            if(!tfBGM2.getText().equals("") && playing2 == 0) {
-//                                tfBGM2.setText(selectedItem);
-//                            }
-//                            else {
-//                                
-//                            }
-//                        }
                     }
                 }
             }

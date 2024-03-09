@@ -7,17 +7,21 @@ package happybuttons;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
@@ -28,8 +32,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ResourceManagerFrame extends javax.swing.JDialog {
     DefaultTableModel tblModelBS, tblModelVL;
-    DefaultListModel listModelVL = new DefaultListModel();
+    DefaultListModel<String> listModelVL = new DefaultListModel<>();
     String theme = HappyButtons.uiTheme;
+    String[] list = {};
+    
     /**
      * Creates new form ResourceManagerFrame
      */
@@ -37,6 +43,10 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         super(parent, modal);
         super.setTitle("Resources");
         initComponents();
+        
+        lblNS1.setVisible(false);
+        lblNS2.setVisible(false);
+        lblNS3.setVisible(false);
         
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/3-this.getSize().height/2);
@@ -50,7 +60,17 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         setupTheme();
         populateBSTable();
         populateVLTable();
-        loadJListVL(HappyButtons.profileDB, MainFrame.loadedIndexProfile);
+        loadJListVL();
+        
+//        String[] dataListVL = {};
+//        listVL.addListSelectionListener(e -> {
+//            var selectedIndices = listVL.getSelectedValuesList();
+//            String[] selectedValues = Arrays.stream(selectedIndices)
+//                    .mapToObj(i -> dataListVL[i])
+//                    .toArray(String[]::new);
+//
+//            System.out.println("Selected Values: " + Arrays.toString(selectedValues));
+//        });
     }
     
     public void populateBSTable() {
@@ -122,6 +142,9 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         btnAddToList = new javax.swing.JButton();
         btnRemove = new javax.swing.JButton();
+        lblNS2 = new javax.swing.JLabel();
+        lblNS1 = new javax.swing.JLabel();
+        lblNS3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(700, 290));
@@ -205,13 +228,13 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         jLabel1.setText("My video list");
         panelHappyLoop.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, 140, -1));
 
-        btnAddToList.setText("Add to my list");
+        btnAddToList.setText("Add to my list >>");
         btnAddToList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddToListActionPerformed(evt);
             }
         });
-        panelHappyLoop.add(btnAddToList, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 300, 120, -1));
+        panelHappyLoop.add(btnAddToList, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 300, 140, -1));
 
         btnRemove.setText("Remove from my list");
         btnRemove.addActionListener(new java.awt.event.ActionListener() {
@@ -220,6 +243,21 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             }
         });
         panelHappyLoop.add(btnRemove, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 330, 150, -1));
+
+        lblNS2.setForeground(new java.awt.Color(255, 51, 51));
+        lblNS2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblNS2.setText("Nothing selected");
+        panelHappyLoop.add(lblNS2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 110, 20));
+
+        lblNS1.setForeground(new java.awt.Color(255, 51, 51));
+        lblNS1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lblNS1.setText("Nothing selected");
+        panelHappyLoop.add(lblNS1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 330, 110, 20));
+
+        lblNS3.setForeground(new java.awt.Color(255, 51, 51));
+        lblNS3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lblNS3.setText("Nothing selected");
+        panelHappyLoop.add(lblNS3, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 10, 100, -1));
 
         tabPanel.addTab("Video Loop", panelHappyLoop);
 
@@ -243,36 +281,42 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         }
     }
     
-    public void loadJListVL(ProfileDatabase profileDB[], int index) {
-        if(MainFrame.loadedIndexProfile > 0) {
-            String[] arrVL = Utility.splitParts(profileDB[index].getStrVidLoop());
-            String goneVLs = "";
-            int vlLost = 0;
-            int numbering = 1;
+    public void loadJListVL() {
+        if(MainFrame.loadedIndexProfile >= 0) {
+            System.out.println("Loaded profile: " + MainFrame.loadedIndexProfile);
+            System.out.println("Load JList: " + MainFrame.strVidLoop);
+            String[] arrVL = Utility.strToArr(MainFrame.strVidLoop);
+//            String goneVLs = "";
+//            int vlLost = 0;
+//            int numbering = 1;
 
             for(String vid : arrVL) {
                 File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + vid + ".mp4");
                 if(!destCheck.exists()) {
                     int removedIndex = Utility.findIndexInStrArr(arrVL, vid);
-                    arrVL = Utility.removeElementInArr(arrVL, removedIndex);
-                    vlLost++;
-                    if(!goneVLs.equals("")) {
-                        goneVLs = goneVLs + "(" + numbering + ") " + vid + ".mp4\n";
-                        numbering++;
-                    }
-                    else {
-                        goneVLs = "(" + numbering + ") " + vid + ".mp4\n";
-                        numbering++;
-                    }
+                    arrVL = Utility.removeIndexInStrArr(arrVL, removedIndex);
+//                    vlLost++;
+//                    if(!goneVLs.equals("")) {
+//                        goneVLs = goneVLs + "(" + numbering + ") " + vid + ".mp4\n";
+//                        numbering++;
+//                    }
+//                    else {
+//                        goneVLs = "(" + numbering + ") " + vid + ".mp4\n";
+//                        numbering++;
+//                    }
                 }
             }
 
             if(listModelVL != null) {
-                (listModelVL).removeAllElements();
+                listModelVL.removeAllElements();
             }
 
             for(String vid : arrVL) {
-                (listModelVL).addElement(vid);
+                listModelVL.addElement(vid);
+            }
+            
+            for(int i = 0; i < listModelVL.size(); i++) {
+                list = Utility.addElementInStrArr(list, listModelVL.getElementAt(i));
             }
 
             listVL.setModel(listModelVL);
@@ -359,10 +403,10 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                     }
                     else {
                         if(selectedType == "BGM") {
-                            fileErrorBGM = Utility.addElementInStrArr(fileErrorBGM.length, fileErrorBGM, selectedItem);
+                            fileErrorBGM = Utility.addElementInStrArr(fileErrorBGM, selectedItem);
                         }
                         else {
-                            fileErrorSFX = Utility.addElementInStrArr(fileErrorSFX.length, fileErrorSFX, selectedItem);
+                            fileErrorSFX = Utility.addElementInStrArr(fileErrorSFX, selectedItem);
                         }
                         
                         selectedItem = ""; selectedType = "";
@@ -473,6 +517,13 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         String[] fileError = {};
         int[] deleteRow = new int[]{};
         
+        Timer timer = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lblNS1.setVisible(false);
+            }
+        });
+        
         if(selectedRow != -1) {
             int confirmation = JOptionPane.showConfirmDialog(null, 
                     "Some item(s) may be used in other profiles.\nProceed to permanently delete selected item(s)?", 
@@ -497,7 +548,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                         selectedItem = "";
                     }
                     else {
-                        fileError = Utility.addElementInStrArr(fileError.length, fileError, selectedItem);
+                        fileError = Utility.addElementInStrArr(fileError, selectedItem);
                         selectedItem = "";
                     }
                 }
@@ -530,20 +581,82 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                 tblVideoLoop.setModel(tblModelVL);
             }
         }
+        else {
+            lblNS1.setVisible(true);
+            
+            timer.setRepeats(false);
+            timer.start();
+        }
     }//GEN-LAST:event_btnDeleteVLActionPerformed
 
     private void btnAddToListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddToListActionPerformed
-        int selectedRow = tblVideoLoop.getSelectedRow();
-        String selectedItem = tblModelVL.getValueAt(selectedRow, 0).toString();
+        int selectedRow = tblVideoLoop.getSelectedRow(); // for checking only if atleast one item is selected
+        int[] selectedRows = tblVideoLoop.getSelectedRows();
         
+        Timer timer = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lblNS2.setVisible(false);
+            }
+        });
         
+        if(selectedRow != -1) {
+            String selectedItem = "";
+            
+            for(int i = 0; i < (selectedRows.length); i++) {
+                selectedItem = tblModelVL.getValueAt(selectedRows[i], 0).toString();
+                
+                if(!listModelVL.contains(selectedItem)) {
+                    list = Utility.addElementInStrArr(list, selectedItem);
+                    listModelVL.addElement(selectedItem);
+                }
+                
+                if((MainFrame.cboModel).getIndexOf(selectedItem) < 0) {
+                    (MainFrame.cboModel).addElement(selectedItem);
+                    (MainFrame.tfLastOperation).setText("[ADDED VIDEO]:: " + selectedItem);
+                }
+
+                listVL.setModel(listModelVL);
+            }
+        }
+        else {
+            lblNS2.setVisible(true);
+            
+            timer.setRepeats(false);
+            timer.start();
+        }
+        
+        MainFrame.strVidLoop = Utility.arrToStr(list);
+        System.out.println("Add to list: " + MainFrame.strVidLoop);
     }//GEN-LAST:event_btnAddToListActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
-        // TODO add your handling code here:
+        List<String> stringList = listVL.getSelectedValuesList();
+        
+        Timer timer = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lblNS3.setVisible(false);
+            }
+        });
+        
+        if(!stringList.isEmpty()) { // not empty
+            for(int i = 0; i < stringList.size(); i++) {
+//                list = Utility.addElementInStrArr(list.length, list, stringList.get(i));
+                list = Utility.removeIndexInStrArr(list, i);
+                listModelVL.removeElement(stringList.get(i));
+            }
+        }
+        else {
+            lblNS3.setVisible(true);
+            
+            timer.setRepeats(false);
+            timer.start();
+        }
+        
+        MainFrame.strVidLoop = Utility.arrToStr(list);
+        System.out.println(MainFrame.strVidLoop);
     }//GEN-LAST:event_btnRemoveActionPerformed
-
-    
     
     /**
      * @param args the command line arguments
@@ -599,6 +712,9 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel lblNS1;
+    private javax.swing.JLabel lblNS2;
+    private javax.swing.JLabel lblNS3;
     private javax.swing.JList<String> listVL;
     private javax.swing.JPanel panelBgmSfx;
     private javax.swing.JPanel panelHappyLoop;

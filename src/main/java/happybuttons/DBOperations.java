@@ -384,7 +384,7 @@ public class DBOperations {
             File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\bg\\" + music + ".wav");
             if(!destCheck.exists()) {
                 int removedIndex = Utility.findIndexInStrArr(arrBGM, music);
-                arrBGM = Utility.removeElementInArr(arrBGM, removedIndex);
+                arrBGM = Utility.removeIndexInStrArr(arrBGM, removedIndex);
                 bgmLost++;
                 if(!goneBGMs.equals("")) {
                     goneBGMs = goneBGMs + "(" + numbering + ") " + music + ".wav\n";
@@ -416,7 +416,7 @@ public class DBOperations {
             File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\sfx\\" + music + ".wav");
             if(!destCheck.exists()) {
                 int removedIndex = Utility.findIndexInStrArr(arrSFX, music);
-                arrSFX = Utility.removeElementInArr(arrSFX, removedIndex);
+                arrSFX = Utility.removeIndexInStrArr(arrSFX, removedIndex);
                 sfxLost++;
                 if(goneSFXs.equals("")) {
                     goneSFXs = "(" + numbering + ") " + music + ".wav\n";
@@ -450,7 +450,7 @@ public class DBOperations {
                 File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + vid + ".mp4");
                 if(!destCheck.exists()) {
                     int removedIndex = Utility.findIndexInStrArr(arrVid, vid);
-                    arrVid = Utility.removeElementInArr(arrVid, removedIndex);
+                    arrVid = Utility.removeIndexInStrArr(arrVid, removedIndex);
                     vidLost++;
                     if(!goneVids.equals("")) {
                         goneVids = goneVids + "(" + numbering + ") " + vid + ".mp4\n";

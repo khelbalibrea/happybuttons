@@ -5,7 +5,6 @@
 package happybuttons;
 
 import java.util.regex.Pattern;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -95,15 +94,15 @@ public class Utility {
         return index;
     }
     
-    public static String[] addElementInStrArr(int arrSize, String arr[], String addStr) { 
-       String newarr[] = new String[arrSize + 1];
+    public static String[] addElementInStrArr(String arr[], String addStr) { 
+       String newarr[] = new String[arr.length + 1];
        int i;
        
-       for(i = 0; i < arrSize; i++) {
+       for(i = 0; i < arr.length; i++) {
            newarr[i] = arr[i]; 
        }
        
-       newarr[arrSize] = addStr; 
+       newarr[arr.length] = addStr; 
    
        return newarr; 
    } 
@@ -121,7 +120,7 @@ public class Utility {
        return newarr; 
    } 
     
-    public static String[] removeElementInArr(String arr[], int index) {
+    public static String[] removeIndexInStrArr(String arr[], int index) {
         String[] copy = new String[arr.length - 1];
 
         for(int i = 0, j = 0; i < arr.length; i++) {
@@ -158,7 +157,7 @@ public class Utility {
                 arrStr = data;
             }
             else {
-                arrStr = arrStr + ", " + data;
+                arrStr = arrStr + ":" + data;
             }
         }
         
@@ -274,6 +273,12 @@ public class Utility {
     }
     
     public static void testPrintIntArray(int[] arr) {
+        for(int ctr = 0; ctr < arr.length; ctr++) {
+            System.out.println(arr[ctr]);
+        }
+    }
+    
+    public static void testPrintStrArray(String[] arr) {
         for(int ctr = 0; ctr < arr.length; ctr++) {
             System.out.println(arr[ctr]);
         }
