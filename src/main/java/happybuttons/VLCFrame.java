@@ -13,10 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import uk.co.caprica.vlcj.binding.LibVlc;
+import uk.co.caprica.vlcj.binding.internal.libvlc_media_t;
 import uk.co.caprica.vlcj.player.MediaPlayer;
+import uk.co.caprica.vlcj.player.MediaPlayerEventListener;
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
-import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
-import uk.co.caprica.vlcj.player.embedded.windows.Win32FullScreenStrategy;
 import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 /**
@@ -24,7 +24,8 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
  * @author Michael Balibrea
  */
 public class VLCFrame extends javax.swing.JFrame {
-    
+    MediaListener videoListener = new MediaListener();
+    String file = "";
     
 //    static EmbeddedMediaPlayerComponent component = new EmbeddedMediaPlayerComponent();
 //    static MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
@@ -38,15 +39,7 @@ public class VLCFrame extends javax.swing.JFrame {
         
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/3-this.getSize().height/2);
-//        this.setContentPane(component);
 //        this.setBounds(200, 200, 800, 600);
-//        
-//        this.addWindowListener(new WindowAdapter(){
-//            @Override
-//            public void windowClosing(WindowEvent e){
-//                component.release();
-//            }
-//        });
         
         // set frame icon
         ImageIcon imgIcon = new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
@@ -55,42 +48,32 @@ public class VLCFrame extends javax.swing.JFrame {
         canvasMain.setBackground(Color.BLACK);
         canvasMain.setVisible(false);
         
-//        component.mediaPlayer().media().play(HappyButtons.documentsPathDoubleSlash + "/vid.mp4");
-//        component.mediaPlayer().audio().mute();
-        
         NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), HappyButtons.vlcjPath);
         Native.loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class);
         
         MediaPlayerFactory mpf = new MediaPlayerFactory();
-//        MediaPlayer mediaPlayer = mpf.mediaPlayers().newMediaPlayer();
-        EmbeddedMediaPlayer emp = mpf.newEmbeddedMediaPlayer(
-                new Win32FullScreenStrategy(
-                        this
-                )
-        );
+        MediaPlayer mediaPlayer = mpf.newEmbeddedMediaPlayer();
         
         MainFrame.btnStopSFX3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MainFrame.vlcjPlaying = 0;
-                emp.stop();
+                mediaPlayer.removeMediaPlayerEventListener(videoListener);
+                mediaPlayer.stop();
             }
             
         });
         
-        // emp.toggleFullScreen();
-//        emp.setEnableMouseInputHandling(false);
-//        emp.setEnableKeyInputHandling(false);
-        
-//        mpf.mediaPlayer().controls().setRepeat(true);
+        mediaPlayer.mute(true);
 
         if((MainFrame.cboVidLoop).getSelectedItem() != null) {
-            String file = HappyButtons.documentsPathDoubleSlash + 
+            file = HappyButtons.documentsPathDoubleSlash + 
                     Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 
                             MainFrame.cboVidLoop.getSelectedItem() + 
                             ".mp4");
-            emp.prepareMedia(file);
-            emp.play();
+            mediaPlayer.prepareMedia(file);
+            mediaPlayer.addMediaPlayerEventListener(videoListener);
+            mediaPlayer.play();
             
             MainFrame.vlcjPlaying = 1;
         }
@@ -99,8 +82,152 @@ public class VLCFrame extends javax.swing.JFrame {
         }
     }
     
-    public void stop(EmbeddedMediaPlayer emp){
-        emp.stop();
+    public class MediaListener implements MediaPlayerEventListener {
+        @Override
+        public void opening(MediaPlayer mediaPlayer) {
+            
+        }
+
+        @Override
+        public void buffering(MediaPlayer mediaPlayer, float newCache) {
+            
+        }
+
+        @Override
+        public void playing(MediaPlayer mediaPlayer) {
+            
+        }
+
+        @Override
+        public void paused(MediaPlayer mediaPlayer) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void stopped(MediaPlayer mediaPlayer) {
+            if(MainFrame.chkVLLoop == 1){
+                mediaPlayer.prepareMedia(file);
+                mediaPlayer.play();
+            }
+            else {
+                mediaPlayer.stop();
+            }
+        }
+
+        @Override
+        public void mediaChanged(MediaPlayer mediaPlayer, libvlc_media_t media, String mrl) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void forward(MediaPlayer mediaPlayer) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void backward(MediaPlayer mediaPlayer) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void finished(MediaPlayer mediaPlayer) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void timeChanged(MediaPlayer mediaPlayer, long newTime) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void positionChanged(MediaPlayer mediaPlayer, float newPosition) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void seekableChanged(MediaPlayer mediaPlayer, int newSeekable) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void pausableChanged(MediaPlayer mediaPlayer, int newPausable) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void titleChanged(MediaPlayer mediaPlayer, int newTitle) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void snapshotTaken(MediaPlayer mediaPlayer, String filename) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void lengthChanged(MediaPlayer mediaPlayer, long newLength) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void videoOutput(MediaPlayer mediaPlayer, int newCount) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void error(MediaPlayer mediaPlayer) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void mediaMetaChanged(MediaPlayer mediaPlayer, int metaType) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void mediaSubItemAdded(MediaPlayer mediaPlayer, libvlc_media_t subItem) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void mediaDurationChanged(MediaPlayer mediaPlayer, long newDuration) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void mediaParsedChanged(MediaPlayer mediaPlayer, int newStatus) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void mediaFreed(MediaPlayer mediaPlayer) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void mediaStateChanged(MediaPlayer mediaPlayer, int newState) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void newMedia(MediaPlayer mediaPlayer) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void subItemPlayed(MediaPlayer mediaPlayer, int subItemIndex) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void subItemFinished(MediaPlayer mediaPlayer, int subItemIndex) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
+
+        @Override
+        public void endOfSubItems(MediaPlayer mediaPlayer) {
+            throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        }
     }
 
     /**

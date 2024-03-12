@@ -212,14 +212,16 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="lblHappyLoop" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cboVidLoop" min="-2" pref="319" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btnStopSFX2" min="-2" pref="22" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="cboVidLoop" min="-2" pref="235" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnPlayVL" min="-2" pref="22" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnStopSFX3" min="-2" pref="22" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Component id="chkLoopVL" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="chkMuteVL" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -238,21 +240,26 @@
               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
               <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" alignment="0" groupAlignment="3" max="-2" attributes="0">
-                      <Component id="lblVolSFX" alignment="3" max="32767" attributes="0"/>
-                      <Component id="lblSFXState" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="chkIB" alignment="3" max="32767" attributes="0"/>
-                      <Component id="chkSP" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" alignment="0" groupAlignment="3" max="-2" attributes="0">
+                          <Component id="lblVolSFX" alignment="3" max="32767" attributes="0"/>
+                          <Component id="lblSFXState" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="chkIB" alignment="3" max="32767" attributes="0"/>
+                          <Component id="chkSP" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="btnStopSFX" alignment="0" max="32767" attributes="0"/>
+                      <Component id="volSFX" alignment="0" max="32767" attributes="0"/>
+                      <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                          <Component id="cboVidLoop" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                          <Component id="lblHappyLoop" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="btnPlayVL" alignment="0" max="32767" attributes="0"/>
+                      <Component id="btnStopSFX3" alignment="0" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="btnStopSFX" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="volSFX" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
-                  <Component id="btnPlayVL" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnStopSFX2" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnStopSFX3" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                      <Component id="cboVidLoop" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                      <Component id="lblHappyLoop" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="chkLoopVL" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="chkMuteVL" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -1032,7 +1039,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Happy Loop:"/>
+        <Property name="text" type="java.lang.String" value="Video Loop:"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
@@ -4628,26 +4635,6 @@
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JButton" name="btnStopSFX2">
-      <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Stop SFX"/>
-        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[22, 22]"/>
-        </Property>
-        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[22, 22]"/>
-        </Property>
-        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[22, 22]"/>
-        </Property>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnStopSFX2ActionPerformed"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
-      </AuxValues>
-    </Component>
     <Component class="javax.swing.JButton" name="btnStopSFX3">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="Stop SFX"/>
@@ -4667,6 +4654,22 @@
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
       </AuxValues>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="chkLoopVL">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Loop"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkLoopVLActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="chkMuteVL">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Mute"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkMuteVLActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

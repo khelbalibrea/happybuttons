@@ -36,6 +36,7 @@
             <groupId>uk.co.caprica</groupId>
             <artifactId>vlcj</artifactId>
             <version>3.0.1</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
 </project>
