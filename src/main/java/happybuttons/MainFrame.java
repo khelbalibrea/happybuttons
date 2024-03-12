@@ -4,6 +4,8 @@
  */
 package happybuttons;
 
+import com.sun.jna.Native;
+import com.sun.jna.NativeLibrary;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -44,6 +46,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+//import uk.co.caprica.vlcj.binding.LibVlc;
+//import uk.co.caprica.vlcj.player.MediaPlayerFactory;
+//import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
+//import uk.co.caprica.vlcj.player.embedded.windows.Win32FullScreenStrategy;
+//import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 
 // @author Michael Balibrea (khel) &
 
@@ -70,6 +77,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static int loop1 = 1, loop2 = 1;
     public LineListener listenBGM1, listenBGM2;
     public boolean sfxOperation;
+//    public MediaPlayerFactory mpf = new MediaPlayerFactory();
+//    public EmbeddedMediaPlayer emp = mpf.newEmbeddedMediaPlayer(new Win32FullScreenStrategy(null));
     
     FloatControl fcBGM1;
     FloatControl fcBGM2;
@@ -91,7 +100,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     
     // UI Components
     public static String sfxGroupName1 = "", sfxGroupName2 = "", sfxGroupName3 = "";
-    public static int hour, minute, second;
+    public static int hour, minute, second, vlcjPlaying = 0;
     
     public MainFrame() {
         initComponents();
@@ -4218,7 +4227,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_cboVidLoopActionPerformed
 
     private void btnPlayVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayVLActionPerformed
-        new VLCFrame();
+        if(!HappyButtons.vlcjPath.isEmpty()){
+            if(vlcjPlaying == 0){
+                new VLCFrame();
+            }
+        }
     }//GEN-LAST:event_btnPlayVLActionPerformed
 
     private void btnStopSFX2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFX2ActionPerformed
@@ -4226,7 +4239,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_btnStopSFX2ActionPerformed
 
     private void btnStopSFX3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFX3ActionPerformed
-        // TODO add your handling code here:
+      
     }//GEN-LAST:event_btnStopSFX3ActionPerformed
 
     private void itmPluginsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itmPluginsMouseClicked

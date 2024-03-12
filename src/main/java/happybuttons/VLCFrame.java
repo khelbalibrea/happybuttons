@@ -9,8 +9,11 @@ import com.sun.jna.NativeLibrary;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import uk.co.caprica.vlcj.binding.LibVlc;
+import uk.co.caprica.vlcj.player.MediaPlayer;
 import uk.co.caprica.vlcj.player.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 import uk.co.caprica.vlcj.player.embedded.windows.Win32FullScreenStrategy;
@@ -21,7 +24,11 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
  * @author Michael Balibrea
  */
 public class VLCFrame extends javax.swing.JFrame {
-
+    
+    
+//    static EmbeddedMediaPlayerComponent component = new EmbeddedMediaPlayerComponent();
+//    static MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
+    
     /**
      * Creates new form VLCFrame
      */
@@ -31,6 +38,15 @@ public class VLCFrame extends javax.swing.JFrame {
         
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/3-this.getSize().height/2);
+//        this.setContentPane(component);
+//        this.setBounds(200, 200, 800, 600);
+//        
+//        this.addWindowListener(new WindowAdapter(){
+//            @Override
+//            public void windowClosing(WindowEvent e){
+//                component.release();
+//            }
+//        });
         
         // set frame icon
         ImageIcon imgIcon = new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
@@ -39,19 +55,52 @@ public class VLCFrame extends javax.swing.JFrame {
         canvasMain.setBackground(Color.BLACK);
         canvasMain.setVisible(false);
         
-        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), "C:/Program Files/VideoLAN/VLC");
+//        component.mediaPlayer().media().play(HappyButtons.documentsPathDoubleSlash + "/vid.mp4");
+//        component.mediaPlayer().audio().mute();
+        
+        NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), HappyButtons.vlcjPath);
         Native.loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class);
         
         MediaPlayerFactory mpf = new MediaPlayerFactory();
-        EmbeddedMediaPlayer emp = mpf.newEmbeddedMediaPlayer(new Win32FullScreenStrategy(this));
+//        MediaPlayer mediaPlayer = mpf.mediaPlayers().newMediaPlayer();
+        EmbeddedMediaPlayer emp = mpf.newEmbeddedMediaPlayer(
+                new Win32FullScreenStrategy(
+                        this
+                )
+        );
         
-//        emp.toggleFullScreen();
-        emp.setEnableMouseInputHandling(false);
-        emp.setEnableKeyInputHandling(false);
+        MainFrame.btnStopSFX3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainFrame.vlcjPlaying = 0;
+                emp.stop();
+            }
+            
+        });
         
-        String file = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\vid.mp4");
-        emp.prepareMedia(file);
-        emp.play();
+        // emp.toggleFullScreen();
+//        emp.setEnableMouseInputHandling(false);
+//        emp.setEnableKeyInputHandling(false);
+        
+//        mpf.mediaPlayer().controls().setRepeat(true);
+
+        if((MainFrame.cboVidLoop).getSelectedItem() != null) {
+            String file = HappyButtons.documentsPathDoubleSlash + 
+                    Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 
+                            MainFrame.cboVidLoop.getSelectedItem() + 
+                            ".mp4");
+            emp.prepareMedia(file);
+            emp.play();
+            
+            MainFrame.vlcjPlaying = 1;
+        }
+        else {
+            MainFrame.tfLastOperation.setText("No video to play");
+        }
+    }
+    
+    public void stop(EmbeddedMediaPlayer emp){
+        emp.stop();
     }
 
     /**
@@ -66,6 +115,7 @@ public class VLCFrame extends javax.swing.JFrame {
         canvasMain = new java.awt.Canvas();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(768, 432));
         setMinimumSize(new java.awt.Dimension(768, 432));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
