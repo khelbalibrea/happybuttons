@@ -93,7 +93,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     
     // UI Components
     public static String sfxGroupName1 = "", sfxGroupName2 = "", sfxGroupName3 = "";
-    public static int hour, minute, second, vlcjPlaying = 0, chkVLLoop = 0, chkVLMute = 0;
+    public static int hour, minute, second, vlcjPlaying = 0, chkVLLoop = 1, chkVLMute = 1;
     
     public MainFrame() {
         initComponents();
@@ -166,6 +166,12 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         
         String btnStopSFXIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\stop_sfx_12px.png");
         btnStopSFX.setIcon(new javax.swing.ImageIcon(btnStopSFXIcon));
+        
+        String btnPlayVLIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_vl_12px.png");
+        btnPlayVL.setIcon(new javax.swing.ImageIcon(btnPlayVLIcon));
+        
+        String btnStopVLIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\stop_vl_12px.png");
+        btnStopVL.setIcon(new javax.swing.ImageIcon(btnStopVLIcon));
         
         String itmNewIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\new_workspace_12px.png");
         itmNew.setIcon(new javax.swing.ImageIcon(itmNewIcon));
@@ -306,6 +312,42 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         String key = "SP";
         chkSP.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.ALT_DOWN_MASK), key);
         chkSP.getActionMap().put(key, actSfxSP);
+        
+        // --- Checkbox Loop VL
+        Action actChkLoopVL = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(chkLoopVL.isSelected()) {
+                    chkVLLoop = 0;
+                    chkLoopVL.setSelected(false);
+                }
+                else {
+                    chkVLLoop = 1;
+                    chkLoopVL.setSelected(true);
+                }
+            }
+        };
+        String keyLoopVL = "CheckVLLoop";
+        chkLoopVL.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.ALT_DOWN_MASK), keyLoopVL);
+        chkLoopVL.getActionMap().put(keyLoopVL, actChkLoopVL);
+        
+        // --- Checkbox Mute VL
+        Action actChkMuteVL = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(chkMuteVL.isSelected()) {
+                    chkVLMute = 0;
+                    chkMuteVL.setSelected(false);
+                }
+                else {
+                    chkVLMute = 1;
+                    chkMuteVL.setSelected(true);
+                }
+            }
+        };
+        String keyMuteVL = "CheckVLMute";
+        chkMuteVL.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_V, KeyEvent.ALT_DOWN_MASK), keyMuteVL);
+        chkMuteVL.getActionMap().put(keyMuteVL, actChkMuteVL);
         
         // --- Play pause button 1
         Action actBgmPlayPause1 = new AbstractAction() {
@@ -509,7 +551,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         chkSP = new javax.swing.JCheckBox();
         chkIB = new javax.swing.JCheckBox();
         btnStopSFX = new javax.swing.JButton();
-        lblHappyLoop = new javax.swing.JLabel();
+        lblVideoLoop = new javax.swing.JLabel();
         cboVidLoop = new javax.swing.JComboBox<>();
         panelSFX1 = new javax.swing.JPanel();
         panelR1S01 = new javax.swing.JPanel();
@@ -641,7 +683,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         btnR3SFX14 = new javax.swing.JButton();
         lblR3SFX14 = new javax.swing.JLabel();
         btnPlayVL = new javax.swing.JButton();
-        btnStopSFX3 = new javax.swing.JButton();
+        btnStopVL = new javax.swing.JButton();
         chkLoopVL = new javax.swing.JCheckBox();
         chkMuteVL = new javax.swing.JCheckBox();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -714,7 +756,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         listSFX.setDragEnabled(true);
         jScrollPane3.setViewportView(listSFX);
 
-        listBGM.setToolTipText("BGM List");
+        listBGM.setToolTipText("Double click or drag to BGM slot");
         listBGM.setDragEnabled(true);
         jScrollPane2.setViewportView(listBGM);
 
@@ -1068,8 +1110,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
         });
 
-        lblHappyLoop.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblHappyLoop.setText("Video Loop:");
+        lblVideoLoop.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblVideoLoop.setText("Video Loop:");
 
         cboVidLoop.setMaximumRowCount(100);
         cboVidLoop.addActionListener(new java.awt.event.ActionListener() {
@@ -2993,24 +3035,28 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
         });
 
-        btnStopSFX3.setToolTipText("Stop SFX");
-        btnStopSFX3.setMaximumSize(new java.awt.Dimension(22, 22));
-        btnStopSFX3.setMinimumSize(new java.awt.Dimension(22, 22));
-        btnStopSFX3.setPreferredSize(new java.awt.Dimension(22, 22));
-        btnStopSFX3.addActionListener(new java.awt.event.ActionListener() {
+        btnStopVL.setToolTipText("Stop SFX");
+        btnStopVL.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnStopVL.setMinimumSize(new java.awt.Dimension(22, 22));
+        btnStopVL.setPreferredSize(new java.awt.Dimension(22, 22));
+        btnStopVL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStopSFX3ActionPerformed(evt);
+                btnStopVLActionPerformed(evt);
             }
         });
 
+        chkLoopVL.setSelected(true);
         chkLoopVL.setText("Loop");
+        chkLoopVL.setToolTipText("Loop VL (Video loop)");
         chkLoopVL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chkLoopVLActionPerformed(evt);
             }
         });
 
+        chkMuteVL.setSelected(true);
         chkMuteVL.setText("Mute");
+        chkMuteVL.setToolTipText("Mute VL (Video loop)");
         chkMuteVL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chkMuteVLActionPerformed(evt);
@@ -3145,13 +3191,13 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnStopSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblHappyLoop)
+                        .addComponent(lblVideoLoop)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPlayVL, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnStopSFX3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnStopVL, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(chkLoopVL)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3174,23 +3220,22 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                            .addComponent(lblVolSFX, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblSFXState)
-                            .addComponent(chkIB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(chkSP))
-                        .addComponent(btnStopSFX, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(volSFX, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblHappyLoop))
-                        .addComponent(btnPlayVL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnStopSFX3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
+                        .addComponent(lblVolSFX, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblSFXState)
+                        .addComponent(chkIB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(chkSP))
+                    .addComponent(volSFX, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblVideoLoop))
+                    .addComponent(btnStopSFX, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnPlayVL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(chkLoopVL)
-                        .addComponent(chkMuteVL)))
+                        .addComponent(chkMuteVL))
+                    .addComponent(btnStopVL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelSFX1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -3768,15 +3813,18 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_itemSaveActionPerformed
 
     private void itmNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmNewActionPerformed
-        if((clipBGM1 != null && clipBGM1.isRunning()) || (clipBGM2 != null && clipBGM2.isRunning())) {
-            tfLastOperation.setText("CANNOT CREATE NEW WORKSPACE, PLEASE STOP RUNNING BGM/SFX");
+//        if() {
+//            
+//        }
+        if((clipBGM1 != null && clipBGM1.isRunning()) || (clipBGM2 != null && clipBGM2.isRunning()) || vlcjPlaying == 1) {
+            tfLastOperation.setText("CANNOT CREATE NEW WORKSPACE, PLEASE STOP RUNNING BGM/SFX or PLAYING VIDEO LOOP");
         }
         else {
             super.setTitle("Happy Buttons");
             
             clipBGM1 = null; clipBGM2 = null; clipSFX = null;
             blist.removeAllElements(); slist.removeAllElements();
-            cboVidLoop.removeAllItems();
+            cboVidLoop.removeAllItems(); cboModel.removeAllElements();
             bgmVolumeLink = 0;
             
             draggedList = -1;
@@ -3785,7 +3833,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             playing1 = 0; playing2 = 0; pause1 = 0; pause2 = 0;
             sfxPlaying = 0;
             lastFrame1 = 0; lastFrame2 = 0;
-            chkSinglePlay = 1; chkStopBGM = 0;
+            chkSinglePlay = 1; chkStopBGM = 0; chkVLLoop = 1; chkVLMute = 1;
             loop1 = 1; loop2 = 1;
             
             bgmVol1 = 100f; bgmVol2 = 100f; sfxVol = 100f;
@@ -3802,6 +3850,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             volBGM1.setValue(100); volBGM2.setValue(100); volSFX.setValue(100);
             chkLoop1.setSelected(true); chkLoop2.setSelected(true);
             chkSP.setSelected(true); chkIB.setSelected(false);
+            chkLoopVL.setSelected(true); chkMuteVL.setSelected(true); 
             togLinkBGMVol.setSelected(false); togLinkBGMVol.setText("OFF");
             
             lblR1SFX01.setText("blank"); lblR1SFX02.setText("blank"); lblR1SFX03.setText("blank"); lblR1SFX04.setText("blank");
@@ -4237,9 +4286,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         }
     }//GEN-LAST:event_btnPlayVLActionPerformed
 
-    private void btnStopSFX3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFX3ActionPerformed
+    private void btnStopVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopVLActionPerformed
       
-    }//GEN-LAST:event_btnStopSFX3ActionPerformed
+    }//GEN-LAST:event_btnStopVLActionPerformed
 
     private void itmPluginsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itmPluginsMouseClicked
         PluginsFrame pluginFrame = new PluginsFrame(HappyButtons.mf, true);
@@ -4353,13 +4402,13 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JButton btnStopBGM1;
     public static javax.swing.JButton btnStopBGM2;
     public static javax.swing.JButton btnStopSFX;
-    public static javax.swing.JButton btnStopSFX3;
+    public static javax.swing.JButton btnStopVL;
     public static javax.swing.JComboBox<String> cboVidLoop;
     public static javax.swing.JCheckBox chkIB;
     public static javax.swing.JCheckBox chkLoop1;
     public static javax.swing.JCheckBox chkLoop2;
-    private javax.swing.JCheckBox chkLoopVL;
-    private javax.swing.JCheckBox chkMuteVL;
+    public static javax.swing.JCheckBox chkLoopVL;
+    public static javax.swing.JCheckBox chkMuteVL;
     public static javax.swing.JCheckBox chkSP;
     public static javax.swing.JMenuItem itemSave;
     public static javax.swing.JMenu itmAbout;
@@ -4379,7 +4428,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JLabel lblBGM1;
     public static javax.swing.JLabel lblBGM2;
     private javax.swing.JLabel lblDeleteSFX;
-    public static javax.swing.JLabel lblHappyLoop;
     public static javax.swing.JLabel lblLastOperation;
     public static javax.swing.JLabel lblLinkBGMVolumes;
     public static javax.swing.JLabel lblR1SFX01;
@@ -4425,6 +4473,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JLabel lblR3SFX13;
     public static javax.swing.JLabel lblR3SFX14;
     public static javax.swing.JLabel lblSFXState;
+    public static javax.swing.JLabel lblVideoLoop;
     public static javax.swing.JLabel lblVolBGM1;
     public static javax.swing.JLabel lblVolBGM2;
     public static javax.swing.JLabel lblVolSFX;

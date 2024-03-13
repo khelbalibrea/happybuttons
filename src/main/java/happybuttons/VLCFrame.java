@@ -54,14 +54,13 @@ public class VLCFrame extends javax.swing.JFrame {
         MediaPlayerFactory mpf = new MediaPlayerFactory();
         MediaPlayer mediaPlayer = mpf.newEmbeddedMediaPlayer();
         
-        MainFrame.btnStopSFX3.addActionListener(new ActionListener() {
+        MainFrame.btnStopVL.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 MainFrame.vlcjPlaying = 0;
                 mediaPlayer.removeMediaPlayerEventListener(videoListener);
                 mediaPlayer.stop();
             }
-            
         });
         
         mediaPlayer.mute(true);

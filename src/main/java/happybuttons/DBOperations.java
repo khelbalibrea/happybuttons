@@ -334,6 +334,8 @@ public class DBOperations {
             
             loadJElements(profileDB, index);
             
+            MainFrame.tfLastOperation.setText("PROFILE \"" + profileDB[index].getProfileName() + "\" LOADED");
+            
 //            (MainFrame.tfSFXGroup1).setText(profileDB[index].getSfxName1());
 //            (MainFrame.tfSFXGroup2).setText(profileDB[index].getSfxName2());
 //            (MainFrame.tfSFXGroup3).setText(profileDB[index].getSfxName3());
@@ -386,18 +388,20 @@ public class DBOperations {
         int numbering = 1;
         
         for(String music : arrBGM) {
-            File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\bg\\" + music + ".wav");
-            if(!destCheck.exists()) {
-                int removedIndex = Utility.findIndexInStrArr(arrBGM, music);
-                arrBGM = Utility.removeIndexInStrArr(arrBGM, removedIndex);
-                bgmLost++;
-                if(!goneBGMs.equals("")) {
-                    goneBGMs = goneBGMs + "(" + numbering + ") " + music + ".wav\n";
-                    numbering++;
-                }
-                else {
-                    goneBGMs = "(" + numbering + ") " + music + ".wav\n";
-                    numbering++;
+            if(!music.equals("")) {
+                File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\bg\\" + music + ".wav");
+                if(!destCheck.exists()) {
+                    int removedIndex = Utility.findIndexInStrArr(arrBGM, music);
+                    arrBGM = Utility.removeIndexInStrArr(arrBGM, removedIndex);
+                    bgmLost++;
+                    if(!goneBGMs.equals("")) {
+                        goneBGMs = goneBGMs + "(" + numbering + ") " + music + ".wav\n";
+                        numbering++;
+                    }
+                    else {
+                        goneBGMs = "(" + numbering + ") " + music + ".wav\n";
+                        numbering++;
+                    }
                 }
             }
         }
@@ -418,20 +422,22 @@ public class DBOperations {
         numbering = 1;
         
         for(String music : arrSFX) {
-            File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\sfx\\" + music + ".wav");
-            if(!destCheck.exists()) {
-                int removedIndex = Utility.findIndexInStrArr(arrSFX, music);
-                arrSFX = Utility.removeIndexInStrArr(arrSFX, removedIndex);
-                sfxLost++;
-                if(goneSFXs.equals("")) {
-                    goneSFXs = "(" + numbering + ") " + music + ".wav\n";
-                    numbering++;
-                    sfxGone = music;
-                }
-                else {
-                    goneSFXs = goneSFXs + "(" + numbering + ") " + music + ".wav\n";
-                    numbering++;
-                    sfxGone = sfxGone + ":" + music;
+            if(!music.equals("")) {
+                File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\sfx\\" + music + ".wav");
+                if(!destCheck.exists()) {
+                    int removedIndex = Utility.findIndexInStrArr(arrSFX, music);
+                    arrSFX = Utility.removeIndexInStrArr(arrSFX, removedIndex);
+                    sfxLost++;
+                    if(goneSFXs.equals("")) {
+                        goneSFXs = "(" + numbering + ") " + music + ".wav\n";
+                        numbering++;
+                        sfxGone = music;
+                    }
+                    else {
+                        goneSFXs = goneSFXs + "(" + numbering + ") " + music + ".wav\n";
+                        numbering++;
+                        sfxGone = sfxGone + ":" + music;
+                    }
                 }
             }
         }

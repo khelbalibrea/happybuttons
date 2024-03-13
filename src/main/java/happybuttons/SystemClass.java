@@ -9,6 +9,7 @@ import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
@@ -38,6 +39,10 @@ public class SystemClass {
             // -------------------------------------------------------------------------------------- MENU BAR
             MainFrame.jMenuBar1.setOpaque(false);
             MainFrame.jMenuBar1.setBackground(new JMenuBar().getBackground());
+            
+            // -------------------------------------------------------------------------------------- COMBO BOX
+            MainFrame.cboVidLoop.setBackground(new JComboBox().getBackground());
+            MainFrame.cboVidLoop.setForeground(new JComboBox().getForeground());
             
             // -------------------------------------------------------------------------------------- MENUS
             MainFrame.jMenu1.setForeground(new JMenu().getForeground());
@@ -179,6 +184,14 @@ public class SystemClass {
             MainFrame.btnStopSFX.setBackground(new JButton().getBackground());
             String btnStopAllSFXIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\stop_sfx_12px.png");
             MainFrame.btnStopSFX.setIcon(new javax.swing.ImageIcon(btnStopAllSFXIcon));
+            
+            MainFrame.btnPlayVL.setBackground(new JButton().getBackground());
+            String btnPlayVLIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_vl_12px.png");
+            MainFrame.btnPlayVL.setIcon(new javax.swing.ImageIcon(btnPlayVLIcon));
+            
+            MainFrame.btnStopVL.setBackground(new JButton().getBackground());
+            String btnStopVLIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\stop_vl_12px.png");
+            MainFrame.btnStopVL.setIcon(new javax.swing.ImageIcon(btnStopVLIcon));
             
             String sfxButton = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave_black_14px.png");
             MainFrame.btnR1SFX01.setBackground(new JButton().getBackground());
@@ -373,6 +386,10 @@ public class SystemClass {
             MainFrame.lblSFXState.setForeground(new JLabel().getForeground());
             MainFrame.lblSFXState.setOpaque(true);
             
+            MainFrame.lblVideoLoop.setBackground(new JLabel().getBackground());
+            MainFrame.lblVideoLoop.setForeground(new JLabel().getForeground());
+            MainFrame.lblVideoLoop.setOpaque(true);
+            
             MainFrame.lblR1SFX01.setBackground(new JLabel().getBackground());
             MainFrame.lblR1SFX01.setForeground(new JLabel().getForeground());
             MainFrame.lblR1SFX01.setOpaque(true);
@@ -548,6 +565,12 @@ public class SystemClass {
             MainFrame.chkLoop2.setBackground(new JCheckBox().getBackground());
             MainFrame.chkLoop2.setForeground(new JCheckBox().getForeground());
             
+            MainFrame.chkLoopVL.setBackground(new JCheckBox().getBackground());
+            MainFrame.chkLoopVL.setForeground(new JCheckBox().getForeground());
+            
+            MainFrame.chkMuteVL.setBackground(new JCheckBox().getBackground());
+            MainFrame.chkMuteVL.setForeground(new JCheckBox().getForeground());
+            
             // -------------------------------------------------------------------------------------- RADIO BUTTON
             MainFrame.chkSP.setBackground(new JRadioButton().getBackground());
             MainFrame.chkSP.setForeground(new JRadioButton().getForeground());
@@ -586,6 +609,10 @@ public class SystemClass {
             MainFrame.jMenuBar1.setOpaque(true);
             MainFrame.jMenuBar1.setBackground(Color.BLACK);
             MainFrame.jMenuBar1.setForeground(Color.WHITE);
+            
+            // -------------------------------------------------------------------------------------- COMBO BOX
+            MainFrame.cboVidLoop.setBackground(Color.DARK_GRAY);
+            MainFrame.cboVidLoop.setForeground(Color.lightGray);
             
             // -------------------------------------------------------------------------------------- MENUS
             MainFrame.jMenu1.setForeground(Color.lightGray);
@@ -727,6 +754,14 @@ public class SystemClass {
             MainFrame.btnStopSFX.setBackground(Color.GRAY);
             String btnStopAllSFXIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_sfx_stop_12px.png");
             MainFrame.btnStopSFX.setIcon(new javax.swing.ImageIcon(btnStopAllSFXIcon));
+            
+            MainFrame.btnPlayVL.setBackground(Color.GRAY);
+            String btnPlayVLIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_vl_12px.png");
+            MainFrame.btnPlayVL.setIcon(new javax.swing.ImageIcon(btnPlayVLIcon));
+            
+            MainFrame.btnStopVL.setBackground(Color.GRAY);
+            String btnStopVLIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_stop_vl_12px.png");
+            MainFrame.btnStopVL.setIcon(new javax.swing.ImageIcon(btnStopVLIcon));
             
             String sfxButton = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_Audio Wave_48px.png");
             MainFrame.btnR1SFX01.setBackground(Color.GRAY);
@@ -895,16 +930,16 @@ public class SystemClass {
             MainFrame.lblLinkBGMVolumes.setOpaque(true);
                     
             MainFrame.lblVolSFX.setBackground(Color.DARK_GRAY);
-            MainFrame.lblVolSFX.setForeground(Color.WHITE);
+            MainFrame.lblVolSFX.setForeground(Color.LIGHT_GRAY);
             MainFrame.lblVolSFX.setOpaque(true);
             
             MainFrame.lblSFXState.setBackground(Color.DARK_GRAY);
-            MainFrame.lblSFXState.setForeground(Color.WHITE);
+            MainFrame.lblSFXState.setForeground(Color.LIGHT_GRAY);
             MainFrame.lblSFXState.setOpaque(true);
             
-            MainFrame.lblHappyLoop.setBackground(Color.DARK_GRAY);
-            MainFrame.lblHappyLoop.setForeground(Color.WHITE);
-            MainFrame.lblHappyLoop.setOpaque(true);
+            MainFrame.lblVideoLoop.setBackground(Color.DARK_GRAY);
+            MainFrame.lblVideoLoop.setForeground(Color.LIGHT_GRAY);
+            MainFrame.lblVideoLoop.setOpaque(true);
             
             MainFrame.lblR1SFX01.setBackground(Color.DARK_GRAY);
             MainFrame.lblR1SFX01.setForeground(Color.WHITE);
@@ -1080,6 +1115,12 @@ public class SystemClass {
             
             MainFrame.chkLoop2.setBackground(Color.DARK_GRAY);
             MainFrame.chkLoop2.setForeground(Color.LIGHT_GRAY);
+            
+            MainFrame.chkLoopVL.setBackground(Color.DARK_GRAY);
+            MainFrame.chkLoopVL.setForeground(Color.LIGHT_GRAY);
+            
+            MainFrame.chkMuteVL.setBackground(Color.DARK_GRAY);
+            MainFrame.chkMuteVL.setForeground(Color.LIGHT_GRAY);
             
             // -------------------------------------------------------------------------------------- RADIO BUTTON
             MainFrame.chkSP.setBackground(Color.DARK_GRAY);
