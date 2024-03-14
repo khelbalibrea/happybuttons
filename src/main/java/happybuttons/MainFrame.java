@@ -3319,10 +3319,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
         if(clipBGM1 == null) {
             if(tfBGM1.getText().isEmpty()){
-                JOptionPane.showMessageDialog(HappyButtons.mf, 
-                            "Nothing to play", 
-                            "Empty", 
-                            JOptionPane.WARNING_MESSAGE);
+                tfLastOperation.setText("[BGM1]: NOTHING TO PLAY");
 
                 errorOccurred = 1;
             }
@@ -3576,14 +3573,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                     btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon2));
                 }
             }
-        }; // &
+        };
 
         if(clipBGM2 == null) {
             if(tfBGM2.getText().isEmpty()){
-                JOptionPane.showMessageDialog(HappyButtons.mf, 
-                            "Nothing to play", 
-                            "Empty", 
-                            JOptionPane.WARNING_MESSAGE);
+                tfLastOperation.setText("[BGM2]: NOTHING TO PLAY");
 
                 errorOccurred = 1;
             }
@@ -4281,13 +4275,14 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     private void btnPlayVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayVLActionPerformed
         if(!HappyButtons.vlcjPath.isEmpty()){
             if(vlcjPlaying == 0){
+                vlcjPlaying = 1;
                 new VLCFrame();
             }
         }
     }//GEN-LAST:event_btnPlayVLActionPerformed
 
     private void btnStopVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopVLActionPerformed
-      
+        
     }//GEN-LAST:event_btnStopVLActionPerformed
 
     private void itmPluginsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itmPluginsMouseClicked
@@ -4300,7 +4295,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         pluginFrame.setVisible(true);
     }//GEN-LAST:event_itmPluginsActionPerformed
 
-    private void chkLoopVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkLoopVLActionPerformed
+    public static void chkLoopVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkLoopVLActionPerformed
         if(chkLoopVL.isSelected()) {
             chkVLLoop = 1;
         }
@@ -4309,12 +4304,15 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         }
     }//GEN-LAST:event_chkLoopVLActionPerformed
 
-    private void chkMuteVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMuteVLActionPerformed
-        if(chkMuteVL.isSelected()) {
-            chkVLMute = 1;
-        }
-        else {
-            chkVLMute = 0;
+    public static void chkMuteVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMuteVLActionPerformed
+        if(vlcjPlaying == 0) {
+            if(chkMuteVL.isSelected()) {
+                chkVLMute = 1;
+            }
+            else {
+                chkVLMute = 0;
+//                System.out.println("Check: " + chkVLMute);
+            }
         }
     }//GEN-LAST:event_chkMuteVLActionPerformed
 
