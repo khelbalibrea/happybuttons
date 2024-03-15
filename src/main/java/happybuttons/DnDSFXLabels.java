@@ -8,9 +8,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DropTargetDropEvent;
 import java.io.IOException;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.TransferHandler;
@@ -50,6 +48,8 @@ public class DnDSFXLabels extends TransferHandler {
                     + (String) ts.getTransferable().getTransferData(DataFlavor.stringFlavor)
                     + "</center></html>");
             
+            autosave();
+            
 //            if(MainFrame.clipBGM1 != null) {
 //                MainFrame.lastFrame1 = 0;
 //                MainFrame.clipBGM1.stop();
@@ -62,11 +62,66 @@ public class DnDSFXLabels extends TransferHandler {
 //                
 //                MainFrame.clipBGM1 = null;
 //            }
-            
             return true;
         }
         catch(UnsupportedFlavorException | IOException e) {
             return false;
+        }
+    }
+    
+    public void autosave() {
+        if(HappyButtons.canAutosave == 1) {
+            prepareSave();
+            Profile profile = new Profile();
+            DBOperations.indexDB = HappyButtons.loadedDB;
+            
+            HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
+            (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+            
+            String lastText = MainFrame.tfLastOperation.getText();
+            MainFrame.tfLastOperation.setText("SFX changes");
+            MainFrame.tfLastOperation.setText(lastText);
+        }
+    }
+    
+    public void prepareSave() {
+        // BGMs
+        int listBGMSize = MainFrame.listBGM.getModel().getSize();
+        MainFrame.strBGM = "";
+        
+        for(int ctr = 0; ctr < listBGMSize; ctr++){
+            if(ctr == 0) {
+                MainFrame.strBGM = MainFrame.listBGM.getModel().getElementAt(ctr);
+            }
+            else if(ctr > 0 && ctr <= (listBGMSize - 1)) {
+                MainFrame.strBGM = MainFrame.strBGM + ":" + MainFrame.listBGM.getModel().getElementAt(ctr);
+            }
+        }
+        
+        // SFXs
+        int listSFXSize = MainFrame.listSFX.getModel().getSize();
+        MainFrame.strSFX = "";
+        
+        for(int ctr = 0; ctr < listSFXSize; ctr++){
+            if(ctr == 0) {
+                MainFrame.strSFX = MainFrame.listSFX.getModel().getElementAt(ctr);
+            }
+            else if(ctr > 0 && ctr <= (listSFXSize - 1)) {
+                MainFrame.strSFX = MainFrame.strSFX + ":" + MainFrame.listSFX.getModel().getElementAt(ctr);
+            }
+        }
+        
+        // Video Loop videos
+        int cboHappyLoopSize = MainFrame.cboVidLoop.getModel().getSize();
+        MainFrame.strVidLoop = "";
+        
+        for(int ctr = 0; ctr < cboHappyLoopSize; ctr++) {
+            if(ctr == 0) {
+                MainFrame.strVidLoop = MainFrame.cboVidLoop.getModel().getElementAt(ctr);
+            }
+            else if(ctr > 0 && ctr <= (cboHappyLoopSize - 1)) {
+                MainFrame.strVidLoop = MainFrame.strVidLoop + ":" + MainFrame.cboVidLoop.getModel().getElementAt(ctr);
+            }
         }
     }
 }

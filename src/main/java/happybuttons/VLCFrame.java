@@ -298,7 +298,7 @@ public class VLCFrame extends javax.swing.JFrame {
 
         canvasMain = new java.awt.Canvas();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMaximumSize(null);
         setMinimumSize(new java.awt.Dimension(1366, 768));
         setPreferredSize(new java.awt.Dimension(1366, 768));
@@ -347,7 +347,12 @@ public class VLCFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VLCFrame().setVisible(true);
+                try {
+                    new VLCFrame().setVisible(true);
+                }
+                catch(Exception e) {
+                    
+                }
             }
         });
     }

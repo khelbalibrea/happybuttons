@@ -21,7 +21,7 @@ import javax.swing.JTextField;
  * @author Michael Balibrea
  */
 public class SaveFrame extends javax.swing.JDialog {
-    public static String profileName1 = "", profileName2 = "", profileName3 = "", profileName4 = "", profileName5 = "";
+//    public static String profileName1 = "", profileName2 = "", profileName3 = "", profileName4 = "", profileName5 = "";
     public static String dbSlot1 = "", dbSlot2 = "", dbSlot3 = "", dbSlot4 = "", dbSlot5 = "";
     String theme = HappyButtons.uiTheme;
     /**
@@ -331,17 +331,17 @@ public class SaveFrame extends javax.swing.JDialog {
         DBOperations.indexDB = 0;
         Profile profile = new Profile();
         
-        profileName1 = tfSaveProfile1.getText();
+        (MainFrame.savingProfile) = tfSaveProfile1.getText();
         
-        if(profileName1.equals("")) {
+        if((MainFrame.savingProfile).equals("")) {
             JOptionPane.showMessageDialog(HappyButtons.mf, 
                 "Please provide SLOT 1 name", 
                 "Empty name", 
                 JOptionPane.WARNING_MESSAGE);
         }
-        else if((profileName1.equalsIgnoreCase(dbSlot2) || profileName1.equalsIgnoreCase(dbSlot3) || 
-                profileName1.equalsIgnoreCase(dbSlot4) || profileName1.equalsIgnoreCase(dbSlot5)) && 
-                !profileName1.equals("")
+        else if(((MainFrame.savingProfile).equalsIgnoreCase(dbSlot2) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot3) || 
+                (MainFrame.savingProfile).equalsIgnoreCase(dbSlot4) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot5)) && 
+                !(MainFrame.savingProfile).equals("")
                 ) {
             JOptionPane.showMessageDialog(HappyButtons.mf, 
                 "SLOT 1 name matches other slot name", 
@@ -364,17 +364,17 @@ public class SaveFrame extends javax.swing.JDialog {
         DBOperations.indexDB = 1;
         Profile profile = new Profile();
         
-        profileName2 = tfSaveProfile2.getText();
+        (MainFrame.savingProfile) = tfSaveProfile2.getText();
         
-        if(profileName2.equals("")) {
+        if((MainFrame.savingProfile).equals("")) {
             JOptionPane.showMessageDialog(HappyButtons.mf, 
                 "Please provide SLOT 2 name", 
                 "Empty name", 
                 JOptionPane.WARNING_MESSAGE);
         }
-        else if((profileName2.equalsIgnoreCase(dbSlot1) || profileName2.equalsIgnoreCase(dbSlot3) || 
-                profileName2.equalsIgnoreCase(dbSlot4) || profileName2.equalsIgnoreCase(dbSlot5)) && 
-                !profileName2.equals("")
+        else if(((MainFrame.savingProfile).equalsIgnoreCase(dbSlot1) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot3) || 
+                (MainFrame.savingProfile).equalsIgnoreCase(dbSlot4) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot5)) && 
+                !(MainFrame.savingProfile).equals("")
                 ) {
             JOptionPane.showMessageDialog(HappyButtons.mf, 
                 "SLOT 2 name matches other slot name", 
@@ -397,17 +397,17 @@ public class SaveFrame extends javax.swing.JDialog {
         DBOperations.indexDB = 2;
         Profile profile = new Profile();
         
-        profileName3 = tfSaveProfile3.getText();
+        (MainFrame.savingProfile) = tfSaveProfile3.getText();
         
-        if(profileName3.equals("")) {
+        if((MainFrame.savingProfile).equals("")) {
             JOptionPane.showMessageDialog(HappyButtons.mf, 
                 "Please provide SLOT 3 name", 
                 "Empty name", 
                 JOptionPane.WARNING_MESSAGE);
         }
-        else if((profileName3.equalsIgnoreCase(dbSlot1) || profileName3.equalsIgnoreCase(dbSlot2) || 
-                profileName3.equalsIgnoreCase(dbSlot4) || profileName3.equalsIgnoreCase(dbSlot5)) && 
-                !profileName3.equals("")
+        else if(((MainFrame.savingProfile).equalsIgnoreCase(dbSlot1) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot2) || 
+                (MainFrame.savingProfile).equalsIgnoreCase(dbSlot4) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot5)) && 
+                !(MainFrame.savingProfile).equals("")
                 ) {
             JOptionPane.showMessageDialog(HappyButtons.mf, 
                 "SLOT 3 name matches other slot name", 
@@ -431,17 +431,17 @@ public class SaveFrame extends javax.swing.JDialog {
         DBOperations.indexDB = 3;
         Profile profile = new Profile();
         
-        profileName4 = tfSaveProfile4.getText();
+        (MainFrame.savingProfile) = tfSaveProfile4.getText();
         
-        if(profileName4.equals("")) {
+        if((MainFrame.savingProfile).equals("")) {
             JOptionPane.showMessageDialog(HappyButtons.mf, 
                 "Please provide SLOT 4 name", 
                 "Empty name", 
                 JOptionPane.WARNING_MESSAGE);
         }
-        else if((profileName4.equalsIgnoreCase(dbSlot1) || profileName4.equalsIgnoreCase(dbSlot2) || 
-                profileName4.equalsIgnoreCase(dbSlot3) || profileName4.equalsIgnoreCase(dbSlot5)) && 
-                !profileName4.equals("")
+        else if(((MainFrame.savingProfile).equalsIgnoreCase(dbSlot1) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot2) || 
+                (MainFrame.savingProfile).equalsIgnoreCase(dbSlot3) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot5)) && 
+                !(MainFrame.savingProfile).equals("")
                 ) {
             JOptionPane.showMessageDialog(HappyButtons.mf, 
                 "SLOT 4 name matches other slot name", 
@@ -464,17 +464,17 @@ public class SaveFrame extends javax.swing.JDialog {
         DBOperations.indexDB = 4;
         Profile profile = new Profile();
         
-        profileName5 = tfSaveProfile5.getText();
+        (MainFrame.savingProfile) = tfSaveProfile5.getText();
         
-        if(profileName5.equals("")) {
+        if((MainFrame.savingProfile).equals("")) {
             JOptionPane.showMessageDialog(HappyButtons.mf, 
                 "Please provide SLOT 5 name", 
                 "Empty name", 
                 JOptionPane.WARNING_MESSAGE);
         }
-        else if((profileName5.equalsIgnoreCase(dbSlot1) || profileName5.equalsIgnoreCase(dbSlot2) || 
-                profileName5.equalsIgnoreCase(dbSlot3) || profileName5.equalsIgnoreCase(dbSlot4)) && 
-                !profileName5.equals("")
+        else if(((MainFrame.savingProfile).equalsIgnoreCase(dbSlot1) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot2) || 
+                (MainFrame.savingProfile).equalsIgnoreCase(dbSlot3) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot4)) && 
+                !(MainFrame.savingProfile).equals("")
                 ) {
             JOptionPane.showMessageDialog(HappyButtons.mf, 
                 "SLOT 5 name matches other slot name", 

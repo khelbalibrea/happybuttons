@@ -21,51 +21,60 @@ public class DBOperations {
     
     public boolean saveEnvironment(ProfileDatabase profileDB[], Profile profile){
         String profileNameSet = "";
-        if(indexDB == 0){
-            if(HappyButtons.noDB == 0) {
-                profile.setProfileName(SaveFrame.profileName1);
-                profileNameSet = SaveFrame.profileName1;
-            }
-            else {
-                profile.setProfileName("");
-            }
+        
+        if(HappyButtons.noDB == 0) {
+            profile.setProfileName(MainFrame.savingProfile);
+            profileNameSet = (MainFrame.savingProfile);
         }
-        else if(indexDB == 1){
-            if(HappyButtons.noDB == 0) {
-                profile.setProfileName(SaveFrame.profileName2);
-                profileNameSet = SaveFrame.profileName2;
-            }
-            else {
-                profile.setProfileName("");
-            }
+        else {
+            profile.setProfileName("");
         }
-        else if(indexDB == 2){
-            if(HappyButtons.noDB == 0) {
-                profile.setProfileName(SaveFrame.profileName3);
-                profileNameSet = SaveFrame.profileName3;
-            }
-            else {
-                profile.setProfileName("");
-            }
-        }
-        else if(indexDB == 3){
-            if(HappyButtons.noDB == 0) {
-                profile.setProfileName(SaveFrame.profileName4);
-                profileNameSet = SaveFrame.profileName4;
-            }
-            else {
-                profile.setProfileName("");
-            }
-        }
-        else if(indexDB == 4){
-            if(HappyButtons.noDB == 0) {
-                profile.setProfileName(SaveFrame.profileName5);
-                profileNameSet = SaveFrame.profileName5;
-            }
-            else {
-                profile.setProfileName("");
-            }
-        }
+        
+//        if(indexDB == 0){
+//            if(HappyButtons.noDB == 0) {
+//                profile.setProfileName(MainFrame.savingProfile);
+//                profileNameSet = (MainFrame.savingProfile);
+//            }
+//            else {
+//                profile.setProfileName("");
+//            }
+//        }
+//        else if(indexDB == 1){
+//            if(HappyButtons.noDB == 0) {
+//                profile.setProfileName(MainFrame.savingProfile);
+//                profileNameSet = MainFrame.savingProfile;
+//            }
+//            else {
+//                profile.setProfileName("");
+//            }
+//        }
+//        else if(indexDB == 2){
+//            if(HappyButtons.noDB == 0) {
+//                profile.setProfileName(MainFrame.savingProfile);
+//                profileNameSet = MainFrame.savingProfile;
+//            }
+//            else {
+//                profile.setProfileName("");
+//            }
+//        }
+//        else if(indexDB == 3){
+//            if(HappyButtons.noDB == 0) {
+//                profile.setProfileName(MainFrame.savingProfile);
+//                profileNameSet = MainFrame.savingProfile;
+//            }
+//            else {
+//                profile.setProfileName("");
+//            }
+//        }
+//        else if(indexDB == 4){
+//            if(HappyButtons.noDB == 0) {
+//                profile.setProfileName(MainFrame.savingProfile);
+//                profileNameSet = MainFrame.savingProfile;
+//            }
+//            else {
+//                profile.setProfileName("");
+//            }
+//        }
         
         // =================================================================================================== Set SFX group name
 //        if(HappyButtons.noDB == 0) {
@@ -245,6 +254,7 @@ public class DBOperations {
         boolean saved = new BeanHelper().writeToXml(profileDB);
         if(saved) {
             MainFrame.savedProfile = profileNameSet;
+            HappyButtons.canAutosave = 1;
         }
         else {
             MainFrame.savedProfile = "error";
@@ -351,6 +361,8 @@ public class DBOperations {
             
             String profileName = profileDB[index].getProfileName();
             HappyButtons.loadedDB = index;
+            HappyButtons.canAutosave = 1;
+            MainFrame.savingProfile = profileName;
             
             return profileName;
         }
@@ -363,17 +375,18 @@ public class DBOperations {
         }
     }
     
-    public void sortJComboBox(DefaultComboBoxModel cbo) {
-        int n = cbo.getSize();
-        String[] data = new String[n];
+    public void sortJComboBox(String[] arr) {
+        String[] data = new String[arr.length];
         
-        for(int i = 0; i < n; i++) {
-            data[i] = (String) cbo.getElementAt(i);
+        for(int i = 0; i < arr.length; i++) {
+            data[i] = arr[i];
         }
         
         Arrays.sort(data);
         
+        (MainFrame.cboVidLoop).removeAllItems();
         (MainFrame.cboModel).removeAllElements();
+        
         for(String vid : data) {
             (MainFrame.cboModel).addElement(vid);
         }
@@ -475,14 +488,7 @@ public class DBOperations {
             }
         }
         
-        (MainFrame.cboVidLoop).removeAllItems();
-        (MainFrame.cboModel).removeAllElements();
-        for(String vid : arrVid) {
-            (MainFrame.cboVidLoop).addItem(vid);
-            (MainFrame.cboModel).addElement(vid);
-        }
-        
-        sortJComboBox(MainFrame.cboModel);
+        sortJComboBox(arrVid);
         
         // --------------------------------------------------------------------------------------------- check for missing files
         boolean hasError = false;

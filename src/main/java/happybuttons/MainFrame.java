@@ -7,6 +7,7 @@ package happybuttons;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -40,6 +41,9 @@ import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import javax.swing.Timer;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
@@ -49,6 +53,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public Image icon;
+    Timer timer;
     
     // Globals
     public static int bgmVolumeLink = 0;
@@ -88,7 +93,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     
     // Profiles
     public static String profileName1 = "", profileName2 = "", profileName3 = "", profileName4 = "", profileName5 = "";
-    public static String loadedProfile = "", savedProfile = "", strBGM = "", strSFX = "", strVidLoop = "";
+    public static String loadedProfile = "", savedProfile = "", savingProfile = "", strBGM = "", strSFX = "", strVidLoop = "";
     public static int loadedIndexProfile = -1;
     
     // UI Components
@@ -497,6 +502,29 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             @Override
             public void keyReleased(KeyEvent e) {
                 e.consume();
+            }
+        });
+        
+        tfLastOperation.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if(tfLastOperation.getText().equals("SFX changes")) {
+                    visualizeSaving();
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                if(tfLastOperation.getText().equals("SFX changes")) {
+                    visualizeSaving();
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                if(tfLastOperation.getText().equals("SFX changes")) {
+                    visualizeSaving();
+                }
             }
         });
     }
@@ -3404,21 +3432,18 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
                 String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
                 btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
-    //            System.out.println("Play: " + playing1 + ", Pause: " + pause1);
             }
             else if(playing1 == 1 && pause1 == 0){
                 pause1 = 1;
 
                 String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
                 btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
-    //            System.out.println("Play: " + playing1 + ", Pause: " + pause1);
             }
             else if(playing1 == 1 && pause1 == 1){
                 pause1 = 0;
 
                 String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
                 btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
-    //            System.out.println("Play: " + playing1 + ", Pause: " + pause1);
             }
 
         }
@@ -3443,7 +3468,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             FileFilter filter = new FileNameExtensionFilter("WAV File", "wav");
             fc.setFileFilter(filter);
             fc.setMultiSelectionEnabled(true);
-            fc.showOpenDialog(HappyButtons.mf);
+            int returnValue = fc.showOpenDialog(HappyButtons.mf);
 
             File[] selectedFiles = fc.getSelectedFiles();
 
@@ -3469,12 +3494,16 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                     listBGM.setModel(blist);
                 }
                 catch(IOException ex) {
-                    System.out.println(file.getAbsolutePath());
                     JOptionPane.showMessageDialog(HappyButtons.mf,
                         "Error reading/writing file",
                         "IO Error", 
                         JOptionPane.ERROR_MESSAGE);
                 }
+            }
+            
+            // autosave
+            if(returnValue == fc.APPROVE_OPTION) {
+                autosave();
             }
         }
     }//GEN-LAST:event_btnAddBGMActionPerformed
@@ -3495,7 +3524,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             FileFilter filter = new FileNameExtensionFilter("WAV File","wav");
             fc.setFileFilter(filter);
             fc.setMultiSelectionEnabled(true);
-            fc.showOpenDialog(HappyButtons.mf);
+            int returnValue = fc.showOpenDialog(HappyButtons.mf);
 
             File[] selectedFiles = fc.getSelectedFiles();
 
@@ -3521,12 +3550,16 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                     listSFX.setModel(slist);
                 }
                 catch(IOException ex) {
-                    System.out.println(file.getAbsolutePath());
                     JOptionPane.showMessageDialog(HappyButtons.mf,
                         "Error reading/writing file",
                         "IO Error", 
                         JOptionPane.ERROR_MESSAGE);
                 }
+            }
+            
+            // autosave
+            if(returnValue == fc.APPROVE_OPTION) {
+                autosave();
             }
         }
     }//GEN-LAST:event_btnAddSFXActionPerformed
@@ -3662,21 +3695,18 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
                 String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
                 btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
-    //            System.out.println("Play: " + playing1 + ", Pause: " + pause1);
             }
             else if(playing2 == 1 && pause2 == 0){
                 pause2 = 1;
 
                 String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_12px.png");
                 btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
-    //            System.out.println("Play: " + playing1 + ", Pause: " + pause1);
             }
             else if(playing2 == 1 && pause2 == 1){
                 pause2 = 0;
 
                 String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
                 btnPlayPauseBGM2.setIcon(new javax.swing.ImageIcon(btnIcon));
-    //            System.out.println("Play: " + playing1 + ", Pause: " + pause1);
             }
 
         }
@@ -3690,6 +3720,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             tfLastOperation.setText("[DELETE BGM]:: " + selectedBGMItem);
             blist.removeElement(selectedBGMItem);
             selectedBGMItem = "";
+            
+            // autosave
+            autosave();
 //           File deleteItem = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\bg\\" + selectedBGMItem + ".wav");
 //            if(deleteItem.delete()) {
 //                tfLastOperation.setText("[DELETE BGM]:: " + selectedBGMItem);
@@ -3734,6 +3767,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 selectedSFXItem = "";
             }
             
+            // autosave
+            autosave();
+            
 //           File deleteItem = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\sfx\\" + selectedSFXItem + ".wav");
 //            if(deleteItem.delete()) {
 //                tfLastOperation.setText("[DELETE SFX]:: " + selectedSFXItem);
@@ -3757,6 +3793,19 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_btnDeleteSFXActionPerformed
 
     private void itemSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemSaveActionPerformed
+        prepareSave();
+        
+        SaveFrame saveFrame = new SaveFrame(HappyButtons.mf, true);
+        saveFrame.setVisible(true);
+        
+        if(!saveFrame.isShowing()) {
+            if(!"error".equals(savedProfile)) {
+                super.setTitle("Happy Buttons - (" + savedProfile + ")");
+            }
+        }
+    }//GEN-LAST:event_itemSaveActionPerformed
+
+    public void prepareSave() {
         // BGMs
         int listBGMSize = listBGM.getModel().getSize();
         strBGM = "";
@@ -3795,21 +3844,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 strVidLoop = strVidLoop + ":" + cboVidLoop.getModel().getElementAt(ctr);
             }
         }
-        
-        SaveFrame saveFrame = new SaveFrame(HappyButtons.mf, true);
-        saveFrame.setVisible(true);
-        
-        if(!saveFrame.isShowing()) {
-            if(!"error".equals(savedProfile)) {
-                super.setTitle("Happy Buttons - (" + savedProfile + ")");
-            }
-        }
-    }//GEN-LAST:event_itemSaveActionPerformed
-
+    }
+    
     private void itmNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmNewActionPerformed
-//        if() {
-//            
-//        }
         if((clipBGM1 != null && clipBGM1.isRunning()) || (clipBGM2 != null && clipBGM2.isRunning()) || vlcjPlaying == 1) {
             tfLastOperation.setText("CANNOT CREATE NEW WORKSPACE, PLEASE STOP RUNNING BGM/SFX or PLAYING VIDEO LOOP");
         }
@@ -3861,6 +3898,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             lblR3SFX05.setText("blank"); lblR3SFX06.setText("blank"); lblR3SFX07.setText("blank"); lblR3SFX08.setText("blank");
             lblR3SFX09.setText("blank"); lblR3SFX10.setText("blank"); lblR3SFX11.setText("blank"); lblR3SFX12.setText("blank");
             lblR3SFX13.setText("blank"); lblR3SFX14.setText("blank");
+            
+            HappyButtons.canAutosave = 0;
+            DBOperations.indexDB = -1;
         }
     }//GEN-LAST:event_itmNewActionPerformed
 
@@ -3991,7 +4031,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_volBGM1StateChanged
 
     private void volBGM2StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_volBGM2StateChanged
-        System.out.println("Vol 2: " + volBGM2.getValue());
         float f = (float)volBGM2.getValue();
                 
         try {
@@ -4021,7 +4060,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         catch(Exception ex) {
 
         }
-        System.out.println("BGM Vol: " + bgmVol2);
 
         if(bgmVolumeLink == 1) {
             int value = (int)volBGM2.getValue();
@@ -4311,7 +4349,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
             else {
                 chkVLMute = 0;
-//                System.out.println("Check: " + chkVLMute);
             }
         }
     }//GEN-LAST:event_chkMuteVLActionPerformed
@@ -5082,6 +5119,49 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 }
             }
         }
+    }
+    
+    public void autosave() {
+        if(HappyButtons.canAutosave == 1) {
+            prepareSave();
+            Profile profile = new Profile();
+            DBOperations.indexDB = HappyButtons.loadedDB;
+            
+            HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
+            (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+            visualizeSaving();
+        }
+    }
+    
+    public void setFrameTitle(int type) {
+        if(type == 1) {
+            super.setTitle("Happy Buttons - (" + savedProfile + " • Changes saved)");
+        }
+        else if(type == 2) {
+            super.setTitle("Happy Buttons - (Saving changes..)");
+        }
+    }
+    
+    public void visualizeSaving() {
+        Timer timer1 = new Timer(2000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setFrameTitle(2);
+            }
+        });
+        
+        timer = new Timer(4000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setFrameTitle(1);
+            }
+        });
+        
+        timer1.setRepeats(false);
+        timer1.start();
+        
+        timer.setRepeats(false);
+        timer.start();
     }
 
     @Override

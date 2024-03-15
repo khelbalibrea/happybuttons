@@ -1,5 +1,9 @@
 To do:
 x autosave
+	x Autosave on and off in preferences
+	x autosave in actions
+x backup/restore database feature
+x update database feature onload system
 
 PREFERENCES UI:
 Using pichon app:

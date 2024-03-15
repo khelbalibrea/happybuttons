@@ -47,6 +47,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         lblNS1.setVisible(false);
         lblNS2.setVisible(false);
         lblNS3.setVisible(false);
+        lblNotif.setVisible(false);
         
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/3-this.getSize().height/2);
@@ -131,6 +132,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblResources = new javax.swing.JTable();
         btnDeleteBS = new javax.swing.JButton();
+        lblNotif = new javax.swing.JLabel();
         panelHappyLoop = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblVideoLoop = new javax.swing.JTable();
@@ -180,6 +182,9 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             }
         });
         panelBgmSfx.add(btnDeleteBS, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 10, 140, -1));
+
+        lblNotif.setText("jLabel2");
+        panelBgmSfx.add(lblNotif, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 40, 140, -1));
 
         tabPanel.addTab("BGM / SFX", panelBgmSfx);
 
@@ -398,8 +403,16 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         //                    HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
         //                    (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
                         }
-
+                        
+                        lblNotif.setVisible(true);
+                        lblNotif.setForeground(Color.GREEN);
+                        String str = Utility.strDoubleSlash("<html>Sucessfully removed\nChanges saved<\\html>");
+                        lblNotif.setText(str);
+                        labelNotif.setRepeats(false);
+                        labelNotif.start();
+                        
                         selectedItem = "";
+                        autosave();
                     }
                     else {
                         if(selectedType == "BGM") {
@@ -450,6 +463,13 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                 }
             }
         }
+        else {
+            lblNotif.setVisible(true);
+            lblNotif.setForeground(Color.RED);
+            lblNotif.setText("Nothing selected");
+            labelNotif.setRepeats(false);
+            labelNotif.start();
+        }
     }//GEN-LAST:event_btnDeleteBSActionPerformed
 
     private void btnAddVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddVLActionPerformed
@@ -496,6 +516,8 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                             Utility.renameVideoName(file.getName()), ""
                         });
                     }
+                    
+                    autosave();
 
 //                    (MainFrame.cboVidLoop).setModel(MainFrame.cboModel);
                 }
@@ -546,6 +568,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                         (MainFrame.cboVidLoop).removeItem(selectedItem);
                         
                         selectedItem = "";
+                        autosave();
                     }
                     else {
                         fileError = Utility.addElementInStrArr(fileError, selectedItem);
@@ -618,6 +641,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
 
                 listVL.setModel(listModelVL);
             }
+            autosave();
         }
         else {
             lblNS2.setVisible(true);
@@ -627,7 +651,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         }
         
         MainFrame.strVidLoop = Utility.arrToStr(list);
-        System.out.println("Add to list: " + MainFrame.strVidLoop);
+        System.out.println("Added to list: " + MainFrame.strVidLoop);
     }//GEN-LAST:event_btnAddToListActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
@@ -646,6 +670,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                 list = Utility.removeIndexInStrArr(list, i);
                 listModelVL.removeElement(stringList.get(i));
             }
+            autosave();
         }
         else {
             lblNS3.setVisible(true);
@@ -657,6 +682,91 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         MainFrame.strVidLoop = Utility.arrToStr(list);
         System.out.println(MainFrame.strVidLoop);
     }//GEN-LAST:event_btnRemoveActionPerformed
+    
+    public void autosave() {
+        if(HappyButtons.canAutosave == 1) {
+            prepareSave();
+            Profile profile = new Profile();
+            DBOperations.indexDB = HappyButtons.loadedDB;
+            
+            HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
+            (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+            
+            visualizeSaving();
+        }
+    }
+    
+    public void prepareSave() {
+        // BGMs
+        int listBGMSize = MainFrame.listBGM.getModel().getSize();
+        MainFrame.strBGM = "";
+        
+        for(int ctr = 0; ctr < listBGMSize; ctr++){
+            if(ctr == 0) {
+                MainFrame.strBGM = MainFrame.listBGM.getModel().getElementAt(ctr);
+            }
+            else if(ctr > 0 && ctr <= (listBGMSize - 1)) {
+                MainFrame.strBGM = MainFrame.strBGM + ":" + MainFrame.listBGM.getModel().getElementAt(ctr);
+            }
+        }
+        
+        // SFXs
+        int listSFXSize = MainFrame.listSFX.getModel().getSize();
+        MainFrame.strSFX = "";
+        
+        for(int ctr = 0; ctr < listSFXSize; ctr++){
+            if(ctr == 0) {
+                MainFrame.strSFX = MainFrame.listSFX.getModel().getElementAt(ctr);
+            }
+            else if(ctr > 0 && ctr <= (listSFXSize - 1)) {
+                MainFrame.strSFX = MainFrame.strSFX + ":" + MainFrame.listSFX.getModel().getElementAt(ctr);
+            }
+        }
+        
+        // Video Loop videos
+        int cboHappyLoopSize = MainFrame.cboVidLoop.getModel().getSize();
+        MainFrame.strVidLoop = "";
+        
+        for(int ctr = 0; ctr < cboHappyLoopSize; ctr++) {
+            if(ctr == 0) {
+                MainFrame.strVidLoop = MainFrame.cboVidLoop.getModel().getElementAt(ctr);
+            }
+            else if(ctr > 0 && ctr <= (cboHappyLoopSize - 1)) {
+                MainFrame.strVidLoop = MainFrame.strVidLoop + ":" + MainFrame.cboVidLoop.getModel().getElementAt(ctr);
+            }
+        }
+    }
+    
+    public void visualizeSaving() {
+        Timer timer1 = new Timer(2000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setFrameTitle(2);
+            }
+        });
+        
+        Timer timer = new Timer(4000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setFrameTitle(1);
+            }
+        });
+        
+        timer1.setRepeats(false);
+        timer1.start();
+        
+        timer.setRepeats(false);
+        timer.start();
+    }
+    
+    public void setFrameTitle(int type) {
+        if(type == 1) {
+            super.setTitle("Resources - (" + MainFrame.savedProfile + " • Changes saved)");
+        }
+        else if(type == 2) {
+            super.setTitle("Resources - (Saving changes..)");
+        }
+    }
     
     /**
      * @param args the command line arguments
@@ -700,6 +810,13 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             }
         });
     }
+    
+    Timer labelNotif = new Timer(3000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            lblNotif.setVisible(false);
+        }
+    });
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddToList;
@@ -715,6 +832,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
     private javax.swing.JLabel lblNS1;
     private javax.swing.JLabel lblNS2;
     private javax.swing.JLabel lblNS3;
+    private javax.swing.JLabel lblNotif;
     private javax.swing.JList<String> listVL;
     private javax.swing.JPanel panelBgmSfx;
     private javax.swing.JPanel panelHappyLoop;
