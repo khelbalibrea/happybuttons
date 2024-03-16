@@ -50,9 +50,9 @@ public class HappyButtons {
     }
     
     public static void loadUISettings() {
-        dbo.loadPreviousTheme(uiDB, 0);
+        dbo.loadSystemSettings(uiDB, 0);
         SystemClass.UITheme(uiTheme);
-        SystemClass.setupVLPlayButton();
+        SystemClass.setupElementsStatus();
     }
     
     public static void getHomePath() {

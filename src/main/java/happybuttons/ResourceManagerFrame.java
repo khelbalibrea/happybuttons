@@ -684,15 +684,17 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_btnRemoveActionPerformed
     
     public void autosave() {
-        if(HappyButtons.canAutosave == 1) {
-            prepareSave();
-            Profile profile = new Profile();
-            DBOperations.indexDB = HappyButtons.loadedDB;
-            
-            HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
-            (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
-            
-            visualizeSaving();
+        if(MainFrame.enableAutosave.equals("on")) {
+            if(HappyButtons.canAutosave == 1) {
+                prepareSave();
+                Profile profile = new Profile();
+                DBOperations.indexDB = HappyButtons.loadedDB;
+
+                HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
+                (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+
+                visualizeSaving();
+            }
         }
     }
     

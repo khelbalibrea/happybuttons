@@ -1,7 +1,5 @@
 To do:
-x autosave
-	x Autosave on and off in preferences
-	x autosave in actions
+x load previous profile
 x backup/restore database feature
 x update database feature onload system
 

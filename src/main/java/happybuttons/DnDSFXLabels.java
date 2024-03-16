@@ -70,17 +70,19 @@ public class DnDSFXLabels extends TransferHandler {
     }
     
     public void autosave() {
-        if(HappyButtons.canAutosave == 1) {
-            prepareSave();
-            Profile profile = new Profile();
-            DBOperations.indexDB = HappyButtons.loadedDB;
-            
-            HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
-            (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
-            
-            String lastText = MainFrame.tfLastOperation.getText();
-            MainFrame.tfLastOperation.setText("SFX changes");
-            MainFrame.tfLastOperation.setText(lastText);
+        if(MainFrame.enableAutosave.equals("on")) {
+            if(HappyButtons.canAutosave == 1) {
+                prepareSave();
+                Profile profile = new Profile();
+                DBOperations.indexDB = HappyButtons.loadedDB;
+
+                HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
+                (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+
+                String lastText = MainFrame.tfLastOperation.getText();
+                MainFrame.tfLastOperation.setText("SFX changes");
+                MainFrame.tfLastOperation.setText(lastText);
+            }
         }
     }
     

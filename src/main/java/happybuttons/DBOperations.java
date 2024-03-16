@@ -6,7 +6,6 @@ package happybuttons;
 
 import java.io.File;
 import java.util.Arrays;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -274,17 +273,28 @@ public class DBOperations {
         uiProfile.setVlcjPath(HappyButtons.vlcjPath);
         uiPref[0].setVlcjPath(uiProfile.getVlcjPath());
         
+        uiProfile.setEnableAutosave(MainFrame.enableAutosave);
+        uiPref[0].setEnableAutosave(uiProfile.getEnableAutosave());
+        
+        uiProfile.setStartup(MainFrame.startup);
+        uiPref[0].setStartup(uiProfile.getStartup());
+        
         new BeanHelper().writeToXmlUI(uiPref);
         
         return true;
     }
     
-    public void loadPreviousTheme(UIPreference uiPref[], int index) {
+    public void loadSystemSettings(UIPreference uiPref[], int index) {
         ViewProfiles uiDetails = new ViewProfiles();
         
         uiDetails.setUISettings(uiPref, index);
         HappyButtons.uiTheme = uiPref[index].getPrevTheme();
         HappyButtons.vlcjPath = uiPref[index].getVlcjPath();
+        MainFrame.enableAutosave = uiPref[index].getEnableAutosave();
+    }
+    
+    public void loadPreviousProfile(UIPreference uiPref[], int index) {
+        ViewProfiles uiDetails = new ViewProfiles();
     }
     
     public String loadEnvironment(ProfileDatabase profileDB[], int index){

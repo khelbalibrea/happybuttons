@@ -99,6 +99,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     // UI Components
     public static String sfxGroupName1 = "", sfxGroupName2 = "", sfxGroupName3 = "";
     public static int hour, minute, second, vlcjPlaying = 0, chkVLLoop = 1, chkVLMute = 1;
+    public static String enableAutosave = "off", startup = "new";
     
     public MainFrame() {
         initComponents();
@@ -192,6 +193,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         
         String itmPluginsIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\plugins_12px.png");
         itmPlugins.setIcon(new javax.swing.ImageIcon(itmPluginsIcon));
+        
+        String itmSettingsIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\settings_12px.png");
+        itmSettings.setIcon(new javax.swing.ImageIcon(itmSettingsIcon));
         
         String btnSFXIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave_black_14px.png");
         btnR1SFX01.setIcon(new javax.swing.ImageIcon(btnSFXIcon));
@@ -539,6 +543,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     private void initComponents() {
 
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         panelJList = new javax.swing.JPanel();
         btnAddBGM = new javax.swing.JButton();
         btnAddSFX = new javax.swing.JButton();
@@ -721,13 +726,17 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         itmLoad = new javax.swing.JMenuItem();
         menuPreferences = new javax.swing.JMenu();
         itmUITheme = new javax.swing.JMenuItem();
+        itmSettings = new javax.swing.JMenuItem();
         itmTools = new javax.swing.JMenu();
         itmResourceManager = new javax.swing.JMenuItem();
         itmPlugins = new javax.swing.JMenuItem();
         itmAbout = new javax.swing.JMenu();
         jMenuTime = new javax.swing.JMenu();
+        itmAS = new javax.swing.JMenu();
 
         jMenuItem1.setText("jMenuItem1");
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1366, 700));
@@ -3127,13 +3136,21 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
         menuPreferences.setText("Preferences");
 
-        itmUITheme.setText("UI Theme");
+        itmUITheme.setText("Theme");
         itmUITheme.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 itmUIThemeActionPerformed(evt);
             }
         });
         menuPreferences.add(itmUITheme);
+
+        itmSettings.setText("Settings");
+        itmSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmSettingsActionPerformed(evt);
+            }
+        });
+        menuPreferences.add(itmSettings);
 
         jMenuBar1.add(menuPreferences);
 
@@ -3179,6 +3196,13 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         jMenuTime.setText("Time: ");
         jMenuTime.setEnabled(false);
         jMenuBar1.add(jMenuTime);
+
+        itmAS.setForeground(new java.awt.Color(0, 153, 0));
+        itmAS.setText("AS");
+        itmAS.setToolTipText("Autosave is enabled");
+        itmAS.setEnabled(false);
+        itmAS.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jMenuBar1.add(itmAS);
 
         setJMenuBar(jMenuBar1);
 
@@ -4353,6 +4377,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         }
     }//GEN-LAST:event_chkMuteVLActionPerformed
 
+    private void itmSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSettingsActionPerformed
+        SettingsFrame settings = new SettingsFrame(HappyButtons.mf, true);
+        settings.setVisible(true);
+    }//GEN-LAST:event_itmSettingsActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -4446,16 +4475,19 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JCheckBox chkMuteVL;
     public static javax.swing.JCheckBox chkSP;
     public static javax.swing.JMenuItem itemSave;
+    public static javax.swing.JMenu itmAS;
     public static javax.swing.JMenu itmAbout;
     public static javax.swing.JMenuItem itmLoad;
     public static javax.swing.JMenuItem itmNew;
     public static javax.swing.JMenuItem itmPlugins;
     public static javax.swing.JMenuItem itmResourceManager;
+    public static javax.swing.JMenuItem itmSettings;
     public static javax.swing.JMenu itmTools;
     public static javax.swing.JMenuItem itmUITheme;
     public static javax.swing.JMenu jMenu1;
     public static javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     public static javax.swing.JMenu jMenuTime;
     public static javax.swing.JScrollPane jScrollPane2;
     public static javax.swing.JScrollPane jScrollPane3;
@@ -5122,14 +5154,16 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }
     
     public void autosave() {
-        if(HappyButtons.canAutosave == 1) {
-            prepareSave();
-            Profile profile = new Profile();
-            DBOperations.indexDB = HappyButtons.loadedDB;
-            
-            HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
-            (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
-            visualizeSaving();
+        if(enableAutosave.equals("on")) {
+            if(HappyButtons.canAutosave == 1) {
+                prepareSave();
+                Profile profile = new Profile();
+                DBOperations.indexDB = HappyButtons.loadedDB;
+
+                HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
+                (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+                visualizeSaving();
+            }
         }
     }
     

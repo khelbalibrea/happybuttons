@@ -9,7 +9,7 @@ package happybuttons;
  * @author Michael Balibrea
  */
 public class UIProfile {
-    String prevTheme, vlcjPath;
+    String prevTheme, vlcjPath, enableAutosave, startup;
     
     public String getPrevTheme(){
         return prevTheme;
@@ -27,8 +27,26 @@ public class UIProfile {
         this.vlcjPath = vlcjPath;
     }
     
+    public String getEnableAutosave(){
+        return enableAutosave;
+    }
+    
+    public void setEnableAutosave(String enableAutosave){
+        this.enableAutosave = enableAutosave;
+    }
+    
+    public String getStartup(){
+        return startup;
+    }
+    
+    public void setStartup(String startup){
+        this.startup = startup;
+    }
+    
     public UIProfile(){
         prevTheme = null;
         vlcjPath = null;
+        enableAutosave = null;
+        startup = null;
     }
 }

@@ -81,6 +81,11 @@ public class SystemClass {
             MainFrame.itmPlugins.setBackground(new JMenuItem().getBackground());
             MainFrame.itmPlugins.setForeground(new JMenuItem().getForeground());
             MainFrame.itmPlugins.setIcon(new javax.swing.ImageIcon(itmPluginsIcon));
+            
+            String itmSettingsIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\settings_12px.png");
+            MainFrame.itmSettings.setBackground(new JMenuItem().getBackground());
+            MainFrame.itmSettings.setForeground(new JMenuItem().getForeground());
+            MainFrame.itmSettings.setIcon(new javax.swing.ImageIcon(itmSettingsIcon));
                         
             // -------------------------------------------------------------------------------------- PANELS
             MainFrame.panelRow1.setBackground(new JPanel().getBackground());
@@ -652,6 +657,11 @@ public class SystemClass {
             MainFrame.itmPlugins.setForeground(Color.lightGray);
             MainFrame.itmPlugins.setIcon(new javax.swing.ImageIcon(itmPluginsIcon));
             
+            String itmSettingsIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_settings_12px.png");
+            MainFrame.itmSettings.setBackground(Color.darkGray);
+            MainFrame.itmSettings.setForeground(Color.lightGray);
+            MainFrame.itmSettings.setIcon(new javax.swing.ImageIcon(itmSettingsIcon));
+            
             // -------------------------------------------------------------------------------------- PANELS
             MainFrame.panelRow1.setBackground(Color.DARK_GRAY);
             MainFrame.panelRow2.setBackground(Color.DARK_GRAY);
@@ -1153,12 +1163,22 @@ public class SystemClass {
         }
     }
     
-    public static void setupVLPlayButton() {
+    public static void setupElementsStatus() {
+        // VL Play button
         if(!(HappyButtons.vlcjPath).equals("")) {
             (MainFrame.btnPlayVL).setEnabled(true);
         }
         else {
             (MainFrame.btnPlayVL).setEnabled(false);
+        }
+        
+        // AS - autosave indicator
+        if(MainFrame.enableAutosave.equals("on")) {
+            MainFrame.itmAS.setForeground(Color.GREEN);
+            MainFrame.itmAS.setVisible(true);
+        }
+        else {
+            MainFrame.itmAS.setVisible(false);
         }
     }
     

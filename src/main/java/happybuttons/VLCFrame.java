@@ -99,13 +99,17 @@ public class VLCFrame extends javax.swing.JFrame {
         MainFrame.btnStopVL.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MainFrame.vlcjPlaying = 0;
-                emp.removeMediaPlayerEventListener(videoListener);
-                emp.stop();
-                emp.release();
-                MainFrame.btnPlayVL.removeActionListener(playAction);
-                MainFrame.chkMuteVL.removeActionListener(checkBoxAction);
-                frame.dispose();
+                if(emp != null) {
+                    MainFrame.vlcjPlaying = 0;
+                    emp.removeMediaPlayerEventListener(videoListener);
+                    emp.stop();
+                    emp.release();
+                    emp = null;
+
+                    MainFrame.btnPlayVL.removeActionListener(playAction);
+                    MainFrame.chkMuteVL.removeActionListener(checkBoxAction);
+                    frame.dispose();
+                }
             }
         });
 
