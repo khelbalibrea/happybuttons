@@ -16,7 +16,6 @@ public class Profile {
             r2sfx10 = "", r2sfx11 = "", r2sfx12 = "", r2sfx13 = "", r2sfx14 = "", 
             r3sfx01 = "", r3sfx02 = "", r3sfx03 = "", r3sfx04 = "", r3sfx05 = "", r3sfx06 = "", r3sfx07 = "", r3sfx08 = "", r3sfx09 = "", 
             r3sfx10 = "", r3sfx11 = "", r3sfx12 = "", r3sfx13 = "", r3sfx14 = ""; 
-//    String sfxGroupName1 = "", sfxGroupName2 = "", sfxGroupName3 = "";
     String strBGM = "", strSFX = "", strVidLoop = "";
     
     public String getProfileName(){
@@ -50,30 +49,6 @@ public class Profile {
     public void setStrVidLoop(String strVidLoop) {
         this.strVidLoop = strVidLoop;
     }
-    
-//    public String getSfxName1(){
-//        return sfxGroupName1;
-//    }
-//    
-//    public void setSfxName1(String sfxGroupName1){
-//        this.sfxGroupName1 = sfxGroupName1;
-//    }
-//    
-//    public String getSfxName2(){
-//        return sfxGroupName2;
-//    }
-//    
-//    public void setSfxName2(String sfxGroupName2){
-//        this.sfxGroupName2 = sfxGroupName2;
-//    }
-//    
-//    public String getSfxName3(){
-//        return sfxGroupName3;
-//    }
-//    
-//    public void setSfxName3(String sfxGroupName3){
-//        this.sfxGroupName3 = sfxGroupName3;
-//    }
     
     public String getR1Sfx01(){
         return r1sfx01;
@@ -413,38 +388,17 @@ public class Profile {
     }
     
     public Profile(){
-        profileName = null;
-        
-        r1sfx01 = null; r1sfx02 = null; r1sfx03 = null; r1sfx04 = null; r1sfx05 = null; r1sfx06 = null; r1sfx07 = null; r1sfx08 = null; 
-        r1sfx09 = null; r1sfx10 = null; r1sfx11 = null; r1sfx12 = null; r1sfx13 = null; r1sfx14 = null; 
-        r2sfx01 = null; r2sfx02 = null; r2sfx03 = null; r2sfx04 = null; r2sfx05 = null; r2sfx06 = null; r2sfx07 = null; r2sfx08 = null; 
-        r2sfx09 = null; r2sfx10 = null; r2sfx11 = null; r2sfx12 = null; r2sfx13 = null; r2sfx14 = null; 
-        r3sfx01 = null; r3sfx02 = null; r3sfx03 = null; r3sfx04 = null; r3sfx05 = null; r3sfx06 = null; r3sfx07 = null; r3sfx08 = null; 
-        r3sfx09 = null; r3sfx10 = null; r3sfx11 = null; r3sfx12 = null; r3sfx13 = null; r3sfx14 = null; 
-        
-//        sfxGroupName1 = null;
-//        sfxGroupName2 = null;
-//        sfxGroupName3 = null;
-        
-        strBGM = null;
-        strSFX = null;
-        strVidLoop = null;
-        
-//        profileName = "";
+        profileName = "<database changed>";
 //        
-//        r1sfx01 = ""; r1sfx02 = ""; r1sfx03 = ""; r1sfx04 = ""; r1sfx05 = ""; r1sfx06 = ""; r1sfx07 = ""; r1sfx08 = ""; 
-//        r1sfx09 = ""; r1sfx10 = ""; r1sfx11 = ""; r1sfx12 = ""; r1sfx13 = ""; r1sfx14 = ""; 
-//        r2sfx01 = ""; r2sfx02 = ""; r2sfx03 = ""; r2sfx04 = ""; r2sfx05 = ""; r2sfx06 = ""; r2sfx07 = ""; r2sfx08 = ""; 
-//        r2sfx09 = ""; r2sfx10 = ""; r2sfx11 = ""; r2sfx12 = ""; r2sfx13 = ""; r2sfx14 = ""; 
-//        r3sfx01 = ""; r3sfx02 = ""; r3sfx03 = ""; r3sfx04 = ""; r3sfx05 = ""; r3sfx06 = ""; r3sfx07 = ""; r3sfx08 = ""; 
-//        r3sfx09 = ""; r3sfx10 = ""; r3sfx11 = ""; r3sfx12 = ""; r3sfx13 = ""; r3sfx14 = ""; 
+        r1sfx01 = "blank"; r1sfx02 = "blank"; r1sfx03 = "blank"; r1sfx04 = "blank"; r1sfx05 = "blank"; r1sfx06 = "blank"; r1sfx07 = "blank"; r1sfx08 = "blank"; 
+        r1sfx09 = "blank"; r1sfx10 = "blank"; r1sfx11 = "blank"; r1sfx12 = "blank"; r1sfx13 = "blank"; r1sfx14 = "blank"; 
+        r2sfx01 = "blank"; r2sfx02 = "blank"; r2sfx03 = "blank"; r2sfx04 = "blank"; r2sfx05 = "blank"; r2sfx06 = "blank"; r2sfx07 = "blank"; r2sfx08 = "blank"; 
+        r2sfx09 = "blank"; r2sfx10 = "blank"; r2sfx11 = "blank"; r2sfx12 = "blank"; r2sfx13 = "blank"; r2sfx14 = "blank"; 
+        r3sfx01 = "blank"; r3sfx02 = "blank"; r3sfx03 = "blank"; r3sfx04 = "blank"; r3sfx05 = "blank"; r3sfx06 = "blank"; r3sfx07 = "blank"; r3sfx08 = "blank"; 
+        r3sfx09 = "blank"; r3sfx10 = "blank"; r3sfx11 = "blank"; r3sfx12 = "blank"; r3sfx13 = "blank"; r3sfx14 = "blank";
 //        
-////        sfxGroupName1 = "";
-////        sfxGroupName2 = "";
-////        sfxGroupName3 = "";
-//        
-//        strBGM = "";
-//        strSFX = "";
-//        strVidLoop = "";
+        strBGM = "";
+        strSFX = "";
+        strVidLoop = "";
     }
 }

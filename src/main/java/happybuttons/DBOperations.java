@@ -29,64 +29,6 @@ public class DBOperations {
             profile.setProfileName("");
         }
         
-//        if(indexDB == 0){
-//            if(HappyButtons.noDB == 0) {
-//                profile.setProfileName(MainFrame.savingProfile);
-//                profileNameSet = (MainFrame.savingProfile);
-//            }
-//            else {
-//                profile.setProfileName("");
-//            }
-//        }
-//        else if(indexDB == 1){
-//            if(HappyButtons.noDB == 0) {
-//                profile.setProfileName(MainFrame.savingProfile);
-//                profileNameSet = MainFrame.savingProfile;
-//            }
-//            else {
-//                profile.setProfileName("");
-//            }
-//        }
-//        else if(indexDB == 2){
-//            if(HappyButtons.noDB == 0) {
-//                profile.setProfileName(MainFrame.savingProfile);
-//                profileNameSet = MainFrame.savingProfile;
-//            }
-//            else {
-//                profile.setProfileName("");
-//            }
-//        }
-//        else if(indexDB == 3){
-//            if(HappyButtons.noDB == 0) {
-//                profile.setProfileName(MainFrame.savingProfile);
-//                profileNameSet = MainFrame.savingProfile;
-//            }
-//            else {
-//                profile.setProfileName("");
-//            }
-//        }
-//        else if(indexDB == 4){
-//            if(HappyButtons.noDB == 0) {
-//                profile.setProfileName(MainFrame.savingProfile);
-//                profileNameSet = MainFrame.savingProfile;
-//            }
-//            else {
-//                profile.setProfileName("");
-//            }
-//        }
-        
-        // =================================================================================================== Set SFX group name
-//        if(HappyButtons.noDB == 0) {
-//            profile.setSfxName1(MainFrame.sfxGroupName1);
-//            profile.setSfxName2(MainFrame.sfxGroupName2);
-//            profile.setSfxName3(MainFrame.sfxGroupName3);
-//        }
-//        else {
-//            profile.setSfxName1("");
-//            profile.setSfxName2("");
-//            profile.setSfxName3("");
-//        }
-        
         // =================================================================================================== Set BGM/SFX list, and Vid loop
         if(HappyButtons.noDB == 0) {
             profile.setStrBGM(MainFrame.strBGM);

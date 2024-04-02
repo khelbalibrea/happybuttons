@@ -40,8 +40,10 @@ public class BeanHelper {
 
         try {
             XMLDecoder decoder = new XMLDecoder(
-            new BufferedInputStream(
-            new FileInputStream(HappyButtons.documentsPath + "\\HappyButtons\\happyDB.xml")));
+                new BufferedInputStream(
+                    new FileInputStream(HappyButtons.documentsPath + "\\HappyButtons\\happyDB.xml")
+                )
+            );
 
             ProfileDatabase = (ProfileDatabase[]) decoder.readObject();
             decoder.close();
