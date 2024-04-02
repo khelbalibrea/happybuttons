@@ -54,10 +54,10 @@ public class AddBGMFrame extends javax.swing.JDialog {
         int ctr = 1;
         for(File f : bFileList) {
             String bgmList = "";
-            bgmList = (HappyButtons.dbo).checkBgmInProfiles(HappyButtons.profileDB, Utility.renameListName(f.getName()));
+            bgmList = (HappyButtons.dbo).checkBgmInProfiles(HappyButtons.profileDB, Utility.renameListName(f.getName(), "wav"));
             
             model.insertRow(model.getRowCount(), new Object[]{
-                Utility.renameListName(f.getName()), bgmList
+                Utility.renameListName(f.getName(), "wav"), bgmList
             });
 //            System.out.println(ctr + " -> " + Utility.renameListName(f.getName())); ctr++;
         }

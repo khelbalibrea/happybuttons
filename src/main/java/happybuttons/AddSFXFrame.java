@@ -54,10 +54,10 @@ public class AddSFXFrame extends javax.swing.JDialog {
         int ctr = 1;
         for(File f : sFileList) {
             String sfxList = "";
-            sfxList = (HappyButtons.dbo).checkSfxInProfiles(HappyButtons.profileDB, Utility.renameListName(f.getName()));
+            sfxList = (HappyButtons.dbo).checkSfxInProfiles(HappyButtons.profileDB, Utility.renameListName(f.getName(), "wav"));
             
             model.insertRow(model.getRowCount(), new Object[]{
-                Utility.renameListName(f.getName()), sfxList
+                Utility.renameListName(f.getName(), "wav"), sfxList
             });
 //            System.out.println(ctr + " -> " + Utility.renameListName(f.getName())); ctr++;
         }

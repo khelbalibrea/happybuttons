@@ -48,6 +48,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import ws.schild.jave.Encoder;
+import ws.schild.jave.MultimediaObject;
+import ws.schild.jave.encode.AudioAttributes;
+import ws.schild.jave.encode.EncodingAttributes;
 
 // @author Michael Balibrea (khel) &
 
@@ -3489,7 +3493,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         }
         else if(choice == 1) {
             JFileChooser fc = new JFileChooser();
-            FileFilter filter = new FileNameExtensionFilter("WAV File", "wav");
+            FileFilter filter = new FileNameExtensionFilter("MP3 or WAV File", "wav", "mp3");
             fc.setFileFilter(filter);
             fc.setMultiSelectionEnabled(true);
             int returnValue = fc.showOpenDialog(HappyButtons.mf);
@@ -3497,31 +3501,73 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             File[] selectedFiles = fc.getSelectedFiles();
 
             for(File file : selectedFiles) {
-                try {
-                    FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
-                    File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\bg\\" + file.getName());
+                if(Utility.getFileExtension(file.toString()).equalsIgnoreCase("wav")) { // Music file is in wave format
+                    try {
+                        FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
+                        File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\bg\\" + file.getName());
 
-                    if(!destCheck.exists()) {
-                        FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\bg\\" + file.getName()).getChannel();
+                        if(!destCheck.exists()) {
+                            FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\bg\\" + file.getName()).getChannel();
 
-                        src.transferTo(0,src.size(),dest);
+                            src.transferTo(0,src.size(),dest);
 
-                        src.close();
-                        dest.close();
+                            src.close();
+                            dest.close();
+                        }
+
+                        if(!blist.contains(Utility.renameListName(file.getName(), "wav"))) {
+                            blist.addElement(Utility.renameListName(file.getName(), "wav"));
+                            tfLastOperation.setText("[ADDED BGM]:: " + file.getName());
+                        }
+
+                        listBGM.setModel(blist);
                     }
-
-                    if(!blist.contains(Utility.renameListName(file.getName()))) {
-                        blist.addElement(Utility.renameListName(file.getName()));
-                        tfLastOperation.setText("[ADDED BGM]:: " + file.getName());
+                    catch(IOException ex) {
+                        JOptionPane.showMessageDialog(HappyButtons.mf,
+                            "Error reading/writing file",
+                            "IO Error", 
+                            JOptionPane.ERROR_MESSAGE);
                     }
-
-                    listBGM.setModel(blist);
                 }
-                catch(IOException ex) {
-                    JOptionPane.showMessageDialog(HappyButtons.mf,
-                        "Error reading/writing file",
-                        "IO Error", 
-                        JOptionPane.ERROR_MESSAGE);
+                else { // Music file is in mp3 format
+                    try {
+                        FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
+                        String strReplace = Utility.renameListName(file.getName(), "mp3") + ".wav";
+                        File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\bg\\" + strReplace);
+
+                        if(!destCheck.exists()) {
+                            AudioAttributes audio = new AudioAttributes();
+                            audio.setCodec("pcm_s16le");
+                            audio.setBitRate(16);
+                            audio.setChannels(1);
+                            audio.setSamplingRate(44100);
+
+                            // audio.setBitRate(new Integer(16));
+                            // audio.setChannels(new Integer(1));
+                            // audio.setSamplingRate(new Integer(44100));
+
+                            EncodingAttributes attrs = new EncodingAttributes();
+                            attrs.setOutputFormat("wav");
+                            attrs.setAudioAttributes(audio);
+
+                            File source = new File(file.toString());
+                            String str = HappyButtons.documentsPath + Utility.strDoubleSlash("\\HappyButtons\\bg\\") + Utility.renameListName(file.getName(), "mp3")  + ".wav";
+                            File target = new File(str);
+
+                            Encoder encoder = new Encoder();
+                            encoder.encode(new MultimediaObject(source), target, attrs);
+                        }
+                        
+                        if(!blist.contains(Utility.renameListName(file.getName(), "mp3"))) {
+                            blist.addElement(Utility.renameListName(file.getName(), "mp3"));
+                            tfLastOperation.setText("[ADDED BGM]:: " + Utility.renameListName(file.getName(), "mp3"));
+                        }
+
+                        listBGM.setModel(blist);
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             
@@ -3545,7 +3591,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         }
         else if(choice == 1) {
             JFileChooser fc = new JFileChooser();
-            FileFilter filter = new FileNameExtensionFilter("WAV File","wav");
+            FileFilter filter = new FileNameExtensionFilter("MP3 or WAV File", "wav", "mp3");
             fc.setFileFilter(filter);
             fc.setMultiSelectionEnabled(true);
             int returnValue = fc.showOpenDialog(HappyButtons.mf);
@@ -3553,31 +3599,73 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             File[] selectedFiles = fc.getSelectedFiles();
 
             for(File file : selectedFiles) {
-                try {
-                    FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
-                    File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\sfx\\" + file.getName());
+                if(Utility.getFileExtension(file.toString()).equalsIgnoreCase("wav")) { // Music file is in wave format
+                    try {
+                        FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
+                        File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\sfx\\" + file.getName());
 
-                    if(!destCheck.exists()) {
-                        FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\sfx\\" + file.getName()).getChannel();
+                        if(!destCheck.exists()) {
+                            FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\sfx\\" + file.getName()).getChannel();
 
-                        src.transferTo(0,src.size(),dest);
+                            src.transferTo(0,src.size(),dest);
 
-                        src.close();
-                        dest.close();
+                            src.close();
+                            dest.close();
+                        }
+
+                        if(!slist.contains(Utility.renameListName(file.getName(), "wav"))) {
+                            slist.addElement(Utility.renameListName(file.getName(), "wav"));
+                            tfLastOperation.setText("[ADDED SFX]:: " + file.getName());
+                        }
+
+                        listSFX.setModel(slist);
                     }
-
-                    if(!slist.contains(Utility.renameListName(file.getName()))) {
-                        slist.addElement(Utility.renameListName(file.getName()));
-                        tfLastOperation.setText("[ADDED SFX]:: " + file.getName());
+                    catch(IOException ex) {
+                        JOptionPane.showMessageDialog(HappyButtons.mf,
+                            "Error reading/writing file",
+                            "IO Error", 
+                            JOptionPane.ERROR_MESSAGE);
                     }
-
-                    listSFX.setModel(slist);
                 }
-                catch(IOException ex) {
-                    JOptionPane.showMessageDialog(HappyButtons.mf,
-                        "Error reading/writing file",
-                        "IO Error", 
-                        JOptionPane.ERROR_MESSAGE);
+                else { // Music file is in mp3 format
+                    try {
+                        FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
+                        String strReplace = Utility.renameListName(file.getName(), "mp3") + ".wav";
+                        File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\sfx\\" + strReplace);
+
+                        if(!destCheck.exists()) {
+                            AudioAttributes audio = new AudioAttributes();
+                            audio.setCodec("pcm_s16le");
+                            audio.setBitRate(16);
+                            audio.setChannels(1);
+                            audio.setSamplingRate(44100);
+
+                            // audio.setBitRate(new Integer(16));
+                            // audio.setChannels(new Integer(1));
+                            // audio.setSamplingRate(new Integer(44100));
+
+                            EncodingAttributes attrs = new EncodingAttributes();
+                            attrs.setOutputFormat("wav");
+                            attrs.setAudioAttributes(audio);
+
+                            File source = new File(file.toString());
+                            String str = HappyButtons.documentsPath + Utility.strDoubleSlash("\\HappyButtons\\sfx\\") + Utility.renameListName(file.getName(), "mp3")  + ".wav";
+                            File target = new File(str);
+
+                            Encoder encoder = new Encoder();
+                            encoder.encode(new MultimediaObject(source), target, attrs);
+                        }
+                        
+                        if(!slist.contains(Utility.renameListName(file.getName(), "mp3"))) {
+                            slist.addElement(Utility.renameListName(file.getName(), "mp3"));
+                            tfLastOperation.setText("[ADDED SFX]:: " + Utility.renameListName(file.getName(), "mp3"));
+                        }
+
+                        listSFX.setModel(slist);
+                    }
+                    catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             
@@ -4611,7 +4699,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         
             for(File f : bFileList) {
                 if(Utility.getFileExtension(f.getName()).equals("wav")){
-                    blist.addElement(Utility.renameListName(f.getName()));
+                    blist.addElement(Utility.renameListName(f.getName(), "wav"));
                 }
             }
         
@@ -4637,7 +4725,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         
             for(File f : sFileList) {
                 if(Utility.getFileExtension(f.getName()).equals("wav")){
-                    slist.addElement(Utility.renameListName(f.getName()));
+                    slist.addElement(Utility.renameListName(f.getName(), "wav"));
                 }
             }
             listSFX.setModel(slist);

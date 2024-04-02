@@ -85,19 +85,19 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         
         for(File f : bFileList) {
             String bgmList = "";
-            bgmList = (HappyButtons.dbo).checkBgmInProfiles(HappyButtons.profileDB, Utility.renameListName(f.getName()));
+            bgmList = (HappyButtons.dbo).checkBgmInProfiles(HappyButtons.profileDB, Utility.renameListName(f.getName(), "wav"));
             
             tblModelBS.insertRow(tblModelBS.getRowCount(), new Object[]{
-                Utility.renameListName(f.getName()), "BGM", bgmList
+                Utility.renameListName(f.getName(), "wav"), "BGM", bgmList
             });
         }
         
         for(File f : sFileList) {
             String sfxList = "";
-            sfxList = (HappyButtons.dbo).checkSfxInProfiles(HappyButtons.profileDB, Utility.renameListName(f.getName()));
+            sfxList = (HappyButtons.dbo).checkSfxInProfiles(HappyButtons.profileDB, Utility.renameListName(f.getName(), "wav"));
             
             tblModelBS.insertRow(tblModelBS.getRowCount(), new Object[]{
-                Utility.renameListName(f.getName()), "SFX", sfxList
+                Utility.renameListName(f.getName(), "wav"), "SFX", sfxList
             });
         }
     }
@@ -384,6 +384,8 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                         }
                         else if(selectedType.equals("SFX")) {
                             (MainFrame.slist).removeElement(selectedItem);
+                            
+                            Utility.blankSFXLabel(selectedItem);
 
                             // gets the new list in sfx jlist
         //                    int listSFXSize = (MainFrame.listSFX).getModel().getSize();

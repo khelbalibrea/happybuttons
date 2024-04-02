@@ -47,12 +47,20 @@
             <artifactId>AbsoluteLayout</artifactId>
             <version>RELEASE180</version>
         </dependency>
+        
         <!-- https://mvnrepository.com/artifact/uk.co.caprica/vlcj -->
         <dependency>
             <groupId>uk.co.caprica</groupId>
             <artifactId>vlcj</artifactId>
             <version>3.0.1</version>
             <type>jar</type>
+        </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/ws.schild/jave-all-deps -->
+        <dependency>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-all-deps</artifactId>
+            <version>3.5.0</version>
         </dependency>
     </dependencies>
 </project>

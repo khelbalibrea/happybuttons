@@ -87,7 +87,7 @@ public class DBOperations {
 //            profile.setSfxName3("");
 //        }
         
-        // =================================================================================================== Set BGM and SFX list, Vid loop
+        // =================================================================================================== Set BGM/SFX list, and Vid loop
         if(HappyButtons.noDB == 0) {
             profile.setStrBGM(MainFrame.strBGM);
             profile.setStrSFX(MainFrame.strSFX);

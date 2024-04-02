@@ -104,7 +104,7 @@ public class SettingsFrame extends javax.swing.JDialog {
         });
         jPanel1.add(cboStartup, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 70, 310, -1));
 
-        jTabbedPane1.addTab("Autosave", jPanel1);
+        jTabbedPane1.addTab("Save/Load", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

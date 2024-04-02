@@ -6,6 +6,7 @@ package happybuttons;
 
 import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -13,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import uk.co.caprica.vlcj.binding.LibVlc;
 import uk.co.caprica.vlcj.binding.internal.libvlc_media_t;
 import uk.co.caprica.vlcj.player.MediaPlayer;
@@ -34,6 +36,7 @@ public class VLCFrame extends javax.swing.JFrame {
     String file = "", videoFilename = "";
     Dimension dim;
     JFrame frame = this;
+    JPanel panel = new JPanel();
     EmbeddedMediaPlayer emp;
 //    EmbeddedMediaPlayerComponent component = new EmbeddedMediaPlayerComponent();
     
@@ -48,11 +51,15 @@ public class VLCFrame extends javax.swing.JFrame {
         
         dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setPreferredSize(dim);
+//        panel.setLayout(new BorderLayout());
+//        frame.setContentPane(panel);
+//        panel.add(emp, BorderLayout.CENTER);
         
         // set frame icon
         ImageIcon imgIcon = new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
         setIconImage(imgIcon.getImage());
         canvasMain.setBackground(Color.BLACK);
+        frame.add(canvasMain, BorderLayout.CENTER);
         
         // Initializing actions
         checkBoxAction = new ActionListener() {
@@ -119,6 +126,7 @@ public class VLCFrame extends javax.swing.JFrame {
                     Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 
                             MainFrame.cboVidLoop.getSelectedItem() + 
                             ".mp4");
+            emp.setAspectRatio("21:9");
             emp.prepareMedia(file);
             emp.addMediaPlayerEventListener(videoListener);
             emp.play();
@@ -303,9 +311,7 @@ public class VLCFrame extends javax.swing.JFrame {
         canvasMain = new java.awt.Canvas();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        setMaximumSize(null);
         setMinimumSize(new java.awt.Dimension(1366, 768));
-        setPreferredSize(new java.awt.Dimension(1366, 768));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

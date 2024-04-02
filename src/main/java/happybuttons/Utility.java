@@ -25,17 +25,14 @@ public class Utility {
         int p = Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\'));
 
         if (i > p) {
-            extension = filename.substring(i+1);
+            extension = filename.substring(i + 1);
         }
         
         return extension;
     }
     
-    public static String renameListName(String filename){
-        int index = filename.indexOf(".wav");
-        
-//        String music = filename.substring(0, index);
-        
+    public static String renameListName(String filename, String type){ // eg. wav, mp3
+        int index = filename.indexOf("." + type);
         return filename.substring(0, index);
     }
     
