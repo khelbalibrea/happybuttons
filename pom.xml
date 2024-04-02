@@ -48,6 +48,7 @@
             <version>RELEASE180</version>
         </dependency>
         
+        <!-- VLCJ -->
         <!-- https://mvnrepository.com/artifact/uk.co.caprica/vlcj -->
         <dependency>
             <groupId>uk.co.caprica</groupId>
@@ -56,10 +57,16 @@
             <type>jar</type>
         </dependency>
         
-        <!-- https://mvnrepository.com/artifact/ws.schild/jave-all-deps -->
+        <!-- JAVE -->
+        <!-- https://mvnrepository.com/artifact/ws.schild/jave-nativebin-win64 -->
         <dependency>
             <groupId>ws.schild</groupId>
-            <artifactId>jave-all-deps</artifactId>
+            <artifactId>jave-core</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-nativebin-win64</artifactId>
             <version>3.5.0</version>
         </dependency>
     </dependencies>
