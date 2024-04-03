@@ -221,6 +221,9 @@ public class DBOperations {
         uiProfile.setStartup(MainFrame.startup);
         uiPref[0].setStartup(uiProfile.getStartup());
         
+        uiProfile.setFullScreenVL(MainFrame.fullScreenVL);
+        uiPref[0].setFullScreenVL(uiProfile.getFullScreenVL());
+        
         new BeanHelper().writeToXmlUI(uiPref);
         
         return true;
@@ -233,6 +236,7 @@ public class DBOperations {
         HappyButtons.uiTheme = uiPref[index].getPrevTheme();
         HappyButtons.vlcjPath = uiPref[index].getVlcjPath();
         MainFrame.enableAutosave = uiPref[index].getEnableAutosave();
+        MainFrame.fullScreenVL = uiPref[index].getFullScreenVL();
     }
     
     public void loadPreviousProfile(UIPreference uiPref[], int index) {

@@ -15,6 +15,8 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
+import java.util.Set;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -132,14 +134,14 @@ public class VLCFrame extends javax.swing.JFrame {
             screenWidth = displayMode.getWidth();
             screenHeight = displayMode.getHeight();
 
-            System.out.println("Second Screen Resolution: " + screenWidth + "x" + screenHeight);
+            String reso = "Second Screen Resolution: " + screenWidth + "x" + screenHeight;
 
             int ratioWidth = screenWidth / 120;
             int ratioHeight = (int) Math.ceil(screenHeight / 120);
             
             aspectRatio = ratioWidth + ":" + ratioHeight;
 
-            System.out.println("Second Screen Aspect Ratio: " + ratioWidth + ":" + ratioHeight);
+            MainFrame.tfLastOperation.setText(reso + " (" + ratioWidth + ":" + ratioHeight + ")");
         }
         else { // no secondary screen device detected
             GraphicsDevice screen = screenDevices[0];
@@ -158,14 +160,14 @@ public class VLCFrame extends javax.swing.JFrame {
             screenWidth = displayMode.getWidth();
             screenHeight = displayMode.getHeight();
 
-            System.out.println("Second Screen Resolution: " + screenWidth + "x" + screenHeight);
+            String reso = "Second Screen Resolution: " + screenWidth + "x" + screenHeight;
 
             int ratioWidth = screenWidth / 120;
             int ratioHeight = (int) Math.ceil(screenHeight / 120);
             
             aspectRatio = ratioWidth + ":" + ratioHeight;
 
-            System.out.println("Second Screen Aspect Ratio: " + ratioWidth + ":" + ratioHeight);
+            MainFrame.tfLastOperation.setText(reso + " (" + ratioWidth + ":" + ratioHeight + ")");
         }
         
         frame.setVisible(true);
@@ -203,7 +205,13 @@ public class VLCFrame extends javax.swing.JFrame {
                 emp.setAspectRatio(aspectRatio);
             }
             
-            emp.setFullScreen(false);
+            if(MainFrame.fullScreenVL.equals("window")) {
+                emp.setFullScreen(false);
+            }
+            else {
+                emp.setFullScreen(true);
+            }
+            
             emp.prepareMedia(file);
             emp.addMediaPlayerEventListener(videoListener);
             emp.play();

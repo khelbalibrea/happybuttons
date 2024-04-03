@@ -53,6 +53,14 @@ public class SettingsFrame extends javax.swing.JDialog {
         else {
             cboStartup.setSelectedIndex(1);
         }
+        
+        // setup video loop full screen
+        if(MainFrame.fullScreenVL.equals("window")) {
+            rbtnWindowed.setSelected(true);
+        }
+        else {
+            rbtnFullScreen.setSelected(true);
+        }
     }
     
     public void autosave() {
@@ -69,11 +77,18 @@ public class SettingsFrame extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         chkAutosave = new javax.swing.JCheckBox();
         lblStartup = new javax.swing.JLabel();
         cboStartup = new javax.swing.JComboBox<>();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        cboVLScreen = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        rbtnWindowed = new javax.swing.JRadioButton();
+        rbtnFullScreen = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -105,6 +120,38 @@ public class SettingsFrame extends javax.swing.JDialog {
         jPanel1.add(cboStartup, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 70, 310, -1));
 
         jTabbedPane1.addTab("Save/Load", jPanel1);
+
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setText("Video loop Screen:");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, 20));
+
+        cboVLScreen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Screen 1", "Screen 2", "Screen 3" }));
+        cboVLScreen.setEnabled(false);
+        jPanel2.add(cboVLScreen, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 180, -1));
+
+        jLabel2.setText("Video loop display:");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, 20));
+
+        buttonGroup1.add(rbtnWindowed);
+        rbtnWindowed.setText("Windowed");
+        rbtnWindowed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnWindowedActionPerformed(evt);
+            }
+        });
+        jPanel2.add(rbtnWindowed, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, -1, -1));
+
+        buttonGroup1.add(rbtnFullScreen);
+        rbtnFullScreen.setText("Full screen");
+        rbtnFullScreen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rbtnFullScreenActionPerformed(evt);
+            }
+        });
+        jPanel2.add(rbtnFullScreen, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, -1, -1));
+
+        jTabbedPane1.addTab("Display", jPanel2);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -144,6 +191,16 @@ public class SettingsFrame extends javax.swing.JDialog {
         
         autosave();
     }//GEN-LAST:event_cboStartupActionPerformed
+
+    private void rbtnWindowedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnWindowedActionPerformed
+        MainFrame.fullScreenVL = "window";
+        autosave();
+    }//GEN-LAST:event_rbtnWindowedActionPerformed
+
+    private void rbtnFullScreenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtnFullScreenActionPerformed
+        MainFrame.fullScreenVL = "full";
+        autosave();
+    }//GEN-LAST:event_rbtnFullScreenActionPerformed
 
     public class CustomMenuUI extends BasicMenuUI {
         protected void paintText(Graphics g, JComponent c, Rectangle textRect, String text) {
@@ -200,10 +257,17 @@ public class SettingsFrame extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboStartup;
+    private javax.swing.JComboBox<String> cboVLScreen;
     private javax.swing.JCheckBox chkAutosave;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblStartup;
+    public static javax.swing.JRadioButton rbtnFullScreen;
+    public static javax.swing.JRadioButton rbtnWindowed;
     // End of variables declaration//GEN-END:variables
 }

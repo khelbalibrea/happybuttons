@@ -21,8 +21,10 @@ public class BeanHelper {
     public boolean writeToXml(ProfileDatabase[] profileDB) {		
         try {
             XMLEncoder encoder = new XMLEncoder(
-            new BufferedOutputStream(
-            new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\happyDB.xml")));
+                new BufferedOutputStream(
+                    new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\happyDB.xml")
+                )
+            );
 
             encoder.writeObject(profileDB);
             encoder.close();

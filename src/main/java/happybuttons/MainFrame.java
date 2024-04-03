@@ -101,7 +101,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     // UI Components
     public static String sfxGroupName1 = "", sfxGroupName2 = "", sfxGroupName3 = "";
     public static int hour, minute, second, vlcjPlaying = 0, chkVLLoop = 1, chkVLMute = 1, chkVLFit = 0;
-    public static String enableAutosave = "off", startup = "new";
+    public static String enableAutosave = "on", startup = "new", fullScreenVL = "window";
     
     public MainFrame() {
         initComponents();

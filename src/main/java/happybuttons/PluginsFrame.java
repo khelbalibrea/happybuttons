@@ -36,7 +36,7 @@ public class PluginsFrame extends javax.swing.JDialog {
         ImageIcon imgIcon = new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
         setIconImage(imgIcon.getImage());
         
-        Timer timer = new Timer(2000, new ActionListener() {
+        Timer timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 check();
@@ -134,7 +134,7 @@ public class PluginsFrame extends javax.swing.JDialog {
             lblCheck.setText("Path found");
             lblCheck.setForeground(darkGreen);
             
-            Timer pluginCheck = new Timer(1000, new ActionListener() {
+            Timer pluginCheck = new Timer(500, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     boolean chk = checkPlugins(tfVlcjPath.getText());
@@ -159,7 +159,7 @@ public class PluginsFrame extends javax.swing.JDialog {
                 }
             });
             
-            Timer timer = new Timer(1000, new ActionListener() {
+            Timer timer = new Timer(500, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     pluginCheck.setRepeats(false);
