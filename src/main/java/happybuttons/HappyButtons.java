@@ -51,6 +51,11 @@ public class HappyButtons {
     
     public static void loadUISettings() {
         dbo.loadSystemSettings(uiDB, 0);
+        
+        if(MainFrame.startup.equals("load")) {
+            dbo.loadEnvironment(profileDB, MainFrame.loadedIndexProfile);
+        }
+        
         SystemClass.UITheme(uiTheme);
         SystemClass.setupElementsStatus();
     }

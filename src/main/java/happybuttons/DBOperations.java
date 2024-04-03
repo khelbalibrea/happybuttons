@@ -224,6 +224,9 @@ public class DBOperations {
         uiProfile.setFullScreenVL(MainFrame.fullScreenVL);
         uiPref[0].setFullScreenVL(uiProfile.getFullScreenVL());
         
+        uiProfile.setPrevProfile(String.valueOf(MainFrame.loadedIndexProfile));
+        uiPref[0].setPrevProfile(uiProfile.getPrevProfile());
+        
         new BeanHelper().writeToXmlUI(uiPref);
         
         return true;
@@ -236,7 +239,18 @@ public class DBOperations {
         HappyButtons.uiTheme = uiPref[index].getPrevTheme();
         HappyButtons.vlcjPath = uiPref[index].getVlcjPath();
         MainFrame.enableAutosave = uiPref[index].getEnableAutosave();
+        MainFrame.startup = uiPref[index].getStartup();
         MainFrame.fullScreenVL = uiPref[index].getFullScreenVL();
+        
+        String prevProfile = uiPref[index].getPrevProfile();
+        int equal = -1;
+        if(prevProfile.equals("")) {
+            equal = -1;
+        }
+        else {
+            equal = Integer.parseInt(uiPref[index].getPrevProfile());
+        }
+        MainFrame.loadedIndexProfile = equal;
     }
     
     public void loadPreviousProfile(UIPreference uiPref[], int index) {
@@ -317,6 +331,11 @@ public class DBOperations {
             
             String profileName = profileDB[index].getProfileName();
             HappyButtons.loadedDB = index;
+            MainFrame.loadedIndexProfile = index;
+            
+            UIProfile ui = new UIProfile();
+            HappyButtons.dbo.autoSaveUISettings(HappyButtons.uiDB, ui);
+            
             HappyButtons.canAutosave = 1;
             MainFrame.savingProfile = profileName;
             

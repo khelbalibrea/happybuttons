@@ -9,7 +9,7 @@ package happybuttons;
  * @author Michael Balibrea
  */
 public class UIProfile {
-    String prevTheme, vlcjPath, enableAutosave, startup, fullScreenVL;
+    String prevTheme, vlcjPath, enableAutosave, startup, fullScreenVL, prevProfile;
     
     public String getPrevTheme(){
         return prevTheme;
@@ -51,11 +51,20 @@ public class UIProfile {
         this.fullScreenVL = fullScreenVL;
     }
     
+    public String getPrevProfile(){
+        return prevProfile;
+    }
+    
+    public void setPrevProfile(String prevProfile){
+        this.prevProfile = prevProfile;
+    }
+    
     public UIProfile(){
         prevTheme = "light";
         vlcjPath = "";
         enableAutosave = "on";
-        startup = "new";
+        startup = "";
         fullScreenVL = "window";
+        prevProfile = "";
     }
 }
