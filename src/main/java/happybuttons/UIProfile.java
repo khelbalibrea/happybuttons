@@ -63,7 +63,7 @@ public class UIProfile {
         prevTheme = "light";
         vlcjPath = "";
         enableAutosave = "on";
-        startup = "";
+        startup = "new";
         fullScreenVL = "window";
         prevProfile = "";
     }
