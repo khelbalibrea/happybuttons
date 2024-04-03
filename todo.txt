@@ -3,6 +3,7 @@ x load previous profile
 x backup database feature
 x pop-ups instead of JOptionPane
 x screen selector
+x include icons in jar
 
 PREFERENCES UI:
 Using pichon app:
