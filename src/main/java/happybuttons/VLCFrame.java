@@ -35,19 +35,15 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 public class VLCFrame extends javax.swing.JFrame {
     MediaListener videoListener = new MediaListener();
     MediaPlayerEventAdapter adapter = new MediaPlayerEventAdapter();
-    ActionListener checkBoxAction, playAction;
+    ActionListener checkBoxAction, playAction, fitAction;
     String file = "", videoFilename = "";
     Dimension dim;
     JFrame frame = this;
-    JPanel panel = new JPanel();
     EmbeddedMediaPlayer emp;
     GraphicsDevice[] screenDevices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
     
     int screenWidth = 0, screenHeight = 0;
-    String aspectRatio = "";
-    
-//    EmbeddedMediaPlayerComponent component = new EmbeddedMediaPlayerComponent();
-//    static MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
+    String aspectRatio = "", origRatio = "";
     
     /**
      * Creates new form VLCFrame
@@ -58,9 +54,6 @@ public class VLCFrame extends javax.swing.JFrame {
         
         dim = Toolkit.getDefaultToolkit().getScreenSize();
         frame.setPreferredSize(dim);
-//        panel.setLayout(new BorderLayout());
-//        frame.setContentPane(panel);
-//        panel.add(emp, BorderLayout.CENTER);
         
         // set frame icon
         ImageIcon imgIcon = new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
@@ -77,6 +70,20 @@ public class VLCFrame extends javax.swing.JFrame {
                 else {
                     MainFrame.chkVLMute = 0;
                     emp.mute(false);
+                }
+            }
+        };
+        
+        fitAction = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(MainFrame.chkVLFit == 0) {
+                    MainFrame.chkVLFit = 1;
+                    emp.setAspectRatio(aspectRatio);
+                }
+                else {
+                    MainFrame.chkVLFit = 0;
+                    emp.setAspectRatio(origRatio);
                 }
             }
         };
@@ -149,6 +156,7 @@ public class VLCFrame extends javax.swing.JFrame {
 
                     MainFrame.btnPlayVL.removeActionListener(playAction);
                     MainFrame.chkMuteVL.removeActionListener(checkBoxAction);
+                    MainFrame.chkFitVL.removeActionListener(fitAction);
                     frame.dispose();
                 }
             }
@@ -160,7 +168,15 @@ public class VLCFrame extends javax.swing.JFrame {
                     Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 
                             MainFrame.cboVidLoop.getSelectedItem() + 
                             ".mp4");
-//            emp.setAspectRatio(aspectRatio);
+            origRatio = emp.getAspectRatio();
+            
+            if(MainFrame.chkVLFit == 0) {
+                emp.setAspectRatio(origRatio);
+            }
+            else {
+                emp.setAspectRatio(aspectRatio);
+            }
+            
             emp.setFullScreen(false);
             emp.prepareMedia(file);
             emp.addMediaPlayerEventListener(videoListener);
@@ -175,6 +191,7 @@ public class VLCFrame extends javax.swing.JFrame {
             
             MainFrame.btnPlayVL.addActionListener(playAction);
             MainFrame.chkMuteVL.addActionListener(checkBoxAction);
+            MainFrame.chkFitVL.addActionListener(fitAction);
         }
         else {
             MainFrame.tfLastOperation.setText("No video to play");
@@ -233,6 +250,7 @@ public class VLCFrame extends javax.swing.JFrame {
                 mediaPlayer.stop();
                 MainFrame.btnPlayVL.removeActionListener(playAction);
                 MainFrame.chkMuteVL.removeActionListener(checkBoxAction);
+                MainFrame.chkFitVL.removeActionListener(fitAction);
                 frame.dispose();
                 MainFrame.vlcjPlaying = 0;
             }

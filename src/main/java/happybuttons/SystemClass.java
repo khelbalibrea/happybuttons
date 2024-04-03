@@ -92,12 +92,6 @@ public class SystemClass {
             MainFrame.panelRow2.setBackground(new JPanel().getBackground());
             MainFrame.panelRow3.setBackground(new JPanel().getBackground());
             MainFrame.panelJList.setBackground(new JPanel().getBackground());
-//            MainFrame.panelSFXOptions.setBackground(new JPanel().getBackground());
-//            
-//            MainFrame.panelSFXOptions.setBackground(new JPanel().getBackground());
-//            MainFrame.panelSFXOptions.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
-//            MainFrame.panelHappyLoop.setBackground(new JPanel().getBackground());
-//            MainFrame.panelHappyLoop.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
             
             MainFrame.panelSFX1.setBackground(new JPanel().getBackground());
             MainFrame.panelSFX1.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
@@ -197,7 +191,7 @@ public class SystemClass {
             MainFrame.btnStopVL.setBackground(new JButton().getBackground());
             String btnStopVLIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\stop_vl_12px.png");
             MainFrame.btnStopVL.setIcon(new javax.swing.ImageIcon(btnStopVLIcon));
-            
+                        
             String sfxButton = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave_black_14px.png");
             MainFrame.btnR1SFX01.setBackground(new JButton().getBackground());
             MainFrame.btnR1SFX01.setIcon(new javax.swing.ImageIcon(sfxButton));
@@ -575,6 +569,9 @@ public class SystemClass {
             
             MainFrame.chkMuteVL.setBackground(new JCheckBox().getBackground());
             MainFrame.chkMuteVL.setForeground(new JCheckBox().getForeground());
+            
+            MainFrame.chkFitVL.setBackground(new JCheckBox().getBackground());
+            MainFrame.chkFitVL.setForeground(new JCheckBox().getForeground());
             
             // -------------------------------------------------------------------------------------- RADIO BUTTON
             MainFrame.chkSP.setBackground(new JRadioButton().getBackground());
@@ -1131,6 +1128,9 @@ public class SystemClass {
             
             MainFrame.chkMuteVL.setBackground(Color.DARK_GRAY);
             MainFrame.chkMuteVL.setForeground(Color.LIGHT_GRAY);
+            
+            MainFrame.chkFitVL.setBackground(Color.DARK_GRAY);
+            MainFrame.chkFitVL.setForeground(Color.LIGHT_GRAY);
             
             // -------------------------------------------------------------------------------------- RADIO BUTTON
             MainFrame.chkSP.setBackground(Color.DARK_GRAY);

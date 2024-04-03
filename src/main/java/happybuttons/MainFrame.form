@@ -242,7 +242,7 @@
                       <Component id="chkIB" linkSize="4" min="-2" pref="45" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnStopSFX" min="-2" pref="22" max="-2" attributes="0"/>
-                      <EmptySpace pref="312" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="lblVideoLoop" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cboVidLoop" min="-2" pref="235" max="-2" attributes="0"/>
@@ -250,11 +250,13 @@
                       <Component id="btnPlayVL" min="-2" pref="22" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnStopVL" min="-2" pref="22" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="chkLoopVL" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="chkMuteVL" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="chkFitVL" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -273,25 +275,28 @@
               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
               <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                  <Group type="103" alignment="0" groupAlignment="3" max="-2" attributes="0">
-                      <Component id="lblVolSFX" alignment="3" max="32767" attributes="0"/>
-                      <Component id="lblSFXState" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="chkIB" alignment="3" max="32767" attributes="0"/>
-                      <Component id="chkSP" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Group type="103" alignment="0" groupAlignment="3" max="-2" attributes="0">
+                          <Component id="lblVolSFX" alignment="3" max="32767" attributes="0"/>
+                          <Component id="lblSFXState" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="chkIB" alignment="3" max="32767" attributes="0"/>
+                          <Component id="chkSP" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="volSFX" alignment="0" max="32767" attributes="0"/>
+                      <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                          <Component id="cboVidLoop" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                          <Component id="lblVideoLoop" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="btnStopSFX" alignment="1" max="32767" attributes="0"/>
+                      <Component id="btnPlayVL" alignment="1" max="32767" attributes="0"/>
+                      <Component id="btnStopVL" alignment="1" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="volSFX" alignment="0" max="32767" attributes="0"/>
-                  <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                      <Component id="cboVidLoop" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                      <Component id="lblVideoLoop" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="btnStopSFX" alignment="1" max="32767" attributes="0"/>
-                  <Component id="btnPlayVL" alignment="1" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="chkLoopVL" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="chkMuteVL" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="chkFitVL" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="btnStopVL" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="panelSFX1" min="-2" max="-2" attributes="0"/>
@@ -4707,6 +4712,18 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkMuteVLActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="chkFitVL">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Fit"/>
+        <Property name="toolTipText" type="java.lang.String" value="Fit / stretch video"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkFitVLActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
