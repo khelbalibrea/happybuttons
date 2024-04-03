@@ -1,7 +1,8 @@
 To do:
 x load previous profile
-x backup/restore database feature
-x update database feature onload system
+x backup database feature
+x pop-ups instead of JOptionPane
+x stretch or fir video loop
 
 PREFERENCES UI:
 Using pichon app:

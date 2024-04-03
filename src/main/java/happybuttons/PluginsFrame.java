@@ -145,6 +145,7 @@ public class PluginsFrame extends javax.swing.JDialog {
                         
                         autosave();
                         (MainFrame.btnPlayVL).setEnabled(true);
+                        (MainFrame.btnPlayVL).setToolTipText("Play Video loop");
                     }
                     else {
                         lblCheck.setText("VLC plugins not found in path provided..");
@@ -152,6 +153,7 @@ public class PluginsFrame extends javax.swing.JDialog {
                         
                         HappyButtons.vlcjPath = "";
                         (MainFrame.btnPlayVL).setEnabled(false);
+                        (MainFrame.btnPlayVL).setToolTipText("VLC plugin not found");
                         autosave();
                     }
                 }

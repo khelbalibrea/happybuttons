@@ -9,6 +9,9 @@ import com.sun.jna.NativeLibrary;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.DisplayMode;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,8 +41,12 @@ public class VLCFrame extends javax.swing.JFrame {
     JFrame frame = this;
     JPanel panel = new JPanel();
     EmbeddedMediaPlayer emp;
-//    EmbeddedMediaPlayerComponent component = new EmbeddedMediaPlayerComponent();
+    GraphicsDevice[] screenDevices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
     
+    int screenWidth = 0, screenHeight = 0;
+    String aspectRatio = "";
+    
+//    EmbeddedMediaPlayerComponent component = new EmbeddedMediaPlayerComponent();
 //    static MediaPlayerFactory mediaPlayerFactory = new MediaPlayerFactory();
     
     /**
@@ -58,8 +65,6 @@ public class VLCFrame extends javax.swing.JFrame {
         // set frame icon
         ImageIcon imgIcon = new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
         setIconImage(imgIcon.getImage());
-        canvasMain.setBackground(Color.BLACK);
-        frame.add(canvasMain, BorderLayout.CENTER);
         
         // Initializing actions
         checkBoxAction = new ActionListener() {
@@ -101,6 +106,35 @@ public class VLCFrame extends javax.swing.JFrame {
         MediaPlayerFactory mpf = new MediaPlayerFactory();
         emp = mpf.newEmbeddedMediaPlayer(new Win32FullScreenStrategy(frame));
         emp.setVideoSurface(mpf.newVideoSurface(canvasMain));
+        
+        if(screenDevices.length > 1) {
+            GraphicsDevice secondScreen = screenDevices[1];
+            frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+//            frame.setSize(400, 300);
+            frame.setLocation(secondScreen.getDefaultConfiguration().getBounds().x, 0); // Set the location to the second screen
+            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            
+            frame.setLayout(new BorderLayout());
+            canvasMain.setBackground(Color.BLACK);
+            canvasMain.setForeground(Color.BLACK);
+            frame.add(canvasMain, BorderLayout.CENTER);
+            frame.pack();
+            
+            DisplayMode displayMode = secondScreen.getDisplayMode();
+
+            screenWidth = displayMode.getWidth();
+            screenHeight = displayMode.getHeight();
+
+            System.out.println("Second Screen Resolution: " + screenWidth + "x" + screenHeight);
+
+            int ratioWidth = screenWidth / 120;
+            int ratioHeight = (int) Math.ceil(screenHeight / 120);
+            
+            aspectRatio = ratioWidth + ":" + ratioHeight;
+
+            System.out.println("Second Screen Aspect Ratio: " + ratioWidth + ":" + ratioHeight);
+        }
+        
         frame.setVisible(true);
         
         MainFrame.btnStopVL.addActionListener(new ActionListener() {
@@ -126,7 +160,8 @@ public class VLCFrame extends javax.swing.JFrame {
                     Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 
                             MainFrame.cboVidLoop.getSelectedItem() + 
                             ".mp4");
-            emp.setAspectRatio("21:9");
+//            emp.setAspectRatio(aspectRatio);
+            emp.setFullScreen(false);
             emp.prepareMedia(file);
             emp.addMediaPlayerEventListener(videoListener);
             emp.play();
@@ -311,7 +346,12 @@ public class VLCFrame extends javax.swing.JFrame {
         canvasMain = new java.awt.Canvas();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setBackground(new java.awt.Color(0, 0, 0));
+        setForeground(new java.awt.Color(0, 0, 0));
         setMinimumSize(new java.awt.Dimension(1366, 768));
+
+        canvasMain.setBackground(new java.awt.Color(0, 0, 0));
+        canvasMain.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

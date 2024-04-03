@@ -179,6 +179,7 @@
       <Dimension value="[1366, 700]"/>
     </Property>
     <Property name="name" type="java.lang.String" value="mainFrame" noResource="true"/>
+    <Property name="resizable" type="boolean" value="false"/>
     <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[1366, 733]"/>
     </Property>
@@ -241,7 +242,7 @@
                       <Component id="chkIB" linkSize="4" min="-2" pref="45" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnStopSFX" min="-2" pref="22" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="312" max="32767" attributes="0"/>
                       <Component id="lblVideoLoop" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cboVidLoop" min="-2" pref="235" max="-2" attributes="0"/>
@@ -253,7 +254,7 @@
                       <Component id="chkLoopVL" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="chkMuteVL" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -4647,7 +4648,7 @@
     </Container>
     <Component class="javax.swing.JButton" name="btnPlayVL">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Stop SFX"/>
+        <Property name="toolTipText" type="java.lang.String" value="Play Video loop"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[22, 22]"/>
         </Property>
@@ -4667,7 +4668,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnStopVL">
       <Properties>
-        <Property name="toolTipText" type="java.lang.String" value="Stop SFX"/>
+        <Property name="toolTipText" type="java.lang.String" value="Stop Video loop"/>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[22, 22]"/>
         </Property>

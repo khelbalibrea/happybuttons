@@ -745,6 +745,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1366, 700));
         setName("mainFrame"); // NOI18N
+        setResizable(false);
         setSize(new java.awt.Dimension(1366, 733));
 
         panelJList.setPreferredSize(new java.awt.Dimension(1354, 180));
@@ -3066,7 +3067,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 .addGap(1, 1, 1))
         );
 
-        btnPlayVL.setToolTipText("Stop SFX");
+        btnPlayVL.setToolTipText("Play Video loop");
         btnPlayVL.setMaximumSize(new java.awt.Dimension(22, 22));
         btnPlayVL.setMinimumSize(new java.awt.Dimension(22, 22));
         btnPlayVL.setPreferredSize(new java.awt.Dimension(22, 22));
@@ -3076,7 +3077,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
         });
 
-        btnStopVL.setToolTipText("Stop SFX");
+        btnStopVL.setToolTipText("Stop Video loop");
         btnStopVL.setMaximumSize(new java.awt.Dimension(22, 22));
         btnStopVL.setMinimumSize(new java.awt.Dimension(22, 22));
         btnStopVL.setPreferredSize(new java.awt.Dimension(22, 22));
@@ -3246,7 +3247,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         .addComponent(chkIB, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnStopSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 312, Short.MAX_VALUE)
                         .addComponent(lblVideoLoop)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3258,7 +3259,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         .addComponent(chkLoopVL)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(chkMuteVL)
-                        .addGap(22, 22, 22))))
+                        .addGap(38, 38, 38))))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {chkIB, chkSP});
@@ -4423,10 +4424,13 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_cboVidLoopActionPerformed
 
     private void btnPlayVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayVLActionPerformed
-        if(!HappyButtons.vlcjPath.isEmpty()){
-            if(vlcjPlaying == 0){
-                vlcjPlaying = 1;
-                new VLCFrame();
+        if(cboVidLoop.getSelectedItem() != null) {
+            if((!HappyButtons.vlcjPath.isEmpty() || !HappyButtons.vlcjPath.isBlank() || 
+            !HappyButtons.vlcjPath.equals("") || HappyButtons.vlcjPath != null)){
+                if(vlcjPlaying == 0){
+                    vlcjPlaying = 1;
+                    new VLCFrame();
+                }
             }
         }
     }//GEN-LAST:event_btnPlayVLActionPerformed
