@@ -141,6 +141,32 @@ public class VLCFrame extends javax.swing.JFrame {
 
             System.out.println("Second Screen Aspect Ratio: " + ratioWidth + ":" + ratioHeight);
         }
+        else { // no secondary screen device detected
+            GraphicsDevice screen = screenDevices[0];
+            frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            
+            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            
+            frame.setLayout(new BorderLayout());
+            canvasMain.setBackground(Color.BLACK);
+            canvasMain.setForeground(Color.BLACK);
+            frame.add(canvasMain, BorderLayout.CENTER);
+            frame.pack();
+            
+            DisplayMode displayMode = screen.getDisplayMode();
+
+            screenWidth = displayMode.getWidth();
+            screenHeight = displayMode.getHeight();
+
+            System.out.println("Second Screen Resolution: " + screenWidth + "x" + screenHeight);
+
+            int ratioWidth = screenWidth / 120;
+            int ratioHeight = (int) Math.ceil(screenHeight / 120);
+            
+            aspectRatio = ratioWidth + ":" + ratioHeight;
+
+            System.out.println("Second Screen Aspect Ratio: " + ratioWidth + ":" + ratioHeight);
+        }
         
         frame.setVisible(true);
         

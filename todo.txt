@@ -2,7 +2,6 @@ To do:
 x load previous profile
 x backup database feature
 x pop-ups instead of JOptionPane
-x stretch or fit to screen video loop
 x screen selector
 
 PREFERENCES UI:
