@@ -18,7 +18,7 @@ import javax.swing.plaf.basic.BasicMenuUI;
  * @author Michael Balibrea
  */
 public class SettingsFrame extends javax.swing.JDialog {
-
+    int firstLoad = 1;
     /**
      * Creates new form SettingsFrame
      */
@@ -28,7 +28,7 @@ public class SettingsFrame extends javax.swing.JDialog {
         initComponents();
         
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/3-this.getSize().height/2);
+        this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         
         // set frame icon
         ImageIcon imgIcon = new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
@@ -326,6 +326,17 @@ public class SettingsFrame extends javax.swing.JDialog {
             MainFrame.locPopup = "bottomright";
         }
         
+        if(firstLoad == 0) {
+            Notification panel = new Notification(HappyButtons.mf, 
+                Notification.Type.INFO, 
+                MainFrame.location, 
+                "Message",
+                "Text message"
+            );
+            panel.showNotification();
+        }
+        
+        firstLoad = 0;
         autosave();
     }//GEN-LAST:event_cboLocationPopupActionPerformed
 

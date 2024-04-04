@@ -1,5 +1,5 @@
 To do:
-x backup database feature
+x theme for settings
 x mp3 player
 x screen selector
 

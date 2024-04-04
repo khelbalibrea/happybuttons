@@ -343,14 +343,6 @@ public class DBOperations {
             
             MainFrame.tfLastOperation.setText("PROFILE \"" + profileDB[index].getProfileName() + "\" LOADED");
             
-//            (MainFrame.tfSFXGroup1).setText(profileDB[index].getSfxName1());
-//            (MainFrame.tfSFXGroup2).setText(profileDB[index].getSfxName2());
-//            (MainFrame.tfSFXGroup3).setText(profileDB[index].getSfxName3());
-            
-//            MainFrame.sfxGroupName1 = profileDB[index].getSfxName1();
-//            MainFrame.sfxGroupName2 = profileDB[index].getSfxName2();
-//            MainFrame.sfxGroupName3 = profileDB[index].getSfxName3();
-            
             if(MainFrame.dbLoadedManual == 1) {
                 Notification panel = new Notification(HappyButtons.mf, 
                     Notification.Type.SUCCESS, 
