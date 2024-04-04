@@ -100,8 +100,17 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     
     // UI Components
     public static String sfxGroupName1 = "", sfxGroupName2 = "", sfxGroupName3 = "";
-    public static int hour, minute, second, vlcjPlaying = 0, chkVLLoop = 1, chkVLMute = 1, chkVLFit = 0;
-    public static String enableAutosave = "on", startup = "new", fullScreenVL = "window";
+    public static int hour, minute, second; // for time 
+    public static int vlcjPlaying = 0, // if VLC is playing, 0 -> not playing; 1 -> playing
+            chkVLLoop = 1, // for checkbox VL loop
+            chkVLMute = 1, // for checkbox VL mute
+            chkVLFit = 0, // for checkbox VL fir
+            dbLoadedManual = -1; // to check whether load function is manually clicked(1) or auto via load prev profile(0)
+    public static String enableAutosave = "on", // autosave status
+            startup = "new", // new -> clean workspace after startup; load -> load previous loaded profile in startup
+            fullScreenVL = "window", // whether the screen in Video loop is windowed(window) or full screen(full)
+            locPopup = "topcenter"; // String value for notification popup; used in saving UI
+    public static Notification.Location location = Notification.Location.TOP_CENTER;
     
     public MainFrame() {
         initComponents();

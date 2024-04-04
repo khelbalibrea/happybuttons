@@ -27,11 +27,6 @@ import javax.swing.border.TitledBorder;
  * @author Michael Balibrea
  */
 public class SystemClass {
-//    static Color CLOUD_WHITE = new Color(238, 238, 238);
-//    static Color CLOUD_DARK = new Color(226, 226, 226);
-//    static Color TEXT_DARK = new Color(51, 51, 51);
-//    static Color CLOUD_BLUE = new Color(198, 217, 234);
-    
     public static void UITheme(String themeProfile) {
         if(themeProfile.equals("light")) { // ----------------------------------------------------------------------------- LIGHT THEME (DEFAULT)
             HappyButtons.mf.getContentPane().setBackground(new JPanel().getBackground());

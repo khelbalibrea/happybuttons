@@ -7,6 +7,8 @@ package happybuttons;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,9 +23,10 @@ import javax.swing.JTextField;
  * @author Michael Balibrea
  */
 public class SaveFrame extends javax.swing.JDialog {
-//    public static String profileName1 = "", profileName2 = "", profileName3 = "", profileName4 = "", profileName5 = "";
     public static String dbSlot1 = "", dbSlot2 = "", dbSlot3 = "", dbSlot4 = "", dbSlot5 = "";
     String theme = HappyButtons.uiTheme;
+    int saveDone = 0; // if save button or manual save is done(1), else 0
+    String bak1 = "", bak2 = "", bak3 = "", bak4 = "", bak5 = ""; // bak is used to 
     /**
      * Creates new form Save
      */
@@ -42,6 +45,35 @@ public class SaveFrame extends javax.swing.JDialog {
         setupTheme();
         
         reloadDB(HappyButtons.profileDB);
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if(saveDone == 0) {
+                    if(MainFrame.loadedIndexProfile == 0) {
+                        tfSaveProfile1.setText(dbSlot1);
+                        (MainFrame.savingProfile) = dbSlot1;
+                    }
+                    else if(MainFrame.loadedIndexProfile == 1) {
+                        tfSaveProfile2.setText(dbSlot2);
+                        (MainFrame.savingProfile) = dbSlot2;
+                    }
+                    else if(MainFrame.loadedIndexProfile == 2) {
+                        tfSaveProfile3.setText(dbSlot3);
+                        (MainFrame.savingProfile) = dbSlot3;
+                    }
+                    else if(MainFrame.loadedIndexProfile == 3) {
+                        tfSaveProfile4.setText(dbSlot4);
+                        (MainFrame.savingProfile) = dbSlot4;
+                    }
+                    else if(MainFrame.loadedIndexProfile == 4) {
+                        tfSaveProfile5.setText(dbSlot5);
+                        (MainFrame.savingProfile) = dbSlot5;
+                    }
+                    System.out.println("Hi " + MainFrame.savingProfile);
+                }
+            }
+        });
     }
 
     /**
@@ -334,29 +366,42 @@ public class SaveFrame extends javax.swing.JDialog {
         (MainFrame.savingProfile) = tfSaveProfile1.getText();
         
         if((MainFrame.savingProfile).equals("")) {
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "Please provide SLOT 1 name", 
-                "Empty name", 
-                JOptionPane.WARNING_MESSAGE);
+            Notification panel = new Notification(HappyButtons.mf, 
+                Notification.Type.WARNING, 
+                MainFrame.location, 
+                "Empty profile name",
+                "Please provide SLOT 1 name"
+            );
+            panel.showNotification();
+            saveDone = 0;
         }
         else if(((MainFrame.savingProfile).equalsIgnoreCase(dbSlot2) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot3) || 
                 (MainFrame.savingProfile).equalsIgnoreCase(dbSlot4) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot5)) && 
                 !(MainFrame.savingProfile).equals("")
                 ) {
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "SLOT 1 name matches other slot name", 
-                "Duplicate name", 
-                JOptionPane.WARNING_MESSAGE);
+            Notification panel = new Notification(HappyButtons.mf, 
+                Notification.Type.WARNING, 
+                MainFrame.location, 
+                "Duplicate name",
+                "SLOT 1 name matches other slot name"
+            );
+            panel.showNotification();
+            saveDone = 0;
         }
         else {
             HappyButtons.profileDB[0] = new ProfileDatabase();
             (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
             
-            this.dispose();
+            Notification panel = new Notification(HappyButtons.mf, 
+                Notification.Type.SUCCESS, 
+                MainFrame.location, 
+                "Success",
+                "Profile saved!"
+            );
+            panel.showNotification();
+            saveDone = 1;
             
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "Profile saved!", 
-                "Success", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
         }
     }//GEN-LAST:event_btnSave1ActionPerformed
 
@@ -367,29 +412,42 @@ public class SaveFrame extends javax.swing.JDialog {
         (MainFrame.savingProfile) = tfSaveProfile2.getText();
         
         if((MainFrame.savingProfile).equals("")) {
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "Please provide SLOT 2 name", 
-                "Empty name", 
-                JOptionPane.WARNING_MESSAGE);
+            Notification panel = new Notification(HappyButtons.mf, 
+                Notification.Type.WARNING, 
+                MainFrame.location, 
+                "Empty profile name",
+                "Please provide SLOT 2 name"
+            );
+            panel.showNotification();
+            saveDone = 0;
         }
         else if(((MainFrame.savingProfile).equalsIgnoreCase(dbSlot1) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot3) || 
                 (MainFrame.savingProfile).equalsIgnoreCase(dbSlot4) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot5)) && 
                 !(MainFrame.savingProfile).equals("")
                 ) {
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "SLOT 2 name matches other slot name", 
-                "Duplicate name", 
-                JOptionPane.WARNING_MESSAGE);
+            Notification panel = new Notification(HappyButtons.mf, 
+                Notification.Type.WARNING, 
+                MainFrame.location, 
+                "Duplicate name",
+                "SLOT 2 name matches other slot name"
+            );
+            panel.showNotification();
+            saveDone = 0;
         }
         else {
             HappyButtons.profileDB[1] = new ProfileDatabase();
             (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
             
-            this.dispose();
+            Notification panel = new Notification(HappyButtons.mf, 
+                Notification.Type.SUCCESS, 
+                MainFrame.location, 
+                "Success",
+                "Profile saved!"
+            );
+            panel.showNotification();
+            saveDone = 1;
             
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "Profile saved!", 
-                "Success", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
         }
     }//GEN-LAST:event_btnSave2ActionPerformed
 
@@ -400,30 +458,43 @@ public class SaveFrame extends javax.swing.JDialog {
         (MainFrame.savingProfile) = tfSaveProfile3.getText();
         
         if((MainFrame.savingProfile).equals("")) {
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "Please provide SLOT 3 name", 
-                "Empty name", 
-                JOptionPane.WARNING_MESSAGE);
+            Notification panel = new Notification(HappyButtons.mf, 
+                Notification.Type.WARNING, 
+                MainFrame.location, 
+                "Empty profile name",
+                "Please provide SLOT 3 name"
+            );
+            panel.showNotification();
+            saveDone = 0;
         }
         else if(((MainFrame.savingProfile).equalsIgnoreCase(dbSlot1) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot2) || 
                 (MainFrame.savingProfile).equalsIgnoreCase(dbSlot4) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot5)) && 
                 !(MainFrame.savingProfile).equals("")
                 ) {
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "SLOT 3 name matches other slot name", 
-                "Duplicate name", 
-                JOptionPane.WARNING_MESSAGE);
+            Notification panel = new Notification(HappyButtons.mf, 
+                Notification.Type.WARNING, 
+                MainFrame.location, 
+                "Duplicate name",
+                "SLOT 3 name matches other slot name"
+            );
+            panel.showNotification();
+            saveDone = 0;
 //            System.out.println("1: " + dbSlot1 + "\n2: " + dbSlot2 + "\n3: " + dbSlot3 + "\n4: " + dbSlot4 + "\n5: " + dbSlot5);
         }
         else {
             HappyButtons.profileDB[2] = new ProfileDatabase();
             (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
             
-            this.dispose();
+            Notification panel = new Notification(HappyButtons.mf, 
+                Notification.Type.SUCCESS, 
+                MainFrame.location, 
+                "Success",
+                "Profile saved!"
+            );
+            panel.showNotification();
+            saveDone = 1;
             
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "Profile saved!", 
-                "Success", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
         }
     }//GEN-LAST:event_btnSave3ActionPerformed
 
@@ -434,29 +505,42 @@ public class SaveFrame extends javax.swing.JDialog {
         (MainFrame.savingProfile) = tfSaveProfile4.getText();
         
         if((MainFrame.savingProfile).equals("")) {
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "Please provide SLOT 4 name", 
-                "Empty name", 
-                JOptionPane.WARNING_MESSAGE);
+            Notification panel = new Notification(HappyButtons.mf, 
+                Notification.Type.WARNING, 
+                MainFrame.location, 
+                "Empty profile name",
+                "Please provide SLOT 4 name"
+            );
+            panel.showNotification();
+            saveDone = 0;
         }
         else if(((MainFrame.savingProfile).equalsIgnoreCase(dbSlot1) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot2) || 
                 (MainFrame.savingProfile).equalsIgnoreCase(dbSlot3) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot5)) && 
                 !(MainFrame.savingProfile).equals("")
                 ) {
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "SLOT 4 name matches other slot name", 
-                "Duplicate name", 
-                JOptionPane.WARNING_MESSAGE);
+            Notification panel = new Notification(HappyButtons.mf, 
+                Notification.Type.WARNING, 
+                MainFrame.location, 
+                "Duplicate name",
+                "SLOT 4 name matches other slot name"
+            );
+            panel.showNotification();
+            saveDone = 0;
         }
         else {
             HappyButtons.profileDB[3] = new ProfileDatabase();
             (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
             
-            this.dispose();
+            Notification panel = new Notification(HappyButtons.mf, 
+                Notification.Type.SUCCESS, 
+                MainFrame.location, 
+                "Success",
+                "Profile saved!"
+            );
+            panel.showNotification();
+            saveDone = 1;
             
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "Profile saved!", 
-                "Success", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
         }
     }//GEN-LAST:event_btnSave4ActionPerformed
 
@@ -467,29 +551,42 @@ public class SaveFrame extends javax.swing.JDialog {
         (MainFrame.savingProfile) = tfSaveProfile5.getText();
         
         if((MainFrame.savingProfile).equals("")) {
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "Please provide SLOT 5 name", 
-                "Empty name", 
-                JOptionPane.WARNING_MESSAGE);
+            Notification panel = new Notification(HappyButtons.mf, 
+                Notification.Type.WARNING, 
+                MainFrame.location, 
+                "Empty profile name",
+                "Please provide SLOT 5 name"
+            );
+            panel.showNotification();
+            saveDone = 0;
         }
         else if(((MainFrame.savingProfile).equalsIgnoreCase(dbSlot1) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot2) || 
                 (MainFrame.savingProfile).equalsIgnoreCase(dbSlot3) || (MainFrame.savingProfile).equalsIgnoreCase(dbSlot4)) && 
                 !(MainFrame.savingProfile).equals("")
                 ) {
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "SLOT 5 name matches other slot name", 
-                "Duplicate name", 
-                JOptionPane.WARNING_MESSAGE);
+            Notification panel = new Notification(HappyButtons.mf, 
+                Notification.Type.WARNING, 
+                MainFrame.location, 
+                "Duplicate name",
+                "SLOT 5 name matches other slot name"
+            );
+            panel.showNotification();
+            saveDone = 0;
         }
         else {
             HappyButtons.profileDB[4] = new ProfileDatabase();
             (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
             
-            this.dispose();
+            Notification panel = new Notification(HappyButtons.mf, 
+                Notification.Type.SUCCESS, 
+                MainFrame.location, 
+                "Success",
+                "Profile saved!"
+            );
+            panel.showNotification();
+            saveDone = 1;
             
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "Profile saved!", 
-                "Success", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
         }
     }//GEN-LAST:event_btnSave5ActionPerformed
 
@@ -550,6 +647,7 @@ public class SaveFrame extends javax.swing.JDialog {
                     }
                     
                     tfSaveProfile1.setText(dbSlot1);
+                    bak1 = dbSlot1;
                 }
                 else if(loop == 1){
                     if(profileDB[loop].getProfileName() == ""){
@@ -560,6 +658,7 @@ public class SaveFrame extends javax.swing.JDialog {
                     }
                     
                     tfSaveProfile2.setText(dbSlot2);
+                    bak2 = dbSlot2;
                 }
                 else if(loop == 2){
                     if(profileDB[loop].getProfileName() == ""){
@@ -570,6 +669,7 @@ public class SaveFrame extends javax.swing.JDialog {
                     }
                     
                     tfSaveProfile3.setText(dbSlot3);
+                    bak3 = dbSlot3;
                 }
                 else if(loop == 3){
                     if(profileDB[loop].getProfileName() == ""){
@@ -580,6 +680,7 @@ public class SaveFrame extends javax.swing.JDialog {
                     }
                     
                     tfSaveProfile4.setText(dbSlot4);
+                    bak4 = dbSlot4;
                 }
                 else if(loop == 4){
                     if(profileDB[loop].getProfileName() == ""){
@@ -590,6 +691,7 @@ public class SaveFrame extends javax.swing.JDialog {
                     }
                     
                     tfSaveProfile5.setText(dbSlot5);
+                    bak5 = dbSlot5;
                 }
             }
             catch(Exception e){

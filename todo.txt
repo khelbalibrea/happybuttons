@@ -1,9 +1,7 @@
 To do:
-x load previous profile
 x backup database feature
-x pop-ups instead of JOptionPane
+x mp3 player
 x screen selector
-x include icons in jar
 
 PREFERENCES UI:
 Using pichon app:
@@ -22,3 +20,9 @@ Dark theme: 241 241 241
 - red: 249 0 0
 - yellow: 210 189 0
 - blue: 134 134 246
+
+Notification:
+- success: 12 144 89
+- info: 20 161 234
+- warning: 241 196 15
+- error: 209 67 90

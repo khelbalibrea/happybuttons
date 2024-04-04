@@ -61,6 +61,26 @@ public class SettingsFrame extends javax.swing.JDialog {
         else {
             rbtnFullScreen.setSelected(true);
         }
+        
+        // notif popup
+        if(MainFrame.locPopup.equals("topcenter")) {
+            cboLocationPopup.setSelectedIndex(0);
+        }
+        else if(MainFrame.locPopup.equals("topleft")) {
+            cboLocationPopup.setSelectedIndex(1);
+        }
+        else if(MainFrame.locPopup.equals("topright")) {
+            cboLocationPopup.setSelectedIndex(2);
+        }
+        else if(MainFrame.locPopup.equals("bottomcenter")) {
+            cboLocationPopup.setSelectedIndex(3);
+        }
+        else if(MainFrame.locPopup.equals("bottomleft")) {
+            cboLocationPopup.setSelectedIndex(4);
+        }
+        else if(MainFrame.locPopup.equals("bottomright")) {
+            cboLocationPopup.setSelectedIndex(5);
+        }
     }
     
     public void autosave() {
@@ -84,11 +104,17 @@ public class SettingsFrame extends javax.swing.JDialog {
         lblStartup = new javax.swing.JLabel();
         cboStartup = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        cboVLScreen = new javax.swing.JComboBox<>();
+        scrollDisplay = new javax.swing.JScrollPane();
+        jPanel3 = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         rbtnWindowed = new javax.swing.JRadioButton();
         rbtnFullScreen = new javax.swing.JRadioButton();
+        cboVLScreen = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        cboLocationPopup = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -123,15 +149,11 @@ public class SettingsFrame extends javax.swing.JDialog {
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setText("Video loop Screen:");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, -1, 20));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        cboVLScreen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Screen 1", "Screen 2", "Screen 3" }));
-        cboVLScreen.setEnabled(false);
-        jPanel2.add(cboVLScreen, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 70, 180, -1));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Video loop"));
 
         jLabel2.setText("Video loop display:");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, 20));
 
         buttonGroup1.add(rbtnWindowed);
         rbtnWindowed.setText("Windowed");
@@ -140,7 +162,6 @@ public class SettingsFrame extends javax.swing.JDialog {
                 rbtnWindowedActionPerformed(evt);
             }
         });
-        jPanel2.add(rbtnWindowed, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, -1, -1));
 
         buttonGroup1.add(rbtnFullScreen);
         rbtnFullScreen.setText("Full screen");
@@ -149,7 +170,84 @@ public class SettingsFrame extends javax.swing.JDialog {
                 rbtnFullScreenActionPerformed(evt);
             }
         });
-        jPanel2.add(rbtnFullScreen, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 30, -1, -1));
+
+        cboVLScreen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Screen 1", "Screen 2", "Screen 3" }));
+        cboVLScreen.setEnabled(false);
+
+        jLabel1.setText("Video loop Screen:");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(10, 10, 10)
+                        .addComponent(rbtnWindowed)
+                        .addGap(20, 20, 20)
+                        .addComponent(rbtnFullScreen))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(12, 12, 12)
+                        .addComponent(cboVLScreen, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rbtnWindowed)
+                    .addComponent(rbtnFullScreen))
+                .addGap(19, 19, 19)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboVLScreen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 700, 100));
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Notification alert"));
+
+        jLabel3.setText("Location pop-up:");
+
+        cboLocationPopup.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Top Center", "Top Left", "Top Right", "Bottom Center", "Bottom Left", "Bottom Right" }));
+        cboLocationPopup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboLocationPopupActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(cboLocationPopup, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cboLocationPopup, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 700, 70));
+
+        scrollDisplay.setViewportView(jPanel3);
+
+        jPanel2.add(scrollDisplay, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 720, 400));
 
         jTabbedPane1.addTab("Display", jPanel2);
 
@@ -201,6 +299,35 @@ public class SettingsFrame extends javax.swing.JDialog {
         MainFrame.fullScreenVL = "full";
         autosave();
     }//GEN-LAST:event_rbtnFullScreenActionPerformed
+
+    private void cboLocationPopupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboLocationPopupActionPerformed
+        if(cboLocationPopup.getSelectedItem().equals("Top Center")) {
+            MainFrame.location = Notification.Location.TOP_CENTER;
+            MainFrame.locPopup = "topcenter";
+        }
+        else if(cboLocationPopup.getSelectedItem().equals("Top Left")) {
+            MainFrame.location = Notification.Location.TOP_LEFT;
+            MainFrame.locPopup = "topleft";
+        }
+        else if(cboLocationPopup.getSelectedItem().equals("Top Right")) {
+            MainFrame.location = Notification.Location.TOP_RIGHT;
+            MainFrame.locPopup = "topright";
+        }
+        else if(cboLocationPopup.getSelectedItem().equals("Bottom Center")) {
+            MainFrame.location = Notification.Location.BOTTOM_CENTER;
+            MainFrame.locPopup = "bottomcenter";
+        }
+        else if(cboLocationPopup.getSelectedItem().equals("Bottom Left")) {
+            MainFrame.location = Notification.Location.BOTTOM_LEFT;
+            MainFrame.locPopup = "bottomleft";
+        }
+        else if(cboLocationPopup.getSelectedItem().equals("Bottom Right")) {
+            MainFrame.location = Notification.Location.BOTTOM_RIGHT;
+            MainFrame.locPopup = "bottomright";
+        }
+        
+        autosave();
+    }//GEN-LAST:event_cboLocationPopupActionPerformed
 
     public class CustomMenuUI extends BasicMenuUI {
         protected void paintText(Graphics g, JComponent c, Rectangle textRect, String text) {
@@ -258,16 +385,22 @@ public class SettingsFrame extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> cboLocationPopup;
     private javax.swing.JComboBox<String> cboStartup;
     private javax.swing.JComboBox<String> cboVLScreen;
     private javax.swing.JCheckBox chkAutosave;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblStartup;
     public static javax.swing.JRadioButton rbtnFullScreen;
     public static javax.swing.JRadioButton rbtnWindowed;
+    private javax.swing.JScrollPane scrollDisplay;
     // End of variables declaration//GEN-END:variables
 }

@@ -69,5 +69,14 @@
             <artifactId>jave-nativebin-win64</artifactId>
             <version>3.5.0</version>
         </dependency>
+        
+        <!-- TIMING FRAMEWORK -->
+        <!-- https://mvnrepository.com/artifact/net.java.dev.timingframework/timingframework -->
+        <dependency>
+            <groupId>net.java.dev.timingframework</groupId>
+            <artifactId>timingframework</artifactId>
+            <version>1.0</version>
+        </dependency>
+
     </dependencies>
 </project>

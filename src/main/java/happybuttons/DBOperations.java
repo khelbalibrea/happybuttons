@@ -227,6 +227,9 @@ public class DBOperations {
         uiProfile.setPrevProfile(String.valueOf(MainFrame.loadedIndexProfile));
         uiPref[0].setPrevProfile(uiProfile.getPrevProfile());
         
+        uiProfile.setLocationPopup(MainFrame.locPopup);
+        uiPref[0].setLocationPopup(uiProfile.getLocationPopup());
+        
         new BeanHelper().writeToXmlUI(uiPref);
         
         return true;
@@ -251,6 +254,30 @@ public class DBOperations {
             equal = Integer.parseInt(uiPref[index].getPrevProfile());
         }
         MainFrame.loadedIndexProfile = equal;
+        
+        MainFrame.locPopup = uiPref[index].getLocationPopup();
+        if(MainFrame.locPopup.equals("topcenter")) {
+            MainFrame.location = Notification.Location.TOP_CENTER;
+        }
+        else if(MainFrame.locPopup.equals("topleft")) {
+            MainFrame.location = Notification.Location.TOP_LEFT;
+        }
+        else if(MainFrame.locPopup.equals("topright")) {
+            MainFrame.location = Notification.Location.TOP_RIGHT;
+        }
+        else if(MainFrame.locPopup.equals("bottomcenter")) {
+            MainFrame.location = Notification.Location.BOTTOM_CENTER;
+        }
+        else if(MainFrame.locPopup.equals("bottomleft")) {
+            MainFrame.location = Notification.Location.BOTTOM_LEFT;
+        }
+        else if(MainFrame.locPopup.equals("bottomright")) {
+            MainFrame.location = Notification.Location.BOTTOM_RIGHT;
+        }
+        else {
+            MainFrame.location = Notification.Location.TOP_CENTER;
+            MainFrame.locPopup = "topcenter";
+        }
     }
     
     public void loadPreviousProfile(UIPreference uiPref[], int index) {
@@ -324,10 +351,26 @@ public class DBOperations {
 //            MainFrame.sfxGroupName2 = profileDB[index].getSfxName2();
 //            MainFrame.sfxGroupName3 = profileDB[index].getSfxName3();
             
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                profileDB[index].getProfileName() + " profile loaded", 
-                "Success", 
-                JOptionPane.INFORMATION_MESSAGE);
+            if(MainFrame.dbLoadedManual == 1) {
+                Notification panel = new Notification(HappyButtons.mf, 
+                    Notification.Type.SUCCESS, 
+                    MainFrame.location, 
+                    "Success",
+                    "\"" + profileDB[index].getProfileName() + "\"   profile loaded"
+                );
+                panel.showNotification();
+            }
+            else {
+                Notification panel = new Notification(HappyButtons.mf, 
+                    Notification.Type.INFO, 
+                    MainFrame.location, 
+                    "Previous profile loaded",
+                    "\"" + profileDB[index].getProfileName() + "\"   profile loaded"
+                );
+                panel.showNotification();
+            }
+            
+            MainFrame.dbLoadedManual = 0;
             
             String profileName = profileDB[index].getProfileName();
             HappyButtons.loadedDB = index;
