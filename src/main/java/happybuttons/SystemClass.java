@@ -39,6 +39,9 @@ public class SystemClass {
             MainFrame.cboVidLoop.setBackground(new JComboBox().getBackground());
             MainFrame.cboVidLoop.setForeground(new JComboBox().getForeground());
             
+            MainFrame.cboListMp3.setBackground(new JComboBox().getBackground());
+            MainFrame.cboListMp3.setForeground(new JComboBox().getForeground());
+            
             // -------------------------------------------------------------------------------------- MENUS
             MainFrame.jMenu1.setForeground(new JMenu().getForeground());
             MainFrame.itmTools.setForeground(new JMenu().getForeground());
@@ -186,6 +189,18 @@ public class SystemClass {
             MainFrame.btnStopVL.setBackground(new JButton().getBackground());
             String btnStopVLIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\stop_vl_12px.png");
             MainFrame.btnStopVL.setIcon(new javax.swing.ImageIcon(btnStopVLIcon));
+            
+            MainFrame.btnAddMp3.setBackground(new JButton().getBackground());
+            String btnAddMp3Icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\add_mp3_12px.png");
+            MainFrame.btnAddMp3.setIcon(new javax.swing.ImageIcon(btnAddMp3Icon));
+            
+            MainFrame.btnPlayPauseMp3.setBackground(new JButton().getBackground());
+            String btnPlayPauseMp3Icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
+            MainFrame.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnPlayPauseMp3Icon));
+            
+            MainFrame.btnStopMp3.setBackground(new JButton().getBackground());
+            String btnStopMp3Icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\stop_mp3_12px.png");
+            MainFrame.btnStopMp3.setIcon(new javax.swing.ImageIcon(btnStopMp3Icon));
                         
             String sfxButton = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave_black_14px.png");
             MainFrame.btnR1SFX01.setBackground(new JButton().getBackground());
@@ -563,10 +578,13 @@ public class SystemClass {
             MainFrame.chkLoopVL.setForeground(new JCheckBox().getForeground());
             
             MainFrame.chkMuteVL.setBackground(new JCheckBox().getBackground());
-            MainFrame.chkMuteVL.setForeground(new JCheckBox().getForeground());
+            MainFrame.chkMuteVL.setForeground(new JCheckBox().getForeground()); 
             
             MainFrame.chkFitVL.setBackground(new JCheckBox().getBackground());
             MainFrame.chkFitVL.setForeground(new JCheckBox().getForeground());
+            
+            MainFrame.chkShuffleMp3.setBackground(new JCheckBox().getBackground());
+            MainFrame.chkShuffleMp3.setForeground(new JCheckBox().getForeground());
             
             // -------------------------------------------------------------------------------------- RADIO BUTTON
             MainFrame.chkSP.setBackground(new JRadioButton().getBackground());
@@ -610,6 +628,9 @@ public class SystemClass {
             // -------------------------------------------------------------------------------------- COMBO BOX
             MainFrame.cboVidLoop.setBackground(Color.DARK_GRAY);
             MainFrame.cboVidLoop.setForeground(Color.lightGray);
+            
+            MainFrame.cboListMp3.setBackground(Color.DARK_GRAY);
+            MainFrame.cboListMp3.setForeground(Color.lightGray);
             
             // -------------------------------------------------------------------------------------- MENUS
             MainFrame.jMenu1.setForeground(Color.lightGray);
@@ -659,12 +680,6 @@ public class SystemClass {
             MainFrame.panelRow2.setBackground(Color.DARK_GRAY);
             MainFrame.panelRow3.setBackground(Color.DARK_GRAY);
             MainFrame.panelJList.setBackground(Color.DARK_GRAY);
-//            MainFrame.panelSFXOptions.setBackground(Color.DARK_GRAY);
-//            
-//            MainFrame.panelSFXOptions.setBackground(Color.DARK_GRAY);
-//            MainFrame.panelSFXOptions.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-//            MainFrame.panelHappyLoop.setBackground(Color.DARK_GRAY);
-//            MainFrame.panelHappyLoop.setBorder(BorderFactory.createLineBorder(Color.GRAY));
             
             MainFrame.panelSFX1.setBackground(Color.DARK_GRAY);
             MainFrame.panelSFX1.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -764,6 +779,18 @@ public class SystemClass {
             MainFrame.btnStopVL.setBackground(Color.GRAY);
             String btnStopVLIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_stop_vl_12px.png");
             MainFrame.btnStopVL.setIcon(new javax.swing.ImageIcon(btnStopVLIcon));
+            
+            MainFrame.btnAddMp3.setBackground(Color.GRAY);
+            String btnAddMp3Icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_add_mp3_12px.png");
+            MainFrame.btnAddMp3.setIcon(new javax.swing.ImageIcon(btnAddMp3Icon));
+            
+            MainFrame.btnPlayPauseMp3.setBackground(Color.GRAY);
+            String btnPlayPauseMp3Icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_12px.png");
+            MainFrame.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnPlayPauseMp3Icon));
+            
+            MainFrame.btnStopMp3.setBackground(Color.GRAY);
+            String btnStopMp3Icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_stop_mp3_12px.png");
+            MainFrame.btnStopMp3.setIcon(new javax.swing.ImageIcon(btnStopMp3Icon));
             
             String sfxButton = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_Audio Wave_48px.png");
             MainFrame.btnR1SFX01.setBackground(Color.GRAY);
@@ -1126,6 +1153,9 @@ public class SystemClass {
             
             MainFrame.chkFitVL.setBackground(Color.DARK_GRAY);
             MainFrame.chkFitVL.setForeground(Color.LIGHT_GRAY);
+            
+            MainFrame.chkShuffleMp3.setBackground(Color.DARK_GRAY);
+            MainFrame.chkShuffleMp3.setForeground(Color.LIGHT_GRAY);
             
             // -------------------------------------------------------------------------------------- RADIO BUTTON
             MainFrame.chkSP.setBackground(Color.DARK_GRAY);
