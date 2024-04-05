@@ -4093,27 +4093,31 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }
     
     private void itmNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmNewActionPerformed
-        if((clipBGM1 != null && clipBGM1.isRunning()) || (clipBGM2 != null && clipBGM2.isRunning()) || vlcjPlaying == 1) {
-            tfLastOperation.setText("CANNOT CREATE NEW WORKSPACE, PLEASE STOP RUNNING BGM/SFX or PLAYING VIDEO LOOP");
+        if((clipBGM1 != null && clipBGM1.isRunning()) || 
+        (clipBGM2 != null && clipBGM2.isRunning()) || 
+        (clipMp3 != null && clipMp3.isRunning()) || 
+        vlcjPlaying == 1) {
+            tfLastOperation.setText("CANNOT CREATE NEW WORKSPACE, PLEASE STOP RUNNING BGM/SFX/Mp3 or PLAYING VIDEO LOOP");
         }
         else {
             super.setTitle("Happy Buttons");
             
-            clipBGM1 = null; clipBGM2 = null; clipSFX = null;
+            clipBGM1 = null; clipBGM2 = null; clipSFX = null; clipMp3 = null;
             blist.removeAllElements(); slist.removeAllElements();
             cboVidLoop.removeAllItems(); cboModel.removeAllElements();
+            cboListMp3.removeAllItems(); cboMp3Model.removeAllElements();
             bgmVolumeLink = 0;
             
             draggedList = -1;
             errorOccurred = 0;
             
-            playing1 = 0; playing2 = 0; pause1 = 0; pause2 = 0;
+            playing1 = 0; playing2 = 0; pause1 = 0; pause2 = 0; mp3Playing = 0; mp3Pause = 0;
             sfxPlaying = 0;
-            lastFrame1 = 0; lastFrame2 = 0;
-            chkSinglePlay = 1; chkStopBGM = 0; chkVLLoop = 1; chkVLMute = 1;
-            loop1 = 1; loop2 = 1;
+            lastFrame1 = 0; lastFrame2 = 0; mp3LastFrame = 0;
+            chkSinglePlay = 1; chkStopBGM = 0; chkVLLoop = 1; chkVLMute = 1; chkShuffle = 1;
+            loop1 = 1; loop2 = 1; loopMp3 = 1;
             
-            bgmVol1 = 100f; bgmVol2 = 100f; sfxVol = 100f;
+            bgmVol1 = 100f; bgmVol2 = 100f; sfxVol = 100f; mp3Vol = 100f;
             
             selectedBGMItem = ""; selectedSFXItem = "";
             profileName1 = ""; profileName2 = ""; profileName3 = ""; profileName4 = ""; profileName5 = "";
@@ -4128,6 +4132,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             chkLoop1.setSelected(true); chkLoop2.setSelected(true);
             chkSP.setSelected(true); chkIB.setSelected(false);
             chkLoopVL.setSelected(true); chkMuteVL.setSelected(true); 
+            chkShuffleMp3.setSelected(true);
             togLinkBGMVol.setSelected(false); togLinkBGMVol.setText("OFF");
             
             lblR1SFX01.setText("blank"); lblR1SFX02.setText("blank"); lblR1SFX03.setText("blank"); lblR1SFX04.setText("blank");
@@ -4218,6 +4223,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
             playing1 = 0;
             pause1 = 0;
+            clipBGM1 = null;
         }
     }//GEN-LAST:event_btnStopBGM1ActionPerformed
 
@@ -4234,6 +4240,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
             playing2 = 0;
             pause2 = 0;
+            clipBGM2 = null;
         }
     }//GEN-LAST:event_btnStopBGM2ActionPerformed
 
@@ -4358,6 +4365,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     private void btnStopSFXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFXActionPerformed
         if(clipSFX != null) {
             clipSFX.stop();
+            clipSFX = null;
         }
     }//GEN-LAST:event_btnStopSFXActionPerformed
 
