@@ -399,6 +399,14 @@ public class SystemClass {
             MainFrame.lblVideoLoop.setForeground(new JLabel().getForeground());
             MainFrame.lblVideoLoop.setOpaque(true);
             
+            MainFrame.lblMp3.setBackground(new JLabel().getBackground());
+            MainFrame.lblMp3.setForeground(new JLabel().getBackground());
+            MainFrame.lblMp3.setOpaque(true);
+            
+            MainFrame.lblCountdown.setBackground(new JLabel().getBackground());
+            MainFrame.lblCountdown.setForeground(new JLabel().getBackground());
+            MainFrame.lblCountdown.setOpaque(true);
+            
             MainFrame.lblR1SFX01.setBackground(new JLabel().getBackground());
             MainFrame.lblR1SFX01.setForeground(new JLabel().getForeground());
             MainFrame.lblR1SFX01.setOpaque(true);
@@ -970,6 +978,14 @@ public class SystemClass {
             MainFrame.lblVideoLoop.setForeground(Color.LIGHT_GRAY);
             MainFrame.lblVideoLoop.setOpaque(true);
             
+            MainFrame.lblMp3.setBackground(Color.DARK_GRAY);
+            MainFrame.lblMp3.setForeground(Color.LIGHT_GRAY);
+            MainFrame.lblMp3.setOpaque(true);
+            
+            MainFrame.lblCountdown.setBackground(Color.DARK_GRAY);
+            MainFrame.lblCountdown.setForeground(Color.LIGHT_GRAY);
+            MainFrame.lblCountdown.setOpaque(true);
+            
             MainFrame.lblR1SFX01.setBackground(Color.DARK_GRAY);
             MainFrame.lblR1SFX01.setForeground(Color.WHITE);
             MainFrame.lblR1SFX01.setOpaque(true);
@@ -1140,7 +1156,7 @@ public class SystemClass {
             
             // -------------------------------------------------------------------------------------- CHECK BOX
             MainFrame.chkLoop1.setBackground(Color.DARK_GRAY);
-            MainFrame.chkLoop1.setForeground(Color.LIGHT_GRAY);
+            MainFrame.chkLoop1.setForeground(Color.WHITE);
             
             MainFrame.chkLoop2.setBackground(Color.DARK_GRAY);
             MainFrame.chkLoop2.setForeground(Color.LIGHT_GRAY);
