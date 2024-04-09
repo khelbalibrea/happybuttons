@@ -342,7 +342,7 @@ public class UIThemeFrame extends javax.swing.JDialog {
             
             // ------------------------------------------------------------------------------- BUTTONS
             btnApply.setBackground(Color.GRAY);
-            btnApply.setForeground(Color.WHITE);
+            btnApply.setForeground(Color.DARK_GRAY);
             
             // ------------------------------------------------------------------------------- LABELS
             lblSelectTheme.setBackground(Color.DARK_GRAY);
@@ -397,7 +397,7 @@ public class UIThemeFrame extends javax.swing.JDialog {
             
             // ------------------------------------------------------------------------------- BUTTONS
             modelButton.setBackground(Color.GRAY);
-            modelButton.setForeground(Color.WHITE);
+            modelButton.setForeground(Color.DARK_GRAY);
             
             // ------------------------------------------------------------------------------- TEXT FIELDS
             modelTextfield.setBackground(Color.DARK_GRAY);

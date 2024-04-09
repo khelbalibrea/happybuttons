@@ -6,7 +6,10 @@ package happybuttons;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -20,6 +23,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 /**
@@ -605,6 +609,60 @@ public class SystemClass {
             MainFrame.volBGM1.setBackground(new JSlider().getBackground());
             MainFrame.volBGM2.setBackground(new JSlider().getBackground());
             MainFrame.volSFX.setBackground(new JSlider().getBackground());
+//            if(MainFrame.mp3FrameOpened == 1) {
+//                // ------------------------------------------------------------------------------- PANELS
+//
+//                // ------------------------------------------------------------------------------- BUTTONS
+//                Mp3Frame.btnAddMp3.setBackground(new JButton().getBackground());
+//                String btnAddMp3Icon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\add_mp3_12px.png");
+//                Mp3Frame.btnAddMp3.setIcon(new javax.swing.ImageIcon(btnAddMp3Icon1));
+//
+//                Mp3Frame.btnDeleteMp3.setBackground(new JButton().getBackground());
+//                String btnDeleteMp3Icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\delete_mp3_ui_12px.png");
+//                Mp3Frame.btnDeleteMp3.setIcon(new javax.swing.ImageIcon(btnDeleteMp3Icon));
+//
+//                Mp3Frame.btnBackMp3.setBackground(new JButton().getBackground());
+//                String btnBackMp3Icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\back_mp3_ui_16px.png");
+//                Mp3Frame.btnBackMp3.setIcon(new javax.swing.ImageIcon(btnBackMp3Icon));
+//
+//                Mp3Frame.btnPlayPauseMp3.setBackground(new JButton().getBackground());
+//                String btnPlayMp3Icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_ui_18px.png");
+//                Mp3Frame.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnPlayMp3Icon));
+//
+//                Mp3Frame.btnNextMp3.setBackground(new JButton().getBackground());
+//                String btnNextMp3Icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\next_mp3_ui_16px.png");
+//                Mp3Frame.btnNextMp3.setIcon(new javax.swing.ImageIcon(btnNextMp3Icon));
+//
+//                // ------------------------------------------------------------------------------- LABELS
+//                Mp3Frame.lblSongMp3.setBackground(new JLabel().getBackground());
+//                Mp3Frame.lblSongMp3.setForeground(new JLabel().getForeground());
+//                Mp3Frame.lblSongMp3.setOpaque(true);
+//
+//                Mp3Frame.lblLastFrame.setBackground(new JLabel().getBackground());
+//                Mp3Frame.lblLastFrame.setForeground(new JLabel().getForeground());
+//                Mp3Frame.lblLastFrame.setOpaque(true);
+//
+//                Mp3Frame.lblDuration.setBackground(new JLabel().getBackground());
+//                Mp3Frame.lblDuration.setForeground(new JLabel().getForeground());
+//                Mp3Frame.lblDuration.setOpaque(true);
+//
+//                // ------------------------------------------------------------------------------- SLIDERS
+//                Mp3Frame.volMp3.setBackground(new JSlider().getBackground());
+//                Mp3Frame.sliderSongTime.setBackground(new JSlider().getBackground());
+//
+//                // ------------------------------------------------------------------------------- TEXT FIELDS
+//                Mp3Frame.tfSearch.setBackground(new JTextField().getBackground());
+//                Mp3Frame.tfSearch.setForeground(new JTextField().getForeground());
+//
+//                Mp3Frame.listMp3.setBackground(new JList().getBackground());
+//                Mp3Frame.listMp3.setForeground(new JList().getForeground());
+//                MainFrame.listBGM.setBorder(BorderFactory.createTitledBorder(null, 
+//                        "", 
+//                        TitledBorder.LEFT, 
+//                        TitledBorder.TOP, 
+//                        new Font("segoe", Font.BOLD,12), 
+//                        new JList().getForeground()));
+//            }
         }
         else if(themeProfile.equals("dark")) { // ------------------------------------------------------------------------------- DARK THEME
             HappyButtons.mf.getContentPane().setBackground(Color.DARK_GRAY);
@@ -1155,14 +1213,17 @@ public class SystemClass {
             MainFrame.lblR3SFX14.setOpaque(true);
             
             // -------------------------------------------------------------------------------------- CHECK BOX
-            MainFrame.chkLoop1.setBackground(Color.DARK_GRAY);
-            MainFrame.chkLoop1.setForeground(Color.WHITE);
+            MainFrame.chkLoop1.setBackground(Color.LIGHT_GRAY);
+            MainFrame.chkLoop1.setForeground(Color.LIGHT_GRAY);
+            MainFrame.chkLoop1.setBorder(new LineBorder(Color.LIGHT_GRAY, 0));
             
-            MainFrame.chkLoop2.setBackground(Color.DARK_GRAY);
+            MainFrame.chkLoop2.setBackground(Color.LIGHT_GRAY);
             MainFrame.chkLoop2.setForeground(Color.LIGHT_GRAY);
+            MainFrame.chkLoop2.setBorder(new LineBorder(Color.LIGHT_GRAY, 0));
             
-            MainFrame.chkLoopVL.setBackground(Color.DARK_GRAY);
+            MainFrame.chkLoopVL.setBackground(Color.LIGHT_GRAY);
             MainFrame.chkLoopVL.setForeground(Color.LIGHT_GRAY);
+            MainFrame.chkLoopVL.setBorder(new LineBorder(Color.LIGHT_GRAY, 0));
             
             MainFrame.chkMuteVL.setBackground(Color.DARK_GRAY);
             MainFrame.chkMuteVL.setForeground(Color.LIGHT_GRAY);
@@ -1192,6 +1253,14 @@ public class SystemClass {
             HappyButtons.dbo.autoSaveUISettings(HappyButtons.uiDB, ui);
 
             SystemClass.UITheme(HappyButtons.uiTheme);
+        }
+        
+        // ------------------------------------------------------------------------ MP3 UI
+        if(MainFrame.mp3FrameOpened == 1) {
+            MainFrame.mp3.dispose();
+            MainFrame.mp3 = null;
+            MainFrame.mp3 = new Mp3Frame();
+            MainFrame.mp3.setVisible(true);
         }
     }
     

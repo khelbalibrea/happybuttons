@@ -15,7 +15,7 @@ public class HappyButtons {
     public static String documentsPath = "";
     public static String documentsPathDoubleSlash = "";
     public static String firstCheck = "";
-    public static int mainFolderChk = 0, bgFolderChk = 0, sfxFolderChk = 0, happyloopFolderChk = 0, vlcjFolderChk = 0; // if this sets to 1 means required folders aren't found, so it is created
+    public static int mainFolderChk = 0, bgFolderChk = 0, sfxFolderChk = 0, happyloopFolderChk = 0, vlcjFolderChk = 0, mp3FolderChk = 0; // if this sets to 1 means required folders aren't found, so it is created
     public static MainFrame mf;
     public static boolean go = false;
     
@@ -156,6 +156,20 @@ public class HappyButtons {
                 subPath1.mkdir();
                 new File(documentsPath + "\\HappyButtons\\plugins\\vlcj").mkdir();
                 vlcjFolderChk = 1;
+            }
+        }
+        catch(Exception e){
+            
+        }
+        
+        // checking MP3 folder
+        try {
+            File subPath1 = new File(documentsPath + "\\HappyButtons\\mp3s");
+           
+            if(!subPath1.exists()){
+                subPath1.mkdir();
+                new File(documentsPath + "\\HappyButtons\\mp3s").mkdir();
+                mp3FolderChk = 1;
             }
         }
         catch(Exception e){

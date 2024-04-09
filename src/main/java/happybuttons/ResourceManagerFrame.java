@@ -359,7 +359,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
 
                     if(filePath.delete()) {
                         // collect first the rows to be removed in table
-                        deleteRow = Utility.addElementInIntArr(deleteRow.length, deleteRow, selectedRows[i]);
+                        deleteRow = Utility.addElementInIntArr(deleteRow, selectedRows[i]);
 
                         if(selectedType.equals("BGM")) {
                             (MainFrame.blist).removeElement(selectedItem);
@@ -564,7 +564,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                     
                     if(filePath.delete()) {
                         // collect first the rows to be removed in table
-                        deleteRow = Utility.addElementInIntArr(deleteRow.length, deleteRow, selectedRows[i]);
+                        deleteRow = Utility.addElementInIntArr(deleteRow, selectedRows[i]);
                         
                         (MainFrame.cboModel).removeElement(selectedItem);
                         (MainFrame.cboVidLoop).removeItem(selectedItem);

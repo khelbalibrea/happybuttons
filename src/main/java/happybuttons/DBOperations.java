@@ -29,16 +29,18 @@ public class DBOperations {
             profile.setProfileName("");
         }
         
-        // =================================================================================================== Set BGM/SFX list, and Vid loop
+        // =================================================================================================== Set BGM/SFX list, Vid loop, and Mp3 List
         if(HappyButtons.noDB == 0) {
             profile.setStrBGM(MainFrame.strBGM);
             profile.setStrSFX(MainFrame.strSFX);
             profile.setStrVidLoop(MainFrame.strVidLoop);
+            profile.setStrMp3List(MainFrame.strMp3List);
         }
         else {
             profile.setStrBGM("");
             profile.setStrSFX("");
             profile.setStrVidLoop("");
+            profile.setStrMp3List("");
         }
         
         // =================================================================================================== Set SFXs
@@ -134,10 +136,11 @@ public class DBOperations {
             profile.setR3Sfx13("blank");
             profile.setR3Sfx14("blank");
         }
-        // =================================================================================================== Get list BGM and SFX
+        // =================================================================================================== Get list BGM, SFX, VL, and MP3 list
         profileDB[indexDB].setStrBGM(profile.getStrBGM());
         profileDB[indexDB].setStrSFX(profile.getStrSFX());
         profileDB[indexDB].setStrVidLoop(profile.getStrVidLoop());
+        profileDB[indexDB].setStrMp3List(profile.getStrMp3List());
         
         // =================================================================================================== Get profile name and grp sfx names
         profileDB[indexDB].setProfileName(profile.getProfileName());
@@ -338,6 +341,7 @@ public class DBOperations {
             MainFrame.strBGM = profileDB[index].getStrBGM();
             MainFrame.strSFX = profileDB[index].getStrSFX();
             MainFrame.strVidLoop = profileDB[index].getStrVidLoop();
+            MainFrame.strMp3List = profileDB[index].getStrMp3List();
             
             loadJElements(profileDB, index);
             
@@ -377,10 +381,14 @@ public class DBOperations {
             return profileName;
         }
         else {
-            JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "SLOT " + (index + 1) + " failed to load", 
-                "Load failed", 
-                JOptionPane.ERROR_MESSAGE);
+            Notification panel = new Notification(HappyButtons.mf, 
+                Notification.Type.ERROR, 
+                MainFrame.location, 
+                "Load failed",
+                "\"" + profileDB[index].getProfileName() + "\"   failed to load"
+            );
+            panel.showNotification();
+                
             return "error";
         }
     }
@@ -521,7 +529,7 @@ public class DBOperations {
             }
             
             if(vidLost > 0) {
-                textError = textError + vidLost + " item(s) not found in Happy Loop resource list: \n" + goneVids + "\n";
+                textError = textError + vidLost + " item(s) not found in Video Loop resource list: \n" + goneVids + "\n";
                 goneVids = "";
             }
         }
@@ -643,5 +651,26 @@ public class DBOperations {
         }
         
         return strVideoLoopList;
+    }
+    
+    public static String checkMp3InProfiles(ProfileDatabase[] profileDB, String search) {
+        String strMp3List = "";
+        
+        for(int ctr = 0; ctr < 5; ctr++) {
+            String str = profileDB[ctr].getStrMp3List(); // get the strMp3List from DB
+            String[] arr = Utility.strToArr(str); // convert string to array
+            
+            int found = Utility.findIndexInStrArr(arr, search); // search the search item in array
+            if(found >= 0) {
+                if(strMp3List.equals("")) {
+                    strMp3List = profileDB[ctr].getProfileName();
+                }
+                else {
+                    strMp3List = strMp3List + ", " + profileDB[ctr].getProfileName();
+                }
+            }
+        }
+        
+        return strMp3List;
     }
 }

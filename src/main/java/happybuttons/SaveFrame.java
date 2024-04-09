@@ -6,7 +6,12 @@ package happybuttons;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.Toolkit;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
@@ -17,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 /**
  *
@@ -42,10 +48,9 @@ public class SaveFrame extends javax.swing.JDialog {
         ImageIcon imgIcon = new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
         setIconImage(imgIcon.getImage());
         
-        setupTheme();
-        
         reloadDB(HappyButtons.profileDB);
         
+        // add listener when window is disposing
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -70,10 +75,11 @@ public class SaveFrame extends javax.swing.JDialog {
                         tfSaveProfile5.setText(dbSlot5);
                         (MainFrame.savingProfile) = dbSlot5;
                     }
-                    System.out.println("Hi " + MainFrame.savingProfile);
                 }
             }
         });
+        
+        setupTheme();
     }
 
     /**
@@ -808,19 +814,21 @@ public class SaveFrame extends javax.swing.JDialog {
             
             // ------------------------------------------------------------------------------- BUTTONS
             btnSave1.setBackground(Color.GRAY);
-            btnSave1.setForeground(Color.WHITE);
+            btnSave1.setForeground(Color.DARK_GRAY);
+//            btnSave1.setBorder(new LineBorder(Color.LIGHT_GRAY, 2));
+//            btnSave1.setUI(new DarkThemeButton());
             
             btnSave2.setBackground(Color.GRAY);
-            btnSave2.setForeground(Color.WHITE);
-            
+            btnSave2.setForeground(Color.DARK_GRAY);
+//            
             btnSave3.setBackground(Color.GRAY);
-            btnSave3.setForeground(Color.WHITE);
-            
+            btnSave3.setForeground(Color.DARK_GRAY);
+//            
             btnSave4.setBackground(Color.GRAY);
-            btnSave4.setForeground(Color.WHITE);
-            
+            btnSave4.setForeground(Color.DARK_GRAY);
+//            
             btnSave5.setBackground(Color.GRAY);
-            btnSave5.setForeground(Color.WHITE);
+            btnSave5.setForeground(Color.DARK_GRAY);
             
             // ------------------------------------------------------------------------------- TEXT FIELDS
             tfSaveProfile1.setBackground(Color.DARK_GRAY);
@@ -862,4 +870,133 @@ public class SaveFrame extends javax.swing.JDialog {
     private javax.swing.JTextField tfSaveProfile4;
     private javax.swing.JTextField tfSaveProfile5;
     // End of variables declaration//GEN-END:variables
+    
+//    static class DarkThemeButton extends JButton {
+//        public DarkThemeButton() {
+//            if(theme.equals("light")) {
+//                setColor(new JButton().getBackground());
+//                setForeground(Color.DARK_GRAY);
+//                colorOver = new Color(128, 128, 128);
+//                colorClick = new Color(255, 255, 255); // white
+//                borderColor = new Color(192, 192, 192);
+//            }
+//            else if(theme.equals("dark")) {
+//                setColor(Color.DARK_GRAY);
+//                setForeground(Color.LIGHT_GRAY);
+//                colorOver = new Color(128, 128, 128);
+//                colorClick = new Color(255, 255, 255); // white
+//                borderColor = new Color(192, 192, 192);
+//            }
+//            
+//            setContentAreaFilled(false);
+//            
+//            // Mouse listeners
+//            addMouseListener(new MouseAdapter() {
+//                @Override
+//                public void mouseEntered(MouseEvent me) {
+//                    if(isEnabled()) {
+//                        setBackground(colorOver);
+//                        over = true;
+//                    }
+//                }
+//                
+//                @Override
+//                public void mouseExited(MouseEvent me) {
+//                    if(isEnabled()) {
+//                        setBackground(color);
+//                        over = false;
+//                    }
+//                }
+//                
+//                @Override
+//                public void mousePressed(MouseEvent me) {
+//                    if(isEnabled()) {
+//                        setBackground(colorClick);
+//                    }
+//                }
+//                
+//                @Override
+//                public void mouseReleased(MouseEvent me) {
+//                    if(isEnabled()) {
+//                        if(over) {
+//                            setBackground(colorOver);
+//                        }
+//                        else {
+//                            setBackground(color);
+//                        }
+//                    }
+//                }
+//            });
+//        }
+//        
+//        public boolean isOver() {
+//            return over;
+//        }
+//
+//        public void setOver(boolean over) {
+//            this.over = over;
+//        }
+//
+//        public Color getColor() {
+//            return color;
+//        }
+//
+//        public void setColor(Color color) {
+//            this.color = color;
+//            setBackground(color);
+//        }
+//
+//        public Color getColorOver() {
+//            return colorOver;
+//        }
+//
+//        public void setColorOver(Color colorOver) {
+//            this.colorOver = colorOver;
+//        }
+//
+//        public Color getColorClick() {
+//            return colorClick;
+//        }
+//
+//        public void setColorClick(Color colorClick) {
+//            this.colorClick = colorClick;
+//        }
+//
+//        public Color getBorderColor() {
+//            return borderColor;
+//        }
+//
+//        public void setBorderColor(Color borderColor) {
+//            this.borderColor = borderColor;
+//        }
+//
+//        public int getRadius() {
+//            return radius;
+//        }
+//
+//        public void setRadius(int radius) {
+//            this.radius = radius;
+//        }
+//        
+//        private boolean over;
+//        private Color color;
+//        private Color colorOver;
+//        private Color colorClick;
+//        private Color borderColor;
+//        private int radius = 5;
+//
+//        @Override
+//        protected void paintComponent(Graphics grphcs) {
+//            Graphics2D g2 = (Graphics2D) grphcs;
+//            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+//            // Paint Border
+//            g2.setColor(borderColor);
+//            g2.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+//            g2.setColor(getBackground());
+//            // Border set 2 Pix
+//            g2.fillRoundRect(2, 2, getWidth() - 4,  getHeight() - 4, radius, radius);
+//            
+//            super.paintComponent(grphcs);
+//        }
+//    }
 }

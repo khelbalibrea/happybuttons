@@ -104,15 +104,15 @@ public class Utility {
        return newarr; 
    } 
     
-    public static int[] addElementInIntArr(int arrSize, int arr[], int addThis) { 
-       int newarr[] = new int[arrSize + 1];
+    public static int[] addElementInIntArr(int arr[], int addThis) { 
+       int newarr[] = new int[arr.length + 1];
        int i;
        
-       for(i = 0; i < arrSize; i++) {
+       for(i = 0; i < arr.length; i++) {
            newarr[i] = arr[i]; 
        }
        
-       newarr[arrSize] = addThis; 
+       newarr[arr.length] = addThis; 
    
        return newarr; 
    } 
@@ -134,6 +134,18 @@ public class Utility {
         
         for(String data : arr) {
             if (data.equals(search)) {
+                itHas = true;
+            }
+        }
+        
+        return itHas;
+    }
+    
+    public static boolean doesIntArrHasElement(int arr[], int search) {
+        boolean itHas = false;
+        
+        for(int data : arr) {
+            if (data == search) {
                 itHas = true;
             }
         }

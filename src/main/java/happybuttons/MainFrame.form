@@ -266,7 +266,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <Component id="panelRow1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
               <Component id="panelRow2" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="panelRow3" min="-2" max="-2" attributes="0"/>
@@ -304,7 +304,7 @@
               <Component id="panelSFX2" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="panelSFX3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="25" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="47" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -544,10 +544,10 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="btnPlayPauseBGM1" min="-2" pref="22" max="-2" attributes="0"/>
+                      <Component id="btnPlayPauseBGM1" max="32767" attributes="0"/>
                       <Component id="btnStopBGM1" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <EmptySpace min="0" pref="2" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="103" alignment="1" groupAlignment="3" attributes="0">
                                   <Component id="lblBGM1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -682,8 +682,8 @@
         <Component class="javax.swing.JCheckBox" name="chkLoop1">
           <Properties>
             <Property name="selected" type="boolean" value="true"/>
-            <Property name="toolTipText" type="java.lang.String" value="Loop BGM1"/>
-            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="toolTipText" type="java.lang.String" value="Loop VL (Video loop)"/>
+            <Property name="opaque" type="boolean" value="true"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkLoop1ActionPerformed"/>
@@ -710,7 +710,7 @@
                   <Component id="btnClearBGM2" min="-2" pref="22" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="chkLoop2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="377" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="lblVolBGM2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="volBGM2" min="-2" max="-2" attributes="0"/>
@@ -730,18 +730,16 @@
                       <Component id="btnPlayPauseBGM2" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
                       <Component id="btnStopBGM2" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
+                          <EmptySpace min="0" pref="1" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="103" alignment="1" groupAlignment="3" attributes="0">
                                   <Component id="lblBGM2" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="tfBGM2" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="btnClearBGM2" alignment="1" min="-2" pref="22" max="-2" attributes="0"/>
-                              <Component id="volBGM2" alignment="1" min="-2" max="-2" attributes="0"/>
-                              <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                                  <Component id="lblVolBGM2" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
-                                  <Component id="chkLoop2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="btnClearBGM2" alignment="1" max="32767" attributes="0"/>
+                              <Component id="volBGM2" alignment="0" max="32767" attributes="0"/>
+                              <Component id="lblVolBGM2" alignment="1" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="chkLoop2" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -864,8 +862,8 @@
         <Component class="javax.swing.JCheckBox" name="chkLoop2">
           <Properties>
             <Property name="selected" type="boolean" value="true"/>
-            <Property name="toolTipText" type="java.lang.String" value="Loop BGM2"/>
-            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="toolTipText" type="java.lang.String" value="Loop VL (Video loop)"/>
+            <Property name="opaque" type="boolean" value="true"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkLoop2ActionPerformed"/>
@@ -902,7 +900,7 @@
                   <Component id="btnStopMp3" min="-2" pref="22" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="lblCountdown" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="229" max="32767" attributes="0"/>
                   <Component id="lblLinkBGMVolumes" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="togLinkBGMVol" min="-2" pref="56" max="-2" attributes="0"/>
@@ -1010,12 +1008,15 @@
         </Component>
         <Component class="javax.swing.JCheckBox" name="chkShuffleMp3">
           <Properties>
-            <Property name="selected" type="boolean" value="true"/>
             <Property name="toolTipText" type="java.lang.String" value="Shuffle MP3"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Default Cursor"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkShuffleMp3ActionPerformed"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>
@@ -1112,6 +1113,9 @@
               <Dimension value="[22, 16]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblMp3MouseClicked"/>
+          </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>

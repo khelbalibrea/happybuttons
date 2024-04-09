@@ -637,19 +637,19 @@ public class LoadFrame extends javax.swing.JDialog {
             
             // ------------------------------------------------------------------------------- BUTTONS
             btnLoad1.setBackground(Color.GRAY);
-            btnLoad1.setForeground(Color.WHITE);
+            btnLoad1.setForeground(Color.DARK_GRAY);
             
             btnLoad2.setBackground(Color.GRAY);
-            btnLoad2.setForeground(Color.WHITE);
+            btnLoad2.setForeground(Color.DARK_GRAY);
             
             btnLoad3.setBackground(Color.GRAY);
-            btnLoad3.setForeground(Color.WHITE);
+            btnLoad3.setForeground(Color.DARK_GRAY);
             
             btnLoad4.setBackground(Color.GRAY);
-            btnLoad4.setForeground(Color.WHITE);
+            btnLoad4.setForeground(Color.DARK_GRAY);
             
             btnLoad5.setBackground(Color.GRAY);
-            btnLoad5.setForeground(Color.WHITE);
+            btnLoad5.setForeground(Color.DARK_GRAY);
             
             // ------------------------------------------------------------------------------- TEXT FIELDS
             tfLoadProfile1.setBackground(Color.DARK_GRAY);

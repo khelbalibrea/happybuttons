@@ -78,7 +78,7 @@ public class AddVideoLoopFrame extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Video item", "Udes in (Profile)"
+                "Video item", "Used in (Profile)"
             }
         ) {
             boolean[] canEdit = new boolean [] {

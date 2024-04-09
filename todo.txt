@@ -25,3 +25,6 @@ Notification:
 - info: 20 161 234
 - warning: 241 196 15
 - error: 209 67 90
+
+System Colors:
+LIGHT_GRAY: 192 192 192
