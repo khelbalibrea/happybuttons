@@ -125,5 +125,18 @@ public class DnDSFXLabels extends TransferHandler {
                 MainFrame.strVidLoop = MainFrame.strVidLoop + ":" + MainFrame.cboVidLoop.getModel().getElementAt(ctr);
             }
         }
+        
+        // Mp3s
+        int listMp3Size = Mp3Frame.listMp3.getModel().getSize();
+        MainFrame.strMp3List = "";
+        
+        for(int ctr = 0; ctr < listMp3Size; ctr++){
+            if(ctr == 0) {
+                MainFrame.strMp3List = Mp3Frame.listMp3.getModel().getElementAt(ctr);
+            }
+            else if(ctr > 0 && ctr <= (listMp3Size - 1)) {
+                MainFrame.strMp3List = MainFrame.strMp3List + ":" + Mp3Frame.listMp3.getModel().getElementAt(ctr);
+            }
+        }
     }
 }

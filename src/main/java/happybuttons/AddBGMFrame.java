@@ -166,6 +166,8 @@ public class AddBGMFrame extends javax.swing.JDialog {
 //                     System.out.println(tblBGMList.getValueAt(selectedRows[i], 0).toString());
                 }
                 (MainFrame.listBGM).setModel(MainFrame.blist);
+                
+                autosave();
             }
         }
     }//GEN-LAST:event_btnAddActionPerformed
@@ -217,4 +219,32 @@ public class AddBGMFrame extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblBGMList;
     // End of variables declaration//GEN-END:variables
+    
+    public void autosave() {
+        if(MainFrame.enableAutosave.equals("on")) {
+            if(HappyButtons.canAutosave == 1) {
+                prepareSave();
+                Profile profile = new Profile();
+                DBOperations.indexDB = HappyButtons.loadedDB;
+
+                HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
+                (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+            }
+        }
+    }
+    
+    public void prepareSave() {
+        // BGMs
+        int listBGMSize = MainFrame.listBGM.getModel().getSize();
+        MainFrame.strBGM = "";
+        
+        for(int ctr = 0; ctr < listBGMSize; ctr++){
+            if(ctr == 0) {
+                MainFrame.strBGM = MainFrame.listBGM.getModel().getElementAt(ctr);
+            }
+            else if(ctr > 0 && ctr <= (listBGMSize - 1)) {
+                MainFrame.strBGM = MainFrame.strBGM + ":" + MainFrame.listBGM.getModel().getElementAt(ctr);
+            }
+        }
+    }
 }

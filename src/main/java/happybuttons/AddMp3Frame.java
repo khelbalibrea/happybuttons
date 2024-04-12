@@ -40,7 +40,7 @@ public class AddMp3Frame extends javax.swing.JDialog {
     }
     
     public void populateTable() {
-        File mp3folder = new File(HappyButtons.documentsPath + "/HappyButtons/hlvids/");
+        File mp3folder = new File(HappyButtons.documentsPath + "/HappyButtons/mp3s/");
         File[] mp3FileList = mp3folder.listFiles();
         model = (DefaultTableModel) tblMp3List.getModel();
         
@@ -72,10 +72,7 @@ public class AddMp3Frame extends javax.swing.JDialog {
 
         tblMp3List.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Mp3 Item", "Used in (Profile)"
@@ -130,12 +127,12 @@ public class AddMp3Frame extends javax.swing.JDialog {
                 int[] selectedRows = tblMp3List.getSelectedRows();
 
                 for(int i = 0; i < selectedRows.length; i++) {
-                    if(!(Mp3Frame.mlist).contains(tblMp3List.getValueAt(selectedRows[i], 0).toString())) {
-                        (Mp3Frame.mlist).addElement(tblMp3List.getValueAt(selectedRows[i], 0).toString());
+                    if(!(MainFrame.mlist).contains(tblMp3List.getValueAt(selectedRows[i], 0).toString())) {
+                        (MainFrame.mlist).addElement(tblMp3List.getValueAt(selectedRows[i], 0).toString());
                         (MainFrame.tfLastOperation).setText("[ADDED MP3]:: " + tblMp3List.getValueAt(selectedRows[i], 0).toString());
                     }
                     
-                    (Mp3Frame.listMp3).setModel(Mp3Frame.mlist);
+                    (Mp3Frame.listMp3).setModel(MainFrame.mlist);
                     
 //                    if((MainFrame.cboModel).getIndexOf(tblMp3List.getValueAt(selectedRows[i], 0).toString()) < 0) {
 //                        (MainFrame.cboModel).addElement(tblMp3List.getValueAt(selectedRows[i], 0).toString());
@@ -143,6 +140,7 @@ public class AddMp3Frame extends javax.swing.JDialog {
 //                    }
 //                     System.out.println(tblBGMList.getValueAt(selectedRows[i], 0).toString());
                 }
+                autosave();
 //                (MainFrame.cboVidLoop).setModel(MainFrame.cboModel);
             }
         }
@@ -195,4 +193,32 @@ public class AddMp3Frame extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblMp3List;
     // End of variables declaration//GEN-END:variables
+    
+    public void autosave() {
+        if(MainFrame.enableAutosave.equals("on")) {
+            if(HappyButtons.canAutosave == 1) {
+                prepareSave();
+                Profile profile = new Profile();
+                DBOperations.indexDB = HappyButtons.loadedDB;
+
+                HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
+                (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+            }
+        }
+    }
+    
+    public void prepareSave() {
+        // Mp3s
+        int listMp3Size = Mp3Frame.listMp3.getModel().getSize();
+        MainFrame.strMp3List = "";
+        
+        for(int ctr = 0; ctr < listMp3Size; ctr++){
+            if(ctr == 0) {
+                MainFrame.strMp3List = Mp3Frame.listMp3.getModel().getElementAt(ctr);
+            }
+            else if(ctr > 0 && ctr <= (listMp3Size - 1)) {
+                MainFrame.strMp3List = MainFrame.strMp3List + ":" + Mp3Frame.listMp3.getModel().getElementAt(ctr);
+            }
+        }
+    }
 }

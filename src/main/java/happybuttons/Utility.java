@@ -183,6 +183,17 @@ public class Utility {
         return ret;
     }
     
+    public static String shortenText(String str) {
+        int maxLength = 18;
+        
+        if(str.length() > maxLength) {
+            return str.substring(0, maxLength) + "...";
+        }
+        else {
+            return str;
+        }
+    }
+    
     public static int searchSFX(String search) {
         int found = 0;
         

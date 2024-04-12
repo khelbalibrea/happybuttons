@@ -102,19 +102,17 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static int lastFrame1 = 0, lastFrame2 = 0, mp3LastFrame = 0;
     public static int chkSinglePlay = 1, chkStopBGM = 0;
     public static int loop1 = 1, loop2 = 1, loopMp3 = 0;
-    public LineListener listenBGM1, listenBGM2, listenMp3;
+    static public LineListener listenBGM1, listenBGM2, listenMp3;
     public boolean sfxOperation;
-    public static int cboMp3Count = 0, cboCurrentIndexPlaying = -1;
     public static int mp3Arr[] = new int[]{};
     
-    FloatControl fcBGM1, fcBGM2, fcSFX, fcMp3;
-    float bgmVol1 = 100f, bgmVol2 = 100f, sfxVol = 100f, mp3Vol = 100f;
+    static FloatControl fcBGM1, fcBGM2, fcSFX, fcMp3;
+    static float bgmVol1 = 100f, bgmVol2 = 100f, sfxVol = 100f, mp3Vol = 100f;
     
     // Jlist
     File bfolder = new File(HappyButtons.documentsPath + "/HappyButtons/bg/");
     File sfolder = new File(HappyButtons.documentsPath + "/HappyButtons/sfx/");
-    String selectedBGMItem = "";
-    String selectedSFXItem = "";
+    static String selectedBGMItem = "", selectedSFXItem = "", selectedMp3Item = "";
     
     // Profiles
     public static String profileName1 = "", profileName2 = "", profileName3 = "", profileName4 = "", profileName5 = "";
@@ -4788,7 +4786,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
                     mp3Playing = 1;
                     currentMp3Playing = cboListMp3.getSelectedItem().toString();
-                    cboCurrentIndexPlaying = cboListMp3.getSelectedIndex();
 
                     String btnIcon2 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_mp3_12px.png");
                     btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon2));
@@ -4827,7 +4824,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 //                            fcMp3.setValue(0f);
 //
 //                            currentMp3Playing = cboListMp3.getSelectedItem().toString();
-//                            cboCurrentIndexPlaying = cboListMp3.getSelectedIndex();
 //                            clipMp3.addLineListener(listenMp3);
 //                            clipMp3.start();
 //                        }
@@ -4859,7 +4855,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                     fcMp3.setValue(0f);
 
                     currentMp3Playing = cboListMp3.getSelectedItem().toString();
-                    cboCurrentIndexPlaying = cboListMp3.getSelectedIndex();
                     clipMp3.addLineListener(listenMp3);
                     clipMp3.start();
                 }
@@ -4873,7 +4868,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                     mp3Pause = 0;
                     errorOccurred = 1;
                     currentMp3Playing = "";
-                    cboCurrentIndexPlaying = -1;
 
                     String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
                     btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
@@ -4888,7 +4882,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                     mp3Pause = 0;
                     errorOccurred = 1;
                     currentMp3Playing = "";
-                    cboCurrentIndexPlaying = -1;
 
                     String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
                     btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
@@ -4903,7 +4896,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                     mp3Pause = 0;
                     errorOccurred = 1;
                     currentMp3Playing = "";
-                    cboCurrentIndexPlaying = -1;
 
                     String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
                     btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
@@ -4917,7 +4909,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 clipMp3.stop();
                 clipMp3.addLineListener(listenMp3);
                 currentMp3Playing = "";
-                cboCurrentIndexPlaying = -1;
             }
             else {
                 if(mp3LastFrame < clipMp3.getFrameLength()) {
@@ -4927,7 +4918,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                     clipMp3.setFramePosition(0);
                 }
                 currentMp3Playing = cboListMp3.getSelectedItem().toString();
-                cboCurrentIndexPlaying = cboListMp3.getSelectedIndex();
                 clipMp3.start();
             }
 
@@ -5074,8 +5064,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         else {
             btnPlayPauseMp3.setEnabled(true);
         }
-        
-        cboMp3Count = cboListMp3.getItemCount();
     }//GEN-LAST:event_btnAddMp3ActionPerformed
 
     private void chkShuffleMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkShuffleMp3ActionPerformed
@@ -5102,7 +5090,16 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             mp3.setVisible(true);
         }
         else {
-            mp3.toFront();
+            if(loadedIndexProfile != -1) {
+                mp3.load();
+                mp3.setTheme();
+            }
+            
+//            mp3.toFront();
+            MainFrame.mp3.dispose();
+//            MainFrame.mp3 = null;
+            MainFrame.mp3 = new Mp3Frame();
+            MainFrame.mp3.setVisible(true);
         }
     }//GEN-LAST:event_lblMp3MouseClicked
 
@@ -5406,13 +5403,13 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         this.clipBGM2.open(audioStream);
     }
     
-    protected void loadClipMp3(File audioFile) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
+    public static void loadClipMp3(File audioFile) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 
         AudioFormat format = audioStream.getFormat();
         DataLine.Info info = new DataLine.Info(Clip.class, format);
-        this.clipMp3 = (Clip) AudioSystem.getLine(info);
-        this.clipMp3.open(audioStream);
+        clipMp3 = (Clip) AudioSystem.getLine(info);
+        clipMp3.open(audioStream);
     }
     
     protected void loadClipSFX(File audioFile) throws LineUnavailableException, IOException, UnsupportedAudioFileException {

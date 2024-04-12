@@ -404,7 +404,7 @@ public class SystemClass {
             MainFrame.lblVideoLoop.setOpaque(true);
             
             MainFrame.lblMp3.setBackground(new JLabel().getBackground());
-            MainFrame.lblMp3.setForeground(new JLabel().getBackground());
+            MainFrame.lblMp3.setForeground(new JLabel().getForeground());
             MainFrame.lblMp3.setOpaque(true);
             
             MainFrame.lblCountdown.setBackground(new JLabel().getBackground());
@@ -1258,7 +1258,7 @@ public class SystemClass {
         // ------------------------------------------------------------------------ MP3 UI
         if(MainFrame.mp3FrameOpened == 1) {
             MainFrame.mp3.dispose();
-            MainFrame.mp3 = null;
+//            MainFrame.mp3 = null;
             MainFrame.mp3 = new Mp3Frame();
             MainFrame.mp3.setVisible(true);
         }

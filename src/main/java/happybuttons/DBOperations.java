@@ -251,10 +251,17 @@ public class DBOperations {
         String prevProfile = uiPref[index].getPrevProfile();
         int equal = -1;
         if(prevProfile.equals("")) {
-            equal = -1;
+            if(MainFrame.startup.equals("new")) {
+                equal = -1;
+            }
         }
         else {
-            equal = Integer.parseInt(uiPref[index].getPrevProfile());
+            if(MainFrame.startup.equals("new")) {
+                equal = -1;
+            }
+            else {
+                equal = Integer.parseInt(uiPref[index].getPrevProfile());
+            }
         }
         MainFrame.loadedIndexProfile = equal;
         

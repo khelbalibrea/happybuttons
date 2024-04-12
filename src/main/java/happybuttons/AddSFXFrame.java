@@ -151,6 +151,8 @@ public class AddSFXFrame extends javax.swing.JDialog {
 //                     System.out.println(tblBGMList.getValueAt(selectedRows[i], 0).toString());
                 }
                 (MainFrame.listSFX).setModel(MainFrame.slist);
+                
+                autosave();
             }
         }
     }//GEN-LAST:event_btnAddActionPerformed
@@ -217,4 +219,32 @@ public class AddSFXFrame extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblSFXList;
     // End of variables declaration//GEN-END:variables
+
+    public void autosave() {
+        if(MainFrame.enableAutosave.equals("on")) {
+            if(HappyButtons.canAutosave == 1) {
+                prepareSave();
+                Profile profile = new Profile();
+                DBOperations.indexDB = HappyButtons.loadedDB;
+
+                HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
+                (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+            }
+        }
+    }
+    
+    public void prepareSave() {
+        // SFXs
+        int listSFXSize = MainFrame.listSFX.getModel().getSize();
+        MainFrame.strSFX = "";
+        
+        for(int ctr = 0; ctr < listSFXSize; ctr++){
+            if(ctr == 0) {
+                MainFrame.strSFX = MainFrame.listSFX.getModel().getElementAt(ctr);
+            }
+            else if(ctr > 0 && ctr <= (listSFXSize - 1)) {
+                MainFrame.strSFX = MainFrame.strSFX + ":" + MainFrame.listSFX.getModel().getElementAt(ctr);
+            }
+        }
+    }
 }

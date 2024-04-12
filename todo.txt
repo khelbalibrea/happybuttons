@@ -1,6 +1,7 @@
 To do:
 x theme for settings
 x screen selector
+x sort list Mp3
 
 PREFERENCES UI:
 Using pichon app:
