@@ -490,6 +490,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             FileFilter filter = new FileNameExtensionFilter("MP4 File", "mp4");
             fc.setFileFilter(filter);
             fc.setMultiSelectionEnabled(true);
+            fc.setPreferredSize(new Dimension(1000, 600));
             fc.showOpenDialog(HappyButtons.mf);
 
             File[] selectedFiles = fc.getSelectedFiles();

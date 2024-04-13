@@ -34,7 +34,7 @@ public class AddMp3Frame extends javax.swing.JDialog {
         setIconImage(imgIcon.getImage());
         
         tblMp3List.setRowSelectionAllowed(true);
-        tblMp3List.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tblMp3List.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         
         populateTable();
     }
@@ -115,6 +115,7 @@ public class AddMp3Frame extends javax.swing.JDialog {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         int selectedRow = tblMp3List.getSelectedRow();
+        model = (DefaultTableModel) tblMp3List.getModel();
         
         if(selectedRow != -1) {
             int confirmation = JOptionPane.showConfirmDialog(MainFrame.mp3, 
@@ -141,7 +142,7 @@ public class AddMp3Frame extends javax.swing.JDialog {
 //                     System.out.println(tblBGMList.getValueAt(selectedRows[i], 0).toString());
                 }
                 autosave();
-//                (MainFrame.cboVidLoop).setModel(MainFrame.cboModel);
+//                Mp3Frame.sortJList(MainFrame.mlist);
             }
         }
     }//GEN-LAST:event_btnAddActionPerformed

@@ -6,11 +6,8 @@ package happybuttons;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -20,9 +17,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.Font;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.RoundRectangle2D;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -31,7 +25,6 @@ import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Random;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -51,14 +44,10 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
-import javax.swing.JSlider;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -66,10 +55,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicSliderUI;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import ws.schild.jave.Encoder;
 import ws.schild.jave.MultimediaObject;
 import ws.schild.jave.encode.AudioAttributes;
@@ -89,7 +75,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static int draggedList = -1; // -1 not selected, 0 bgm, 1 sfx
     public static int errorOccurred = 0;
     public static DefaultComboBoxModel cboModel = new DefaultComboBoxModel();
-    public static DefaultComboBoxModel cboMp3Model = new DefaultComboBoxModel();
     
     // globals for media playing
     public static int playing1 = 0, playing2 = 0, pause1 = 0, pause2 = 0, mp3Playing = 0, mp3Pause = 0;
@@ -108,6 +93,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     
     static FloatControl fcBGM1, fcBGM2, fcSFX, fcMp3;
     static float bgmVol1 = 100f, bgmVol2 = 100f, sfxVol = 100f, mp3Vol = 100f;
+    public static int iconPlayMp3 = 1, iconVolMp3 = 100;
     
     // Jlist
     File bfolder = new File(HappyButtons.documentsPath + "/HappyButtons/bg/");
@@ -188,57 +174,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             
             HappyButtons.mp3FolderChk = 0;
         }
-        
-        if(cboListMp3.getSelectedIndex() == -1) {
-            btnPlayPauseMp3.setEnabled(false);
-        }
-        else {
-            btnPlayPauseMp3.setEnabled(true);
-        }
-        
-        cboListMp3.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if(SwingUtilities.isRightMouseButton(e)) {
-                    int index = cboListMp3.getSelectedIndex();
-                    String item = cboListMp3.getSelectedItem().toString();
-                    
-                    if(index != -1) {
-                        cboListMp3.removeItemAt(index);
-                        cboMp3Model.removeElement(item);
-                        
-                        File deletePath = new File(HappyButtons.documentsPath + "/HappyButtons/temp/mp3/" + item + ".wav");
-                        boolean delete = deletePath.delete();
-                        
-                        if(item.equals(currentMp3Playing)) { // if current playing mp3 is deleted, music will stop
-                            mp3LastFrame = 0;
-
-                            clipMp3.removeLineListener(listenMp3);
-                            clipMp3.stop();
-                            clipMp3.addLineListener(listenMp3);
-
-                            String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
-                                btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
-
-                            mp3Playing = 0;
-                            mp3Pause = 0;
-                            clipMp3 = null;
-                        }
-                    }
-                    
-                    if(cboListMp3.getSelectedIndex() == -1) {
-                        btnPlayPauseMp3.setEnabled(false);
-                    }
-                    else {
-                        btnPlayPauseMp3.setEnabled(true);
-                    }
-                }
-            }
-        });
-        
-//        volBGM1.setUI(new CustomSliderUI(volBGM1));
-//        volBGM2.setUI(new CustomSliderUI(volBGM2));
-//        chkLoopVL.setUI(new CustomCheckboxUI());
 
 //        try {
 //            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -248,58 +183,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 //            e.printStackTrace();
 //        }
         
-//        cboListMp3.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                if(clipMp3.isRunning()) {
-//                    int index = cboListMp3.getSelectedIndex();
-//                    String item = cboListMp3.getSelectedItem().toString();
-//
-//                    if(!item.equals(currentMp3Playing)) {
-//                        lblCountdown.setVisible(true);
-//                        int countdown = 5;
-//
-//                        for(int i = countdown; i > 0; i--) {
-//                            int count = i;
-////                            String dot = "";
-//                            Thread thread = new Thread(() -> {
-////                                if(count == 5) {
-////                                    lblCountdown.setText("•••••");
-////                                }
-////                                else if(count == 4) {
-////                                    lblCountdown.setText("••••");
-////                                }
-////                                else if(count == 3) {
-////                                    lblCountdown.setText("•••");
-////                                }
-////                                else if(count == 2) {
-////                                    lblCountdown.setText("••");
-////                                }
-////                                else if(count == 1) {
-////                                    lblCountdown.setText("•");
-////                                }
-////                                else if(count == 0) {
-////                                    lblCountdown.setText("");
-////                                }
-//                                    for(int j = 0; j < count; j++) {
-//                                        lblCountdown.setText(lblCountdown.getText() + "•");
-//                                    }
-////                                lblCountdown.setText(dot);
-//                            });
-//                            thread.start();
-//
-//                            try {
-//                                Thread.sleep(1000); // Convert seconds to milliseconds for sleep
-//                            }
-//                            catch (InterruptedException ie) {
-//                                ie.printStackTrace();
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        });
-        
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -307,8 +190,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 deleteFolder(deletePath);
             }
         });
-        
-        lblCountdown.setVisible(false);
         
         // set element icons
         String btnBGMCancelIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\cancel_12px.png");
@@ -742,13 +623,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         tfLastOperation = new javax.swing.JTextField();
         togLinkBGMVol = new javax.swing.JToggleButton();
         lblLinkBGMVolumes = new javax.swing.JLabel();
-        chkShuffleMp3 = new javax.swing.JCheckBox();
-        cboListMp3 = new javax.swing.JComboBox<>();
-        btnPlayPauseMp3 = new javax.swing.JButton();
-        btnStopMp3 = new javax.swing.JButton();
-        btnAddMp3 = new javax.swing.JButton();
+        btnPrevMp3 = new javax.swing.JButton();
+        btnNextMp3 = new javax.swing.JButton();
         lblMp3 = new javax.swing.JLabel();
-        lblCountdown = new javax.swing.JLabel();
+        tfMp3 = new javax.swing.JTextField();
+        btnPlayPauseMp3 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         volSFX = new javax.swing.JSlider();
         lblVolSFX = new javax.swing.JLabel();
@@ -1015,6 +894,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         lblBGM1.setText("BGM1:");
 
         tfBGM1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        tfBGM1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tfBGM1.setFocusable(false);
         tfBGM1.setName("tfBGM1"); // NOI18N
         tfBGM1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -1124,6 +1004,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         lblBGM2.setText("BGM2:");
 
         tfBGM2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        tfBGM2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tfBGM2.setFocusable(false);
         tfBGM2.setName("tfBGM1"); // NOI18N
         tfBGM2.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -1246,20 +1127,43 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         lblLinkBGMVolumes.setText("Link BGM Volumes");
         lblLinkBGMVolumes.setToolTipText("");
 
-        chkShuffleMp3.setToolTipText("Shuffle MP3");
-        chkShuffleMp3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        chkShuffleMp3.setEnabled(false);
-        chkShuffleMp3.addActionListener(new java.awt.event.ActionListener() {
+        btnPrevMp3.setToolTipText("Play / pause Mp3");
+        btnPrevMp3.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnPrevMp3.setMinimumSize(new java.awt.Dimension(22, 22));
+        btnPrevMp3.setPreferredSize(new java.awt.Dimension(22, 22));
+        btnPrevMp3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkShuffleMp3ActionPerformed(evt);
+                btnPrevMp3ActionPerformed(evt);
             }
         });
 
-        cboListMp3.setMaximumRowCount(5);
-        cboListMp3.setToolTipText("Right click item to remove it");
-        cboListMp3.addActionListener(new java.awt.event.ActionListener() {
+        btnNextMp3.setToolTipText("Stop Mp3");
+        btnNextMp3.setMaximumSize(new java.awt.Dimension(22, 22));
+        btnNextMp3.setMinimumSize(new java.awt.Dimension(22, 22));
+        btnNextMp3.setPreferredSize(new java.awt.Dimension(22, 22));
+        btnNextMp3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboListMp3ActionPerformed(evt);
+                btnNextMp3ActionPerformed(evt);
+            }
+        });
+
+        lblMp3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblMp3.setText("Music Player:");
+        lblMp3.setMaximumSize(new java.awt.Dimension(22, 16));
+        lblMp3.setMinimumSize(new java.awt.Dimension(22, 16));
+        lblMp3.setPreferredSize(new java.awt.Dimension(22, 16));
+        lblMp3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblMp3MouseClicked(evt);
+            }
+        });
+
+        tfMp3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        tfMp3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tfMp3.setFocusable(false);
+        tfMp3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tfMp3MouseClicked(evt);
             }
         });
 
@@ -1273,39 +1177,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
         });
 
-        btnStopMp3.setToolTipText("Stop Mp3");
-        btnStopMp3.setMaximumSize(new java.awt.Dimension(22, 22));
-        btnStopMp3.setMinimumSize(new java.awt.Dimension(22, 22));
-        btnStopMp3.setPreferredSize(new java.awt.Dimension(22, 22));
-        btnStopMp3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnStopMp3ActionPerformed(evt);
-            }
-        });
-
-        btnAddMp3.setToolTipText("Add Mp3");
-        btnAddMp3.setMaximumSize(new java.awt.Dimension(22, 22));
-        btnAddMp3.setMinimumSize(new java.awt.Dimension(22, 22));
-        btnAddMp3.setPreferredSize(new java.awt.Dimension(22, 22));
-        btnAddMp3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddMp3ActionPerformed(evt);
-            }
-        });
-
-        lblMp3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblMp3.setText("MP3:");
-        lblMp3.setMaximumSize(new java.awt.Dimension(22, 16));
-        lblMp3.setMinimumSize(new java.awt.Dimension(22, 16));
-        lblMp3.setPreferredSize(new java.awt.Dimension(22, 16));
-        lblMp3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblMp3MouseClicked(evt);
-            }
-        });
-
-        lblCountdown.setText("•••••");
-
         javax.swing.GroupLayout panelRow3Layout = new javax.swing.GroupLayout(panelRow3);
         panelRow3.setLayout(panelRow3Layout);
         panelRow3Layout.setHorizontalGroup(
@@ -1315,20 +1186,16 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tfLastOperation, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(52, 52, 52)
-                .addComponent(lblMp3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblMp3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chkShuffleMp3)
+                .addComponent(tfMp3, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAddMp3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cboListMp3, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnPrevMp3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnPlayPauseMp3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnStopMp3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblCountdown)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 229, Short.MAX_VALUE)
+                .addComponent(btnNextMp3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 270, Short.MAX_VALUE)
                 .addComponent(lblLinkBGMVolumes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(togLinkBGMVol, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1339,29 +1206,22 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             .addGroup(panelRow3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panelRow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelRow3Layout.createSequentialGroup()
-                        .addGroup(panelRow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(chkShuffleMp3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAddMp3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(panelRow3Layout.createSequentialGroup()
-                        .addGroup(panelRow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(lblMp3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(panelRow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(panelRow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(cboListMp3)
-                                    .addComponent(btnPlayPauseMp3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnStopMp3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(panelRow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(lblLastOperation)
-                                    .addComponent(tfLastOperation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(togLinkBGMVol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblLinkBGMVolumes, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblCountdown))))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(panelRow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(btnPrevMp3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnNextMp3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnPlayPauseMp3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblLastOperation)
+                        .addComponent(tfLastOperation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(togLinkBGMVol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblLinkBGMVolumes, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelRow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblMp3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tfMp3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
 
-        panelRow3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnAddMp3, btnPlayPauseMp3, btnStopMp3, cboListMp3});
+        panelRow3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnNextMp3, btnPrevMp3});
 
         volSFX.setToolTipText("BGM1 volume");
         volSFX.setValue(100);
@@ -3486,19 +3346,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(panelSFX1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelSFX2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelSFX3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(panelJList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1317, Short.MAX_VALUE)
-                                    .addComponent(panelRow2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(panelRow1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(panelRow3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(16, 16, 16))
@@ -3528,7 +3380,15 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         .addComponent(chkMuteVL)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(chkFitVL)
-                        .addGap(41, 41, 41))))
+                        .addGap(41, 41, 41))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(panelRow2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panelRow1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panelSFX1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panelSFX2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(panelSFX3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(20, Short.MAX_VALUE))))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {chkIB, chkSP});
@@ -3768,6 +3628,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             FileFilter filter = new FileNameExtensionFilter("MP3 or WAV File", "wav", "mp3");
             fc.setFileFilter(filter);
             fc.setMultiSelectionEnabled(true);
+            fc.setPreferredSize(new Dimension(1000, 600));
             int returnValue = fc.showOpenDialog(HappyButtons.mf);
 
             File[] selectedFiles = fc.getSelectedFiles();
@@ -3873,6 +3734,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             FileFilter filter = new FileNameExtensionFilter("MP3 or WAV File", "wav", "mp3");
             fc.setFileFilter(filter);
             fc.setMultiSelectionEnabled(true);
+            fc.setPreferredSize(new Dimension(1000, 600));
             int returnValue = fc.showOpenDialog(HappyButtons.mf);
 
             File[] selectedFiles = fc.getSelectedFiles();
@@ -4263,7 +4125,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             clipBGM1 = null; clipBGM2 = null; clipSFX = null; clipMp3 = null;
             blist.removeAllElements(); slist.removeAllElements();
             cboVidLoop.removeAllItems(); cboModel.removeAllElements();
-            cboListMp3.removeAllItems(); cboMp3Model.removeAllElements();
             bgmVolumeLink = 0;
             
             draggedList = -1;
@@ -4290,7 +4151,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             chkLoop1.setSelected(true); chkLoop2.setSelected(true);
             chkSP.setSelected(true); chkIB.setSelected(false);
             chkLoopVL.setSelected(true); chkMuteVL.setSelected(true); 
-            chkShuffleMp3.setSelected(true);
             togLinkBGMVol.setSelected(false); togLinkBGMVol.setText("OFF");
             
             lblR1SFX01.setText("blank"); lblR1SFX02.setText("blank"); lblR1SFX03.setText("blank"); lblR1SFX04.setText("blank");
@@ -4766,314 +4626,25 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         }
     }//GEN-LAST:event_chkFitVLActionPerformed
 
-    private void cboListMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboListMp3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cboListMp3ActionPerformed
+    private void btnPrevMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevMp3ActionPerformed
+        Notification panel = new Notification(HappyButtons.mf, 
+            Notification.Type.INFO, 
+            MainFrame.location, 
+            "Under development",
+            "Previous button still on work"
+        );
+        panel.showNotification();
+    }//GEN-LAST:event_btnPrevMp3ActionPerformed
 
-    private void btnPlayPauseMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseMp3ActionPerformed
-        listenMp3 = (LineEvent event) -> {
-            if(event.getType() == LineEvent.Type.STOP) {
-                mp3Playing = 0;
-                mp3Pause = 0;
-                mp3LastFrame = 0;
-
-                String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
-                btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
-
-                if(loopMp3 == 1) {
-                    clipMp3.setFramePosition(0);
-                    clipMp3.start();
-
-                    mp3Playing = 1;
-                    currentMp3Playing = cboListMp3.getSelectedItem().toString();
-
-                    String btnIcon2 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_mp3_12px.png");
-                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon2));
-                }
-                else {
-                    clipMp3 = null;
-                }
-                
-                // Shuffle
-//                if(chkShuffle == 1) {
-//                    Random random = new Random();
-//                    int randomNumber = 0;
-//                    boolean played = false;
-//                    int trial = 0;
-//                    
-//                    do {
-//                        trial++;
-//                        randomNumber = random.nextInt((cboMp3Count - 1) - 0 + 1) + 0;
-//                        played = Utility.doesIntArrHasElement(mp3Arr, randomNumber);
-//                    }
-//                    while((played == true) || (trial == cboMp3Count));
-//                    
-//                    if(trial != cboMp3Count) {
-//                        cboListMp3.setSelectedIndex(randomNumber);
-//                    
-//                        try{
-//                            String musicPath = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\temp\\mp3\\") + cboListMp3.getSelectedItem() + ".wav";
-//                            loadClipMp3(new File(musicPath));
-//                            fcMp3 = (FloatControl)clipMp3.getControl(FloatControl.Type.MASTER_GAIN);
-//        //                    if(volBGM1.getValue() == 100) {
-//        //                        fcBGM1.setValue(0f);
-//        //                    }
-//        //                    else {
-//        //                        fcBGM1.setValue(mp3Vol); // float value
-//        //                    }
-//                            fcMp3.setValue(0f);
-//
-//                            currentMp3Playing = cboListMp3.getSelectedItem().toString();
-//                            clipMp3.addLineListener(listenMp3);
-//                            clipMp3.start();
-//                        }
-//                        catch(Exception e) {
-//
-//                        }
-//                    }
-//                }
-            }
-        };
-
-        if(clipMp3 == null) {
-            if(cboListMp3.getSelectedItem().equals("")){
-                tfLastOperation.setText("[MP3]: NOTHING TO PLAY");
-
-                errorOccurred = 1;
-            }
-            else {
-                try {
-                    String musicPath = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\temp\\mp3\\") + cboListMp3.getSelectedItem() + ".wav";
-                    loadClipMp3(new File(musicPath));
-                    fcMp3 = (FloatControl)clipMp3.getControl(FloatControl.Type.MASTER_GAIN);
-//                    if(volBGM1.getValue() == 100) {
-//                        fcBGM1.setValue(0f);
-//                    }
-//                    else {
-//                        fcBGM1.setValue(mp3Vol); // float value
-//                    }
-                    fcMp3.setValue(0f);
-
-                    currentMp3Playing = cboListMp3.getSelectedItem().toString();
-                    clipMp3.addLineListener(listenMp3);
-                    clipMp3.start();
-                }
-                catch(IOException ioe){
-                    JOptionPane.showMessageDialog(HappyButtons.mf, 
-                            "Specified Mp3 may be gone missing or suddenly deleted.\nIf not, inform the developer for this bug", 
-                            "File IO exception occured", 
-                            JOptionPane.ERROR_MESSAGE);
-
-                    mp3Playing = 0;
-                    mp3Pause = 0;
-                    errorOccurred = 1;
-                    currentMp3Playing = "";
-
-                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
-                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
-                }
-                catch(LineUnavailableException lue){
-                    JOptionPane.showMessageDialog(HappyButtons.mf, 
-                            "LineUnavailableException error has occured. Please inform the developer", 
-                            "Line Unavailable Exception", 
-                            JOptionPane.ERROR_MESSAGE);
-
-                    mp3Playing = 0;
-                    mp3Pause = 0;
-                    errorOccurred = 1;
-                    currentMp3Playing = "";
-
-                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
-                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
-                }
-                catch(UnsupportedAudioFileException uafe){
-                    JOptionPane.showMessageDialog(HappyButtons.mf, 
-                            "Mp3 file may be broken/corrupted. Or make sure the audio file has genuine WAV format.\nChanging the file extension by renaming it will NOT do the trick", 
-                            "Unsupported file", 
-                            JOptionPane.ERROR_MESSAGE);
-
-                    mp3Playing = 0;
-                    mp3Pause = 0;
-                    errorOccurred = 1;
-                    currentMp3Playing = "";
-
-                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
-                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
-                }
-            }
-        }
-        else { // clip Mp3 is not null
-            if(clipMp3.isRunning()) {
-                mp3LastFrame = clipMp3.getFramePosition();
-                clipMp3.removeLineListener(listenMp3);
-                clipMp3.stop();
-                clipMp3.addLineListener(listenMp3);
-                currentMp3Playing = "";
-            }
-            else {
-                if(mp3LastFrame < clipMp3.getFrameLength()) {
-                    clipMp3.setFramePosition(mp3LastFrame);
-                }
-                else {
-                    clipMp3.setFramePosition(0);
-                }
-                currentMp3Playing = cboListMp3.getSelectedItem().toString();
-                clipMp3.start();
-            }
-
-        }
-
-        if(errorOccurred == 0){
-            if(mp3Playing == 0 && mp3Pause == 0){
-                mp3Playing = 1;
-
-                String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_mp3_12px.png");
-                btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
-            }
-            else if(mp3Playing == 1 && mp3Pause == 0){
-                mp3Pause = 1;
-
-                String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
-                btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
-            }
-            else if(mp3Playing == 1 && mp3Pause == 1){
-                mp3Pause = 0;
-
-                String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_mp3_12px.png");
-                btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
-            }
-        }
-        else {
-            errorOccurred = 0;
-            currentMp3Playing = "";
-        }
-    }//GEN-LAST:event_btnPlayPauseMp3ActionPerformed
-
-    private void btnStopMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopMp3ActionPerformed
-        if(clipMp3 != null) {
-            mp3LastFrame = 0;
-
-            clipMp3.removeLineListener(listenMp3);
-            clipMp3.stop();
-            clipMp3.addLineListener(listenMp3);
-
-            String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
-                btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
-
-            mp3Playing = 0;
-            mp3Pause = 0;
-            clipMp3 = null;
-        }
-    }//GEN-LAST:event_btnStopMp3ActionPerformed
-
-    private void btnAddMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMp3ActionPerformed
-        JFileChooser fc = new JFileChooser();
-        FileFilter filter = new FileNameExtensionFilter("MP3 or WAV File", "wav", "mp3");
-        fc.setFileFilter(filter);
-        fc.setMultiSelectionEnabled(true);
-        int returnValue = fc.showOpenDialog(HappyButtons.mf);
-
-        File[] selectedFiles = fc.getSelectedFiles();
-
-        for(File file : selectedFiles) {
-            if(Utility.getFileExtension(file.toString()).equalsIgnoreCase("wav")) { // Music file is in wave format
-                try {
-                    File tempPath = new File(HappyButtons.documentsPath + "/HappyButtons/temp/mp3");
-
-                    if(!tempPath.exists()){
-                        tempPath.mkdir();
-                    }
-                    
-                    FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
-                    File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\temp\\" + file.getName());
-
-                    if(!destCheck.exists()) {
-                        FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\temp\\mp3\\" + file.getName()).getChannel();
-
-                        src.transferTo(0, src.size(), dest);
-
-                        src.close();
-                        dest.close();
-                    }
-
-                    if((MainFrame.cboMp3Model).getIndexOf(file.getName()) < 0) {
-                        (MainFrame.cboMp3Model).addElement(Utility.renameListName(file.getName(), "wav"));
-                        (MainFrame.tfLastOperation).setText("[ADDED MP3]:: " + file.getName());
-                    }
-
-                    cboListMp3.setModel(cboMp3Model);
-                }
-                catch(IOException ex) {
-                    JOptionPane.showMessageDialog(HappyButtons.mf,
-                        "Error reading/writing file",
-                        "IO Error", 
-                        JOptionPane.ERROR_MESSAGE);
-                }
-            }
-            else { // Music file is in mp3 format
-                try {
-                    File tempPath = new File(HappyButtons.documentsPath + "/HappyButtons/temp/mp3");
-
-                    if(!tempPath.exists()){
-                        tempPath.mkdir();
-                    }
-                    
-                    FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
-                    String strReplace = Utility.renameListName(file.getName(), "mp3") + ".wav";
-                    File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\temp\\mp3\\" + strReplace);
-
-                    if(!destCheck.exists()) {
-                        AudioAttributes audio = new AudioAttributes();
-                        audio.setCodec("pcm_s16le");
-                        audio.setBitRate(16);
-                        audio.setChannels(1);
-                        audio.setSamplingRate(44100);
-
-                        // audio.setBitRate(new Integer(16));
-                        // audio.setChannels(new Integer(1));
-                        // audio.setSamplingRate(new Integer(44100));
-
-                        EncodingAttributes attrs = new EncodingAttributes();
-                        attrs.setOutputFormat("wav");
-                        attrs.setAudioAttributes(audio);
-
-                        File source = new File(file.toString());
-                        String str = HappyButtons.documentsPath + Utility.strDoubleSlash("\\HappyButtons\\temp\\mp3\\") + Utility.renameListName(file.getName(), "mp3")  + ".wav";
-                        File target = new File(str);
-
-                        Encoder encoder = new Encoder();
-                        encoder.encode(new MultimediaObject(source), target, attrs);
-                    }
-
-                    if((MainFrame.cboMp3Model).getIndexOf(file.getName()) < 0) {
-                        (MainFrame.cboMp3Model).addElement(Utility.renameListName(file.getName(), "mp3"));
-                        (MainFrame.tfLastOperation).setText("[ADDED MP3]:: " + file.getName());
-                    }
-
-                    cboListMp3.setModel(cboMp3Model);
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        
-        if(cboListMp3.getSelectedIndex() == -1) {
-            btnPlayPauseMp3.setEnabled(false);
-        }
-        else {
-            btnPlayPauseMp3.setEnabled(true);
-        }
-    }//GEN-LAST:event_btnAddMp3ActionPerformed
-
-    private void chkShuffleMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkShuffleMp3ActionPerformed
-        if(chkShuffleMp3.isSelected()) {
-            chkShuffle = 1;
-        }
-        else {
-            chkShuffle = 0;
-        }
-    }//GEN-LAST:event_chkShuffleMp3ActionPerformed
+    private void btnNextMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextMp3ActionPerformed
+        Notification panel = new Notification(HappyButtons.mf, 
+            Notification.Type.INFO, 
+            MainFrame.location, 
+            "Under development",
+            "Next button still on work"
+        );
+        panel.showNotification();
+    }//GEN-LAST:event_btnNextMp3ActionPerformed
 
     private void chkLoop1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkLoop1ActionPerformed
         // TODO add your handling code here:
@@ -5084,24 +4655,408 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_chkLoop2ActionPerformed
 
     private void lblMp3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMp3MouseClicked
-        if(mp3FrameOpened == 0) {
-            mp3FrameOpened = 1;
-            mp3 = new Mp3Frame();
-            mp3.setVisible(true);
+        openMp3Frame();
+    }//GEN-LAST:event_lblMp3MouseClicked
+
+    private void btnPlayPauseMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseMp3ActionPerformed
+        playPauseMp3(0);
+    }//GEN-LAST:event_btnPlayPauseMp3ActionPerformed
+
+    public static void playPauseMp3(int type) { // tpye is 0 - button click, 1 - list click
+        if(type == 0) { // button click
+            if(mp3FrameOpened == 1) {
+                if(!selectedMp3Item.equals("")) {
+                    if(mp3Playing == 0) { // not pause
+                        selectedMp3Item = mp3.listMp3.getSelectedValue();
+                        mp3.lblSongMp3.setText(Utility.shortenText(mp3.listMp3.getSelectedValue()));
+                    }
+
+                    if(clipMp3 == null) {
+                        if(selectedMp3Item.equals("")){
+                            tfLastOperation.setText("[MP3]:: NOTHING TO PLAY");
+
+                            errorOccurred = 1;
+                        }
+                        else {
+                            try {
+                                String musicPath = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\mp3s\\") + MainFrame.selectedMp3Item + ".wav";
+                                loadClipMp3(new File(musicPath));
+                                fcMp3 = (FloatControl) (clipMp3).getControl(FloatControl.Type.MASTER_GAIN);
+
+                                if(mp3.isShowing()){
+                                    if(mp3.volMp3.getValue() == 100) {
+                                        fcMp3.setValue(0f);
+                                    }
+                                    else {
+                                        fcBGM1.setValue(mp3Vol); // float value
+                                    }
+                                }
+                                else {
+                                    fcBGM1.setValue(mp3Vol); // float value
+                                }
+
+                                currentMp3Playing = selectedMp3Item;
+                                clipMp3.addLineListener(listenMp3);
+                                clipMp3.start();
+                            }
+                            catch(IOException ioe){
+                                JOptionPane.showMessageDialog(HappyButtons.mf, 
+                                        "Specified Mp3 may be gone missing or suddenly deleted.\nIf not, inform the developer for this bug", 
+                                        "File IO exception occured", 
+                                        JOptionPane.ERROR_MESSAGE);
+
+                                mp3Playing = 0;
+                                mp3Pause = 0;
+                                errorOccurred = 1;
+                                currentMp3Playing = "";
+
+                                if(HappyButtons.uiTheme.equals("light")) {
+                                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
+                                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                }
+                                else if(HappyButtons.uiTheme.equals("dark")) {
+                                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_12px.png");
+                                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                }
+
+                                if(mp3.isShowing()) {
+                                    if(HappyButtons.uiTheme.equals("light")) {
+                                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_ui_18px.png");
+                                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                                    }
+                                    else if(HappyButtons.uiTheme.equals("dark"))  {
+                                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_ui_18px.png");
+                                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                                    }
+                                }
+
+                                iconPlayMp3 = 1;
+                            }
+                            catch(LineUnavailableException lue){
+                                JOptionPane.showMessageDialog(HappyButtons.mf, 
+                                        "LineUnavailableException error has occured. Please inform the developer", 
+                                        "Line Unavailable Exception", 
+                                        JOptionPane.ERROR_MESSAGE);
+
+                                mp3Playing = 0;
+                                mp3Pause = 0;
+                                errorOccurred = 1;
+                                currentMp3Playing = "";
+
+                                if(HappyButtons.uiTheme.equals("light")) {
+                                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
+                                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                }
+                                else if(HappyButtons.uiTheme.equals("dark")) {
+                                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_12px.png");
+                                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                }
+
+                                if(mp3.isShowing()) {
+                                    if(HappyButtons.uiTheme.equals("light")) {
+                                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_ui_18px.png");
+                                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                                    }
+                                    else if(HappyButtons.uiTheme.equals("dark"))  {
+                                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_ui_18px.png");
+                                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                                    }
+                                }
+
+                                iconPlayMp3 = 1;
+                            }
+                            catch(UnsupportedAudioFileException uafe){
+                                JOptionPane.showMessageDialog(HappyButtons.mf, 
+                                        "Mp3 file may be broken/corrupted. Or make sure the audio file has genuine WAV format.\nChanging the file extension by renaming it will NOT do the trick", 
+                                        "Unsupported file", 
+                                        JOptionPane.ERROR_MESSAGE);
+
+                                mp3Playing = 0;
+                                mp3Pause = 0;
+                                errorOccurred = 1;
+                                currentMp3Playing = "";
+
+                                if(HappyButtons.uiTheme.equals("light")) {
+                                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
+                                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                }
+                                else if(HappyButtons.uiTheme.equals("dark")) {
+                                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_12px.png");
+                                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
+                                }
+
+                                if(mp3.isShowing()) {
+                                    if(HappyButtons.uiTheme.equals("light")) {
+                                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_ui_18px.png");
+                                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                                    }
+                                    else if(HappyButtons.uiTheme.equals("dark"))  {
+                                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_ui_18px.png");
+                                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                                    }
+                                }
+
+                                iconPlayMp3 = 1;
+                            }
+                        }
+                    }
+                    else { // clip Mp3 is not null
+                        if(clipMp3.isRunning()) {
+                            mp3LastFrame = clipMp3.getFramePosition();
+                            clipMp3.removeLineListener(listenMp3);
+                            clipMp3.stop();
+                            clipMp3.addLineListener(listenMp3);
+                        }
+                        else {
+                            if(mp3LastFrame < clipMp3.getFrameLength()) {
+                                clipMp3.setFramePosition(mp3LastFrame);
+                            }
+                            else {
+                                clipMp3.setFramePosition(0);
+                            }
+
+                            clipMp3.start();
+                        }
+                    }
+                }
+                else {
+                    tfLastOperation.setText("[MP3]:: NOTHING TO PLAY");
+
+                    errorOccurred = 1;
+                }
+            }
+            else {
+                if(tfMp3.getText().equals("")) {
+                    tfLastOperation.setText("[MP3]:: NOTHING TO PLAY");
+                }
+                else {
+                    tfLastOperation.setText("HAYS, BUG");
+                }
+            }
         }
-        else {
-            if(loadedIndexProfile != -1) {
-                mp3.load();
-                mp3.setTheme();
+        else { // type == 1, list click
+            if(clipMp3 != null) {
+                if(clipMp3.isRunning()) {
+                    mp3LastFrame = 0;
+                    clipMp3.removeLineListener(listenMp3);
+                    clipMp3.stop();
+                    clipMp3 = null;
+                    currentMp3Playing = "";
+                }
+                else {
+                    clipMp3 = null;
+                    currentMp3Playing = "";
+                }
             }
             
-//            mp3.toFront();
-            MainFrame.mp3.dispose();
-//            MainFrame.mp3 = null;
-            MainFrame.mp3 = new Mp3Frame();
-            MainFrame.mp3.setVisible(true);
+            try {
+                String musicPath = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\mp3s\\") + MainFrame.selectedMp3Item + ".wav";
+                loadClipMp3(new File(musicPath));
+                fcMp3 = (FloatControl)clipMp3.getControl(FloatControl.Type.MASTER_GAIN);
+                
+                if(mp3.isShowing()){
+                    if(mp3.volMp3.getValue() == 100) {
+                        fcMp3.setValue(0f);
+                    }
+                    else {
+                        fcMp3.setValue(MainFrame.mp3Vol); // float value
+                    }
+                }
+                else {
+                    fcMp3.setValue(MainFrame.mp3Vol); // float value
+                }
+
+                currentMp3Playing = selectedMp3Item;
+                clipMp3.addLineListener(MainFrame.listenMp3);
+                clipMp3.start();
+            }
+            catch(IOException ioe){
+                JOptionPane.showMessageDialog(HappyButtons.mf, 
+                        "Specified Mp3 may be gone missing or suddenly deleted.\nIf not, inform the developer for this bug", 
+                        "File IO exception occured", 
+                        JOptionPane.ERROR_MESSAGE);
+
+                mp3Playing = 0;
+                mp3Pause = 0;
+                errorOccurred = 1;
+                currentMp3Playing = "";
+
+                if(HappyButtons.uiTheme.equals("light")) {
+                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
+                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
+                }
+                else if(HappyButtons.uiTheme.equals("dark")) {
+                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_12px.png");
+                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
+                }
+
+                if(mp3.isShowing()) {
+                    if(HappyButtons.uiTheme.equals("light")) {
+                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_ui_18px.png");
+                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                    }
+                    else if(HappyButtons.uiTheme.equals("dark"))  {
+                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_ui_18px.png");
+                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                    }
+                }
+                
+                iconPlayMp3 = 1;
+            }
+            catch(LineUnavailableException lue){
+                JOptionPane.showMessageDialog(HappyButtons.mf, 
+                        "LineUnavailableException error has occured. Please inform the developer", 
+                        "Line Unavailable Exception", 
+                        JOptionPane.ERROR_MESSAGE);
+
+                mp3Playing = 0;
+                mp3Pause = 0;
+                MainFrame.errorOccurred = 1;
+                currentMp3Playing = "";
+
+                if(HappyButtons.uiTheme.equals("light")) {
+                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
+                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
+                }
+                else if(HappyButtons.uiTheme.equals("dark")) {
+                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_12px.png");
+                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
+                }
+
+                if(mp3.isShowing()) {
+                    if(HappyButtons.uiTheme.equals("light")) {
+                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_ui_18px.png");
+                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                    }
+                    else if(HappyButtons.uiTheme.equals("dark"))  {
+                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_ui_18px.png");
+                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                    }
+                }
+                
+                iconPlayMp3 = 1;
+            }
+            catch(UnsupportedAudioFileException uafe){
+                JOptionPane.showMessageDialog(HappyButtons.mf, 
+                        "Mp3 file may be broken/corrupted. Or make sure the audio file has genuine WAV format.\nChanging the file extension by renaming it will NOT do the trick", 
+                        "Unsupported file", 
+                        JOptionPane.ERROR_MESSAGE);
+
+                mp3Playing = 0;
+                mp3Pause = 0;
+                errorOccurred = 1;
+                currentMp3Playing = "";
+
+                if(HappyButtons.uiTheme.equals("light")) {
+                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
+                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
+                }
+                else if(HappyButtons.uiTheme.equals("dark")) {
+                    String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_12px.png");
+                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon));
+                }
+
+                if(mp3.isShowing()) {
+                    if(HappyButtons.uiTheme.equals("light")) {
+                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_ui_18px.png");
+                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                    }
+                    else if(HappyButtons.uiTheme.equals("dark"))  {
+                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_ui_18px.png");
+                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                    }
+                }
+            }
+            
+            iconPlayMp3 = 1;
         }
-    }//GEN-LAST:event_lblMp3MouseClicked
+        
+        if(errorOccurred == 0){
+            if(mp3Playing == 0 && mp3Pause == 0){
+                mp3Playing = 1;
+                
+                if(HappyButtons.uiTheme.equals("light")) {
+                    String btnIcon3 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_mp3_12px.png");
+                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon3));
+                }
+                else if(HappyButtons.uiTheme.equals("dark")) {
+                    String btnIcon3 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_pause_mp3_12px.png");
+                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon3));
+                }
+
+                if(mp3.isShowing()) {
+                    if(HappyButtons.uiTheme.equals("light")) {
+                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_mp3_16px.png");
+                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                    }
+                    else if(HappyButtons.uiTheme.equals("dark"))  {
+                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_pause_mp3_16px.png");
+                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                    }
+                }
+                
+                iconPlayMp3 = 0;
+            }
+            else if(mp3Playing == 1 && mp3Pause == 0){
+                mp3Pause = 1;
+                
+                if(HappyButtons.uiTheme.equals("light")) {
+                    String btnIcon3 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
+                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon3));
+                }
+                else if(HappyButtons.uiTheme.equals("dark")) {
+                    String btnIcon3 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_12px.png");
+                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon3));
+                }
+
+                if(mp3.isShowing()) {
+                    if(HappyButtons.uiTheme.equals("light")) {
+                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_ui_18px.png");
+                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                    }
+                    else if(HappyButtons.uiTheme.equals("dark"))  {
+                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_ui_18px.png");
+                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                    }
+                }
+                
+                iconPlayMp3 = 1;
+            }
+            else if(mp3Playing == 1 && mp3Pause == 1){
+                mp3Pause = 0;
+
+                if(HappyButtons.uiTheme.equals("light")) {
+                    String btnIcon3 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_mp3_12px.png");
+                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon3));
+                }
+                else if(HappyButtons.uiTheme.equals("dark")) {
+                    String btnIcon3 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_pause_mp3_12px.png");
+                    btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon3));
+                }
+
+                if(mp3.isShowing()) {
+                    if(HappyButtons.uiTheme.equals("light")) {
+                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_mp3_16px.png");
+                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                    }
+                    else if(HappyButtons.uiTheme.equals("dark"))  {
+                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_pause_mp3_16px.png");
+                        mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                    }
+                }
+                
+                iconPlayMp3 = 0;
+            }
+        }
+        else {
+            errorOccurred = 0;
+            currentMp3Playing = "";
+        }
+    }
+    
+    private void tfMp3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfMp3MouseClicked
+        openMp3Frame();
+    }//GEN-LAST:event_tfMp3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -5134,16 +5089,17 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton btnAddBGM;
-    public static javax.swing.JButton btnAddMp3;
     public static javax.swing.JButton btnAddSFX;
     public static javax.swing.JButton btnClearBGM1;
     public static javax.swing.JButton btnClearBGM2;
     public static javax.swing.JButton btnDeleteBGM;
     public static javax.swing.JButton btnDeleteSFX;
+    public static javax.swing.JButton btnNextMp3;
     public static javax.swing.JButton btnPlayPauseBGM1;
     public static javax.swing.JButton btnPlayPauseBGM2;
     public static javax.swing.JButton btnPlayPauseMp3;
     public static javax.swing.JButton btnPlayVL;
+    public static javax.swing.JButton btnPrevMp3;
     public static javax.swing.JButton btnR1SFX01;
     public static javax.swing.JButton btnR1SFX02;
     public static javax.swing.JButton btnR1SFX03;
@@ -5188,10 +5144,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JButton btnR3SFX14;
     public static javax.swing.JButton btnStopBGM1;
     public static javax.swing.JButton btnStopBGM2;
-    public static javax.swing.JButton btnStopMp3;
     public static javax.swing.JButton btnStopSFX;
     public static javax.swing.JButton btnStopVL;
-    public static javax.swing.JComboBox<String> cboListMp3;
     public static javax.swing.JComboBox<String> cboVidLoop;
     public static javax.swing.JCheckBox chkFitVL;
     public static javax.swing.JCheckBox chkIB;
@@ -5200,7 +5154,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JCheckBox chkLoopVL;
     public static javax.swing.JCheckBox chkMuteVL;
     public static javax.swing.JCheckBox chkSP;
-    public static javax.swing.JCheckBox chkShuffleMp3;
     public static javax.swing.JMenuItem itemSave;
     public static javax.swing.JMenu itmAS;
     public static javax.swing.JMenu itmAbout;
@@ -5221,7 +5174,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     private javax.swing.JSeparator jSeparator1;
     public static javax.swing.JLabel lblBGM1;
     public static javax.swing.JLabel lblBGM2;
-    public static javax.swing.JLabel lblCountdown;
     private javax.swing.JLabel lblDeleteSFX;
     public static javax.swing.JLabel lblLastOperation;
     public static javax.swing.JLabel lblLinkBGMVolumes;
@@ -5328,6 +5280,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JTextField tfBGM1;
     public static javax.swing.JTextField tfBGM2;
     public static javax.swing.JTextField tfLastOperation;
+    public static javax.swing.JTextField tfMp3;
     public static javax.swing.JToggleButton togLinkBGMVol;
     public static javax.swing.JSlider volBGM1;
     public static javax.swing.JSlider volBGM2;
@@ -5951,6 +5904,25 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         }
         
         folder.delete();
+    }
+    
+    public void openMp3Frame() {
+        if(mp3FrameOpened == 0) {
+            mp3FrameOpened = 1;
+            mp3 = new Mp3Frame();
+            mp3.setVisible(true);
+        }
+        else {
+            if(loadedIndexProfile != -1) {
+                mp3.load();
+                mp3.setTheme();
+            }
+            
+            MainFrame.mp3.dispose();
+            MainFrame.mp3 = new Mp3Frame();
+            MainFrame.mp3.setVisible(true);
+        }
+        mp3FrameOpened = 1;
     }
 
     @Override

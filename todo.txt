@@ -1,7 +1,9 @@
 To do:
 x theme for settings
 x screen selector
-x sort list Mp3
+x shuffle mp3
+x play pause sync
+x new workspace
 
 PREFERENCES UI:
 Using pichon app:
