@@ -87,6 +87,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static int lastFrame1 = 0, lastFrame2 = 0, mp3LastFrame = 0;
     public static int chkSinglePlay = 1, chkStopBGM = 0;
     public static int loop1 = 1, loop2 = 1, loopMp3 = 0;
+    public static int mp3Audio = 1, mp3Shuffle = 1, mp3Repeat = 1; // in repeat, 0->do not repeat, 1->repeat all in list, 2->repeat one song
     static public LineListener listenBGM1, listenBGM2, listenMp3;
     public boolean sfxOperation;
     public static int mp3Arr[] = new int[]{};
@@ -1149,6 +1150,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
         lblMp3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblMp3.setText("Music Player:");
+        lblMp3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lblMp3.setMaximumSize(new java.awt.Dimension(22, 16));
         lblMp3.setMinimumSize(new java.awt.Dimension(22, 16));
         lblMp3.setPreferredSize(new java.awt.Dimension(22, 16));
@@ -1159,7 +1161,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         });
 
         tfMp3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        tfMp3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tfMp3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tfMp3.setFocusable(false);
         tfMp3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -4664,8 +4666,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
     public static void playPauseMp3(int type) { // tpye is 0 - button click, 1 - list click
         if(type == 0) { // button click
-            if(mp3FrameOpened == 1) {
-                if(!selectedMp3Item.equals("")) {
+//            if(mp3FrameOpened == 1) {
+                if(!selectedMp3Item.equals("") && Mp3Frame.listMp3.getSelectedIndex() != -1) {
                     if(mp3Playing == 0) { // not pause
                         selectedMp3Item = mp3.listMp3.getSelectedValue();
                         mp3.lblSongMp3.setText(Utility.shortenText(mp3.listMp3.getSelectedValue()));
@@ -4673,7 +4675,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
                     if(clipMp3 == null) {
                         if(selectedMp3Item.equals("")){
-                            tfLastOperation.setText("[MP3]:: NOTHING TO PLAY");
+                            tfLastOperation.setText("[MP]:: NOTHING TO PLAY");
 
                             errorOccurred = 1;
                         }
@@ -4820,19 +4822,19 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                     }
                 }
                 else {
-                    tfLastOperation.setText("[MP3]:: NOTHING TO PLAY");
+                    tfLastOperation.setText("[MP]:: NOTHING TO PLAY");
 
                     errorOccurred = 1;
                 }
-            }
-            else {
-                if(tfMp3.getText().equals("")) {
-                    tfLastOperation.setText("[MP3]:: NOTHING TO PLAY");
-                }
-                else {
-                    tfLastOperation.setText("HAYS, BUG");
-                }
-            }
+//            }
+//            else {
+//                if(tfMp3.getText().equals("")) {
+//                    tfLastOperation.setText("[MP3]:: NOTHING TO PLAY");
+//                }
+//                else {
+//                    tfLastOperation.setText("HAYS, BUG");
+//                }
+//            }
         }
         else { // type == 1, list click
             if(clipMp3 != null) {
@@ -5052,6 +5054,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             errorOccurred = 0;
             currentMp3Playing = "";
         }
+//        System.out.println("Selected mp3 item: " + selectedMp3Item + "\nMp3 Playing: " + mp3Playing + "\nError: " + errorOccurred + 
+//                "\nMp3 Pause: " + mp3Pause + "\n\n");
     }
     
     private void tfMp3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfMp3MouseClicked

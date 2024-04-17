@@ -29,8 +29,6 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
-import javax.swing.LookAndFeel;
-import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -48,9 +46,7 @@ public class Mp3Frame extends javax.swing.JFrame {
     JFrame thisFrame = this;
     
     public static DefaultListModel mlist = new DefaultListModel();
-    /**
-     * Creates new form Mp3Frame
-     */
+    
     public Mp3Frame() {
         initComponents();
         super.setTitle("Music Player");
@@ -169,6 +165,25 @@ public class Mp3Frame extends javax.swing.JFrame {
         }
         
         volMp3.setValue(MainFrame.iconVolMp3);
+        
+        // Shuffle button
+        if(MainFrame.mp3Shuffle == 0) {
+            setElementIcon(0, "off");
+        }
+        else {
+            setElementIcon(0, "on");
+        }
+        
+        // Repeat button
+        if(MainFrame.mp3Repeat == 0) {
+            setElementIcon(1, "off");
+        }
+        else if(MainFrame.mp3Repeat == 1) {
+            setElementIcon(1, "list");
+        }
+        else if(MainFrame.mp3Repeat == 2){
+            setElementIcon(1, "loop");
+        }
         
         if(!MainFrame.selectedMp3Item.equals("")) {
             lblSongMp3.setText(Utility.shortenText(MainFrame.selectedMp3Item));
@@ -446,12 +461,16 @@ public class Mp3Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNextMp3ActionPerformed
 
     private void btnPlayPauseMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseMp3ActionPerformed
+        if(listMp3.getSelectedIndex() != -1) {
+            MainFrame.selectedMp3Item = listMp3.getSelectedValue();
+        }
+        
         if(!MainFrame.selectedMp3Item.equals("")) {
-            MainFrame.tfMp3.setText(listMp3.getSelectedValue());
+            MainFrame.tfMp3.setText(MainFrame.selectedMp3Item);
             MainFrame.playPauseMp3(0); // 0 means button click
         }
         else {
-            MainFrame.tfLastOperation.setText("[MP3]:: NOTHING TO PLAY");
+            MainFrame.tfLastOperation.setText("[MP]:: NOTHING TO PLAY");
         }
     }//GEN-LAST:event_btnPlayPauseMp3ActionPerformed
 
@@ -589,7 +608,33 @@ public class Mp3Frame extends javax.swing.JFrame {
 
     private void volMp3StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_volMp3StateChanged
         float f = (float)volMp3.getValue();
-        MainFrame.iconVolMp3 = volMp3.getValue();
+        
+        if(f == 0) {
+            MainFrame.mp3Audio = 0;
+            
+            // set icon
+            if(theme.equals("light")) {
+                String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\no_audio_16px.png");
+                lblAudio.setIcon(new javax.swing.ImageIcon(icon));
+            }
+            else if(theme.equals("dark")) {
+                String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_no_audio_16px.png");
+                lblAudio.setIcon(new javax.swing.ImageIcon(icon));
+            }
+        }
+        else {
+            MainFrame.mp3Audio = 1;
+            
+            // set icon
+            if(theme.equals("light")) {
+                String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\audio_16px.png");
+                lblAudio.setIcon(new javax.swing.ImageIcon(icon));
+            }
+            else if(theme.equals("dark")) {
+                String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_audio_16px.png");
+                lblAudio.setIcon(new javax.swing.ImageIcon(icon));
+            }
+        }
                 
         try { // calculation same as SFX
             if(f >= 50) {
@@ -654,7 +699,7 @@ public class Mp3Frame extends javax.swing.JFrame {
                         btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(strIcon));
 
                         MainFrame.btnPlayPauseMp3.setBackground(Color.GRAY);
-                        String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_play_mp3_12px.png");
+                        String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_12px.png");
                         MainFrame.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(icon));
                     }
 
@@ -666,39 +711,72 @@ public class Mp3Frame extends javax.swing.JFrame {
                 autosave();
             }
             else {
-                MainFrame.tfLastOperation.setText("[DELETE MP3]:: Nothing selected");
+                MainFrame.tfLastOperation.setText("[DELETE Music]:: Nothing selected");
             }
         }
     }//GEN-LAST:event_btnDeleteMp3ActionPerformed
 
     private void lblShuffleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblShuffleMouseClicked
-        Notification panel = new Notification(this, 
-            Notification.Type.INFO, 
-            MainFrame.location, 
-            "Under development",
-            "Shuffle function still on work"
-        );
-        panel.showNotification();
+        if(MainFrame.mp3Shuffle == 1) {
+            MainFrame.mp3Shuffle = 0;
+            setElementIcon(0, "off");
+        }
+        else {
+            MainFrame.mp3Shuffle = 1;
+            setElementIcon(0, "on");
+        }
     }//GEN-LAST:event_lblShuffleMouseClicked
-
+   
     private void lblRepeatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRepeatMouseClicked
-        Notification panel = new Notification(this, 
-            Notification.Type.INFO, 
-            MainFrame.location, 
-            "Under development",
-            "Repeat function still on work"
-        );
-        panel.showNotification();
+        if(MainFrame.mp3Repeat == 0) {
+            MainFrame.mp3Repeat = 1; // 1 is repeat list
+            setElementIcon(1, "list");
+        }
+        else if(MainFrame.mp3Repeat == 1) {
+            MainFrame.mp3Repeat = 2; // 2 is repeat one song or loop the song
+            setElementIcon(1, "loop");
+        }
+        else if(MainFrame.mp3Repeat == 2){
+            MainFrame.mp3Repeat = 0; // 0 is do not repeat list
+            setElementIcon(1, "off");
+        }
     }//GEN-LAST:event_lblRepeatMouseClicked
 
     private void lblAudioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblAudioMouseClicked
-        Notification panel = new Notification(this, 
-            Notification.Type.INFO, 
-            MainFrame.location, 
-            "Under development",
-            "Mute button still on work"
-        );
-        panel.showNotification();
+        if(MainFrame.mp3Audio == 1) {
+            MainFrame.iconVolMp3 = volMp3.getValue();
+        }
+        
+        if(MainFrame.mp3Audio == 1) {
+            MainFrame.mp3Audio = 0;
+            
+            // set icon
+            if(theme.equals("light")) {
+                String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\no_audio_16px.png");
+                lblAudio.setIcon(new javax.swing.ImageIcon(icon));
+            }
+            else if(theme.equals("dark")) {
+                String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_no_audio_16px.png");
+                lblAudio.setIcon(new javax.swing.ImageIcon(icon));
+            }
+            volMp3.setValue(0);
+            lblAudio.setText("0");
+        }
+        else {
+            MainFrame.mp3Audio = 1;
+            
+            // set icon
+            if(theme.equals("light")) {
+                String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\audio_16px.png");
+                lblAudio.setIcon(new javax.swing.ImageIcon(icon));
+            }
+            else if(theme.equals("dark")) {
+                String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_audio_16px.png");
+                lblAudio.setIcon(new javax.swing.ImageIcon(icon));
+            }
+            volMp3.setValue(MainFrame.iconVolMp3);
+            lblAudio.setText(String.valueOf(MainFrame.iconVolMp3));
+        }
     }//GEN-LAST:event_lblAudioMouseClicked
 
     public void setTheme() {
@@ -740,13 +818,13 @@ public class Mp3Frame extends javax.swing.JFrame {
             lblDuration.setForeground(new JLabel().getForeground());
             lblDuration.setOpaque(true);
             
-            lblShuffle.setOpaque(false);
-            String lblShuffleIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\shuffle_16px.png");
-            lblShuffle.setIcon(new javax.swing.ImageIcon(lblShuffleIcon));
-            
-            lblRepeat.setOpaque(false);
-            String lblRepeatIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\repeat_16px.png");
-            lblRepeat.setIcon(new javax.swing.ImageIcon(lblRepeatIcon));
+//            lblShuffle.setOpaque(false);
+//            String lblShuffleIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\shuffle_16px.png");
+//            lblShuffle.setIcon(new javax.swing.ImageIcon(lblShuffleIcon));
+//            
+//            lblRepeat.setOpaque(false);
+//            String lblRepeatIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\repeat_16px.png");
+//            lblRepeat.setIcon(new javax.swing.ImageIcon(lblRepeatIcon));
             
             lblAudio.setOpaque(false);
             String lblAudioIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\audio_16px.png");
@@ -810,13 +888,13 @@ public class Mp3Frame extends javax.swing.JFrame {
             lblDuration.setForeground(Color.LIGHT_GRAY);
             lblDuration.setOpaque(true);
             
-            lblShuffle.setOpaque(false);
-            String lblShuffleIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_shuffle_16px.png");
-            lblShuffle.setIcon(new javax.swing.ImageIcon(lblShuffleIcon));
-            
-            lblRepeat.setOpaque(false);
-            String lblRepeatIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_repeat_16px.png");
-            lblRepeat.setIcon(new javax.swing.ImageIcon(lblRepeatIcon));
+//            lblShuffle.setOpaque(false);
+//            String lblShuffleIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_shuffle_16px.png");
+//            lblShuffle.setIcon(new javax.swing.ImageIcon(lblShuffleIcon));
+//            
+//            lblRepeat.setOpaque(false);
+//            String lblRepeatIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_repeat_16px.png");
+//            lblRepeat.setIcon(new javax.swing.ImageIcon(lblRepeatIcon));
             
             lblAudio.setOpaque(false);
             String lblAudioIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_audio_16px.png");
@@ -842,6 +920,68 @@ public class Mp3Frame extends javax.swing.JFrame {
                     TitledBorder.TOP, 
                     new Font("segoe", Font.BOLD,12), 
                     Color.LIGHT_GRAY));
+        }
+    }
+    
+    public void setElementIcon(int type, String status) { // 0-shuffle, 1-repeat
+        if(type == 0) { // shuffle
+            if(status.equals("off")) {
+                if(theme.equals("light")) {
+                    String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\shuffle_off_16px.png");
+                    lblShuffle.setIcon(new javax.swing.ImageIcon(icon));
+                }
+                else if(theme.equals("dark")) {
+                    String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_shuffle_off_16px.png");
+                    lblShuffle.setIcon(new javax.swing.ImageIcon(icon));
+                }
+                lblShuffle.setToolTipText("Shuffle off");
+            }
+            else if(status.equals("on")) {
+                if(theme.equals("light")) {
+                    String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\shuffle_16px.png");
+                    lblShuffle.setIcon(new javax.swing.ImageIcon(icon));
+                }
+                else if(theme.equals("dark")) {
+                    String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_shuffle_16px.png");
+                    lblShuffle.setIcon(new javax.swing.ImageIcon(icon));
+                }
+                lblShuffle.setToolTipText("Shuffle on");
+            }
+        }
+        else if(type == 1) { // repeat
+            if(status.equals("off")) {
+                if(theme.equals("light")) {
+                    String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\repeat_off_16px.png");
+                    lblRepeat.setIcon(new javax.swing.ImageIcon(icon));
+                }
+                else if(theme.equals("dark")) {
+                    String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_repeat_off_16px.png");
+                    lblRepeat.setIcon(new javax.swing.ImageIcon(icon));
+                }
+                lblRepeat.setToolTipText("Repeat is off");
+            }
+            else if(status.equals("list")) {
+                if(theme.equals("light")) {
+                    String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\repeat_16px.png");
+                    lblRepeat.setIcon(new javax.swing.ImageIcon(icon));
+                }
+                else if(theme.equals("dark")) {
+                    String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_repeat_16px.png");
+                    lblRepeat.setIcon(new javax.swing.ImageIcon(icon));
+                }
+                lblRepeat.setToolTipText("Repeat list");
+            }
+            else if(status.equals("loop")) {
+                if(theme.equals("light")) {
+                    String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\repeat_one_16px.png");
+                    lblRepeat.setIcon(new javax.swing.ImageIcon(icon));
+                }
+                else if(theme.equals("dark")) {
+                    String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_repeat_one_16px.png");
+                    lblRepeat.setIcon(new javax.swing.ImageIcon(icon));
+                }
+                lblRepeat.setToolTipText("Loop selected song");
+            }
         }
     }
     
