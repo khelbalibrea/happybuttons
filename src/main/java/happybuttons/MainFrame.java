@@ -87,10 +87,13 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static int lastFrame1 = 0, lastFrame2 = 0, mp3LastFrame = 0;
     public static int chkSinglePlay = 1, chkStopBGM = 0;
     public static int loop1 = 1, loop2 = 1, loopMp3 = 0;
-    public static int mp3Audio = 1, mp3Shuffle = 1, mp3Repeat = 1; // in repeat, 0->do not repeat, 1->repeat all in list, 2->repeat one song
+    public static int mp3Audio = 1, mp3Shuffle = 1, mp3Repeat = 1; // in repeat, 0->do not repeat, 1->repeat all in list, 2->loop selected song
     static public LineListener listenBGM1, listenBGM2, listenMp3;
     public boolean sfxOperation;
-    public static int mp3Arr[] = new int[]{};
+    public static int[] mp3Arr = new int[]{};
+    public static String[] mp3SortedQueue = new String[0];
+    public static String[] mp3ShuffledQueue = new String[0];
+    public static String[] mp3MainQueue = new String[0];
     
     static FloatControl fcBGM1, fcBGM2, fcSFX, fcMp3;
     static float bgmVol1 = 100f, bgmVol2 = 100f, sfxVol = 100f, mp3Vol = 100f;
@@ -4670,7 +4673,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 if(!selectedMp3Item.equals("") && Mp3Frame.listMp3.getSelectedIndex() != -1) {
                     if(mp3Playing == 0) { // not pause
                         selectedMp3Item = mp3.listMp3.getSelectedValue();
-                        mp3.lblSongMp3.setText(Utility.shortenText(mp3.listMp3.getSelectedValue()));
+                        mp3.lblSongMp3.setText(Utility.shortenText(mp3.listMp3.getSelectedValue(), 18));
                     }
 
                     if(clipMp3 == null) {

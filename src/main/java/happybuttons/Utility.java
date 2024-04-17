@@ -31,16 +31,13 @@ public class Utility {
         return extension;
     }
     
-    public static String renameListName(String filename, String type){ // eg. wav, mp3
+    public static String renameListName(String filename, String type){ // type eg. wav, mp3
         int index = filename.indexOf("." + type);
         return filename.substring(0, index);
     }
     
     public static String renameVideoName(String filename){
         int index = filename.indexOf(".mp4");
-        
-//        String music = filename.substring(0, index);
-        
         return filename.substring(0, index);
     }
     
@@ -153,6 +150,18 @@ public class Utility {
         return itHas;
     }
     
+    public static int getIndexOfStrArrElement(String arr[], String element) {
+        int index = -1;
+        
+        for(int i = 0; i < arr.length; i++) {
+            if(arr[i].equals(element)) {
+                index = i;
+            }
+        }
+        
+        return index;
+    }
+    
     public static String[] strToArr(String str) {
         String[] arr = str.split(Pattern.quote(":"));
         
@@ -173,6 +182,20 @@ public class Utility {
         return arrStr;
     }
     
+    public static String arrToInt(int[] arr) {
+        String arrStr = "";
+        for(int data : arr) {
+            if (arrStr.equals("")) {
+                arrStr = String.valueOf(data);
+            }
+            else {
+                arrStr = arrStr + ":" + String.valueOf(data);
+            }
+        }
+        
+        return arrStr;
+    }
+    
     public static boolean searchInTableCol(DefaultTableModel table, String strSearch, int col) {
         boolean ret = false;
         
@@ -183,8 +206,8 @@ public class Utility {
         return ret;
     }
     
-    public static String shortenText(String str) {
-        int maxLength = 18;
+    public static String shortenText(String str, int limit) {
+        int maxLength = limit;
         
         if(str.length() > maxLength) {
             return str.substring(0, maxLength) + "...";

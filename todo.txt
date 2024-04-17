@@ -1,9 +1,8 @@
 To do:
-x theme for settings
 x screen selector
 x shuffle mp3
-x play pause sync
 x new workspace
+x text field cut and tooltip long texts
 
 PREFERENCES UI:
 Using pichon app:
