@@ -694,7 +694,6 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         }
         
         MainFrame.strVidLoop = Utility.arrToStr(list);
-        System.out.println(MainFrame.strVidLoop);
     }//GEN-LAST:event_btnRemoveActionPerformed
     
     public void autosave() {
