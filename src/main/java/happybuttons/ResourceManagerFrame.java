@@ -641,6 +641,15 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                     (MainFrame.cboModel).addElement(selectedItem);
                     (MainFrame.tfLastOperation).setText("[ADDED VIDEO]:: " + selectedItem);
                 }
+                
+                if(MainFrame.strVidLoop.equals("")) {
+                    MainFrame.cboModel.removeAllElements();
+                    (MainFrame.cboModel).addElement(selectedItem);
+                    MainFrame.strVidLoop = selectedItem;
+                }
+                else {
+                    MainFrame.strVidLoop = MainFrame.strVidLoop + ":" + selectedItem;
+                }
 
                 listVL.setModel(listModelVL);
             }
@@ -653,8 +662,8 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             timer.start();
         }
         
-        MainFrame.strVidLoop = Utility.arrToStr(list);
-        System.out.println("Added to list: " + MainFrame.strVidLoop);
+//        MainFrame.strVidLoop = Utility.arrToStr(list);
+//        System.out.println("Added to list: " + MainFrame.strVidLoop);
     }//GEN-LAST:event_btnAddToListActionPerformed
 
     private void btnRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveActionPerformed
@@ -670,8 +679,10 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         if(!stringList.isEmpty()) { // not empty
             for(int i = 0; i < stringList.size(); i++) {
 //                list = Utility.addElementInStrArr(list.length, list, stringList.get(i));
-                list = Utility.removeIndexInStrArr(list, i);
+//                list = Utility.removeIndexInStrArr(list, i);
                 listModelVL.removeElement(stringList.get(i));
+                
+                (MainFrame.cboModel).removeElement(stringList.get(i));
             }
             autosave();
         }
@@ -702,31 +713,31 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
     }
     
     public void prepareSave() {
-        // BGMs
-        int listBGMSize = MainFrame.listBGM.getModel().getSize();
-        MainFrame.strBGM = "";
-        
-        for(int ctr = 0; ctr < listBGMSize; ctr++){
-            if(ctr == 0) {
-                MainFrame.strBGM = MainFrame.listBGM.getModel().getElementAt(ctr);
-            }
-            else if(ctr > 0 && ctr <= (listBGMSize - 1)) {
-                MainFrame.strBGM = MainFrame.strBGM + ":" + MainFrame.listBGM.getModel().getElementAt(ctr);
-            }
-        }
-        
-        // SFXs
-        int listSFXSize = MainFrame.listSFX.getModel().getSize();
-        MainFrame.strSFX = "";
-        
-        for(int ctr = 0; ctr < listSFXSize; ctr++){
-            if(ctr == 0) {
-                MainFrame.strSFX = MainFrame.listSFX.getModel().getElementAt(ctr);
-            }
-            else if(ctr > 0 && ctr <= (listSFXSize - 1)) {
-                MainFrame.strSFX = MainFrame.strSFX + ":" + MainFrame.listSFX.getModel().getElementAt(ctr);
-            }
-        }
+//        // BGMs
+//        int listBGMSize = MainFrame.listBGM.getModel().getSize();
+//        MainFrame.strBGM = "";
+//        
+//        for(int ctr = 0; ctr < listBGMSize; ctr++){
+//            if(ctr == 0) {
+//                MainFrame.strBGM = MainFrame.listBGM.getModel().getElementAt(ctr);
+//            }
+//            else if(ctr > 0 && ctr <= (listBGMSize - 1)) {
+//                MainFrame.strBGM = MainFrame.strBGM + ":" + MainFrame.listBGM.getModel().getElementAt(ctr);
+//            }
+//        }
+//        
+//        // SFXs
+//        int listSFXSize = MainFrame.listSFX.getModel().getSize();
+//        MainFrame.strSFX = "";
+//        
+//        for(int ctr = 0; ctr < listSFXSize; ctr++){
+//            if(ctr == 0) {
+//                MainFrame.strSFX = MainFrame.listSFX.getModel().getElementAt(ctr);
+//            }
+//            else if(ctr > 0 && ctr <= (listSFXSize - 1)) {
+//                MainFrame.strSFX = MainFrame.strSFX + ":" + MainFrame.listSFX.getModel().getElementAt(ctr);
+//            }
+//        }
         
         // Video Loop videos
         int cboHappyLoopSize = MainFrame.cboVidLoop.getModel().getSize();

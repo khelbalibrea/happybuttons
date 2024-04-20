@@ -142,6 +142,14 @@ public class AddMp3Frame extends javax.swing.JDialog {
                         (MainFrame.tfLastOperation).setText("[ADDED MP3]:: " + tblMp3List.getValueAt(selectedRows[i], 0).toString());
                     }
                     
+                    if(Utility.doesStrArrHasElement(MainFrame.mp3MainQueue, tblMp3List.getValueAt(selectedRows[i], 0).toString())) {
+                        MainFrame.mp3MainQueue = Utility.addElementInStrArr(MainFrame.mp3MainQueue, tblMp3List.getValueAt(selectedRows[i], 0).toString());
+                    }
+                    
+                    if(Utility.doesStrArrHasElement(MainFrame.mp3Queue, tblMp3List.getValueAt(selectedRows[i], 0).toString())) {
+                        MainFrame.mp3Queue = Utility.addElementInStrArr(MainFrame.mp3Queue, tblMp3List.getValueAt(selectedRows[i], 0).toString());
+                    }
+                    
                     (Mp3Frame.listMp3).setModel(MainFrame.mlist);
                     
 //                    if((MainFrame.cboModel).getIndexOf(tblMp3List.getValueAt(selectedRows[i], 0).toString()) < 0) {

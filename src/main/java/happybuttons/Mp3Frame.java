@@ -583,6 +583,14 @@ public class Mp3Frame extends javax.swing.JFrame {
                             MainFrame.tfLastOperation.setText("[ADDED MP3]:: " + file.getName());
                         }
                         
+                        if(Utility.doesStrArrHasElement(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "wav"))) {
+                            MainFrame.mp3MainQueue = Utility.addElementInStrArr(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "wav"));
+                        }
+                        
+                        if(Utility.doesStrArrHasElement(MainFrame.mp3Queue, Utility.renameListName(file.getName(), "wav"))) {
+                            MainFrame.mp3Queue = Utility.addElementInStrArr(MainFrame.mp3Queue, Utility.renameListName(file.getName(), "wav"));
+                        }
+                        
                         listMp3.setModel(MainFrame.mlist);
                     }
                     catch(IOException ex) {
@@ -638,6 +646,14 @@ public class Mp3Frame extends javax.swing.JFrame {
                         if(!MainFrame.mlist.contains(Utility.renameListName(file.getName(), "mp3"))) {
                             MainFrame.mlist.addElement(Utility.renameListName(file.getName(), "mp3"));
                             MainFrame.tfLastOperation.setText("[ADDED MP3]:: " + file.getName());
+                        }
+                        
+                        if(Utility.doesStrArrHasElement(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "mp3"))) {
+                            MainFrame.mp3MainQueue = Utility.addElementInStrArr(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "mp3"));
+                        }
+                        
+                        if(Utility.doesStrArrHasElement(MainFrame.mp3Queue, Utility.renameListName(file.getName(), "mp3"))) {
+                            MainFrame.mp3Queue = Utility.addElementInStrArr(MainFrame.mp3Queue, Utility.renameListName(file.getName(), "mp3"));
                         }
 
                         listMp3.setModel(MainFrame.mlist);
