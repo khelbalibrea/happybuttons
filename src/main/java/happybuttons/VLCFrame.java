@@ -131,7 +131,7 @@ public class VLCFrame extends javax.swing.JFrame {
             screenWidth = displayMode.getWidth();
             screenHeight = displayMode.getHeight();
 
-            String reso = "Second Screen Resolution: " + screenWidth + "x" + screenHeight;
+            String reso = "Playscreen Resolution: " + screenWidth + "x" + screenHeight;
 
             int ratioWidth = screenWidth / 120;
             int ratioHeight = (int) Math.ceil(screenHeight / 120);
@@ -157,7 +157,7 @@ public class VLCFrame extends javax.swing.JFrame {
             screenWidth = displayMode.getWidth();
             screenHeight = displayMode.getHeight();
 
-            String reso = "Second Screen Resolution: " + screenWidth + "x" + screenHeight;
+            String reso = "Playscreen Resolution: " + screenWidth + "x" + screenHeight;
 
             int ratioWidth = screenWidth / 120;
             int ratioHeight = (int) Math.ceil(screenHeight / 120);

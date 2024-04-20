@@ -112,13 +112,25 @@ public class Utility {
        newarr[arr.length] = addThis; 
    
        return newarr; 
-   } 
+   }
     
     public static String[] removeIndexInStrArr(String arr[], int index) {
         String[] copy = new String[arr.length - 1];
 
         for(int i = 0, j = 0; i < arr.length; i++) {
             if(i != index) {
+                copy[j++] = arr[i];
+            }
+        }
+        
+        return copy;
+    }
+    
+    public static String[] removeElementInStrArr(String[] arr, String element) {
+        String[] copy = new String[arr.length - 1];
+        
+        for(int i = 0, j = 0; i < arr.length; i++) {
+            if(!arr[i].equals(element)) {
                 copy[j++] = arr[i];
             }
         }

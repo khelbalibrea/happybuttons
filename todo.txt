@@ -3,6 +3,8 @@ x screen selector
 x shuffle mp3
 x new workspace
 x text field cut and tooltip long texts
+x Resources tools mp3
+x enable multiple selection in Mp3 list
 
 PREFERENCES UI:
 Using pichon app:
