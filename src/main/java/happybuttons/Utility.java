@@ -133,6 +133,8 @@ public class Utility {
             if(!arr[i].equals(element)) {
                 copy[j++] = arr[i];
             }
+//            testPrintStrArray(copy);
+//            System.out.println("\n");
         }
         
         return copy;

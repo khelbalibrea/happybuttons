@@ -1,8 +1,8 @@
 To do:
 x screen selector
-x text field cut and tooltip long texts
 x Resources tools mp3
-x enable multiple selection in Mp3 list
+x mp3 back button
+x mp3 seek
 
 PREFERENCES UI:
 Using pichon app:

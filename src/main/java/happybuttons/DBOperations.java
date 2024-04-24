@@ -144,10 +144,6 @@ public class DBOperations {
         
         // =================================================================================================== Get profile name and grp sfx names
         profileDB[indexDB].setProfileName(profile.getProfileName());
-            
-//        profileDB[indexDB].setSfxName1(profile.getSfxName1());
-//        profileDB[indexDB].setSfxName2(profile.getSfxName2());
-//        profileDB[indexDB].setSfxName3(profile.getSfxName3());
         
         // =================================================================================================== Get SFXs
         profileDB[indexDB].setR1Sfx01(profile.getR1Sfx01());
@@ -351,6 +347,9 @@ public class DBOperations {
             MainFrame.strMp3List = profileDB[index].getStrMp3List();
             
             loadJElements(profileDB, index);
+            
+            // loading mp3 queue
+            
             
             MainFrame.tfLastOperation.setText("PROFILE \"" + profileDB[index].getProfileName() + "\" LOADED");
             

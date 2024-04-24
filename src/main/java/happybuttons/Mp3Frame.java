@@ -47,9 +47,9 @@ public class Mp3Frame extends javax.swing.JFrame {
     String theme = HappyButtons.uiTheme;
     JFrame thisFrame = this;
     String[] list = {};
-    DefaultListModel<String> listModelMp3 = new DefaultListModel<>();
-    
-    public static DefaultListModel mlist = new DefaultListModel();
+//    DefaultListModel<String> listModelMp3 = new DefaultListModel<>();
+//    
+//    public static DefaultListModel mlist = new DefaultListModel();
     
     public Mp3Frame() {
         initComponents();
@@ -151,10 +151,10 @@ public class Mp3Frame extends javax.swing.JFrame {
                         String selectedItem = (String)MainFrame.mlist.getElementAt(index);
                         lblSongMp3.setText(Utility.shortenText(selectedItem, 18));
                         lblSongMp3.setToolTipText(selectedItem);
-                        MainFrame.selectedMp3Item = selectedItem;
                         MainFrame.tfMp3.setText(selectedItem);
                         MainFrame.mp3Playing = 0;
                         sortQueue();
+                        MainFrame.selectedMp3Item = selectedItem;
                         
                         MainFrame.playPauseMp3(1); // 1 means list click
                         
@@ -281,6 +281,14 @@ public class Mp3Frame extends javax.swing.JFrame {
                 btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(strIcon));
             }
         }
+        
+        if(!MainFrame.strMp3List.equals("")) {
+            String[] arr = Utility.strToArr(MainFrame.strMp3List);
+            
+            for(int i = 0; i < arr.length; i++) {
+                MainFrame.mp3MainQueue = Utility.addElementInStrArr(MainFrame.mp3MainQueue, arr[i]);
+            }
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -383,7 +391,6 @@ public class Mp3Frame extends javax.swing.JFrame {
         });
 
         listMp3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        listMp3.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         listMp3.setVisibleRowCount(100);
         jScrollPane1.setViewportView(listMp3);
 
@@ -506,7 +513,15 @@ public class Mp3Frame extends javax.swing.JFrame {
         panel.showNotification();
     }//GEN-LAST:event_btnBackMp3ActionPerformed
 
+    public void prevQueue() {
+        
+    }
+    
     private void btnNextMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextMp3ActionPerformed
+        nextQueue();
+    }//GEN-LAST:event_btnNextMp3ActionPerformed
+
+    public void nextQueue() {
         if(MainFrame.clipMp3.isRunning()) {
             MainFrame.clipMp3.removeLineListener(MainFrame.listenMp3);
             MainFrame.clipMp3.stop();
@@ -515,6 +530,7 @@ public class Mp3Frame extends javax.swing.JFrame {
                 if(MainFrame.mp3Repeat == 0) {
                     MainFrame.tfLastOperation.setText(Utility.shortenText("MP is not in repeat mode. Songs in list are done playing", 50));
                     MainFrame.tfLastOperation.setToolTipText("MP is not in repeat mode. Songs in list are done playing");
+                    MainFrame.iconPlayMp3 = 1;
                     setElementIcon(2, "play");
                 }
                 else if(MainFrame.mp3Repeat == 1) {
@@ -523,6 +539,7 @@ public class Mp3Frame extends javax.swing.JFrame {
                     MainFrame.mp3Queue = Utility.removeIndexInStrArr(MainFrame.mp3Queue, 0);
                     
                     MainFrame.btnNext = 1;
+                    MainFrame.iconPlayMp3 = 0;
                     MainFrame.playPauseMp3(2);
                     
                     setElementIcon(2, "pause");
@@ -530,6 +547,7 @@ public class Mp3Frame extends javax.swing.JFrame {
                 else if(MainFrame.mp3Repeat == 2) {
                     MainFrame.tfLastOperation.setText(Utility.shortenText("MP is not in repeat mode. Songs in list are done playing", 50));
                     MainFrame.tfLastOperation.setToolTipText("MP is not in repeat mode. Songs in list are done playing");
+                    MainFrame.iconPlayMp3 = 1;
                     setElementIcon(2, "play");
                 }
             }
@@ -540,6 +558,7 @@ public class Mp3Frame extends javax.swing.JFrame {
                         if(MainFrame.mp3Repeat == 0) {
                             MainFrame.tfLastOperation.setText(Utility.shortenText("MP is not in repeat mode. Songs in list are done playing", 50));
                             MainFrame.tfLastOperation.setToolTipText("MP is not in repeat mode. Songs in list are done playing");
+                            MainFrame.iconPlayMp3 = 1;
                             setElementIcon(2, "play");
                         }
                         else if(MainFrame.mp3Repeat == 1) {
@@ -548,6 +567,7 @@ public class Mp3Frame extends javax.swing.JFrame {
                             MainFrame.mp3Queue = Utility.removeIndexInStrArr(MainFrame.mp3Queue, 0);
 
                             MainFrame.btnNext = 1;
+                            MainFrame.iconPlayMp3 = 0;
                             MainFrame.playPauseMp3(2);
 
                             setElementIcon(2, "pause");
@@ -555,6 +575,7 @@ public class Mp3Frame extends javax.swing.JFrame {
                         else if(MainFrame.mp3Repeat == 2) {
                             MainFrame.tfLastOperation.setText(Utility.shortenText("MP is not in repeat mode. Songs in list are done playing", 50));
                             MainFrame.tfLastOperation.setToolTipText("MP is not in repeat mode. Songs in list are done playing");
+                            MainFrame.iconPlayMp3 = 1;
                             setElementIcon(2, "play");
                         }
                     }
@@ -568,6 +589,7 @@ public class Mp3Frame extends javax.swing.JFrame {
                 }
                 
                 MainFrame.btnNext = 1;
+                MainFrame.iconPlayMp3 = 0;
                 MainFrame.playPauseMp3(2);
                 setElementIcon(2, "pause");
             }
@@ -577,6 +599,7 @@ public class Mp3Frame extends javax.swing.JFrame {
                 if(MainFrame.mp3Repeat == 0) {
                     MainFrame.tfLastOperation.setText(Utility.shortenText("MP is not in repeat mode. Songs in list are done playing", 50));
                     MainFrame.tfLastOperation.setToolTipText("MP is not in repeat mode. Songs in list are done playing");
+                    MainFrame.iconPlayMp3 = 1;
                 }
                 else if(MainFrame.mp3Repeat == 1) {
                     MainFrame.mp3Queue = MainFrame.mp3MainQueue;
@@ -584,22 +607,25 @@ public class Mp3Frame extends javax.swing.JFrame {
                     MainFrame.mp3Queue = Utility.removeIndexInStrArr(MainFrame.mp3Queue, 0);
                     
                     MainFrame.btnNext = 1;
+                    MainFrame.iconPlayMp3 = 0;
                     MainFrame.playPauseMp3(2);
                 }
                 else if(MainFrame.mp3Repeat == 2) {
                     MainFrame.tfLastOperation.setText(Utility.shortenText("MP is not in repeat mode. Songs in list are done playing", 50));
                     MainFrame.tfLastOperation.setToolTipText("MP is not in repeat mode. Songs in list are done playing");
+                    MainFrame.iconPlayMp3 = 1;
                 }
             }
             else {
                 MainFrame.mp3Queue = Utility.removeIndexInStrArr(MainFrame.mp3Queue, 0);
                 MainFrame.selectedMp3Item = MainFrame.mp3Queue[0];
                 MainFrame.btnNext = 1;
+                MainFrame.iconPlayMp3 = 0;
                 MainFrame.playPauseMp3(2);
             }
         }
-    }//GEN-LAST:event_btnNextMp3ActionPerformed
-
+    }
+    
     private void btnPlayPauseMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseMp3ActionPerformed
         if(listMp3.getSelectedIndex() != -1) {
             MainFrame.selectedMp3Item = listMp3.getSelectedValue();
@@ -670,11 +696,11 @@ public class Mp3Frame extends javax.swing.JFrame {
                             MainFrame.tfLastOperation.setText("[ADDED MP3]:: " + file.getName());
                         }
                         
-                        if(Utility.doesStrArrHasElement(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "wav"))) {
+                        if(!Utility.doesStrArrHasElement(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "wav"))) {
                             MainFrame.mp3MainQueue = Utility.addElementInStrArr(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "wav"));
                         }
                         
-                        if(Utility.doesStrArrHasElement(MainFrame.mp3Queue, Utility.renameListName(file.getName(), "wav"))) {
+                        if(!Utility.doesStrArrHasElement(MainFrame.mp3Queue, Utility.renameListName(file.getName(), "wav"))) {
                             MainFrame.mp3Queue = Utility.addElementInStrArr(MainFrame.mp3Queue, Utility.renameListName(file.getName(), "wav"));
                         }
                         
@@ -732,14 +758,13 @@ public class Mp3Frame extends javax.swing.JFrame {
 
                         if(!MainFrame.mlist.contains(Utility.renameListName(file.getName(), "mp3"))) {
                             MainFrame.mlist.addElement(Utility.renameListName(file.getName(), "mp3"));
-                            MainFrame.tfLastOperation.setText("[ADDED MP3]:: " + file.getName());
                         }
                         
-                        if(Utility.doesStrArrHasElement(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "mp3"))) {
+                        if(!Utility.doesStrArrHasElement(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "mp3"))) {
                             MainFrame.mp3MainQueue = Utility.addElementInStrArr(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "mp3"));
                         }
                         
-                        if(Utility.doesStrArrHasElement(MainFrame.mp3Queue, Utility.renameListName(file.getName(), "mp3"))) {
+                        if(!Utility.doesStrArrHasElement(MainFrame.mp3Queue, Utility.renameListName(file.getName(), "mp3"))) {
                             MainFrame.mp3Queue = Utility.addElementInStrArr(MainFrame.mp3Queue, Utility.renameListName(file.getName(), "mp3"));
                         }
 
@@ -748,6 +773,16 @@ public class Mp3Frame extends javax.swing.JFrame {
                     catch(Exception e) {
                         e.printStackTrace();
                     }
+                }
+                MainFrame.mp3SortedQueue = MainFrame.mp3MainQueue;
+//                System.out.println("Sorted queue:\n");
+//                Utility.testPrintStrArray(MainFrame.mp3SortedQueue);
+                
+                if(MainFrame.mp3Shuffle == 1) {
+                    shuffle();
+                }
+                else {
+                    sortQueue();
                 }
             }
             
@@ -778,84 +813,70 @@ public class Mp3Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddMp3ActionPerformed
 
     private void volMp3StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_volMp3StateChanged
-        float f = (float)volMp3.getValue();
-        
-        if(f == 0) {
-            MainFrame.mp3Audio = 0;
-            
-            // set icon
-            if(theme.equals("light")) {
-                String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\no_audio_16px.png");
-                lblAudio.setIcon(new javax.swing.ImageIcon(icon));
-            }
-            else if(theme.equals("dark")) {
-                String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_no_audio_16px.png");
-                lblAudio.setIcon(new javax.swing.ImageIcon(icon));
-            }
-        }
-        else {
-            MainFrame.mp3Audio = 1;
-            
-            // set icon
-            if(theme.equals("light")) {
-                String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\audio_16px.png");
-                lblAudio.setIcon(new javax.swing.ImageIcon(icon));
-            }
-            else if(theme.equals("dark")) {
-                String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_audio_16px.png");
-                lblAudio.setIcon(new javax.swing.ImageIcon(icon));
-            }
-        }
-                
-        try { // calculation same as SFX
-            if(f >= 50) {
-                MainFrame.mp3Vol = 6 - ((100f - f)*(0.22f));
-            }
-
-            if(f < 50 && f >= 25) {
-                MainFrame.mp3Vol = -5 + (50f - f)*(-0.4f);
-            }
-
-            if(f < 25 && f >= 10) {
-                MainFrame.mp3Vol = -15 + (25f - f)*(-0.66f);
-            }
-
-            if(f < 10) {
-                MainFrame.mp3Vol = -25 + (10f - f)*(-5.5f);
-            }
-
-            MainFrame.fcMp3.setValue(MainFrame.mp3Vol); // float value
-        }
-        catch(Exception ex) {
-
-        }
-
-        lblAudio.setText(Integer.toString((int)volMp3.getValue()));
+//        float f = (float)volMp3.getValue();
+//        
+//        if(f == 0) {
+//            MainFrame.mp3Audio = 0;
+//            
+//            // set icon
+//            if(theme.equals("light")) {
+//                String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\no_audio_16px.png");
+//                lblAudio.setIcon(new javax.swing.ImageIcon(icon));
+//            }
+//            else if(theme.equals("dark")) {
+//                String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_no_audio_16px.png");
+//                lblAudio.setIcon(new javax.swing.ImageIcon(icon));
+//            }
+//        }
+//        else {
+//            MainFrame.mp3Audio = 1;
+//            
+//            // set icon
+//            if(theme.equals("light")) {
+//                String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\audio_16px.png");
+//                lblAudio.setIcon(new javax.swing.ImageIcon(icon));
+//            }
+//            else if(theme.equals("dark")) {
+//                String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_audio_16px.png");
+//                lblAudio.setIcon(new javax.swing.ImageIcon(icon));
+//            }
+//        }
+//                
+//        try { // calculation same as BGM
+//            if(f >= 50) {
+//                MainFrame.mp3Vol = 0 - ((100f - f)*(0.18f));
+//            }
+//
+//            if(f < 50 && f >= 25) {
+//                MainFrame.mp3Vol = -9 + (50f - f)*(-0.36f);
+//            }
+//
+//            if(f < 25 && f >= 10) {
+//                MainFrame.mp3Vol = -18 + (25f - f)*(-0.8f);
+//            }
+//
+//            if(f < 10) {
+//                MainFrame.mp3Vol = -30f + (10f - f)*(-5f);
+//            }
+//
+//            MainFrame.fcMp3.setValue(MainFrame.mp3Vol); // float value
+//        }
+//        catch(Exception ex) {
+//
+//        }
+//
+//        lblAudio.setText(Integer.toString((int)volMp3.getValue()));
+        MainFrame.mp3VolChange();
     }//GEN-LAST:event_volMp3StateChanged
 
     private void btnDeleteMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteMp3ActionPerformed
-//        List<String> stringList = listMp3.getSelectedValuesList();
-//        
-//        if(!stringList.isEmpty()) { // not empty
-//            for(int i = 0; i < stringList.size(); i++) {
-////                list = Utility.addElementInStrArr(list.length, list, stringList.get(i));
-////                list = Utility.removeIndexInStrArr(list, i);
-//                listModelMp3.removeElement(stringList.get(i));
-//            }
-//            autosave();
-//        }
-//        
-//        MainFrame.strMp3List = Utility.arrToStr(list);
+        List<String> stringList = listMp3.getSelectedValuesList();
         
-        if(listMp3.getSelectedIndex() != -1) {
-            String selectedItem = listMp3.getSelectedValue();
-        
-            if(!selectedItem.equals("")) {
-                MainFrame.tfLastOperation.setText("[DELETE BGM]:: " + selectedItem);
-                MainFrame.mlist.removeElement(selectedItem);
-                MainFrame.mp3LastFrame = 0;
-
-                if(selectedItem.equals(MainFrame.selectedMp3Item)) {
+        if(!stringList.isEmpty()) { // not empty
+            for(int i = 0; i < stringList.size(); i++) {
+//                list = Utility.addElementInStrArr(list.length, list, stringList.get(i));
+//                list = Utility.removeIndexInStrArr(list, i);
+                if(stringList.get(i).equals(MainFrame.selectedMp3Item)) {
                     MainFrame.selectedMp3Item = "";
 
                     MainFrame.clipMp3.removeLineListener(MainFrame.listenMp3);
@@ -867,44 +888,64 @@ public class Mp3Frame extends javax.swing.JFrame {
                     
                     setElementIcon(2, "play");
 
-//                    if(theme.equals("light")) {
-//                        btnPlayPauseMp3.setBackground(new JButton().getBackground());
-//                        String strIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_ui_18px.png");
-//                        btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(strIcon));
-//
-//                        MainFrame.btnPlayPauseMp3.setBackground(new JButton().getBackground());
-//                        String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
-//                        MainFrame.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(icon));
-//                    }
-//                    else if(theme.equals("dark")) {
-//                        btnPlayPauseMp3.setBackground(Color.GRAY);
-//                        String strIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_ui_18px.png");
-//                        btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(strIcon));
-//
-//                        MainFrame.btnPlayPauseMp3.setBackground(Color.GRAY);
-//                        String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_12px.png");
-//                        MainFrame.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(icon));
-//                    }
-
                     lblSongMp3.setText("");
                 }
                 
-                MainFrame.mp3MainQueue = Utility.removeElementInStrArr(MainFrame.mp3MainQueue, selectedItem);
-                if(Utility.doesStrArrHasElement(MainFrame.mp3Queue, selectedItem)) {
-                    MainFrame.mp3Queue = Utility.removeElementInStrArr(MainFrame.mp3Queue, selectedItem);
+                MainFrame.mlist.removeElement(stringList.get(i));
+                
+                MainFrame.mp3MainQueue = Utility.removeElementInStrArr(MainFrame.mp3MainQueue, stringList.get(i));
+                if(Utility.doesStrArrHasElement(MainFrame.mp3Queue, stringList.get(i))) {
+                    MainFrame.mp3Queue = Utility.removeElementInStrArr(MainFrame.mp3Queue, stringList.get(i));
                 }
-                
-                selectedItem = "";
-                
-                autosave();
             }
-            else {
-                MainFrame.tfLastOperation.setText("[DELETE Music]:: Nothing selected");
-            }
+            autosave();
         }
         else {
-            MainFrame.tfLastOperation.setText("[DELETE Music]:: Nothing selected");
+            MainFrame.tfLastOperation.setText(Utility.shortenText("[DELETE Music]:: Nothing selected", 50));
         }
+        
+//        if(listMp3.getSelectedIndex() != -1) {
+//            String selectedItem = listMp3.getSelectedValue();
+//        
+//            if(!selectedItem.equals("")) {
+//                MainFrame.tfLastOperation.setText("[DELETE BGM]:: " + selectedItem);
+//                MainFrame.mlist.removeElement(selectedItem);
+//                MainFrame.mp3LastFrame = 0;
+//
+//                if(selectedItem.equals(MainFrame.selectedMp3Item)) {
+//                    MainFrame.selectedMp3Item = "";
+//
+//                    MainFrame.clipMp3.removeLineListener(MainFrame.listenMp3);
+//                    MainFrame.clipMp3.stop();
+//
+//                    MainFrame.mp3Playing = 0;
+//                    MainFrame.mp3Pause = 0;
+//                    MainFrame.clipMp3 = null;
+//                    
+//                    setElementIcon(2, "play");
+//
+//                    lblSongMp3.setText("");
+//                }
+//                
+//                MainFrame.mp3MainQueue = Utility.removeElementInStrArr(MainFrame.mp3MainQueue, selectedItem);
+//                if(Utility.doesStrArrHasElement(MainFrame.mp3Queue, selectedItem)) {
+//                    MainFrame.mp3Queue = Utility.removeElementInStrArr(MainFrame.mp3Queue, selectedItem);
+//                }
+//                
+//                Utility.testPrintStrArray(MainFrame.mp3MainQueue);
+//                System.out.println(" -> " + MainFrame.mp3MainQueue.length);
+//                
+//                selectedItem = "";
+//                
+//                autosave();
+//            }
+//            else {
+//                MainFrame.tfLastOperation.setText("[DELETE Music]:: Nothing selected");
+//            }
+//        }
+//        else {
+//            MainFrame.tfLastOperation.setText("[DELETE Music]:: Nothing selected");
+//        }
     }//GEN-LAST:event_btnDeleteMp3ActionPerformed
 
     private void lblShuffleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblShuffleMouseClicked
@@ -924,7 +965,11 @@ public class Mp3Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_lblShuffleMouseClicked
     
     public static void sortQueue() {
-        int countStart = 0, length = MainFrame.mp3SortedQueue.length, ctr = 0;
+        int countStart = 0, length = 0, ctr = 0;
+        
+        if(MainFrame.mp3SortedQueue.length != 0) {
+            length = MainFrame.mp3SortedQueue.length;
+        }
         
         if(!MainFrame.selectedMp3Item.equals("")) {
             countStart = Utility.getIndexOfStrArrElement(MainFrame.mp3SortedQueue, MainFrame.selectedMp3Item);
@@ -978,7 +1023,7 @@ public class Mp3Frame extends javax.swing.JFrame {
         
         MainFrame.mp3MainQueue = MainFrame.mp3ShuffledQueue;
         MainFrame.mp3Queue = MainFrame.mp3MainQueue;
-//        System.out.println(Utility.arrToStr(MainFrame.mp3ShuffledQueue));
+//        System.out.println("Queue: " + Utility.arrToStr(MainFrame.mp3Queue));
     }
     
     private void lblRepeatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblRepeatMouseClicked
@@ -1404,7 +1449,7 @@ public class Mp3Frame extends javax.swing.JFrame {
     public static javax.swing.JButton btnNextMp3;
     public static javax.swing.JButton btnPlayPauseMp3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblAudio;
+    public static javax.swing.JLabel lblAudio;
     public static javax.swing.JLabel lblDuration;
     public static javax.swing.JLabel lblLastFrame;
     public static javax.swing.JLabel lblRepeat;

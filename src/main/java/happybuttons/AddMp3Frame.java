@@ -139,25 +139,27 @@ public class AddMp3Frame extends javax.swing.JDialog {
                     
                     if(!(MainFrame.mlist).contains(tblMp3List.getValueAt(selectedRows[i], 0).toString())) {
                         (MainFrame.mlist).addElement(tblMp3List.getValueAt(selectedRows[i], 0).toString());
-                        (MainFrame.tfLastOperation).setText("[ADDED MP3]:: " + tblMp3List.getValueAt(selectedRows[i], 0).toString());
                     }
                     
-                    if(Utility.doesStrArrHasElement(MainFrame.mp3MainQueue, tblMp3List.getValueAt(selectedRows[i], 0).toString())) {
+                    if(!Utility.doesStrArrHasElement(MainFrame.mp3MainQueue, tblMp3List.getValueAt(selectedRows[i], 0).toString())) {
                         MainFrame.mp3MainQueue = Utility.addElementInStrArr(MainFrame.mp3MainQueue, tblMp3List.getValueAt(selectedRows[i], 0).toString());
                     }
                     
-                    if(Utility.doesStrArrHasElement(MainFrame.mp3Queue, tblMp3List.getValueAt(selectedRows[i], 0).toString())) {
+                    if(!Utility.doesStrArrHasElement(MainFrame.mp3Queue, tblMp3List.getValueAt(selectedRows[i], 0).toString())) {
                         MainFrame.mp3Queue = Utility.addElementInStrArr(MainFrame.mp3Queue, tblMp3List.getValueAt(selectedRows[i], 0).toString());
                     }
                     
                     (Mp3Frame.listMp3).setModel(MainFrame.mlist);
-                    
-//                    if((MainFrame.cboModel).getIndexOf(tblMp3List.getValueAt(selectedRows[i], 0).toString()) < 0) {
-//                        (MainFrame.cboModel).addElement(tblMp3List.getValueAt(selectedRows[i], 0).toString());
-//                        (MainFrame.tfLastOperation).setText("[ADDED VIDEO]:: " + tblMp3List.getValueAt(selectedRows[i], 0).toString());
-//                    }
-//                     System.out.println(tblBGMList.getValueAt(selectedRows[i], 0).toString());
                 }
+                MainFrame.mp3SortedQueue = MainFrame.mp3MainQueue;
+                
+                if(MainFrame.mp3Shuffle == 1) {
+                    Mp3Frame.shuffle();
+                }
+                else {
+                    Mp3Frame.sortQueue();
+                }
+                
                 autosave();
 //                Mp3Frame.sortJList(MainFrame.mlist);
             }

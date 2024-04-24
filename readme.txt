@@ -11,4 +11,4 @@ Test-release and testing date:
 
 Final release:
 
-Icon resources: please download res folder
+Icon resources: please download res folder. Place it under Documents/HappyButtons/
