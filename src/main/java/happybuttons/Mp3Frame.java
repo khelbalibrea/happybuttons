@@ -45,11 +45,6 @@ import ws.schild.jave.encode.EncodingAttributes;
  */
 public class Mp3Frame extends javax.swing.JFrame {
     String theme = HappyButtons.uiTheme;
-    JFrame thisFrame = this;
-    String[] list = {};
-//    DefaultListModel<String> listModelMp3 = new DefaultListModel<>();
-//    
-//    public static DefaultListModel mlist = new DefaultListModel();
     
     public Mp3Frame() {
         initComponents();
@@ -503,18 +498,64 @@ public class Mp3Frame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBackMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackMp3ActionPerformed
-        Notification panel = new Notification(HappyButtons.mf, 
-            Notification.Type.INFO, 
-            MainFrame.location, 
-            "Under development",
-            "Previous button still on work"
-        );
-        
-        panel.showNotification();
+//        Notification panel = new Notification(HappyButtons.mf, 
+//            Notification.Type.INFO, 
+//            MainFrame.location, 
+//            "Under development",
+//            "Previous button still on work"
+//        );
+//        
+//        panel.showNotification();
+        prevQueue();
     }//GEN-LAST:event_btnBackMp3ActionPerformed
 
     public void prevQueue() {
-        
+//        System.out.println(MainFrame.prevSong);
+        if(MainFrame.prevSong == 0) {
+            if(MainFrame.clipMp3.isRunning()) {
+                MainFrame.clipMp3.removeLineListener(MainFrame.listenMp3);
+                MainFrame.clipMp3.stop();
+
+                MainFrame.clipMp3.setFramePosition(0);
+                MainFrame.playPauseMp3(2);
+
+                MainFrame.iconPlayMp3 = 0;
+                setElementIcon(2, "pause");
+            }
+            else {
+                MainFrame.clipMp3.setFramePosition(0);
+                MainFrame.iconPlayMp3 = 1;
+                setElementIcon(2, "play");
+            }
+        }
+        else {
+            int index = Utility.getIndexOfStrArrElement(MainFrame.mp3MainQueue, MainFrame.selectedMp3Item);
+            System.out.println("Index: " + index);
+            
+            if(index != 0) {
+                String[] newarr = new String[MainFrame.mp3Queue.length + 1];
+                
+                for(int i = 0; i < MainFrame.mp3Queue.length + 1; i++) {
+                    if(i == 0) {
+                        newarr[i] = MainFrame.mp3MainQueue[index - 1];
+                    }
+                    else {
+                        newarr[i] = MainFrame.mp3Queue[i - 1];
+                    }
+                }
+                MainFrame.mp3Queue = newarr;
+//                System.out.println("in - 1: " + MainFrame.mp3Queue[index - 1]);
+                MainFrame.selectedMp3Item = MainFrame.mp3Queue[index - 1];
+//                System.out.println("Main Q:");
+//                Utility.testPrintStrArray(MainFrame.mp3MainQueue);
+//                System.out.println("\nM Q:");
+//                Utility.testPrintStrArray(MainFrame.mp3Queue);
+                MainFrame.playPauseMp3(2);
+                MainFrame.mp3Queue = Utility.removeIndexInStrArr(MainFrame.mp3Queue, 0);
+//                System.out.println("After playing");
+//                Utility.testPrintStrArray(MainFrame.mp3Queue);
+            }
+        }
     }
     
     private void btnNextMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextMp3ActionPerformed
@@ -949,7 +990,7 @@ public class Mp3Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteMp3ActionPerformed
 
     private void lblShuffleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblShuffleMouseClicked
-        MainFrame.mp3MainQueue = new String[]{};
+        MainFrame.mp3MainQueue = new String[0];
         
         if(MainFrame.mp3Shuffle == 1) {
             MainFrame.mp3Shuffle = 0;
@@ -974,6 +1015,7 @@ public class Mp3Frame extends javax.swing.JFrame {
         if(!MainFrame.selectedMp3Item.equals("")) {
             countStart = Utility.getIndexOfStrArrElement(MainFrame.mp3SortedQueue, MainFrame.selectedMp3Item);
             
+            MainFrame.mp3MainQueue = new String[0];
             for(int i = countStart; i < MainFrame.mp3SortedQueue.length; i++) {
                 MainFrame.mp3MainQueue = Utility.addElementInStrArr(MainFrame.mp3MainQueue, MainFrame.mp3SortedQueue[i]);
                 ctr++;
@@ -989,11 +1031,12 @@ public class Mp3Frame extends javax.swing.JFrame {
             MainFrame.mp3Queue = MainFrame.mp3MainQueue;
         }
         else {
+            MainFrame.mp3MainQueue = new String[0];
             MainFrame.mp3MainQueue = MainFrame.mp3SortedQueue;
             MainFrame.mp3Queue = null;
             MainFrame.mp3Queue = MainFrame.mp3MainQueue;
         }
-//        System.out.println(Utility.arrToStr(MainFrame.mp3MainQueue));
+//        System.out.println("From sorted:\n" + Utility.arrToStr(MainFrame.mp3MainQueue));
     }
     
     public static void shuffle() {

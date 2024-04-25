@@ -44,9 +44,6 @@ public class VLCFrame extends javax.swing.JFrame {
     int screenWidth = 0, screenHeight = 0;
     String aspectRatio = "", origRatio = "";
     
-    /**
-     * Creates new form VLCFrame
-     */
     public VLCFrame() {
         super.setTitle("Video");
         initComponents();
@@ -138,7 +135,7 @@ public class VLCFrame extends javax.swing.JFrame {
             
             aspectRatio = ratioWidth + ":" + ratioHeight;
 
-            MainFrame.tfLastOperation.setText(reso + " (" + ratioWidth + ":" + ratioHeight + ")");
+            MainFrame.tfLastOperation.setText(reso + "  (" + ratioWidth + ":" + ratioHeight + ")");
         }
         else { // no secondary screen device detected
             GraphicsDevice screen = screenDevices[0];
@@ -164,7 +161,7 @@ public class VLCFrame extends javax.swing.JFrame {
             
             aspectRatio = ratioWidth + ":" + ratioHeight;
 
-            MainFrame.tfLastOperation.setText(reso + " (" + ratioWidth + ":" + ratioHeight + ")");
+            MainFrame.tfLastOperation.setText(reso + "  (" + ratioWidth + ":" + ratioHeight + ")");
         }
         
         frame.setVisible(true);
