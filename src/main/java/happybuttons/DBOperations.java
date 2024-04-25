@@ -625,7 +625,6 @@ public class DBOperations {
             
             int found = Utility.findIndexInStrArr(arr, search); // search the search item in array
             if(found >= 0) {
-//                System.out.println("Found in " + ctr);
                 if(strSFXList.equals("")) {
                     strSFXList = profileDB[ctr].getProfileName();
                 }

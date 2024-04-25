@@ -31,7 +31,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Michael Balibrea
  */
 public class ResourceManagerFrame extends javax.swing.JDialog {
-    DefaultTableModel tblModelBS, tblModelVL;
+    DefaultTableModel tblModelBS, tblModelVL, tblModelMusic;
     DefaultListModel<String> listModelVL = new DefaultListModel<>();
     String theme = HappyButtons.uiTheme;
     String[] list = {};
@@ -62,6 +62,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         populateBSTable();
         populateVLTable();
         loadJListVL();
+        populateMp3Table();
         
 //        String[] dataListVL = {};
 //        listVL.addListSelectionListener(e -> {
@@ -117,6 +118,22 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             });
         }
     }
+    
+    public void populateMp3Table() {
+        File mp3Folder = new File(HappyButtons.documentsPath + "/HappyButtons/mp3s/");
+        File[] mp3FileList = mp3Folder.listFiles();
+        
+        tblModelMusic = (DefaultTableModel) tblMusic.getModel();
+        
+        for(File f : mp3FileList) {
+            String mp3List = "";
+            mp3List = (HappyButtons.dbo).checkMp3InProfiles(HappyButtons.profileDB, Utility.renameListName(f.getName(), "wav"));
+            
+            tblModelMusic.insertRow(tblModelMusic.getRowCount(), new Object[]{
+                Utility.renameListName(f.getName(), "wav"), mp3List
+            });
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -147,6 +164,11 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         lblNS2 = new javax.swing.JLabel();
         lblNS1 = new javax.swing.JLabel();
         lblNS3 = new javax.swing.JLabel();
+        panelMp3 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblMusic = new javax.swing.JTable();
+        btnDeleteMusic = new javax.swing.JButton();
+        lblMusicNotif = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(700, 290));
@@ -266,6 +288,41 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
 
         tabPanel.addTab("Video Loop", panelHappyLoop);
 
+        panelMp3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tblMusic.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Music item", "Used in (Profile)"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(tblMusic);
+
+        panelMp3.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 640, 350));
+
+        btnDeleteMusic.setText("Delete");
+        btnDeleteMusic.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteMusicActionPerformed(evt);
+            }
+        });
+        panelMp3.add(btnDeleteMusic, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 13, 140, -1));
+
+        lblMusicNotif.setText("jLabel2");
+        panelMp3.add(lblMusicNotif, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 50, 140, -1));
+
+        tabPanel.addTab("Music", panelMp3);
+
         getContentPane().add(tabPanel, java.awt.BorderLayout.PAGE_START);
 
         pack();
@@ -277,12 +334,18 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             
             btnDeleteBS.setBackground(new JButton().getBackground());
             btnDeleteBS.setForeground(new JButton().getForeground());
+            
+            btnDeleteMusic.setBackground(new JButton().getBackground());
+            btnDeleteMusic.setForeground(new JButton().getForeground());
         }
         else if(theme.equals("dark")) {
             this.getContentPane().setBackground(Color.DARK_GRAY);
             
             btnDeleteBS.setBackground(Color.GRAY);
             btnDeleteBS.setForeground(Color.WHITE);
+            
+            btnDeleteMusic.setBackground(Color.GRAY);
+            btnDeleteMusic.setForeground(Color.WHITE);
         }
     }
     
@@ -363,47 +426,11 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
 
                         if(selectedType.equals("BGM")) {
                             (MainFrame.blist).removeElement(selectedItem);
-
-                            // gets the new list in bgm jlist
-        //                    int listBGMSize = (MainFrame.listBGM).getModel().getSize();
-        //                    MainFrame.strBGM = "";
-        //
-        //                    for(int ctr = 0; ctr < listBGMSize; ctr++){
-        //                        if(ctr == 0) {
-        //                            MainFrame.strBGM = (MainFrame.listBGM).getModel().getElementAt(ctr);
-        //                        }
-        //                        else if(ctr > 0 && ctr <= (listBGMSize - 1)) {
-        //                            MainFrame.strBGM = MainFrame.strBGM + ":" + (MainFrame.listBGM).getModel().getElementAt(ctr);
-        //                        }
-        //                    }
-        //                    
-        //                    // save automatically after deletion
-        //                    Profile profile = new Profile();
-        //                    HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
-        //                    (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
                         }
                         else if(selectedType.equals("SFX")) {
                             (MainFrame.slist).removeElement(selectedItem);
                             
                             Utility.blankSFXLabel(selectedItem);
-
-                            // gets the new list in sfx jlist
-        //                    int listSFXSize = (MainFrame.listSFX).getModel().getSize();
-        //                    MainFrame.strSFX = "";
-        //
-        //                    for(int ctr = 0; ctr < listSFXSize; ctr++){
-        //                        if(ctr == 0) {
-        //                            MainFrame.strSFX = (MainFrame.listSFX).getModel().getElementAt(ctr);
-        //                        }
-        //                        else if(ctr > 0 && ctr <= (listSFXSize - 1)) {
-        //                            MainFrame.strSFX = MainFrame.strSFX + ":" + (MainFrame.listSFX).getModel().getElementAt(ctr);
-        //                        }
-        //                    }
-        //                    
-        //                    // save automatically after deletion
-        //                    Profile profile = new Profile();
-        //                    HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
-        //                    (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
                         }
                         
                         lblNotif.setVisible(true);
@@ -695,6 +722,124 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         
         MainFrame.strVidLoop = Utility.arrToStr(list);
     }//GEN-LAST:event_btnRemoveActionPerformed
+
+    private void btnDeleteMusicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteMusicActionPerformed
+        int selectedRow = tblMusic.getSelectedRow();// for checking only if atleast one item is selected
+        int[] selectedRows = tblMusic.getSelectedRows();
+        File filePath = null;
+        String[] fileErrorMp3 = {};
+        int[] deleteRow = new int[]{};
+        String[] delRow = new String[]{};
+        
+        if(selectedRow != -1) {
+            int confirmation = JOptionPane.showConfirmDialog(null, 
+                    "Some item(s) may be used in other profiles.\nProceed to permanently delete selected item(s)?", 
+                    "Delete items", 
+                    JOptionPane.YES_NO_OPTION, 
+                    JOptionPane.WARNING_MESSAGE);
+            
+            if(confirmation == 0) {
+                String selectedItem = "";
+                
+                for(int i = 0; i < (selectedRows.length); i++) {
+                    selectedItem = tblModelMusic.getValueAt(selectedRows[i], 0).toString();
+                    
+                    filePath = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\mp3s\\" + selectedItem + ".wav");
+
+                    if(filePath.delete()) {
+                        // collect first the rows to be removed in table
+                        deleteRow = Utility.addElementInIntArr(deleteRow, selectedRows[i]);
+                        delRow = Utility.addElementInStrArr(delRow, selectedItem);
+
+                        (MainFrame.mlist).removeElement(selectedItem);
+                        
+                        lblMusicNotif.setVisible(true);
+                        lblMusicNotif.setForeground(Color.GREEN);
+                        String str = Utility.strDoubleSlash("<html>Sucessfully removed\nChanges saved<\\html>");
+                        lblMusicNotif.setText(str);
+                        labelNotifMusic.setRepeats(false);
+                        labelNotifMusic.start();
+                        
+                        selectedItem = "";
+                        autosave();
+                    }
+                    else {
+                        fileErrorMp3 = Utility.addElementInStrArr(fileErrorMp3, selectedItem);
+                        
+                        selectedItem = "";
+                    }
+                }
+                
+                // removing the collected rows to be deleted in table 
+                if(deleteRow.length > 0) {
+                    for(int i = (deleteRow.length-1); i >= 0; i--) {
+                        if(delRow[i].equals(MainFrame.selectedMp3Item)) {
+                            Mp3Frame.lblSongMp3.setText("");
+                            MainFrame.tfMp3.setText("");
+                            MainFrame.selectedMp3Item = "";
+                            MainFrame.clipMp3.removeLineListener(MainFrame.listenMp3);
+                            MainFrame.clipMp3.stop();
+                            MainFrame.mp3MainQueue = Utility.removeElementInStrArr(MainFrame.mp3MainQueue, delRow[i]);
+                            MainFrame.clipMp3 = null;
+                            MainFrame.iconPlayMp3 = 1;
+                            
+                            if(HappyButtons.uiTheme.equals("light")) {
+                                String btnIcon3 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
+                                MainFrame.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon3));
+                            }
+                            else if(HappyButtons.uiTheme.equals("dark")) {
+                                String btnIcon3 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_12px.png");
+                                MainFrame.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon3));
+                            }
+                            
+                            if(MainFrame.mp3.isShowing()) {
+                                if(theme.equals("light")) {
+                                    MainFrame.mp3.btnPlayPauseMp3.setBackground(new JButton().getBackground());
+                                    String strIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_ui_18px.png");
+                                    MainFrame.mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(strIcon));
+                                }
+                                else if(theme.equals("dark")) {
+                                    MainFrame.mp3.btnPlayPauseMp3.setBackground(Color.GRAY);
+                                    String strIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_ui_18px.png");
+                                    MainFrame.mp3.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(strIcon));
+                                }
+                            }
+                        }
+                        tblModelMusic.removeRow(deleteRow[i]);
+                    }
+                    
+                    deleteRow = null;
+                }
+                
+                if(fileErrorMp3.length > 0) {
+                    String err = "", strMp3ListDown = "";
+                    err = fileErrorMp3.length + " item(s)\nNote: The file may be deleted already or renamed\n";
+                    int errNumbering = 1;
+
+                    if(fileErrorMp3.length > 0) {
+                        for(int ii = 0; ii < fileErrorMp3.length; ii++) {
+                            strMp3ListDown = strMp3ListDown + "\n(" + errNumbering + ") " + fileErrorMp3[ii] + ".wav";
+                            errNumbering++;
+                        }
+                    }
+                    
+                    errNumbering = 1;
+
+                    JOptionPane.showMessageDialog(HappyButtons.mf, 
+                        "Error in deleting " + err + strMp3ListDown, 
+                        "File deletion error", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        else {
+            lblNotif.setVisible(true);
+            lblNotif.setForeground(Color.RED);
+            lblNotif.setText("Nothing selected");
+            labelNotif.setRepeats(false);
+            labelNotif.start();
+        }
+    }//GEN-LAST:event_btnDeleteMusicActionPerformed
     
     public void autosave() {
         if(MainFrame.enableAutosave.equals("on")) {
@@ -712,31 +857,31 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
     }
     
     public void prepareSave() {
-//        // BGMs
-//        int listBGMSize = MainFrame.listBGM.getModel().getSize();
-//        MainFrame.strBGM = "";
-//        
-//        for(int ctr = 0; ctr < listBGMSize; ctr++){
-//            if(ctr == 0) {
-//                MainFrame.strBGM = MainFrame.listBGM.getModel().getElementAt(ctr);
-//            }
-//            else if(ctr > 0 && ctr <= (listBGMSize - 1)) {
-//                MainFrame.strBGM = MainFrame.strBGM + ":" + MainFrame.listBGM.getModel().getElementAt(ctr);
-//            }
-//        }
-//        
-//        // SFXs
-//        int listSFXSize = MainFrame.listSFX.getModel().getSize();
-//        MainFrame.strSFX = "";
-//        
-//        for(int ctr = 0; ctr < listSFXSize; ctr++){
-//            if(ctr == 0) {
-//                MainFrame.strSFX = MainFrame.listSFX.getModel().getElementAt(ctr);
-//            }
-//            else if(ctr > 0 && ctr <= (listSFXSize - 1)) {
-//                MainFrame.strSFX = MainFrame.strSFX + ":" + MainFrame.listSFX.getModel().getElementAt(ctr);
-//            }
-//        }
+        // BGMs
+        int listBGMSize = MainFrame.listBGM.getModel().getSize();
+        MainFrame.strBGM = "";
+        
+        for(int ctr = 0; ctr < listBGMSize; ctr++){
+            if(ctr == 0) {
+                MainFrame.strBGM = MainFrame.listBGM.getModel().getElementAt(ctr);
+            }
+            else if(ctr > 0 && ctr <= (listBGMSize - 1)) {
+                MainFrame.strBGM = MainFrame.strBGM + ":" + MainFrame.listBGM.getModel().getElementAt(ctr);
+            }
+        }
+        
+        // SFXs
+        int listSFXSize = MainFrame.listSFX.getModel().getSize();
+        MainFrame.strSFX = "";
+        
+        for(int ctr = 0; ctr < listSFXSize; ctr++){
+            if(ctr == 0) {
+                MainFrame.strSFX = MainFrame.listSFX.getModel().getElementAt(ctr);
+            }
+            else if(ctr > 0 && ctr <= (listSFXSize - 1)) {
+                MainFrame.strSFX = MainFrame.strSFX + ":" + MainFrame.listSFX.getModel().getElementAt(ctr);
+            }
+        }
         
         // Video Loop videos
         int cboHappyLoopSize = MainFrame.cboVidLoop.getModel().getSize();
@@ -748,6 +893,19 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             }
             else if(ctr > 0 && ctr <= (cboHappyLoopSize - 1)) {
                 MainFrame.strVidLoop = MainFrame.strVidLoop + ":" + MainFrame.cboVidLoop.getModel().getElementAt(ctr);
+            }
+        }
+        
+        // Mp3
+        int listMp3Size = MainFrame.mlist.getSize(); System.out.println(listMp3Size);
+        MainFrame.strMp3List = "";
+        
+        for(int ctr = 0; ctr < listMp3Size; ctr++){
+            if(ctr == 0) {
+                MainFrame.strMp3List = MainFrame.mlist.getElementAt(ctr).toString();
+            }
+            else if(ctr > 0 && ctr <= (listSFXSize - 1)) {
+                MainFrame.strMp3List = MainFrame.strMp3List + ":" + MainFrame.mlist.getElementAt(ctr).toString();
             }
         }
     }
@@ -832,18 +990,28 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             lblNotif.setVisible(false);
         }
     });
+    
+    Timer labelNotifMusic = new Timer(3000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            lblMusicNotif.setVisible(false);
+        }
+    });
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddToList;
     private javax.swing.JButton btnAddVL;
     private javax.swing.JButton btnDeleteBS;
+    private javax.swing.JButton btnDeleteMusic;
     private javax.swing.JButton btnDeleteVL;
     private javax.swing.JButton btnRemove;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JLabel lblMusicNotif;
     private javax.swing.JLabel lblNS1;
     private javax.swing.JLabel lblNS2;
     private javax.swing.JLabel lblNS3;
@@ -851,7 +1019,9 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
     private javax.swing.JList<String> listVL;
     private javax.swing.JPanel panelBgmSfx;
     private javax.swing.JPanel panelHappyLoop;
+    private javax.swing.JPanel panelMp3;
     private javax.swing.JTabbedPane tabPanel;
+    private javax.swing.JTable tblMusic;
     private javax.swing.JTable tblResources;
     private javax.swing.JTable tblVideoLoop;
     // End of variables declaration//GEN-END:variables
