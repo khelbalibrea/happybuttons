@@ -1,7 +1,6 @@
 To do:
 x screen selector
-x Resources tools mp3
-x mp3 back button
+x mp3 search
 x mp3 seek
 
 PREFERENCES UI:

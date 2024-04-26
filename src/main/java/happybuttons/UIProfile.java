@@ -9,7 +9,7 @@ package happybuttons;
  * @author Michael Balibrea
  */
 public class UIProfile {
-    String prevTheme, vlcjPath, enableAutosave, startup, fullScreenVL, prevProfile, locationPopup;
+    String prevTheme, vlcjPath, enableAutosave, startup, fullScreenVL, prevProfile, locationPopup, vlShuffle;
     
     public String getPrevTheme(){
         return prevTheme;
@@ -67,6 +67,14 @@ public class UIProfile {
         this.locationPopup = locationPopup;
     }
     
+    public String getVLShuffle(){
+        return vlShuffle;
+    }
+    
+    public void setVLShuffle(String vlShuffle){
+        this.vlShuffle = vlShuffle;
+    }
+    
     public UIProfile(){
         prevTheme = "light";
         vlcjPath = "";
@@ -75,5 +83,6 @@ public class UIProfile {
         fullScreenVL = "window";
         prevProfile = "";
         locationPopup = "";
+        vlShuffle = "0";
     }
 }

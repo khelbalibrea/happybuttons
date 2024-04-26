@@ -141,13 +141,13 @@ public class AddVideoLoopFrame extends javax.swing.JDialog {
                     if(!(MainFrame.slist).contains(tblVLList.getValueAt(selectedRows[i], 0).toString())) {
                         (MainFrame.slist).addElement(tblVLList.getValueAt(selectedRows[i], 0).toString());
                     }
-                    if((MainFrame.cboModel).getIndexOf(tblVLList.getValueAt(selectedRows[i], 0).toString()) < 0) {
-                        (MainFrame.cboModel).addElement(tblVLList.getValueAt(selectedRows[i], 0).toString());
-                        (MainFrame.tfLastOperation).setText("[ADDED VIDEO]:: " + tblVLList.getValueAt(selectedRows[i], 0).toString());
-                    }
+//                    if((MainFrame.cboModel).getIndexOf(tblVLList.getValueAt(selectedRows[i], 0).toString()) < 0) {
+//                        (MainFrame.cboModel).addElement(tblVLList.getValueAt(selectedRows[i], 0).toString());
+//                        (MainFrame.tfLastOperation).setText("[ADDED VIDEO]:: " + tblVLList.getValueAt(selectedRows[i], 0).toString());
+//                    }
 //                     System.out.println(tblBGMList.getValueAt(selectedRows[i], 0).toString());
                 }
-                (MainFrame.cboVidLoop).setModel(MainFrame.cboModel);
+//                (MainFrame.cboVidLoop).setModel(MainFrame.cboModel);
             }
         }
     }//GEN-LAST:event_btnAddActionPerformed

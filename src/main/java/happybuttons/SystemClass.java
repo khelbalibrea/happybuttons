@@ -6,10 +6,7 @@ package happybuttons;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.io.File;
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -23,7 +20,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 /**
@@ -590,6 +586,9 @@ public class SystemClass {
             
             MainFrame.chkFitVL.setBackground(new JCheckBox().getBackground());
             MainFrame.chkFitVL.setForeground(new JCheckBox().getForeground());
+            
+            MainFrame.chkPLMode.setBackground(new JCheckBox().getBackground());
+            MainFrame.chkPLMode.setForeground(new JCheckBox().getForeground());
             
             // -------------------------------------------------------------------------------------- RADIO BUTTON
             MainFrame.chkSP.setBackground(new JRadioButton().getBackground());
@@ -1218,6 +1217,9 @@ public class SystemClass {
             MainFrame.chkFitVL.setBackground(Color.DARK_GRAY);
             MainFrame.chkFitVL.setForeground(Color.LIGHT_GRAY);
             
+            MainFrame.chkPLMode.setBackground(Color.DARK_GRAY);
+            MainFrame.chkPLMode.setForeground(Color.LIGHT_GRAY);
+            
             // -------------------------------------------------------------------------------------- RADIO BUTTON
             MainFrame.chkSP.setBackground(Color.DARK_GRAY);
             MainFrame.chkSP.setForeground(Color.LIGHT_GRAY);
@@ -1275,21 +1277,4 @@ public class SystemClass {
             MainFrame.itmAS.setVisible(false);
         }
     }
-    
-//    public static void MBar() {
-//        EventQueue.invokeLater(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-//                    
-//                }
-//
-//                UIManager.put("MenuBar.background", Color.RED);
-//                UIManager.put("Menu.background", Color.GREEN);
-//                UIManager.put("MenuItem.background", Color.MAGENTA);
-//            }
-//        });
-//    }
 }

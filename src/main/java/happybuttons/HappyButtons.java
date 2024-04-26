@@ -57,10 +57,6 @@ public class HappyButtons {
             dbo.loadEnvironment(profileDB, MainFrame.loadedIndexProfile);
         }
         
-        if(MainFrame.locPopup.equals("")) {
-            
-        }
-        
         SystemClass.UITheme(uiTheme);
         SystemClass.setupElementsStatus();
     }
@@ -227,23 +223,15 @@ public class HappyButtons {
             
             try {
                 file.createNewFile();
-//                firstCheck = "[SYSTEM] No database found";
-//                noDB = 1;
                 
                 UIProfile uiProfile = new UIProfile();
                 for(int ctr = 0; ctr < uiDB.length; ctr++) {
                     uiDB[ctr] = new UIPreference();
-//                    DBOperations.indexDB = ctr;
                     dbo.autoSaveUISettings(uiDB, uiProfile);
                 }
-                
-//                noDB = 0;
             }
             catch(Exception e){
-//                firstCheck = "[ERROR]::" + e.toString();
-//                System.out.println(e.toString());
-//                mf = new MainFrame();
-//                mf.setVisible(true);
+                
             }
         }
     }

@@ -172,6 +172,7 @@ public class SettingsFrame extends javax.swing.JDialog {
         });
 
         cboVLScreen.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Screen 1", "Screen 2", "Screen 3" }));
+        cboVLScreen.setSelectedIndex(1);
         cboVLScreen.setEnabled(false);
 
         jLabel1.setText("Video loop Screen:");

@@ -220,6 +220,24 @@ public class Utility {
         return ret;
     }
     
+    public static boolean searchInTable(DefaultTableModel table, String itemToCheck) {
+        boolean found = false;
+        
+        int rowCount = table.getRowCount();
+        int colCount = table.getColumnCount();
+        
+        for (int row = 0; row < rowCount; row++) {
+            for (int col = 0; col < colCount; col++) {
+                if (table.getValueAt(row, col).equals(itemToCheck)) {
+                    found = true;
+                    break;
+                }
+            }
+        }
+        
+        return found;
+    }
+    
     public static String shortenText(String str, int limit) {
         int maxLength = limit;
         

@@ -233,6 +233,8 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnStopSFX" min="-2" pref="22" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
+                      <Component id="chkPLMode" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblVideoLoop" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cboVidLoop" min="-2" pref="235" max="-2" attributes="0"/>
@@ -287,6 +289,7 @@
                       <Group type="103" alignment="1" groupAlignment="3" attributes="0">
                           <Component id="cboVidLoop" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
                           <Component id="lblVideoLoop" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="chkPLMode" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Component id="btnStopSFX" alignment="1" max="32767" attributes="0"/>
                       <Component id="btnPlayVL" alignment="1" max="32767" attributes="0"/>
@@ -4854,6 +4857,18 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkFitVLActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="chkPLMode">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="PL Mode"/>
+        <Property name="toolTipText" type="java.lang.String" value="VL Playlist mode"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkPLModeActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>

@@ -16,7 +16,7 @@ public class Profile {
             r2sfx10 = "", r2sfx11 = "", r2sfx12 = "", r2sfx13 = "", r2sfx14 = "", 
             r3sfx01 = "", r3sfx02 = "", r3sfx03 = "", r3sfx04 = "", r3sfx05 = "", r3sfx06 = "", r3sfx07 = "", r3sfx08 = "", r3sfx09 = "", 
             r3sfx10 = "", r3sfx11 = "", r3sfx12 = "", r3sfx13 = "", r3sfx14 = ""; 
-    String strBGM = "", strSFX = "", strVidLoop = "", strMp3List = "";
+    String strBGM = "", strSFX = "", strVidLoop = "", strVidList = "", strMp3List = "";
     
     public String getProfileName(){
         return profileName;
@@ -48,6 +48,14 @@ public class Profile {
     
     public void setStrVidLoop(String strVidLoop) {
         this.strVidLoop = strVidLoop;
+    }
+    
+    public String getStrVidList() {
+        return strVidList;
+    }
+    
+    public void setStrVidList(String strVidList) {
+        this.strVidList = strVidList;
     }
     
     public String getStrMp3List() {
@@ -408,6 +416,7 @@ public class Profile {
         strBGM = "";
         strSFX = "";
         strVidLoop = "";
+        strVidList = "";
         strMp3List = "";
     }
 }

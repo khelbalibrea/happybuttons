@@ -34,11 +34,11 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
 public class VLCFrame extends javax.swing.JFrame {
     MediaListener videoListener = new MediaListener();
     MediaPlayerEventAdapter adapter = new MediaPlayerEventAdapter();
-    ActionListener checkBoxAction, playAction, fitAction;
+    static ActionListener playAction, checkBoxAction, fitAction;
     String file = "", videoFilename = "";
+    EmbeddedMediaPlayer emp;
     Dimension dim;
     JFrame frame = this;
-    EmbeddedMediaPlayer emp;
     GraphicsDevice[] screenDevices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
     
     int screenWidth = 0, screenHeight = 0;
@@ -55,21 +55,6 @@ public class VLCFrame extends javax.swing.JFrame {
         ImageIcon imgIcon = new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
         setIconImage(imgIcon.getImage());
         
-        // Initializing actions
-        checkBoxAction = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(MainFrame.chkVLMute == 0) {
-                    MainFrame.chkVLMute = 1;
-                    emp.mute();
-                }
-                else {
-                    MainFrame.chkVLMute = 0;
-                    emp.mute(false);
-                }
-            }
-        };
-        
         fitAction = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,6 +65,25 @@ public class VLCFrame extends javax.swing.JFrame {
                 else {
                     MainFrame.chkVLFit = 0;
                     emp.setAspectRatio(origRatio);
+                }
+            }
+        };
+        
+        // Initializing actions for checkbox mute in VLC
+        checkBoxAction = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(MainFrame.chkVLMute == 0) {
+                    if(emp != null) {
+                        emp.mute();
+                        MainFrame.chkVLMute = 1;
+                    }
+                }
+                else {
+                    if(emp != null) {
+                        emp.mute(false);
+                        MainFrame.chkVLMute = 0;
+                    }
                 }
             }
         };
@@ -113,7 +117,6 @@ public class VLCFrame extends javax.swing.JFrame {
         if(screenDevices.length > 1) {
             GraphicsDevice secondScreen = screenDevices[1];
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-//            frame.setSize(400, 300);
             frame.setLocation(secondScreen.getDefaultConfiguration().getBounds().x, 0); // Set the location to the second screen
             frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
             
@@ -135,7 +138,8 @@ public class VLCFrame extends javax.swing.JFrame {
             
             aspectRatio = ratioWidth + ":" + ratioHeight;
 
-            MainFrame.tfLastOperation.setText(reso + "  (" + ratioWidth + ":" + ratioHeight + ")");
+            MainFrame.tfLastOperation.setText(Utility.shortenText(reso + "  (" + ratioWidth + ":" + ratioHeight + ")", 50));
+            MainFrame.tfLastOperation.setToolTipText(reso + "  (" + ratioWidth + ":" + ratioHeight + ")");
         }
         else { // no secondary screen device detected
             GraphicsDevice screen = screenDevices[0];
@@ -161,7 +165,8 @@ public class VLCFrame extends javax.swing.JFrame {
             
             aspectRatio = ratioWidth + ":" + ratioHeight;
 
-            MainFrame.tfLastOperation.setText(reso + "  (" + ratioWidth + ":" + ratioHeight + ")");
+            MainFrame.tfLastOperation.setText(Utility.shortenText(reso + "  (" + ratioWidth + ":" + ratioHeight + ")", 50));
+            MainFrame.tfLastOperation.setToolTipText(reso + "  (" + ratioWidth + ":" + ratioHeight + ")");
         }
         
         frame.setVisible(true);
@@ -269,19 +274,65 @@ public class VLCFrame extends javax.swing.JFrame {
 
         @Override
         public void finished(MediaPlayer mediaPlayer) {
-            if(MainFrame.chkVLLoop == 1){
-                mediaPlayer.prepareMedia(file);
-                dim = Toolkit.getDefaultToolkit().getScreenSize();
-                mediaPlayer.play();
+            if(MainFrame.chkVLModePL == 0) {
+                if(MainFrame.chkVLLoop == 1){
+                    mediaPlayer.prepareMedia(file);
+                    dim = Toolkit.getDefaultToolkit().getScreenSize();
+                    mediaPlayer.play();
+                }
+                else {
+                    mediaPlayer.stop();
+                    MainFrame.btnPlayVL.removeActionListener(playAction);
+                    MainFrame.chkMuteVL.removeActionListener(checkBoxAction);
+                    MainFrame.chkFitVL.removeActionListener(fitAction);
+                    frame.dispose();
+                    MainFrame.vlcjPlaying = 0;
+                }
             }
-            else {
-                mediaPlayer.stop();
-                MainFrame.btnPlayVL.removeActionListener(playAction);
-                MainFrame.chkMuteVL.removeActionListener(checkBoxAction);
-                MainFrame.chkFitVL.removeActionListener(fitAction);
-                frame.dispose();
-                MainFrame.vlcjPlaying = 0;
+            else { // playlist mode
+                if(MainFrame.chkVLLoop == 1){
+                    mediaPlayer.prepareMedia(file);
+                    dim = Toolkit.getDefaultToolkit().getScreenSize();
+                    mediaPlayer.play();
+                }
+                else {
+                    if(MainFrame.vidQueue.length == 1) {
+                        MainFrame.vidQueue = MainFrame.vlQueue;
+                        System.out.println("Ubos na");
+                        Utility.testPrintStrArray(MainFrame.vidQueue);
+                    }
+                    else {
+                        MainFrame.vidQueue = Utility.removeIndexInStrArr(MainFrame.vidQueue, 0);
+                        System.out.println("Meron pa");
+                        Utility.testPrintStrArray(MainFrame.vidQueue);
+                    }
+                    
+                    file = HappyButtons.documentsPathDoubleSlash + 
+                    Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 
+                            MainFrame.vidQueue[0] + 
+                            ".mp4");
+                    videoFilename = MainFrame.vidQueue[0];
+                    MainFrame.cboVidLoop.setSelectedItem(MainFrame.vidQueue[0]);
+                    
+                    mediaPlayer.prepareMedia(file);
+                    dim = Toolkit.getDefaultToolkit().getScreenSize();
+                    mediaPlayer.play();
+                }
             }
+            
+//            if(MainFrame.chkVLLoop == 1){
+//                mediaPlayer.prepareMedia(file);
+//                dim = Toolkit.getDefaultToolkit().getScreenSize();
+//                mediaPlayer.play();
+//            }
+//            else {
+//                mediaPlayer.stop();
+//                MainFrame.btnPlayVL.removeActionListener(playAction);
+//                MainFrame.chkMuteVL.removeActionListener(checkBoxAction);
+//                MainFrame.chkFitVL.removeActionListener(fitAction);
+//                frame.dispose();
+//                MainFrame.vlcjPlaying = 0;
+//            }
         }
 
         @Override

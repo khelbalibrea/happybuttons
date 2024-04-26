@@ -36,9 +36,6 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
     String theme = HappyButtons.uiTheme;
     String[] list = {};
     
-    /**
-     * Creates new form ResourceManagerFrame
-     */
     public ResourceManagerFrame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         super.setTitle("Resources");
@@ -64,15 +61,13 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         loadJListVL();
         populateMp3Table();
         
-//        String[] dataListVL = {};
-//        listVL.addListSelectionListener(e -> {
-//            var selectedIndices = listVL.getSelectedValuesList();
-//            String[] selectedValues = Arrays.stream(selectedIndices)
-//                    .mapToObj(i -> dataListVL[i])
-//                    .toArray(String[]::new);
-//
-//            System.out.println("Selected Values: " + Arrays.toString(selectedValues));
-//        });
+        chkShuffleVL.setVisible(false);
+        if(MainFrame.chkVLShuffle == 1) {
+            chkShuffleVL.setSelected(true);
+        }
+        else {
+            chkShuffleVL.setSelected(false);
+        }
     }
     
     public void populateBSTable() {
@@ -164,6 +159,8 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         lblNS2 = new javax.swing.JLabel();
         lblNS1 = new javax.swing.JLabel();
         lblNS3 = new javax.swing.JLabel();
+        cboVLType = new javax.swing.JComboBox<>();
+        chkShuffleVL = new javax.swing.JCheckBox();
         panelMp3 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblMusic = new javax.swing.JTable();
@@ -174,6 +171,12 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         setMaximumSize(new java.awt.Dimension(700, 290));
         setMinimumSize(new java.awt.Dimension(700, 290));
         setResizable(false);
+
+        tabPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabPanelMouseClicked(evt);
+            }
+        });
 
         panelBgmSfx.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -250,7 +253,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
 
         jScrollPane3.setViewportView(listVL);
 
-        panelHappyLoop.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(567, 30, 230, 290));
+        panelHappyLoop.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(567, 60, 230, 260));
 
         jLabel1.setText("My video list");
         panelHappyLoop.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 10, 140, -1));
@@ -286,6 +289,23 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         lblNS3.setText("Nothing selected");
         panelHappyLoop.add(lblNS3, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 10, 100, -1));
 
+        cboVLType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "For looping", "Playlist" }));
+        cboVLType.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboVLTypeActionPerformed(evt);
+            }
+        });
+        panelHappyLoop.add(cboVLType, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 32, 230, 20));
+
+        chkShuffleVL.setFont(new java.awt.Font("Segoe UI", 1, 8)); // NOI18N
+        chkShuffleVL.setText("Shuffle");
+        chkShuffleVL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkShuffleVLActionPerformed(evt);
+            }
+        });
+        panelHappyLoop.add(chkShuffleVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 330, 60, -1));
+
         tabPanel.addTab("Video Loop", panelHappyLoop);
 
         panelMp3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -317,9 +337,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             }
         });
         panelMp3.add(btnDeleteMusic, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 13, 140, -1));
-
-        lblMusicNotif.setText("jLabel2");
-        panelMp3.add(lblMusicNotif, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 50, 140, -1));
+        panelMp3.add(lblMusicNotif, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 50, 140, 20));
 
         tabPanel.addTab("Music", panelMp3);
 
@@ -351,27 +369,41 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
     
     public void loadJListVL() {
         if(MainFrame.loadedIndexProfile >= 0) {
-            System.out.println("Loaded profile: " + MainFrame.loadedIndexProfile);
-            System.out.println("Load JList: " + MainFrame.strVidLoop);
             String[] arrVL = Utility.strToArr(MainFrame.strVidLoop);
-//            String goneVLs = "";
-//            int vlLost = 0;
-//            int numbering = 1;
 
             for(String vid : arrVL) {
                 File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + vid + ".mp4");
                 if(!destCheck.exists()) {
                     int removedIndex = Utility.findIndexInStrArr(arrVL, vid);
                     arrVL = Utility.removeIndexInStrArr(arrVL, removedIndex);
-//                    vlLost++;
-//                    if(!goneVLs.equals("")) {
-//                        goneVLs = goneVLs + "(" + numbering + ") " + vid + ".mp4\n";
-//                        numbering++;
-//                    }
-//                    else {
-//                        goneVLs = "(" + numbering + ") " + vid + ".mp4\n";
-//                        numbering++;
-//                    }
+                }
+            }
+
+            if(listModelVL != null) {
+                listModelVL.removeAllElements();
+            }
+
+            for(String vid : arrVL) {
+                listModelVL.addElement(vid);
+            }
+            
+            for(int i = 0; i < listModelVL.size(); i++) {
+                list = Utility.addElementInStrArr(list, listModelVL.getElementAt(i));
+            }
+
+            listVL.setModel(listModelVL);
+        }
+    }
+    
+    public void loadJListVLPlaylist() {
+        if(MainFrame.loadedIndexProfile >= 0) {
+            String[] arrVL = Utility.strToArr(MainFrame.strVidList);
+            
+            for(String vid : arrVL) {
+                File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + vid + ".mp4");
+                if(!destCheck.exists()) {
+                    int removedIndex = Utility.findIndexInStrArr(arrVL, vid);
+                    arrVL = Utility.removeIndexInStrArr(arrVL, removedIndex);
                 }
             }
 
@@ -502,64 +534,45 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_btnDeleteBSActionPerformed
 
     private void btnAddVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddVLActionPerformed
-//        Object[] options = {"Add from App Resource", "Add from My PC files"};
-//        
-//        int choice = JOptionPane.showOptionDialog(HappyButtons.mf, "Select path where to get Video files",
-//                "Get Happy Loop video source",
-//                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
-//        
-//        if(choice == 0) {
-//            AddVideoLoopFrame addVLFrame = new AddVideoLoopFrame(HappyButtons.mf, true);
-//            addVLFrame.setVisible(true);
-//        }
-//        else {
-            JFileChooser fc = new JFileChooser();
-            FileFilter filter = new FileNameExtensionFilter("MP4 File", "mp4");
-            fc.setFileFilter(filter);
-            fc.setMultiSelectionEnabled(true);
-            fc.setPreferredSize(new Dimension(1000, 600));
-            fc.showOpenDialog(HappyButtons.mf);
+        JFileChooser fc = new JFileChooser();
+        FileFilter filter = new FileNameExtensionFilter("MP4 File", "mp4");
+        fc.setFileFilter(filter);
+        fc.setMultiSelectionEnabled(true);
+        fc.setPreferredSize(new Dimension(1000, 600));
+        fc.showOpenDialog(HappyButtons.mf);
 
-            File[] selectedFiles = fc.getSelectedFiles();
+        File[] selectedFiles = fc.getSelectedFiles();
 
-            for(File file : selectedFiles) {
-                try {
-                    FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
-                    File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + file.getName());
+        for(File file : selectedFiles) {
+            try {
+                FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
+                File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + file.getName());
 
-                    if(!destCheck.exists()) {
-                        FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + file.getName()).getChannel();
+                if(!destCheck.exists()) {
+                    FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + file.getName()).getChannel();
 
-                        src.transferTo(0, src.size(), dest);
+                    src.transferTo(0, src.size(), dest);
 
-                        src.close();
-                        dest.close();
-                    }
-
-//                    if((MainFrame.cboModel).getIndexOf(Utility.renameVideoName(file.getName())) < 0) {
-//                        (MainFrame.cboModel).addElement(Utility.renameVideoName(file.getName()));
-//                        (MainFrame.tfLastOperation).setText("[ADDED VIDEO]:: " + file.getName());
-//                    }
-
-                    if(Utility.searchInTableCol(tblModelVL, Utility.renameVideoName(file.getName()), 0) == false) {
-                        tblModelVL.insertRow(tblModelVL.getRowCount(), new Object[]{
-                            Utility.renameVideoName(file.getName()), ""
-                        });
-                    }
-                    
-                    autosave();
-
-//                    (MainFrame.cboVidLoop).setModel(MainFrame.cboModel);
+                    src.close();
+                    dest.close();
                 }
-                catch(IOException ex) {
-                    System.out.println(file.getAbsolutePath());
-                    JOptionPane.showMessageDialog(HappyButtons.mf,
-                        "Error reading/writing file",
-                        "IO Error", 
-                        JOptionPane.ERROR_MESSAGE);
+
+                if(!Utility.searchInTable(tblModelVL, Utility.renameVideoName(file.getName()))) {
+                    tblModelVL.insertRow(tblModelVL.getRowCount(), new Object[]{
+                        Utility.renameVideoName(file.getName()), ""
+                    });
                 }
+
+                autosave();
             }
-//        }
+            catch(IOException ex) {
+                System.out.println(file.getAbsolutePath());
+                JOptionPane.showMessageDialog(HappyButtons.mf,
+                    "Error reading/writing file",
+                    "IO Error", 
+                    JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_btnAddVLActionPerformed
 
     private void btnDeleteVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteVLActionPerformed
@@ -594,8 +607,16 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                         // collect first the rows to be removed in table
                         deleteRow = Utility.addElementInIntArr(deleteRow, selectedRows[i]);
                         
-                        (MainFrame.cboModel).removeElement(selectedItem);
-                        (MainFrame.cboVidLoop).removeItem(selectedItem);
+                        if(MainFrame.VLType.equals("forloop")) {
+                            (MainFrame.cboModelForLoop).removeElement(selectedItem);
+                        }
+                        else if(MainFrame.VLType.equals("playlist")){
+                            (MainFrame.cboModelPlaylist).removeElement(selectedItem);
+                        }
+                        
+                        if(listModelVL.contains(selectedItem)) {
+                            listModelVL.removeElement(selectedItem);
+                        }
                         
                         selectedItem = "";
                         autosave();
@@ -664,18 +685,44 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                     listModelVL.addElement(selectedItem);
                 }
                 
-                if((MainFrame.cboModel).getIndexOf(selectedItem) < 0) {
-                    (MainFrame.cboModel).addElement(selectedItem);
-                    (MainFrame.tfLastOperation).setText("[ADDED VIDEO]:: " + selectedItem);
+                if(MainFrame.VLType.equals("forloop")) {
+                    if((MainFrame.cboModelForLoop).getIndexOf(selectedItem) < 0) {
+                        (MainFrame.cboModelForLoop).addElement(selectedItem);
+                        (MainFrame.tfLastOperation).setText(Utility.shortenText("[ADDED VIDEO LOOP]:: " + selectedItem, 50));
+                        MainFrame.tfLastOperation.setToolTipText("[ADDED VIDEO LOOP]:: " + selectedItem);
+                    }
+
+                    if(MainFrame.strVidLoop.equals("")) {
+                        MainFrame.cboModelForLoop.removeAllElements();
+                        (MainFrame.cboModelForLoop).addElement(selectedItem);
+                        MainFrame.strVidLoop = selectedItem;
+                    }
+                    else {
+                        MainFrame.strVidLoop = MainFrame.strVidLoop + ":" + selectedItem;
+                    }
+                }
+                else if(MainFrame.VLType.equals("playlist")) {
+                    if((MainFrame.cboModelPlaylist).getIndexOf(selectedItem) < 0) {
+                        (MainFrame.cboModelPlaylist).addElement(selectedItem);
+                        (MainFrame.tfLastOperation).setText(Utility.shortenText("[ADDED VIDEO IN PLAYLIST]:: " + selectedItem, 50));
+                        MainFrame.tfLastOperation.setToolTipText("[ADDED VIDEO IN PLAYLIST]:: " + selectedItem);
+                    }
+
+                    if(MainFrame.strVidList.equals("")) {
+                        MainFrame.cboModelPlaylist.removeAllElements();
+                        (MainFrame.cboModelPlaylist).addElement(selectedItem);
+                        MainFrame.strVidList = selectedItem;
+                    }
+                    else {
+                        MainFrame.strVidList = MainFrame.strVidList + ":" + selectedItem;
+                    }  
                 }
                 
-                if(MainFrame.strVidLoop.equals("")) {
-                    MainFrame.cboModel.removeAllElements();
-                    (MainFrame.cboModel).addElement(selectedItem);
-                    MainFrame.strVidLoop = selectedItem;
+                if(MainFrame.cboVLType == 0) {
+                    MainFrame.cboVidLoop.setModel(MainFrame.cboModelForLoop);
                 }
-                else {
-                    MainFrame.strVidLoop = MainFrame.strVidLoop + ":" + selectedItem;
+                else if(MainFrame.cboVLType == 1) {
+                    MainFrame.cboVidLoop.setModel(MainFrame.cboModelPlaylist);
                 }
 
                 listVL.setModel(listModelVL);
@@ -705,11 +752,14 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         
         if(!stringList.isEmpty()) { // not empty
             for(int i = 0; i < stringList.size(); i++) {
-//                list = Utility.addElementInStrArr(list.length, list, stringList.get(i));
-//                list = Utility.removeIndexInStrArr(list, i);
                 listModelVL.removeElement(stringList.get(i));
                 
-                (MainFrame.cboModel).removeElement(stringList.get(i));
+                if(MainFrame.VLType.equals("forloop")) {
+                    (MainFrame.cboModelForLoop).removeElement(stringList.get(i));
+                }
+                else if(MainFrame.VLType.equals("playlist")) {
+                    (MainFrame.cboModelPlaylist).removeElement(stringList.get(i));
+                }
             }
             autosave();
         }
@@ -840,6 +890,39 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             labelNotif.start();
         }
     }//GEN-LAST:event_btnDeleteMusicActionPerformed
+
+    private void cboVLTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboVLTypeActionPerformed
+        if(cboVLType.getSelectedIndex() == 0) {
+            MainFrame.VLType = "forloop";
+            loadJListVL();
+            chkShuffleVL.setVisible(false);
+        }
+        else {
+            MainFrame.VLType = "playlist";
+            loadJListVLPlaylist();
+            chkShuffleVL.setVisible(true);
+        }
+    }//GEN-LAST:event_cboVLTypeActionPerformed
+
+    private void chkShuffleVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkShuffleVLActionPerformed
+        if(chkShuffleVL.isSelected()) {
+            MainFrame.chkVLShuffle = 1;
+        }
+        else {
+            MainFrame.chkVLShuffle = 0;
+        }
+        
+        uiAutosave();
+    }//GEN-LAST:event_chkShuffleVLActionPerformed
+
+    private void tabPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabPanelMouseClicked
+        if(cboVLType.getSelectedIndex() == 0) {
+            loadJListVL();
+        }
+        else if(cboVLType.getSelectedIndex() == 1) {
+            loadJListVLPlaylist();
+        }
+    }//GEN-LAST:event_tabPanelMouseClicked
     
     public void autosave() {
         if(MainFrame.enableAutosave.equals("on")) {
@@ -883,16 +966,29 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             }
         }
         
-        // Video Loop videos
-        int cboHappyLoopSize = MainFrame.cboVidLoop.getModel().getSize();
+        // Video for looping videos
+        int cboForLoopSize = MainFrame.cboModelForLoop.getSize();
         MainFrame.strVidLoop = "";
         
-        for(int ctr = 0; ctr < cboHappyLoopSize; ctr++) {
+        for(int ctr = 0; ctr < cboForLoopSize; ctr++) {
             if(ctr == 0) {
-                MainFrame.strVidLoop = MainFrame.cboVidLoop.getModel().getElementAt(ctr);
+                MainFrame.strVidLoop = MainFrame.cboModelForLoop.getElementAt(ctr).toString();
             }
-            else if(ctr > 0 && ctr <= (cboHappyLoopSize - 1)) {
-                MainFrame.strVidLoop = MainFrame.strVidLoop + ":" + MainFrame.cboVidLoop.getModel().getElementAt(ctr);
+            else if(ctr > 0 && ctr <= (cboForLoopSize - 1)) {
+                MainFrame.strVidLoop = MainFrame.strVidLoop + ":" + MainFrame.cboModelForLoop.getElementAt(ctr).toString();
+            }
+        }
+        
+        // Video for playlist videos
+        int cboPlaylistSize = MainFrame.cboModelPlaylist.getSize();
+        MainFrame.strVidList = "";
+        
+        for(int ctr = 0; ctr < cboPlaylistSize; ctr++) {
+            if(ctr == 0) {
+                MainFrame.strVidList = MainFrame.cboModelPlaylist.getElementAt(ctr).toString();
+            }
+            else if(ctr > 0 && ctr <= (cboPlaylistSize - 1)) {
+                MainFrame.strVidList = MainFrame.strVidList + ":" + MainFrame.cboModelPlaylist.getElementAt(ctr).toString();
             }
         }
         
@@ -939,6 +1035,11 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         else if(type == 2) {
             super.setTitle("Resources - (Saving changes..)");
         }
+    }
+    
+    public void uiAutosave() {
+        UIProfile ui = new UIProfile();
+        HappyButtons.dbo.autoSaveUISettings(HappyButtons.uiDB, ui);
     }
     
     /**
@@ -1005,6 +1106,8 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
     private javax.swing.JButton btnDeleteMusic;
     private javax.swing.JButton btnDeleteVL;
     private javax.swing.JButton btnRemove;
+    private javax.swing.JComboBox<String> cboVLType;
+    private javax.swing.JCheckBox chkShuffleVL;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

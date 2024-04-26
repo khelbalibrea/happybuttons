@@ -34,12 +34,14 @@ public class DBOperations {
             profile.setStrBGM(MainFrame.strBGM);
             profile.setStrSFX(MainFrame.strSFX);
             profile.setStrVidLoop(MainFrame.strVidLoop);
+            profile.setStrVidList(MainFrame.strVidList);
             profile.setStrMp3List(MainFrame.strMp3List);
         }
         else {
             profile.setStrBGM("");
             profile.setStrSFX("");
             profile.setStrVidLoop("");
+            profile.setStrVidList("");
             profile.setStrMp3List("");
         }
         
@@ -140,6 +142,7 @@ public class DBOperations {
         profileDB[indexDB].setStrBGM(profile.getStrBGM());
         profileDB[indexDB].setStrSFX(profile.getStrSFX());
         profileDB[indexDB].setStrVidLoop(profile.getStrVidLoop());
+        profileDB[indexDB].setStrVidList(profile.getStrVidList());
         profileDB[indexDB].setStrMp3List(profile.getStrMp3List());
         
         // =================================================================================================== Get profile name and grp sfx names
@@ -229,6 +232,9 @@ public class DBOperations {
         uiProfile.setLocationPopup(MainFrame.locPopup);
         uiPref[0].setLocationPopup(uiProfile.getLocationPopup());
         
+        uiProfile.setVLShuffle(String.valueOf(MainFrame.chkVLShuffle));
+        uiPref[0].setVLShuffle(uiProfile.getVLShuffle());
+        
         new BeanHelper().writeToXmlUI(uiPref);
         
         return true;
@@ -243,6 +249,7 @@ public class DBOperations {
         MainFrame.enableAutosave = uiPref[index].getEnableAutosave();
         MainFrame.startup = uiPref[index].getStartup();
         MainFrame.fullScreenVL = uiPref[index].getFullScreenVL();
+        MainFrame.chkVLShuffle = Integer.parseInt(uiPref[index].getVLShuffle());
         
         String prevProfile = uiPref[index].getPrevProfile();
         int equal = -1;
@@ -344,12 +351,12 @@ public class DBOperations {
             MainFrame.strBGM = profileDB[index].getStrBGM();
             MainFrame.strSFX = profileDB[index].getStrSFX();
             MainFrame.strVidLoop = profileDB[index].getStrVidLoop();
+            MainFrame.strVidList = profileDB[index].getStrVidList();
             MainFrame.strMp3List = profileDB[index].getStrMp3List();
             
             loadJElements(profileDB, index);
             
             // loading mp3 queue
-            
             
             MainFrame.tfLastOperation.setText("PROFILE \"" + profileDB[index].getProfileName() + "\" LOADED");
             
@@ -399,22 +406,32 @@ public class DBOperations {
         }
     }
     
-    public void sortJComboBox(String[] arr) {
-        String[] data = new String[arr.length];
+    public void sortJComboBox(String[] arrLoop, String[] arrPlaylist) {
+        String[] dataLoop = new String[arrLoop.length];
+        String[] dataList = new String[arrPlaylist.length];
         
-        for(int i = 0; i < arr.length; i++) {
-            data[i] = arr[i];
+        for(int i = 0; i < arrLoop.length; i++) {
+            dataLoop[i] = arrLoop[i];
+        }
+        for(int i = 0; i < arrPlaylist.length; i++) {
+            dataList[i] = arrPlaylist[i];
         }
         
-        Arrays.sort(data);
+        Arrays.sort(dataLoop);
+        Arrays.sort(dataList);
         
         (MainFrame.cboVidLoop).removeAllItems();
-        (MainFrame.cboModel).removeAllElements();
+        (MainFrame.cboModelForLoop).removeAllElements();
+        (MainFrame.cboModelPlaylist).removeAllElements();
         
-        for(String vid : data) {
-            (MainFrame.cboModel).addElement(vid);
+        for(String vid : dataLoop) {
+            (MainFrame.cboModelForLoop).addElement(vid);
         }
-        (MainFrame.cboVidLoop).setModel(MainFrame.cboModel);
+        for(String vid : dataList) {
+            (MainFrame.cboModelPlaylist).addElement(vid);
+        }
+        
+        (MainFrame.cboVidLoop).setModel(MainFrame.cboModelForLoop);
     }
     
     public void loadJElements(ProfileDatabase profileDB[], int index) {
@@ -488,17 +505,18 @@ public class DBOperations {
         sortJList(MainFrame.slist, 1); // 0 - bgm, 1 - sfx
         
         // ------------------------------------------------------------------------------------------------------ Loading Combo box VL list
-        String[] arrVid = Utility.splitParts(profileDB[index].getStrVidLoop());
+        String[] arrVidForLoop = Utility.splitParts(profileDB[index].getStrVidLoop());
+        String[] arrVidPlaylist = Utility.splitParts(profileDB[index].getStrVidList());
         String goneVids = "";
         int vidLost = 0;
         numbering = 1;
         
-        for(String vid : arrVid) {
+        for(String vid : arrVidForLoop) {
             if(!vid.equals("")) {
                 File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + vid + ".mp4");
                 if(!destCheck.exists()) {
-                    int removedIndex = Utility.findIndexInStrArr(arrVid, vid);
-                    arrVid = Utility.removeIndexInStrArr(arrVid, removedIndex);
+                    int removedIndex = Utility.findIndexInStrArr(arrVidForLoop, vid);
+                    arrVidForLoop = Utility.removeIndexInStrArr(arrVidForLoop, removedIndex);
                     vidLost++;
                     if(!goneVids.equals("")) {
                         goneVids = goneVids + "(" + numbering + ") " + vid + ".mp4\n";
@@ -512,7 +530,26 @@ public class DBOperations {
             }
         }
         
-        sortJComboBox(arrVid);
+        for(String vid : arrVidPlaylist) {
+            if(!vid.equals("")) {
+                File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + vid + ".mp4");
+                if(!destCheck.exists()) {
+                    int removedIndex = Utility.findIndexInStrArr(arrVidPlaylist, vid);
+                    arrVidPlaylist = Utility.removeIndexInStrArr(arrVidPlaylist, removedIndex);
+                    vidLost++;
+                    if(!goneVids.equals("")) {
+                        goneVids = goneVids + "(" + numbering + ") " + vid + ".mp4\n";
+                        numbering++;
+                    }
+                    else {
+                        goneVids = "(" + numbering + ") " + vid + ".mp4\n";
+                        numbering++;
+                    }
+                }
+            }
+        }
+        
+        sortJComboBox(arrVidForLoop, arrVidPlaylist);
         
         // --------------------------------------------------------------------------------------------- check for missing files
         boolean hasError = false;

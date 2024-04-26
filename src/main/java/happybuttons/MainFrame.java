@@ -25,6 +25,7 @@ import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -74,7 +75,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static DefaultListModel mlist = new DefaultListModel();
     public static int draggedList = -1; // -1 not selected, 0 bgm, 1 sfx
     public static int errorOccurred = 0;
-    public static DefaultComboBoxModel cboModel = new DefaultComboBoxModel();
+    public static DefaultComboBoxModel cboModelForLoop = new DefaultComboBoxModel();
+    public static DefaultComboBoxModel cboModelPlaylist = new DefaultComboBoxModel();
     
     // globals for media playing
     public static int playing1 = 0, playing2 = 0, pause1 = 0, pause2 = 0, mp3Playing = 0, mp3Pause = 0;
@@ -95,6 +97,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static String[] mp3ShuffledQueue = new String[0];
     public static String[] mp3MainQueue = new String[0];
     public static String[] mp3Queue = new String[0];
+    public static String[] vlQueue = new String[0];
+    public static String[] vidQueue = new String[0];
     
     static FloatControl fcBGM1, fcBGM2, fcSFX, fcMp3;
     static float bgmVol1 = 100f, bgmVol2 = 100f, sfxVol = 100f, mp3Vol = 100f;
@@ -107,7 +111,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     
     // Profiles
     public static String profileName1 = "", profileName2 = "", profileName3 = "", profileName4 = "", profileName5 = "";
-    public static String loadedProfile = "", savedProfile = "", savingProfile = "", strBGM = "", strSFX = "", strVidLoop = "", strMp3List = "";
+    public static String loadedProfile = "", savedProfile = "", savingProfile = "", strBGM = "", strSFX = "", strVidLoop = "", strVidList = "", strMp3List = "";
     public static int loadedIndexProfile = -1;
     
     // UI Components
@@ -116,16 +120,20 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static int vlcjPlaying = 0, // if VLC is playing, 0 -> not playing; 1 -> playing
             chkVLLoop = 1, // for checkbox VL loop
             chkVLMute = 1, // for checkbox VL mute
-            chkVLFit = 0, // for checkbox VL fir
+            chkVLFit = 0, // for checkbox VL fit
+            chkVLShuffle = 0, // for checkbox VL shuffle
+            chkVLModePL = 0, // for checkbox VL playlist mode
             dbLoadedManual = -1, // to check whether load function is manually clicked(1) or auto via load prev profile(0)
             chkShuffle = 0, // for checkbox Shuffle
             mp3FrameOpened = 0, // check is MP3 frame is opened, 0 -> closed; 1 -> opened
             prevSong = 0, // this is in prev button in music player; if 0->song will restart, 1->back to previous song
-            prevTimer = 0;
+            prevTimer = 0,
+            cboVLType = 0; // 0->forlooping videos, 1->playlist mode
     public static String enableAutosave = "on", // autosave status
             startup = "new", // new -> clean workspace after startup; load -> load previous loaded profile in startup
             fullScreenVL = "window", // whether the screen in Video loop is windowed(window) or full screen(full)
-            locPopup = "topcenter"; // String value for notification popup; used in saving UI
+            locPopup = "topcenter", // String value for notification popup; used in saving UI
+            VLType = "forloop"; // for detecting what combobox type will show in video loop
     public static Notification.Location location = Notification.Location.TOP_CENTER;
     public static Mp3Frame mp3;
     
@@ -517,7 +525,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                                 }
                                 else {
                                     if(playing2 == 1) {
-                                        tfLastOperation.setText("BGMs are busy, cannot input selected BGM");
+                                        tfLastOperation.setText(Utility.shortenText("BGMs are busy, cannot input selected BGM", 50));
+                                        tfLastOperation.setToolTipText("BGMs are busy, cannot input selected BGM");
                                     }
                                     else {
                                         tfBGM2.setText(selectedItem);
@@ -786,6 +795,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         chkLoopVL = new javax.swing.JCheckBox();
         chkMuteVL = new javax.swing.JCheckBox();
         chkFitVL = new javax.swing.JCheckBox();
+        chkPLMode = new javax.swing.JCheckBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itmNew = new javax.swing.JMenuItem();
@@ -3248,6 +3258,14 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
         });
 
+        chkPLMode.setText("PL Mode");
+        chkPLMode.setToolTipText("VL Playlist mode");
+        chkPLMode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkPLModeActionPerformed(evt);
+            }
+        });
+
         jMenuBar1.setName("mbrMain"); // NOI18N
         jMenuBar1.setOpaque(true);
 
@@ -3383,6 +3401,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnStopSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(chkPLMode)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblVideoLoop)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -3432,7 +3452,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         .addComponent(volSFX, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblVideoLoop))
+                            .addComponent(lblVideoLoop)
+                            .addComponent(chkPLMode))
                         .addComponent(btnStopSFX, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnPlayVL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnStopVL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -3500,6 +3521,10 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_togLinkBGMVolActionPerformed
 
     private void btnPlayPauseBGM1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseBGM1ActionPerformed
+        playPauseBgm1();
+    }//GEN-LAST:event_btnPlayPauseBGM1ActionPerformed
+    
+    public void playPauseBgm1() {
         listenBGM1 = (LineEvent event) -> {
             if(event.getType() == LineEvent.Type.STOP) {
                 playing1 = 0;
@@ -3626,8 +3651,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         else {
             errorOccurred = 0;
         }
-    }//GEN-LAST:event_btnPlayPauseBGM1ActionPerformed
-
+    }
+    
     private void btnAddBGMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddBGMActionPerformed
         Object[] options = {"Add from App Resource", "Add from My files"};
         
@@ -3690,10 +3715,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                             audio.setBitRate(16);
                             audio.setChannels(1);
                             audio.setSamplingRate(44100);
-
-                            // audio.setBitRate(new Integer(16));
-                            // audio.setChannels(new Integer(1));
-                            // audio.setSamplingRate(new Integer(44100));
 
                             EncodingAttributes attrs = new EncodingAttributes();
                             attrs.setOutputFormat("wav");
@@ -3856,6 +3877,10 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_btnClearBGM2ActionPerformed
 
     private void btnPlayPauseBGM2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayPauseBGM2ActionPerformed
+        playPauseBgm2();
+    }//GEN-LAST:event_btnPlayPauseBGM2ActionPerformed
+    
+    public void playPauseBgm2() {
         listenBGM2 = (LineEvent event) -> {
             if(event.getType() == LineEvent.Type.STOP) {
                 playing2 = 0;
@@ -3982,8 +4007,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         else {
             errorOccurred = 0;
         }
-    }//GEN-LAST:event_btnPlayPauseBGM2ActionPerformed
-
+    }
+    
     private void btnDeleteBGMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteBGMActionPerformed
         if(selectedBGMItem != "") {
             tfLastOperation.setText("[DELETE BGM]:: " + selectedBGMItem);
@@ -4133,14 +4158,15 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         (clipBGM2 != null && clipBGM2.isRunning()) || 
         (clipMp3 != null && clipMp3.isRunning()) || 
         vlcjPlaying == 1) {
-            tfLastOperation.setText("CANNOT CREATE NEW WORKSPACE, PLEASE STOP RUNNING BGM/SFX/Mp3 or PLAYING VIDEO LOOP");
+            tfLastOperation.setText(Utility.shortenText("Cannot create new workspace, please STOP running BGM / SFX / Mp3 or playing VIDEO LOOP", 50));
+            tfLastOperation.setToolTipText("Cannot create new workspace, please STOP running BGM / SFX / Mp3 or playing VIDEO LOOP");
         }
         else {
             super.setTitle("Happy Buttons");
             
             clipBGM1 = null; clipBGM2 = null; clipSFX = null; clipMp3 = null;
             blist.removeAllElements(); slist.removeAllElements(); mlist.removeAllElements();
-            cboVidLoop.removeAllItems(); cboModel.removeAllElements();
+            cboVidLoop.removeAllItems(); cboModelForLoop.removeAllElements(); cboModelPlaylist.removeAllElements();
             bgmVolumeLink = 0;
             
             draggedList = -1;
@@ -4189,6 +4215,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             
             mp3SortedQueue = new String[0]; mp3ShuffledQueue = new String[0];
             mp3MainQueue = new String[0]; mp3Queue = new String[0];
+            vlQueue = new String[0]; vidQueue = new String[0];
             
             if(mp3.isShowing()) {
                 mp3.volMp3.setValue(100);
@@ -4672,13 +4699,108 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             if((!HappyButtons.vlcjPath.isEmpty() || !HappyButtons.vlcjPath.isBlank() || 
             !HappyButtons.vlcjPath.equals("") || HappyButtons.vlcjPath != null)){
                 if(vlcjPlaying == 0){
-                    vlcjPlaying = 1;
-                    new VLCFrame();
+                    if(chkVLShuffle == 1) {
+                        if(vlQueue.length == 0) {
+                            shuffleVLList(0);
+                        }
+                        else {
+                            shuffleVLList(1); // it is like re-shuffling
+                        }
+
+                        vlcjPlaying = 1;
+                        new VLCFrame();
+                    }
+                    else { // not shuffled
+                        if(vlQueue.length == 0) {
+                            sortVLList(0);
+                        }
+                        else {
+                            sortVLList(1);
+                        }
+                        
+                        vlcjPlaying = 1;
+                        new VLCFrame();
+                    }
                 }
             }
+            else {
+                tfLastOperation.setText(Utility.shortenText("VIDEO:: Unable to start video loop. VLCj plugin not found/set", 50));
+                tfLastOperation.setToolTipText("VIDEO:: Unable to start video loop. VLCj plugin not found/set");
+            }
         }
+        
+//        if(cboVidLoop.getSelectedItem() != null) {
+//            if((!HappyButtons.vlcjPath.isEmpty() || !HappyButtons.vlcjPath.isBlank() || 
+//            !HappyButtons.vlcjPath.equals("") || HappyButtons.vlcjPath != null)){
+//                if(vlcjPlaying == 0){
+//                    vlcjPlaying = 1;
+//                    new VLCFrame();
+//                }
+//            }
+//        }
     }//GEN-LAST:event_btnPlayVLActionPerformed
 
+    public void shuffleVLList(int type) {
+        if(type == 0) {
+            String[] vlList = Utility.strToArr(strVidList);
+            int length = vlList.length, min = 1, randomIndex = -1;
+            int[] exclusion = new int[]{};
+            Random random = new Random();
+
+            exclusion = Utility.addElementInIntArr(exclusion, Utility.getIndexOfStrArrElement(vlList, cboVidLoop.getSelectedItem().toString()));
+            vlQueue = Utility.addElementInStrArr(vlQueue, cboVidLoop.getSelectedItem().toString());
+
+            for(int i = min; i < length; i++) {
+                do {
+                    randomIndex = random.nextInt(length - min + 1) + min;
+                }
+                while(Utility.doesIntArrHasElement(exclusion, randomIndex - 1));
+
+                exclusion = Utility.addElementInIntArr(exclusion, randomIndex - 1);
+                vlQueue = Utility.addElementInStrArr(vlQueue, vlList[randomIndex - 1]);
+            }
+        }
+        else if(type == 1) {
+            String[] vlList = new String[vlQueue.length];
+            int startedIndex = Utility.getIndexOfStrArrElement(vlQueue, cboVidLoop.getSelectedItem().toString());
+            
+            for(int i = 0; i < (vlQueue.length); i++) {
+                if((startedIndex + i) >= vlQueue.length) {
+                    vlList[i] = vlQueue[(startedIndex + i) - (vlQueue.length)];
+                }
+                else {
+                    vlList[i] = vlQueue[startedIndex + i];
+                }
+            }
+            vlQueue = vlList;
+        }
+        
+        vidQueue = vlQueue;
+    }
+    
+    public void sortVLList(int type) {
+        if(type == 0) {
+            vlQueue = Utility.strToArr(strVidList);
+        }
+        else if(type == 1) {
+            String[] vlList = new String[vlQueue.length];
+            int startedIndex = Utility.getIndexOfStrArrElement(vlQueue, cboVidLoop.getSelectedItem().toString());
+            
+            for(int i = 0; i < (vlQueue.length); i++) {
+                if((startedIndex + i) >= vlQueue.length) {
+                    vlList[i] = vlQueue[(startedIndex + i) - (vlQueue.length)];
+                }
+                else {
+                    vlList[i] = vlQueue[startedIndex + i];
+                }
+            }
+            
+            vlQueue = vlList;
+        }
+        
+        vidQueue = vlQueue;
+    }
+    
     private void btnStopVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopVLActionPerformed
         
     }//GEN-LAST:event_btnStopVLActionPerformed
@@ -5078,6 +5200,32 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         openMp3Frame();
     }//GEN-LAST:event_tfMp3MouseClicked
 
+    private void chkPLModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPLModeActionPerformed
+        if(chkPLMode.isSelected()) {
+            chkVLModePL = 1;
+            cboVidLoop.setModel(cboModelPlaylist);
+            
+            chkVLLoop = 0;
+            chkLoopVL.setSelected(false);
+            
+//            chkVLMute = 0;
+//            chkMuteVL.setSelected(false);
+        }
+        else {
+            chkVLModePL = 0;
+            cboVidLoop.setModel(cboModelForLoop);
+            
+            chkVLLoop = 1;
+            chkLoopVL.setSelected(true);
+            
+//            chkVLMute = 1;
+//            chkMuteVL.setSelected(true);
+        }
+        
+//        ActionEvent actionEvent = new ActionEvent(new Object(), ActionEvent.ACTION_PERFORMED, "command");
+//        checkBoxAction.actionPerformed(actionEvent);
+    }//GEN-LAST:event_chkPLModeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -5173,6 +5321,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JCheckBox chkLoop2;
     public static javax.swing.JCheckBox chkLoopVL;
     public static javax.swing.JCheckBox chkMuteVL;
+    public static javax.swing.JCheckBox chkPLMode;
     public static javax.swing.JCheckBox chkSP;
     public static javax.swing.JMenuItem itemSave;
     public static javax.swing.JMenu itmAS;
