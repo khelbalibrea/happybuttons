@@ -676,21 +676,35 @@ public class DBOperations {
     
     public static String checkVideoLoopInProfiles(ProfileDatabase[] profileDB, String search) {
         String strVideoLoopList = "";
+        String[] arr = new String[0];
+        String[] arrList = new String[0];
+        String[] has = new String[0];
         
         for(int ctr = 0; ctr < 5; ctr++) {
             String str = profileDB[ctr].getStrVidLoop(); // get the strVidLoop from DB
-            String[] arr = Utility.strToArr(str); // convert string to array
+            arr = Utility.strToArr(str); // convert string to array
             
             int found = Utility.findIndexInStrArr(arr, search); // search the search item in array
             if(found >= 0) {
-                if(strVideoLoopList.equals("")) {
-                    strVideoLoopList = profileDB[ctr].getProfileName();
-                }
-                else {
-                    strVideoLoopList = strVideoLoopList + ", " + profileDB[ctr].getProfileName();
+                if(Utility.findIndexInStrArr(has, profileDB[ctr].getProfileName()) < 0) {
+                    has = Utility.addElementInStrArr(has, profileDB[ctr].getProfileName());
                 }
             }
         }
+        
+        for(int ctr = 0; ctr < 5; ctr++) {
+            String strList = profileDB[ctr].getStrVidList(); // get the strVidList from DB
+            arrList = Utility.strToArr(strList); // convert string to array
+            
+            int found = Utility.findIndexInStrArr(arrList, search); // search the search item in array
+            if(found >= 0) {
+                if(Utility.findIndexInStrArr(has, profileDB[ctr].getProfileName()) < 0) {
+                    has = Utility.addElementInStrArr(has, profileDB[ctr].getProfileName());
+                }
+            }
+        }
+        
+        strVideoLoopList = Utility.arrToStr(has, ", ");
         
         return strVideoLoopList;
     }

@@ -182,14 +182,14 @@ public class Utility {
         return arr;
     }
     
-    public static String arrToStr(String[] arr) {
+    public static String arrToStr(String[] arr, String delimiter) {
         String arrStr = "";
         for(String data : arr) {
             if (arrStr.equals("")) {
                 arrStr = data;
             }
             else {
-                arrStr = arrStr + ":" + data;
+                arrStr = arrStr + delimiter + data;
             }
         }
         

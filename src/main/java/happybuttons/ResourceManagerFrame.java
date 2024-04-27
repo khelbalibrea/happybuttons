@@ -639,7 +639,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                 if(fileError.length > 0) {
                     String err = "", strListDown = "";
                     
-                    err = fileError.length + " item(s)\nNote: The file may be deleted already or renamed\n";
+                    err = fileError.length + " item(s)\nNote: The file may be deleted already, renamed, or currently playing\n";
                     strListDown = "";
                     
                     for(int i = 0; i < fileError.length; i++) {
@@ -770,7 +770,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             timer.start();
         }
         
-        MainFrame.strVidLoop = Utility.arrToStr(list);
+        MainFrame.strVidLoop = Utility.arrToStr(list, ":");
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnDeleteMusicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteMusicActionPerformed

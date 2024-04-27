@@ -363,8 +363,9 @@ public class Mp3Frame extends javax.swing.JFrame {
 
         lblLastFrame.setText("0:00:00");
 
+        tfSearch.setEditable(false);
         tfSearch.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        tfSearch.setText("Search");
+        tfSearch.setText("Search (not yet functional)");
         tfSearch.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         btnDeleteMp3.setMaximumSize(new java.awt.Dimension(22, 22));
