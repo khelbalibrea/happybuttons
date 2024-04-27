@@ -214,7 +214,7 @@ public class Mp3Frame extends javax.swing.JFrame {
             listMp3.setModel(MainFrame.mlist);
         }
         
-        volMp3.setValue(MainFrame.iconVolMp3);
+        volMp3.setValue(MainFrame.mp3VolumeValue);
         
         // Shuffle button
         if(MainFrame.mp3Shuffle == 0) {

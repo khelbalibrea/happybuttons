@@ -106,7 +106,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     
     static FloatControl fcBGM1, fcBGM2, fcSFX, fcMp3;
     static float bgmVol1 = 100f, bgmVol2 = 100f, sfxVol = 100f, mp3Vol = 100f;
-    public static int iconPlayMp3 = 1, iconVolMp3 = 100, btnNext = 0;
+    public static int iconPlayMp3 = 1, iconVolMp3 = 100, btnNext = 0, mp3VolumeValue = 100;
     
     // Jlist
     File bfolder = new File(HappyButtons.documentsPath + "/HappyButtons/bg/");
@@ -4554,6 +4554,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
         }
 
+        mp3VolumeValue = mp3.volMp3.getValue();
         mp3.lblAudio.setText(Integer.toString((int)mp3.volMp3.getValue()));
     }
     
