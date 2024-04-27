@@ -929,7 +929,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             if(HappyButtons.canAutosave == 1) {
                 prepareSave();
                 Profile profile = new Profile();
-                DBOperations.indexDB = HappyButtons.loadedDB;
+                DBOperations.indexDB = MainFrame.loadedIndexProfile;
 
                 HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
                 (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);

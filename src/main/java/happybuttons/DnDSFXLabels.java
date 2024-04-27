@@ -71,10 +71,10 @@ public class DnDSFXLabels extends TransferHandler {
     
     public void autosave() {
         if(MainFrame.enableAutosave.equals("on")) {
-            if(HappyButtons.canAutosave == 1) {
+            if(HappyButtons.canAutosave == 1) { 
                 prepareSave();
                 Profile profile = new Profile();
-                DBOperations.indexDB = HappyButtons.loadedDB;
+                DBOperations.indexDB = MainFrame.loadedIndexProfile;
 
                 HappyButtons.profileDB[HappyButtons.loadedDB] = new ProfileDatabase();
                 (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
@@ -87,18 +87,18 @@ public class DnDSFXLabels extends TransferHandler {
     }
     
     public void prepareSave() {
-        // BGMs
-        int listBGMSize = MainFrame.listBGM.getModel().getSize();
-        MainFrame.strBGM = "";
-        
-        for(int ctr = 0; ctr < listBGMSize; ctr++){
-            if(ctr == 0) {
-                MainFrame.strBGM = MainFrame.listBGM.getModel().getElementAt(ctr);
-            }
-            else if(ctr > 0 && ctr <= (listBGMSize - 1)) {
-                MainFrame.strBGM = MainFrame.strBGM + ":" + MainFrame.listBGM.getModel().getElementAt(ctr);
-            }
-        }
+//        // BGMs
+//        int listBGMSize = MainFrame.listBGM.getModel().getSize();
+//        MainFrame.strBGM = "";
+//        
+//        for(int ctr = 0; ctr < listBGMSize; ctr++){
+//            if(ctr == 0) {
+//                MainFrame.strBGM = MainFrame.listBGM.getModel().getElementAt(ctr);
+//            }
+//            else if(ctr > 0 && ctr <= (listBGMSize - 1)) {
+//                MainFrame.strBGM = MainFrame.strBGM + ":" + MainFrame.listBGM.getModel().getElementAt(ctr);
+//            }
+//        }
         
         // SFXs
         int listSFXSize = MainFrame.listSFX.getModel().getSize();
@@ -113,30 +113,30 @@ public class DnDSFXLabels extends TransferHandler {
             }
         }
         
-        // Video Loop videos
-        int cboHappyLoopSize = MainFrame.cboVidLoop.getModel().getSize();
-        MainFrame.strVidLoop = "";
-        
-        for(int ctr = 0; ctr < cboHappyLoopSize; ctr++) {
-            if(ctr == 0) {
-                MainFrame.strVidLoop = MainFrame.cboVidLoop.getModel().getElementAt(ctr);
-            }
-            else if(ctr > 0 && ctr <= (cboHappyLoopSize - 1)) {
-                MainFrame.strVidLoop = MainFrame.strVidLoop + ":" + MainFrame.cboVidLoop.getModel().getElementAt(ctr);
-            }
-        }
-        
-        // Mp3s
-        int listMp3Size = Mp3Frame.listMp3.getModel().getSize();
-        MainFrame.strMp3List = "";
-        
-        for(int ctr = 0; ctr < listMp3Size; ctr++){
-            if(ctr == 0) {
-                MainFrame.strMp3List = Mp3Frame.listMp3.getModel().getElementAt(ctr);
-            }
-            else if(ctr > 0 && ctr <= (listMp3Size - 1)) {
-                MainFrame.strMp3List = MainFrame.strMp3List + ":" + Mp3Frame.listMp3.getModel().getElementAt(ctr);
-            }
-        }
+//        // Video Loop videos
+//        int cboHappyLoopSize = MainFrame.cboVidLoop.getModel().getSize();
+//        MainFrame.strVidLoop = "";
+//        
+//        for(int ctr = 0; ctr < cboHappyLoopSize; ctr++) {
+//            if(ctr == 0) {
+//                MainFrame.strVidLoop = MainFrame.cboVidLoop.getModel().getElementAt(ctr);
+//            }
+//            else if(ctr > 0 && ctr <= (cboHappyLoopSize - 1)) {
+//                MainFrame.strVidLoop = MainFrame.strVidLoop + ":" + MainFrame.cboVidLoop.getModel().getElementAt(ctr);
+//            }
+//        }
+//        
+//        // Mp3s
+//        int listMp3Size = Mp3Frame.listMp3.getModel().getSize();
+//        MainFrame.strMp3List = "";
+//        
+//        for(int ctr = 0; ctr < listMp3Size; ctr++){
+//            if(ctr == 0) {
+//                MainFrame.strMp3List = Mp3Frame.listMp3.getModel().getElementAt(ctr);
+//            }
+//            else if(ctr > 0 && ctr <= (listMp3Size - 1)) {
+//                MainFrame.strMp3List = MainFrame.strMp3List + ":" + Mp3Frame.listMp3.getModel().getElementAt(ctr);
+//            }
+//        }
     }
 }

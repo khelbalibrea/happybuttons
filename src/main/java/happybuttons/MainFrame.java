@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.Font;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -45,10 +46,12 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -67,6 +70,7 @@ import ws.schild.jave.encode.EncodingAttributes;
 public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public Image icon;
     static Timer timer, timerMp;
+    MouseListener rightButton;
     
     // Globals
     public static int bgmVolumeLink = 0;
@@ -128,7 +132,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             mp3FrameOpened = 0, // check is MP3 frame is opened, 0 -> closed; 1 -> opened
             prevSong = 0, // this is in prev button in music player; if 0->song will restart, 1->back to previous song
             prevTimer = 0,
-            cboVLType = 0; // 0->forlooping videos, 1->playlist mode
+            cboVLType = 0, // 0->forlooping videos, 1->playlist mode
+            vlStopClicked = 1; // for allowing to play vl loop when video item is same as the previous
     public static String enableAutosave = "on", // autosave status
             startup = "new", // new -> clean workspace after startup; load -> load previous loaded profile in startup
             fullScreenVL = "window", // whether the screen in Video loop is windowed(window) or full screen(full)
@@ -372,6 +377,66 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         lblR3SFX12.setTransferHandler(new DnDSFXLabels());
         lblR3SFX13.setTransferHandler(new DnDSFXLabels());
         lblR3SFX14.setTransferHandler(new DnDSFXLabels());
+        
+        // -------------------------------------------------------------------------------------------------------------- RIGHT CLICK LABELS -->
+        rightButton = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(SwingUtilities.isRightMouseButton(e)) {
+                    JComponent sourceComponent = (JComponent) e.getSource();
+                    if(sourceComponent instanceof JLabel) {
+                        JLabel sourceButton = (JLabel) sourceComponent;
+                        sourceButton.setText("<html><center>blank</center></html>");
+                        autosave();
+                    }
+                }
+            }
+        };
+        
+        lblR1SFX01.addMouseListener(rightButton);
+        lblR1SFX02.addMouseListener(rightButton);
+        lblR1SFX03.addMouseListener(rightButton);
+        lblR1SFX04.addMouseListener(rightButton);
+        lblR1SFX05.addMouseListener(rightButton);
+        lblR1SFX06.addMouseListener(rightButton);
+        lblR1SFX07.addMouseListener(rightButton);
+        lblR1SFX08.addMouseListener(rightButton);
+        lblR1SFX09.addMouseListener(rightButton);
+        lblR1SFX10.addMouseListener(rightButton);
+        lblR1SFX11.addMouseListener(rightButton);
+        lblR1SFX12.addMouseListener(rightButton);
+        lblR1SFX13.addMouseListener(rightButton);
+        lblR1SFX14.addMouseListener(rightButton);
+        
+        lblR2SFX01.addMouseListener(rightButton);
+        lblR2SFX02.addMouseListener(rightButton);
+        lblR2SFX03.addMouseListener(rightButton);
+        lblR2SFX04.addMouseListener(rightButton);
+        lblR2SFX05.addMouseListener(rightButton);
+        lblR2SFX06.addMouseListener(rightButton);
+        lblR2SFX07.addMouseListener(rightButton);
+        lblR2SFX08.addMouseListener(rightButton);
+        lblR2SFX09.addMouseListener(rightButton);
+        lblR2SFX10.addMouseListener(rightButton);
+        lblR2SFX11.addMouseListener(rightButton);
+        lblR2SFX12.addMouseListener(rightButton);
+        lblR2SFX13.addMouseListener(rightButton);
+        lblR2SFX14.addMouseListener(rightButton);
+        
+        lblR3SFX01.addMouseListener(rightButton);
+        lblR3SFX02.addMouseListener(rightButton);
+        lblR3SFX03.addMouseListener(rightButton);
+        lblR3SFX04.addMouseListener(rightButton);
+        lblR3SFX05.addMouseListener(rightButton);
+        lblR3SFX06.addMouseListener(rightButton);
+        lblR3SFX07.addMouseListener(rightButton);
+        lblR3SFX08.addMouseListener(rightButton);
+        lblR3SFX09.addMouseListener(rightButton);
+        lblR3SFX10.addMouseListener(rightButton);
+        lblR3SFX11.addMouseListener(rightButton);
+        lblR3SFX12.addMouseListener(rightButton);
+        lblR3SFX13.addMouseListener(rightButton);
+        lblR3SFX14.addMouseListener(rightButton);
         
         // -------------------------------------------------------------------------------------------------------------- HOTKEYS -->
         Action actSfxSP = new AbstractAction() {
@@ -4721,6 +4786,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         vlcjPlaying = 1;
                         new VLCFrame();
                     }
+                    vlStopClicked = 0;
                 }
             }
             else {

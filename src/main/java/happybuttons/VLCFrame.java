@@ -92,17 +92,19 @@ public class VLCFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!((MainFrame.cboVidLoop).getSelectedItem().toString()).equals(videoFilename)) {
-                    emp.removeMediaPlayerEventListener(videoListener);
-                    emp.stop();
-                    
-                    file = HappyButtons.documentsPathDoubleSlash + 
-                    Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 
-                            (MainFrame.cboVidLoop).getSelectedItem() + 
-                            ".mp4");
-                    videoFilename = (MainFrame.cboVidLoop).getSelectedItem().toString();
-                    emp.prepareMedia(file);
-                    emp.addMediaPlayerEventListener(videoListener);
-                    emp.play();
+//                    if(MainFrame.vlStopClicked == 1) {
+                        emp.removeMediaPlayerEventListener(videoListener);
+                        emp.stop();
+
+                        file = HappyButtons.documentsPathDoubleSlash + 
+                        Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 
+                                (MainFrame.cboVidLoop).getSelectedItem() + 
+                                ".mp4");
+                        videoFilename = (MainFrame.cboVidLoop).getSelectedItem().toString();
+                        emp.prepareMedia(file);
+                        emp.addMediaPlayerEventListener(videoListener);
+                        emp.play();
+//                    }
                 }
             }
         };
@@ -180,6 +182,7 @@ public class VLCFrame extends javax.swing.JFrame {
                     emp.stop();
                     emp.release();
                     emp = null;
+                    MainFrame.vlStopClicked = 1;
 
                     MainFrame.btnPlayVL.removeActionListener(playAction);
                     MainFrame.chkMuteVL.removeActionListener(checkBoxAction);
