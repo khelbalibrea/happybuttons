@@ -140,7 +140,7 @@ public class Mp3Frame extends javax.swing.JFrame {
         
         listMp3.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
-                if(e.getClickCount() == 2) { System.out.println("Double click");
+                if(e.getClickCount() == 2) {
                     int index = listMp3.locationToIndex(e.getPoint());
                     if(index != -1) {
                         String selectedItem = (String)MainFrame.mlist.getElementAt(index);
@@ -174,6 +174,8 @@ public class Mp3Frame extends javax.swing.JFrame {
                 }
             }
         });
+        
+//        tfSearch = new PlaceHolderTextfield("Search here");
     }
     
     public void load() {
@@ -297,7 +299,7 @@ public class Mp3Frame extends javax.swing.JFrame {
         volMp3 = new javax.swing.JSlider();
         lblAudio = new javax.swing.JLabel();
         lblLastFrame = new javax.swing.JLabel();
-        tfSearch = new javax.swing.JTextField();
+        tfSearch = new PlaceHolderTextfield("Search here");
         btnDeleteMp3 = new javax.swing.JButton();
         btnAddMp3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -363,9 +365,7 @@ public class Mp3Frame extends javax.swing.JFrame {
 
         lblLastFrame.setText("0:00:00");
 
-        tfSearch.setEditable(false);
         tfSearch.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        tfSearch.setText("Search (not yet functional)");
         tfSearch.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
 
         btnDeleteMp3.setMaximumSize(new java.awt.Dimension(22, 22));

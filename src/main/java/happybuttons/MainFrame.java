@@ -691,7 +691,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         listBGM = new javax.swing.JList<>();
         panelRow1 = new javax.swing.JPanel();
         lblBGM1 = new javax.swing.JLabel();
-        tfBGM1 = new javax.swing.JTextField();
+        tfBGM1 = new PlaceHolderTextfield("Drag BGM here or double-click from BGM list");
         btnClearBGM1 = new javax.swing.JButton();
         btnStopBGM1 = new javax.swing.JButton();
         btnPlayPauseBGM1 = new javax.swing.JButton();
@@ -700,7 +700,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         chkLoop1 = new javax.swing.JCheckBox();
         panelRow2 = new javax.swing.JPanel();
         lblBGM2 = new javax.swing.JLabel();
-        tfBGM2 = new javax.swing.JTextField();
+        tfBGM2 = new PlaceHolderTextfield("Drag BGM here or double-click from BGM list");
         btnClearBGM2 = new javax.swing.JButton();
         btnStopBGM2 = new javax.swing.JButton();
         btnPlayPauseBGM2 = new javax.swing.JButton();
@@ -715,7 +715,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         btnPrevMp3 = new javax.swing.JButton();
         btnNextMp3 = new javax.swing.JButton();
         lblMp3 = new javax.swing.JLabel();
-        tfMp3 = new javax.swing.JTextField();
+        tfMp3 = new PlaceHolderTextfield("Click to open Music player window");
         btnPlayPauseMp3 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         volSFX = new javax.swing.JSlider();
@@ -5157,7 +5157,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
             currentMp3Playing = selectedMp3Item;
             Mp3Frame.lblSongMp3.setText(Utility.shortenText(selectedMp3Item, 18));
-            tfMp3.setText(Utility.shortenText(selectedMp3Item, 18));
+            tfMp3.setText(Utility.shortenText(selectedMp3Item, 40));
             Mp3Frame.listMp3.setSelectedValue(selectedMp3Item, true);
             clipMp3.addLineListener(MainFrame.listenMp3);
             clipMp3.start();
