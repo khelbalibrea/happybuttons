@@ -123,7 +123,6 @@ public class Mp3Frame extends javax.swing.JFrame {
                             MainFrame.clipMp3.removeLineListener(MainFrame.listenMp3);
                             MainFrame.clipMp3.stop();
                             MainFrame.mp3Queue = MainFrame.mp3MainQueue;
-//                            Utility.testPrintStrArray(MainFrame.mp3Queue);
                             MainFrame.selectedMp3Item = MainFrame.mp3Queue[0];
                             
                             MainFrame.tfMp3.setText(Utility.shortenText(MainFrame.selectedMp3Item, 18));
@@ -1170,13 +1169,13 @@ public class Mp3Frame extends javax.swing.JFrame {
             lblDuration.setForeground(new JLabel().getForeground());
             lblDuration.setOpaque(true);
             
-//            lblShuffle.setOpaque(false);
-//            String lblShuffleIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\shuffle_16px.png");
-//            lblShuffle.setIcon(new javax.swing.ImageIcon(lblShuffleIcon));
-//            
-//            lblRepeat.setOpaque(false);
-//            String lblRepeatIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\repeat_16px.png");
-//            lblRepeat.setIcon(new javax.swing.ImageIcon(lblRepeatIcon));
+            lblShuffle.setOpaque(false);
+            String lblShuffleIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\shuffle_16px.png");
+            lblShuffle.setIcon(new javax.swing.ImageIcon(lblShuffleIcon));
+            
+            lblRepeat.setOpaque(false);
+            String lblRepeatIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\repeat_16px.png");
+            lblRepeat.setIcon(new javax.swing.ImageIcon(lblRepeatIcon));
             
             lblAudio.setOpaque(false);
             String lblAudioIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\audio_16px.png");
@@ -1240,13 +1239,13 @@ public class Mp3Frame extends javax.swing.JFrame {
             lblDuration.setForeground(Color.LIGHT_GRAY);
             lblDuration.setOpaque(true);
             
-//            lblShuffle.setOpaque(false);
-//            String lblShuffleIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_shuffle_16px.png");
-//            lblShuffle.setIcon(new javax.swing.ImageIcon(lblShuffleIcon));
-//            
-//            lblRepeat.setOpaque(false);
-//            String lblRepeatIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_repeat_16px.png");
-//            lblRepeat.setIcon(new javax.swing.ImageIcon(lblRepeatIcon));
+            lblShuffle.setOpaque(false);
+            String lblShuffleIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_shuffle_16px.png");
+            lblShuffle.setIcon(new javax.swing.ImageIcon(lblShuffleIcon));
+            
+            lblRepeat.setOpaque(false);
+            String lblRepeatIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_repeat_16px.png");
+            lblRepeat.setIcon(new javax.swing.ImageIcon(lblRepeatIcon));
             
             lblAudio.setOpaque(false);
             String lblAudioIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_audio_16px.png");

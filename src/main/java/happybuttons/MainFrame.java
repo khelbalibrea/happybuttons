@@ -148,23 +148,22 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         Thread t = new Thread(this);
         t.start();
         
-        timerMp = new Timer(5000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                prevSong = 0;
-                prevTimer = 0;
-            }
+        timerMp = new Timer(5000, (ActionEvent e) -> {
+            prevSong = 0;
+            prevTimer = 0;
         });
         
         super.setTitle("Happy Buttons");
         setSize(1366, 768);
         
         if(!HappyButtons.firstCheck.equals("")) {
-            tfLastOperation.setText(HappyButtons.firstCheck);
+            tfLastOperation.setText(Utility.shortenText(HappyButtons.firstCheck, 50));
+            tfLastOperation.setToolTipText(HappyButtons.firstCheck);
         }
         
         if(HappyButtons.mainFolderChk == 1) {
-            tfLastOperation.setText("[SYSTEM] Some system file resources are missing...");
+            tfLastOperation.setText(Utility.shortenText("[SYSTEM] Some system file resources are missing", 50));
+            tfLastOperation.setToolTipText("[SYSTEM] Some system file resources are missing");
         }
         
         if(HappyButtons.bgFolderChk == 1) {
