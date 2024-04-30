@@ -23,7 +23,7 @@ public class AddMp3Frame extends javax.swing.JDialog {
      */
     public AddMp3Frame(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        super.setTitle("Add Video");
+        super.setTitle("Add Music");
         initComponents();
         
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

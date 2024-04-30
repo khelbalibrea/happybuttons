@@ -1,6 +1,5 @@
 To do:
 x screen selector
-x mp3 search
 x mp3 seek
 
 PREFERENCES UI:

@@ -802,7 +802,14 @@ public class Mp3Frame extends javax.swing.JFrame {
                         }
 
                         FileChannel src = new FileInputStream(file.getAbsolutePath()).getChannel();
-                        String strReplace = Utility.renameListName(file.getName(), "mp3") + ".wav";
+                        String strReplace = "";
+                        if(Utility.getFileExtension(file.toString()).equals("MP3")) {
+                            strReplace = Utility.renameListName(file.getName(), "MP3") + ".wav";
+                        }
+                        else {
+                            strReplace = Utility.renameListName(file.getName(), "mp3") + ".wav";
+                        }
+                        
                         File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\mp3s\\" + strReplace);
 
                         if(!destCheck.exists()) {
@@ -817,7 +824,14 @@ public class Mp3Frame extends javax.swing.JFrame {
                             attrs.setAudioAttributes(audio);
 
                             File source = new File(file.toString());
-                            String str = HappyButtons.documentsPath + Utility.strDoubleSlash("\\HappyButtons\\mp3s\\") + Utility.renameListName(file.getName(), "mp3")  + ".wav";
+                            String str = "";
+                            if(Utility.getFileExtension(file.toString()).equals("MP3")) {
+                                str = HappyButtons.documentsPath + Utility.strDoubleSlash("\\HappyButtons\\mp3s\\") + Utility.renameListName(file.getName(), "MP3")  + ".wav";
+                            }
+                            else {
+                                str = HappyButtons.documentsPath + Utility.strDoubleSlash("\\HappyButtons\\mp3s\\") + Utility.renameListName(file.getName(), "mp3")  + ".wav";
+                            }
+                            
                             File target = new File(str);
 
                             Encoder encoder = new Encoder();
@@ -827,22 +841,53 @@ public class Mp3Frame extends javax.swing.JFrame {
                         if(MainFrame.strMp3List.equals("")) {
                             MainFrame.mlist.removeAllElements();
                             listMp3.removeAll();
-                            MainFrame.strMp3List = Utility.renameListName(file.getName(), "mp3");
+                            if(Utility.getFileExtension(file.toString()).equals("MP3")) {
+                                MainFrame.strMp3List = Utility.renameListName(file.getName(), "MP3");
+                            }
+                            else {
+                                MainFrame.strMp3List = Utility.renameListName(file.getName(), "mp3");
+                            }
                         }
                         else {
-                            MainFrame.strMp3List = MainFrame.strMp3List + ":" + Utility.renameListName(file.getName(), "mp3");
+                            if(Utility.getFileExtension(file.toString()).equals("MP3")) {
+                                MainFrame.strMp3List = MainFrame.strMp3List + ":" + Utility.renameListName(file.getName(), "MP3");
+                            }
+                            else {
+                                MainFrame.strMp3List = MainFrame.strMp3List + ":" + Utility.renameListName(file.getName(), "mp3");
+                            }
                         }
 
-                        if(!MainFrame.mlist.contains(Utility.renameListName(file.getName(), "mp3"))) {
-                            MainFrame.mlist.addElement(Utility.renameListName(file.getName(), "mp3"));
+                        if(Utility.getFileExtension(file.toString()).equals("MP3")) {
+                            if(!MainFrame.mlist.contains(Utility.renameListName(file.getName(), "MP3"))) {
+                                MainFrame.mlist.addElement(Utility.renameListName(file.getName(), "MP3"));
+                            }
+                        }
+                        else if(Utility.getFileExtension(file.toString()).equals("mp3")) {
+                            if(!MainFrame.mlist.contains(Utility.renameListName(file.getName(), "mp3"))) {
+                                MainFrame.mlist.addElement(Utility.renameListName(file.getName(), "mp3"));
+                            }
                         }
                         
-                        if(!Utility.doesStrArrHasElement(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "mp3"))) {
-                            MainFrame.mp3MainQueue = Utility.addElementInStrArr(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "mp3"));
+                        if(Utility.getFileExtension(file.toString()).equals("MP3")) {
+                            if(!Utility.doesStrArrHasElement(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "MP3"))) {
+                                MainFrame.mp3MainQueue = Utility.addElementInStrArr(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "MP3"));
+                            }
+                        }
+                        else if(Utility.getFileExtension(file.toString()).equals("mp3")) {
+                            if(!Utility.doesStrArrHasElement(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "mp3"))) {
+                                MainFrame.mp3MainQueue = Utility.addElementInStrArr(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "mp3"));
+                            }
                         }
                         
-                        if(!Utility.doesStrArrHasElement(MainFrame.mp3Queue, Utility.renameListName(file.getName(), "mp3"))) {
-                            MainFrame.mp3Queue = Utility.addElementInStrArr(MainFrame.mp3Queue, Utility.renameListName(file.getName(), "mp3"));
+                        if(Utility.getFileExtension(file.toString()).equals("MP3")) {
+                            if(!Utility.doesStrArrHasElement(MainFrame.mp3Queue, Utility.renameListName(file.getName(), "MP3"))) {
+                                MainFrame.mp3Queue = Utility.addElementInStrArr(MainFrame.mp3Queue, Utility.renameListName(file.getName(), "MP3"));
+                            }
+                        }
+                        else if(Utility.getFileExtension(file.toString()).equals("mp3")) {
+                            if(!Utility.doesStrArrHasElement(MainFrame.mp3Queue, Utility.renameListName(file.getName(), "mp3"))) {
+                                MainFrame.mp3Queue = Utility.addElementInStrArr(MainFrame.mp3Queue, Utility.renameListName(file.getName(), "mp3"));
+                            }
                         }
 
                         listMp3.setModel(MainFrame.mlist);
@@ -852,8 +897,6 @@ public class Mp3Frame extends javax.swing.JFrame {
                     }
                 }
                 MainFrame.mp3SortedQueue = MainFrame.mp3MainQueue;
-//                System.out.println("Sorted queue:\n");
-//                Utility.testPrintStrArray(MainFrame.mp3SortedQueue);
                 
                 if(MainFrame.mp3Shuffle == 1) {
                     shuffle();
@@ -948,6 +991,7 @@ public class Mp3Frame extends javax.swing.JFrame {
 
     private void btnDeleteMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteMp3ActionPerformed
         List<String> stringList = listMp3.getSelectedValuesList();
+//        System.out.println("Delete size: " + stringList.size());
         
         if(!stringList.isEmpty()) { // not empty
             for(int i = 0; i < stringList.size(); i++) {
@@ -968,7 +1012,11 @@ public class Mp3Frame extends javax.swing.JFrame {
                     lblSongMp3.setText("");
                 }
                 
+//                System.out.println(stringList.get(i));
                 MainFrame.mlist.removeElement(stringList.get(i));
+                if(listModelBak.contains(stringList.get(i))) {
+                    listModelBak.removeElement(stringList.get(i));
+                }
                 
                 MainFrame.mp3MainQueue = Utility.removeElementInStrArr(MainFrame.mp3MainQueue, stringList.get(i));
                 if(Utility.doesStrArrHasElement(MainFrame.mp3Queue, stringList.get(i))) {
@@ -976,6 +1024,11 @@ public class Mp3Frame extends javax.swing.JFrame {
                 }
             }
             autosave();
+            
+//            System.out.println("\nNew list:");
+            for(int i = 0; i < MainFrame.mlist.size(); i++) {
+                System.out.println(MainFrame.mlist.getElementAt(i));
+            }
         }
         else {
             MainFrame.tfLastOperation.setText(Utility.shortenText("[DELETE Music]:: Nothing selected", 50));
@@ -1477,15 +1530,14 @@ public class Mp3Frame extends javax.swing.JFrame {
 //        }
         
         // Mp3s
-        int listMp3Size = listMp3.getModel().getSize();
         MainFrame.strMp3List = "";
         
-        for(int ctr = 0; ctr < listMp3Size; ctr++){
+        for(int ctr = 0; ctr < MainFrame.mlist.size(); ctr++){
             if(ctr == 0) {
-                MainFrame.strMp3List = listMp3.getModel().getElementAt(ctr);
+                MainFrame.strMp3List = MainFrame.mlist.getElementAt(ctr).toString();
             }
-            else if(ctr > 0 && ctr <= (listMp3Size - 1)) {
-                MainFrame.strMp3List = MainFrame.strMp3List + ":" + listMp3.getModel().getElementAt(ctr);
+            else if(ctr > 0 && ctr <= (MainFrame.mlist.size() - 1)) {
+                MainFrame.strMp3List = MainFrame.strMp3List + ":" + MainFrame.mlist.getElementAt(ctr).toString();
             }
         }
     }
