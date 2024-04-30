@@ -16,6 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -45,6 +46,7 @@ import ws.schild.jave.encode.EncodingAttributes;
  */
 public class Mp3Frame extends javax.swing.JFrame {
     String theme = HappyButtons.uiTheme;
+    DefaultListModel listModelBak = new DefaultListModel();
     
     public Mp3Frame() {
         initComponents();
@@ -142,7 +144,8 @@ public class Mp3Frame extends javax.swing.JFrame {
                 if(e.getClickCount() == 2) {
                     int index = listMp3.locationToIndex(e.getPoint());
                     if(index != -1) {
-                        String selectedItem = (String)MainFrame.mlist.getElementAt(index);
+//                        String selectedItem = (String)MainFrame.mlist.getElementAt(index);
+                        String selectedItem = listMp3.getSelectedValue();
                         lblSongMp3.setText(Utility.shortenText(selectedItem, 18));
                         lblSongMp3.setToolTipText(selectedItem);
                         MainFrame.tfMp3.setText(selectedItem);
@@ -173,8 +176,37 @@ public class Mp3Frame extends javax.swing.JFrame {
                 }
             }
         });
+    }
+    
+    private ArrayList getStars() {
+        ArrayList stars = new ArrayList();
         
-//        tfSearch = new PlaceHolderTextfield("Search here");
+        for(int i = 0; i < MainFrame.mlist.getSize(); i++) {
+            stars.add(MainFrame.mlist.getElementAt(i));
+        }
+        
+        return stars;
+    }
+    
+    public void searchList(String search) {
+        if(!search.equals("")) {
+            DefaultListModel filteredItems = new DefaultListModel();
+            ArrayList stars = getStars();
+
+            stars.stream().forEach((star) -> {
+                String starName = star.toString().toLowerCase();
+
+                if(starName.contains(search.toLowerCase())) {
+                    filteredItems.addElement(star);
+                }
+            });
+
+            listModelBak = filteredItems;
+            listMp3.setModel(listModelBak);
+        }
+        else {
+            listMp3.setModel(MainFrame.mlist);
+        }
     }
     
     public void load() {
@@ -216,6 +248,7 @@ public class Mp3Frame extends javax.swing.JFrame {
         }
         
         volMp3.setValue(MainFrame.mp3VolumeValue);
+        listModelBak = MainFrame.mlist;
         
         // Shuffle button
         if(MainFrame.mp3Shuffle == 0) {
@@ -366,6 +399,11 @@ public class Mp3Frame extends javax.swing.JFrame {
 
         tfSearch.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         tfSearch.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        tfSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfSearchKeyReleased(evt);
+            }
+        });
 
         btnDeleteMp3.setMaximumSize(new java.awt.Dimension(22, 22));
         btnDeleteMp3.setMinimumSize(new java.awt.Dimension(22, 22));
@@ -510,7 +548,6 @@ public class Mp3Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackMp3ActionPerformed
 
     public void prevQueue() {
-//        System.out.println(MainFrame.prevSong);
         if(MainFrame.prevSong == 0) {
             if(MainFrame.clipMp3.isRunning()) {
                 MainFrame.clipMp3.removeLineListener(MainFrame.listenMp3);
@@ -530,7 +567,6 @@ public class Mp3Frame extends javax.swing.JFrame {
         }
         else {
             int index = Utility.getIndexOfStrArrElement(MainFrame.mp3MainQueue, MainFrame.selectedMp3Item);
-            System.out.println("Index: " + index);
             
             if(index != 0) {
                 String[] newarr = new String[MainFrame.mp3Queue.length + 1];
@@ -1130,6 +1166,10 @@ public class Mp3Frame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lblAudioMouseClicked
 
+    private void tfSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfSearchKeyReleased
+        searchList(tfSearch.getText());
+    }//GEN-LAST:event_tfSearchKeyReleased
+
     public void setTheme() {
         if(theme.equals("light")) { // ******************************************************************************** LIGHT THEME
             // ------------------------------------------------------------------------------- PANELS
@@ -1360,7 +1400,7 @@ public class Mp3Frame extends javax.swing.JFrame {
     
     public static void sortJList(DefaultListModel list) {
         int n = list.getSize();
-        String[] data = new String[n]; System.out.println(n);
+        String[] data = new String[n];
         
         for(int i = 0; i < n; i++) {
             data[i] = (String) list.getElementAt(i);
