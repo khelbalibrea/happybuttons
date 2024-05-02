@@ -762,6 +762,21 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                 }
             }
             autosave();
+            
+            if(MainFrame.VLType.equals("forloop")) {
+                String[] str = new String[0];
+                for(int i = 0; i < MainFrame.cboModelForLoop.getSize(); i++) {
+                    str = Utility.addElementInStrArr(str, MainFrame.cboModelForLoop.getElementAt(i).toString());
+                }
+                MainFrame.strVidLoop = Utility.arrToStr(str, ":");
+            }
+            else if(MainFrame.VLType.equals("playlist")) {
+                String[] str = new String[0];
+                for(int i = 0; i < MainFrame.cboModelPlaylist.getSize(); i++) {
+                    str = Utility.addElementInStrArr(str, MainFrame.cboModelPlaylist.getElementAt(i).toString());
+                }
+                MainFrame.strVidList = Utility.arrToStr(str, ":");
+            }
         }
         else {
             lblNS3.setVisible(true);
@@ -769,8 +784,6 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             timer.setRepeats(false);
             timer.start();
         }
-        
-        MainFrame.strVidLoop = Utility.arrToStr(list, ":");
     }//GEN-LAST:event_btnRemoveActionPerformed
 
     private void btnDeleteMusicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteMusicActionPerformed

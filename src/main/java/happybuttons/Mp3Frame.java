@@ -338,7 +338,7 @@ public class Mp3Frame extends javax.swing.JFrame {
         listMp3 = new javax.swing.JList<>();
         lblRepeat = new javax.swing.JLabel();
         lblShuffle = new javax.swing.JLabel();
-        sliderSongTime = new javax.swing.JSlider();
+        sliderSongTime = new happybuttons.SliderMpPlaybackGradient();
         lblDuration = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
