@@ -6,7 +6,6 @@ package happybuttons;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,7 +15,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.Font;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,15 +36,16 @@ import javax.sound.sampled.LineListener;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.AbstractAction;
-import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
-import javax.swing.ButtonModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.BoundedRangeModel;
+import javax.swing.DefaultBoundedRangeModel;
+import javax.swing.JSlider;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -59,7 +58,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.plaf.ComponentUI;
 import ws.schild.jave.Encoder;
 import ws.schild.jave.MultimediaObject;
 import ws.schild.jave.encode.AudioAttributes;
@@ -70,7 +68,7 @@ import ws.schild.jave.encode.EncodingAttributes;
 public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public Image icon;
     static Timer timer, timerMp;
-    MouseListener rightButton;
+    static  MouseListener rightButton, sliderClick;
     
     // Globals
     public static int bgmVolumeLink = 0;
@@ -376,6 +374,24 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         lblR3SFX12.setTransferHandler(new DnDSFXLabels());
         lblR3SFX13.setTransferHandler(new DnDSFXLabels());
         lblR3SFX14.setTransferHandler(new DnDSFXLabels());
+        
+        // -------------------------------------------------------------------------------------------------------------- SLIDER VALUE CLICK -->
+        sliderClick = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JComponent sourceComponent = (JComponent) e.getSource();
+                if(sourceComponent instanceof JSlider) {
+                    JSlider sourceButton = (JSlider) sourceComponent;
+                    
+                    int newClickPosition = sourceButton.getMaximum() * e.getX() / sourceButton.getWidth();
+                    sourceButton.setValue(newClickPosition);
+                }
+            }
+        };
+        
+        volBGM1.addMouseListener(sliderClick);
+        volBGM2.addMouseListener(sliderClick);
+        volSFX.addMouseListener(sliderClick);
         
         // -------------------------------------------------------------------------------------------------------------- RIGHT CLICK LABELS -->
         rightButton = new MouseAdapter() {
@@ -4404,6 +4420,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
             if(playing1 == 1) {
                 fcBGM1.setValue(bgmVol1); // float value
+                
+//                fcBGM1.shift(fcBGM1.getValue(), bgmVol1, 1);
             }
             else {
                 fcBGM1.setValue(bgmVol1); // float value
@@ -5169,7 +5187,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
             currentMp3Playing = selectedMp3Item;
             Mp3Frame.lblSongMp3.setText(Utility.shortenText(selectedMp3Item, 18));
+            Mp3Frame.lblSongMp3.setToolTipText(selectedMp3Item);
             tfMp3.setText(Utility.shortenText(selectedMp3Item, 40));
+            tfMp3.setToolTipText(selectedMp3Item);
             Mp3Frame.listMp3.setSelectedValue(selectedMp3Item, true);
             clipMp3.addLineListener(MainFrame.listenMp3);
             clipMp3.start();

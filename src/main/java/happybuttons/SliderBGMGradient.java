@@ -4,7 +4,10 @@ import java.awt.Color;
 import javax.swing.JSlider;
 
 public class SliderBGMGradient extends JSlider {
-
+    @Override
+    public void setSnapToTicks(boolean b) {
+        super.setSnapToTicks(b); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
     public Color getTicksColor() {
         return ticksColor;
     }

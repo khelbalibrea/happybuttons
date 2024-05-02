@@ -51,7 +51,8 @@ public class SliderBGMGradientUI extends BasicSliderUI {
             int x = 0;
             int y = (trackRect.height - size) / 2;
             g2.fill(new RoundRectangle2D.Double(trackRect.x + x, trackRect.y + y, trackRect.width, size, size, size));
-        } else {
+        }
+        else {
             int x = (trackRect.width - size) / 2;
             int y = 0;
             g2.fill(new RoundRectangle2D.Double(trackRect.x + x, trackRect.y + y, size, trackRect.height, size, size));
@@ -71,5 +72,6 @@ public class SliderBGMGradientUI extends BasicSliderUI {
 
     @Override
     public void paintFocus(Graphics grphcs) {
+        
     }
 }

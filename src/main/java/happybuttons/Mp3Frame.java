@@ -176,6 +176,8 @@ public class Mp3Frame extends javax.swing.JFrame {
                 }
             }
         });
+        
+        volMp3.addMouseListener(MainFrame.sliderClick);
     }
     
     private ArrayList getStars() {
