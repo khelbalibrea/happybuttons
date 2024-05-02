@@ -328,7 +328,7 @@ public class Mp3Frame extends javax.swing.JFrame {
         btnBackMp3 = new javax.swing.JButton();
         btnNextMp3 = new javax.swing.JButton();
         btnPlayPauseMp3 = new javax.swing.JButton();
-        volMp3 = new javax.swing.JSlider();
+        volMp3 = new happybuttons.SliderMpGradient();
         lblAudio = new javax.swing.JLabel();
         lblLastFrame = new javax.swing.JLabel();
         tfSearch = new PlaceHolderTextfield("Search here");

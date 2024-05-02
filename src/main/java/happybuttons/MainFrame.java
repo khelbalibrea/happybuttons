@@ -694,7 +694,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         btnClearBGM1 = new javax.swing.JButton();
         btnStopBGM1 = new javax.swing.JButton();
         btnPlayPauseBGM1 = new javax.swing.JButton();
-        volBGM1 = new javax.swing.JSlider();
+        volBGM1 = new happybuttons.SliderBGMGradient();
         lblVolBGM1 = new javax.swing.JLabel();
         chkLoop1 = new javax.swing.JCheckBox();
         panelRow2 = new javax.swing.JPanel();
@@ -703,7 +703,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         btnClearBGM2 = new javax.swing.JButton();
         btnStopBGM2 = new javax.swing.JButton();
         btnPlayPauseBGM2 = new javax.swing.JButton();
-        volBGM2 = new javax.swing.JSlider();
+        volBGM2 = new happybuttons.SliderBGMGradient();
         lblVolBGM2 = new javax.swing.JLabel();
         chkLoop2 = new javax.swing.JCheckBox();
         panelRow3 = new javax.swing.JPanel();
@@ -717,7 +717,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         tfMp3 = new PlaceHolderTextfield("Click to open Music player window");
         btnPlayPauseMp3 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
-        volSFX = new javax.swing.JSlider();
+        volSFX = new happybuttons.SliderSFXGradient();
         lblVolSFX = new javax.swing.JLabel();
         lblSFXState = new javax.swing.JLabel();
         chkSP = new javax.swing.JCheckBox();
@@ -4925,6 +4925,19 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             "Previous button still on work"
         );
         panel.showNotification();
+        
+        mp3.prevQueue();
+        
+        if(HappyButtons.uiTheme.equals("light")) {
+            String btnIcon3 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_mp3_12px.png");
+            btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon3));
+        }
+        else if(HappyButtons.uiTheme.equals("dark")) {
+            String btnIcon3 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_pause_mp3_12px.png");
+            btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon3));
+        }
+        
+        mp3.setElementIcon(2, "play");
     }//GEN-LAST:event_btnPrevMp3ActionPerformed
 
     private void btnNextMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextMp3ActionPerformed
@@ -6177,61 +6190,28 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         }
     }
     
-//    static class CustomSliderUI extends BasicSliderUI {
-//        public CustomSliderUI(JSlider slider) {
-//            super(slider);
+//    static class CustomCheckboxUI extends javax.swing.plaf.basic.BasicCheckBoxUI {
+//        public static ComponentUI createUI(JComponent c) {
+//            return new CustomCheckboxUI();
 //        }
 //
 //        @Override
-//        protected Dimension getThumbSize() {
-//            return new Dimension(10, 10);
-//        }
+//        public void paint(Graphics g, JComponent c) {
+//            AbstractButton button = (AbstractButton) c;
+//            ButtonModel model = button.getModel();
+//            Font font = c.getFont();
 //
-//        @Override
-//        public void paintThumb(Graphics grphcs) {
-//            Graphics2D g2 = (Graphics2D) grphcs.create();
-//            g2.setColor(new Color(51, 102, 255));
-//            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-//            g2.translate(thumbRect.x, thumbRect.y);
-//            g2.fill(new Ellipse2D.Double(0, 0, thumbRect.width, thumbRect.height));
-//            g2.dispose();
-//        }
-//        
-//        @Override
-//        public void paintTrack(Graphics grphcs) {
-//            Graphics2D g2d = (Graphics2D) grphcs;
-//            g2d.setPaint(new Color(51, 102, 255)); // Set the color of the track here
-//            if (slider.getOrientation() == JSlider.HORIZONTAL) {
-//                g2d.fillRect(0, 0, trackRect.width, trackRect.height);
+//            Color tickColor = Color.LIGHT_GRAY; // Change this to the desired color
+//            g.setFont(font);
+//            g.setColor(Color.LIGHT_GRAY);
+//            
+//            if(model.isSelected()) {
+//                g.setColor(tickColor);
+//                g.fillRect(4, 4, 5, 5); // Adjust size and position of the check mark
 //            }
 //            else {
-//                g2d.fillRect(trackRect.x, trackRect.y, trackRect.width, trackRect.height);
+//                g.setColor(Color.WHITE);
 //            }
 //        }
 //    }
-    
-    static class CustomCheckboxUI extends javax.swing.plaf.basic.BasicCheckBoxUI {
-        public static ComponentUI createUI(JComponent c) {
-            return new CustomCheckboxUI();
-        }
-
-        @Override
-        public void paint(Graphics g, JComponent c) {
-            AbstractButton button = (AbstractButton) c;
-            ButtonModel model = button.getModel();
-            Font font = c.getFont();
-
-            Color tickColor = Color.LIGHT_GRAY; // Change this to the desired color
-            g.setFont(font);
-            g.setColor(Color.LIGHT_GRAY);
-            
-            if(model.isSelected()) {
-                g.setColor(tickColor);
-                g.fillRect(4, 4, 5, 5); // Adjust size and position of the check mark
-            }
-            else {
-                g.setColor(Color.WHITE);
-            }
-        }
-    }
 }
