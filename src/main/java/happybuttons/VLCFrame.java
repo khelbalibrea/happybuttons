@@ -277,7 +277,7 @@ public class VLCFrame extends javax.swing.JFrame {
 
         @Override
         public void finished(MediaPlayer mediaPlayer) {
-            if(MainFrame.chkVLModePL == 0) {
+            if(MainFrame.chkVLModePL == 0) { // loop mode
                 if(MainFrame.chkVLLoop == 1){
                     mediaPlayer.prepareMedia(file);
                     dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -300,14 +300,15 @@ public class VLCFrame extends javax.swing.JFrame {
                 }
                 else {
                     if(MainFrame.vidQueue.length == 1) {
+                        MainFrame.vidQueue = new String[0];
                         MainFrame.vidQueue = MainFrame.vlQueue;
-                        System.out.println("Ubos na");
-                        Utility.testPrintStrArray(MainFrame.vidQueue);
+//                        System.out.println("Ubos na");
+//                        Utility.testPrintStrArray(MainFrame.vidQueue);
                     }
                     else {
                         MainFrame.vidQueue = Utility.removeIndexInStrArr(MainFrame.vidQueue, 0);
-                        System.out.println("Meron pa");
-                        Utility.testPrintStrArray(MainFrame.vidQueue);
+//                        System.out.println("Meron pa");
+//                        Utility.testPrintStrArray(MainFrame.vidQueue);
                     }
                     
                     file = HappyButtons.documentsPathDoubleSlash + 

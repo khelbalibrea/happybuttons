@@ -43,8 +43,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.BoundedRangeModel;
-import javax.swing.DefaultBoundedRangeModel;
 import javax.swing.JSlider;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -99,8 +97,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static String[] mp3ShuffledQueue = new String[0];
     public static String[] mp3MainQueue = new String[0];
     public static String[] mp3Queue = new String[0];
-    public static String[] vlQueue = new String[0];
-    public static String[] vidQueue = new String[0];
+    public static String[] vlQueue = new String[0]; // it is the queue use for sorting (either shufflle or not) and copied to vidQueue after
+    public static String[] vidQueue = new String[0]; // it is the actual list to be played
     
     static FloatControl fcBGM1, fcBGM2, fcSFX, fcMp3;
     static float bgmVol1 = 100f, bgmVol2 = 100f, sfxVol = 100f, mp3Vol = 100f;
@@ -153,6 +151,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         
         super.setTitle("Happy Buttons");
         setSize(1366, 768);
+        setMaximumSize(new Dimension(1366, 768));
+        setMinimumSize(new Dimension(1366, 768));
+        setExtendedState(this.MAXIMIZED_BOTH);
         
         if(!HappyButtons.firstCheck.equals("")) {
             tfLastOperation.setText(Utility.shortenText(HappyButtons.firstCheck, 50));
@@ -898,7 +899,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1366, 700));
         setName("mainFrame"); // NOI18N
-        setResizable(false);
         setSize(new java.awt.Dimension(1366, 733));
 
         panelJList.setPreferredSize(new java.awt.Dimension(1354, 180));
@@ -4778,27 +4778,31 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_cboVidLoopActionPerformed
 
     private void btnPlayVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayVLActionPerformed
-        if(cboVidLoop.getSelectedItem() != null) {
+        if(cboVidLoop.getSelectedItem() != null) { System.out.println("VP: " + vlcjPlaying);
             if((!HappyButtons.vlcjPath.isEmpty() || !HappyButtons.vlcjPath.isBlank() || 
             !HappyButtons.vlcjPath.equals("") || HappyButtons.vlcjPath != null)){
-                if(vlcjPlaying == 0){
+                if(vlcjPlaying == 0){ //chkVLModePL
                     if(chkVLShuffle == 1) {
-                        if(vlQueue.length == 0) {
-                            shuffleVLList(0);
-                        }
-                        else {
-                            shuffleVLList(1); // it is like re-shuffling
+                        if(chkVLModePL == 1) {
+                            if(vlQueue.length == 0) {
+                                shuffleVLList(0);
+                            }
+                            else {
+                                shuffleVLList(1); // it is like re-shuffling
+                            }
                         }
 
                         vlcjPlaying = 1;
                         new VLCFrame();
                     }
                     else { // not shuffled
-                        if(vlQueue.length == 0) {
-                            sortVLList(0);
-                        }
-                        else {
-                            sortVLList(1);
+                        if(chkVLModePL == 1) {
+                            if(vlQueue.length == 0) {
+                                sortVLList(0);
+                            }
+                            else {
+                                sortVLList(1);
+                            }
                         }
                         
                         vlcjPlaying = 1;
@@ -4812,16 +4816,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 tfLastOperation.setToolTipText("VIDEO:: Unable to start video loop. VLCj plugin not found/set");
             }
         }
-        
-//        if(cboVidLoop.getSelectedItem() != null) {
-//            if((!HappyButtons.vlcjPath.isEmpty() || !HappyButtons.vlcjPath.isBlank() || 
-//            !HappyButtons.vlcjPath.equals("") || HappyButtons.vlcjPath != null)){
-//                if(vlcjPlaying == 0){
-//                    vlcjPlaying = 1;
-//                    new VLCFrame();
-//                }
-//            }
-//        }
     }//GEN-LAST:event_btnPlayVLActionPerformed
 
     public void shuffleVLList(int type) {
