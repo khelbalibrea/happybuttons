@@ -139,6 +139,16 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static Mp3Frame mp3;
     
     public MainFrame() {
+        System.out.println(HappyButtons.standardScreen);
+        if(HappyButtons.standardScreen) {
+//            setMaximumSize(new Dimension(1366, 768));
+//            setMinimumSize(new Dimension(1366, 768));
+            setExtendedState(this.MAXIMIZED_BOTH);
+        }
+        else {
+            setSize(1366, 768);
+        }
+        
         initComponents();
         
         Thread t = new Thread(this);
@@ -150,10 +160,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         });
         
         super.setTitle("Happy Buttons");
-        setSize(1366, 768);
-        setMaximumSize(new Dimension(1366, 768));
-        setMinimumSize(new Dimension(1366, 768));
-        setExtendedState(this.MAXIMIZED_BOTH);
+        
+
         
         if(!HappyButtons.firstCheck.equals("")) {
             tfLastOperation.setText(Utility.shortenText(HappyButtons.firstCheck, 50));
@@ -897,8 +905,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1366, 700));
+        setMaximumSize(new java.awt.Dimension(1366, 768));
+        setMinimumSize(new java.awt.Dimension(1200, 700));
         setName("mainFrame"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(1366, 733));
+        setResizable(HappyButtons.standardScreen);
         setSize(new java.awt.Dimension(1366, 733));
 
         panelJList.setPreferredSize(new java.awt.Dimension(1354, 180));

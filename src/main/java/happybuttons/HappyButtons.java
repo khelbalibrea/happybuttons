@@ -4,6 +4,9 @@
 
 package happybuttons;
 
+import java.awt.DisplayMode;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
@@ -17,7 +20,7 @@ public class HappyButtons {
     public static String firstCheck = "";
     public static int mainFolderChk = 0, bgFolderChk = 0, sfxFolderChk = 0, happyloopFolderChk = 0, vlcjFolderChk = 0, mp3FolderChk = 0; // if this sets to 1 means required folders aren't found, so it is created
     public static MainFrame mf;
-    public static boolean go = false;
+    public static boolean go = false, standardScreen = false;
     
     public static DBOperations dbo = new DBOperations();
     public static ProfileDatabase[] profileDB = new ProfileDatabase[5];
@@ -42,6 +45,8 @@ public class HappyButtons {
         setupUIPreferences();
         
         documentsPathDoubleSlash = Utility.strDoubleSlash(documentsPath); // C:\\Users\\<PC NAME>\\Documents
+        
+        getScreenCount();
         
         mf = new MainFrame();
         mf.setVisible(true);
@@ -233,6 +238,20 @@ public class HappyButtons {
             catch(Exception e){
                 
             }
+        }
+    }
+    
+    public static void getScreenCount() {
+        GraphicsDevice[] screenDevices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+        GraphicsDevice mainScreen = screenDevices[0];
+        DisplayMode displayMode = mainScreen.getDisplayMode();
+        
+        int screenWidth = displayMode.getWidth();
+        int screenHeight = displayMode.getHeight();
+        System.out.println(screenWidth + "x" + screenHeight);
+        
+        if(screenWidth <= 1366 || screenHeight <= 768) {
+            standardScreen = true;
         }
     }
 }
