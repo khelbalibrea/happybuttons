@@ -909,7 +909,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         setMinimumSize(new java.awt.Dimension(1200, 700));
         setName("mainFrame"); // NOI18N
         setPreferredSize(new java.awt.Dimension(1366, 733));
-        setResizable(HappyButtons.standardScreen);
+        setResizable(false);
         setSize(new java.awt.Dimension(1366, 733));
 
         panelJList.setPreferredSize(new java.awt.Dimension(1354, 180));
@@ -4830,7 +4830,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_btnPlayVLActionPerformed
 
     public void shuffleVLList(int type) {
-        if(type == 0) {
+        if(type == 0) { // vlQueue has no item
             String[] vlList = Utility.strToArr(strVidList);
             int length = vlList.length, min = 1, randomIndex = -1;
             int[] exclusion = new int[]{};
@@ -4849,7 +4849,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 vlQueue = Utility.addElementInStrArr(vlQueue, vlList[randomIndex - 1]);
             }
         }
-        else if(type == 1) {
+        else if(type == 1) { // vlQueue has item
             String[] vlList = new String[vlQueue.length];
             int startedIndex = Utility.getIndexOfStrArrElement(vlQueue, cboVidLoop.getSelectedItem().toString());
             
@@ -5308,6 +5308,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         if(chkPLMode.isSelected()) {
             chkVLModePL = 1;
             cboVidLoop.setModel(cboModelPlaylist);
+            VLType = "playlist";
+            cboVLType = 1; // playlist
             
             chkVLLoop = 0;
             chkLoopVL.setSelected(false);
@@ -5318,6 +5320,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         else {
             chkVLModePL = 0;
             cboVidLoop.setModel(cboModelForLoop);
+            VLType = "forloop";
+            cboVLType = 0; // forloop
             
             chkVLLoop = 1;
             chkLoopVL.setSelected(true);

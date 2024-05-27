@@ -685,6 +685,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                     listModelVL.addElement(selectedItem);
                 }
                 
+                System.out.println("VL Type: " + MainFrame.VLType);
                 if(MainFrame.VLType.equals("forloop")) {
                     if((MainFrame.cboModelForLoop).getIndexOf(selectedItem) < 0) {
                         (MainFrame.cboModelForLoop).addElement(selectedItem);
