@@ -33,8 +33,8 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
  */
 public class VLCFrame extends javax.swing.JFrame {
     MediaListener videoListener = new MediaListener();
-    MediaPlayerEventAdapter adapter = new MediaPlayerEventAdapter();
     static ActionListener playAction, checkBoxAction, fitAction;
+    MediaPlayerFactory mpf = null;
     String file = "", videoFilename = "";
     EmbeddedMediaPlayer emp;
     Dimension dim;
@@ -95,6 +95,13 @@ public class VLCFrame extends javax.swing.JFrame {
 //                    if(MainFrame.vlStopClicked == 1) {
                         emp.removeMediaPlayerEventListener(videoListener);
                         emp.stop();
+                        emp.release();
+                        mpf.release();
+                        
+                        mpf = new MediaPlayerFactory();
+                        emp = null;
+                        emp = mpf.newEmbeddedMediaPlayer(new Win32FullScreenStrategy(frame));
+                        emp.setVideoSurface(mpf.newVideoSurface(canvasMain));
 
                         file = HappyButtons.documentsPathDoubleSlash + 
                         Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 
@@ -112,7 +119,7 @@ public class VLCFrame extends javax.swing.JFrame {
         NativeLibrary.addSearchPath(RuntimeUtil.getLibVlcLibraryName(), HappyButtons.vlcjPath);
         Native.loadLibrary(RuntimeUtil.getLibVlcLibraryName(), LibVlc.class);
         
-        MediaPlayerFactory mpf = new MediaPlayerFactory();
+        mpf = new MediaPlayerFactory();
         emp = mpf.newEmbeddedMediaPlayer(new Win32FullScreenStrategy(frame));
         emp.setVideoSurface(mpf.newVideoSurface(canvasMain));
         
@@ -182,6 +189,7 @@ public class VLCFrame extends javax.swing.JFrame {
                     emp.stop();
                     emp.release();
                     emp = null;
+                    mpf.release();
                     MainFrame.vlStopClicked = 1;
 
                     MainFrame.btnPlayVL.removeActionListener(playAction);
@@ -298,18 +306,24 @@ public class VLCFrame extends javax.swing.JFrame {
                     dim = Toolkit.getDefaultToolkit().getScreenSize();
                     mediaPlayer.play();
                 }
-                else {
-                    if(MainFrame.vidQueue.length == 1) {
+                else { // System.out.println("Length: " + MainFrame.vidQueue.length);
+                    if(MainFrame.vidQueue.length <= 1) {
                         MainFrame.vidQueue = new String[0];
                         MainFrame.vidQueue = MainFrame.vlQueue;
 //                        System.out.println("Ubos na");
 //                        Utility.testPrintStrArray(MainFrame.vidQueue);
                     }
-                    else {
+                    else { 
                         MainFrame.vidQueue = Utility.removeIndexInStrArr(MainFrame.vidQueue, 0);
 //                        System.out.println("Meron pa");
 //                        Utility.testPrintStrArray(MainFrame.vidQueue);
                     }
+                    
+                    mpf.release();
+                    mpf = new MediaPlayerFactory();
+                    emp = null;
+                    emp = mpf.newEmbeddedMediaPlayer(new Win32FullScreenStrategy(frame));
+                    emp.setVideoSurface(mpf.newVideoSurface(canvasMain));
                     
                     file = HappyButtons.documentsPathDoubleSlash + 
                     Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 

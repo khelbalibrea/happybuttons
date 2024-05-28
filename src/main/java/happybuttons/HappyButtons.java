@@ -8,6 +8,9 @@ import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
 /**

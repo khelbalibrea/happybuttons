@@ -25,6 +25,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -86,6 +88,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static Clip clipBGM2 = null;
     public static Clip clipSFX = null;
     public static Clip clipMp3 = null;
+    public LineListener bgm1Listener = null, bgm2Listener = null, sfxListener = null;
     public static int lastFrame1 = 0, lastFrame2 = 0, mp3LastFrame = 0;
     public static int chkSinglePlay = 1, chkStopBGM = 0;
     public static int loop1 = 1, loop2 = 1, loopMp3 = 0;
@@ -115,7 +118,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static int loadedIndexProfile = -1;
     
     // UI Components
-    public static String currentMp3Playing = ""; // currently Mp3 playing
+    public static String currentMp3Playing = null; // currently Mp3 playing
     public static int hour, minute, second; // for time 
     public static int vlcjPlaying = 0, // if VLC is playing, 0 -> not playing; 1 -> playing
             chkVLLoop = 1, // for checkbox VL loop
@@ -129,7 +132,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             prevSong = 0, // this is in prev button in music player; if 0->song will restart, 1->back to previous song
             prevTimer = 0,
             cboVLType = 0, // 0->forlooping videos, 1->playlist mode
-            vlStopClicked = 1; // for allowing to play vl loop when video item is same as the previous
+            vlStopClicked = 1, // for allowing to play vl loop when video item is same as the previous
+            sfxClickCount = 0; // increments whenever the sfx buttons are clicked
     public static String enableAutosave = "on", // autosave status
             startup = "new", // new -> clean workspace after startup; load -> load previous loaded profile in startup
             fullScreenVL = "window", // whether the screen in Video loop is windowed(window) or full screen(full)
@@ -139,7 +143,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static Mp3Frame mp3;
     
     public MainFrame() {
-        System.out.println(HappyButtons.standardScreen);
+//        System.out.println(HappyButtons.standardScreen);
         if(HappyButtons.standardScreen) {
 //            setMaximumSize(new Dimension(1366, 768));
 //            setMinimumSize(new Dimension(1366, 768));
@@ -148,6 +152,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         else {
             setSize(1366, 768);
         }
+        
+//        long heapSize = Runtime.getRuntime().totalMemory();
+//        System.out.println("Heap: " + heapSize);
         
         initComponents();
         
@@ -161,7 +168,26 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         
         super.setTitle("Happy Buttons");
         
-
+        // Line listeners
+        sfxListener = (LineEvent event) -> {
+            if(event.getType() == LineEvent.Type.STOP) {
+                clipSFX = null; fcSFX = null; // System.out.println("SFX stopped" + sfxClickCount);
+                clipSFX.removeLineListener(sfxListener);
+//                if(lastFrame1 < clipBGM1.getFrameLength()) {
+//                    clipBGM1.setFramePosition(lastFrame1);
+//                }
+//                else {
+//                    clipBGM1.setFramePosition(0);
+//                }
+//                clipBGM1.start();
+//
+//                pause1 = 0;
+//                String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
+//                btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
+//                btnPlayPauseBGM1.setEnabled(true);
+//                btnStopBGM1.setEnabled(true);
+            }
+        };
         
         if(!HappyButtons.firstCheck.equals("")) {
             tfLastOperation.setText(Utility.shortenText(HappyButtons.firstCheck, 50));
@@ -4589,6 +4615,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     private void btnStopSFXActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnStopSFXActionPerformed
         if(clipSFX != null) {
             clipSFX.stop();
+            clipSFX.close();
             clipSFX = null;
         }
     }//GEN-LAST:event_btnStopSFXActionPerformed
@@ -4789,18 +4816,21 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_cboVidLoopActionPerformed
 
     private void btnPlayVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayVLActionPerformed
-        if(cboVidLoop.getSelectedItem() != null) { System.out.println("VP: " + vlcjPlaying);
+        if(cboVidLoop.getSelectedItem() != null) { //System.out.println("VP: " + vlcjPlaying);
             if((!HappyButtons.vlcjPath.isEmpty() || !HappyButtons.vlcjPath.isBlank() || 
             !HappyButtons.vlcjPath.equals("") || HappyButtons.vlcjPath != null)){
                 if(vlcjPlaying == 0){ //chkVLModePL
                     if(chkVLShuffle == 1) {
                         if(chkVLModePL == 1) {
-                            if(vlQueue.length == 0) {
+                            if(vlQueue.length == 0) { // vlQueue has no item
                                 shuffleVLList(0);
                             }
-                            else {
+                            else { // vlQueue has item
                                 shuffleVLList(1); // it is like re-shuffling
                             }
+                        }
+                        else {
+                            shuffleVLList(0);
                         }
 
                         vlcjPlaying = 1;
@@ -5081,6 +5111,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                     mp3LastFrame = 0;
                     clipMp3.removeLineListener(listenMp3);
                     clipMp3.stop();
+                    clipMp3.close();
                     clipMp3 = null;
                     currentMp3Playing = "";
                 }
@@ -5095,9 +5126,10 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             iconPlayMp3 = 0;
         }
         else if(type == 2) { // queue
-            MainFrame.clipMp3.removeLineListener(listenMp3);
-            MainFrame.clipMp3.stop();
-            MainFrame.clipMp3 = null;
+            clipMp3.removeLineListener(listenMp3);
+            clipMp3.stop();
+            clipMp3.close();
+            clipMp3 = null;
             
             prevTime();
             tryCatchMp3();
@@ -5616,21 +5648,21 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }
     
     protected void loadClipBGM1(File audioFile) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-        AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+        AudioInputStream audiostream = AudioSystem.getAudioInputStream(audioFile);
 
-        AudioFormat format = audioStream.getFormat();
+        AudioFormat format = audiostream.getFormat();
         DataLine.Info info = new DataLine.Info(Clip.class, format);
         this.clipBGM1 = (Clip) AudioSystem.getLine(info);
-        this.clipBGM1.open(audioStream);
+        this.clipBGM1.open(audiostream);
     }
     
     protected void loadClipBGM2(File audioFile) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-        AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+        AudioInputStream audiostream = AudioSystem.getAudioInputStream(audioFile);
 
-        AudioFormat format = audioStream.getFormat();
+        AudioFormat format = audiostream.getFormat();
         DataLine.Info info = new DataLine.Info(Clip.class, format);
         this.clipBGM2 = (Clip) AudioSystem.getLine(info);
-        this.clipBGM2.open(audioStream);
+        this.clipBGM2.open(audiostream);
     }
     
     public static void loadClipMp3(File audioFile) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
@@ -5643,12 +5675,12 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }
     
     protected void loadClipSFX(File audioFile) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-        AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
+        AudioInputStream audiostream = AudioSystem.getAudioInputStream(audioFile);
 
-        AudioFormat format = audioStream.getFormat();
+        AudioFormat format = audiostream.getFormat();
         DataLine.Info info = new DataLine.Info(Clip.class, format);
-        MainFrame.clipSFX = (Clip) AudioSystem.getLine(info);
-        MainFrame.clipSFX.open(audioStream);
+        clipSFX = (Clip) AudioSystem.getLine(info);
+        clipSFX.open(audiostream);
     }
     
     public void playSFX(String sfxName) {
@@ -5692,6 +5724,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                             String musicPath = sfolder + "\\" + Utility.cleanSFXNaming(sfxName) + ".wav";
                             loadClipSFX(new File(musicPath));
                             fcSFX = (FloatControl)clipSFX.getControl(FloatControl.Type.MASTER_GAIN);
+                            
                             if(volSFX.getValue() == 100) {
                                 fcSFX.setValue(6f);
                             }
@@ -5699,6 +5732,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                                 fcSFX.setValue(sfxVol); // float value
                             }
 
+                            clipSFX.addLineListener(sfxListener);
                             clipSFX.start();
                         }
                         catch(IOException | LineUnavailableException | UnsupportedAudioFileException e) {
@@ -5706,6 +5740,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         }
                     }
                     else {
+//                        sfxClickCount++;
+                        
                         try {
                             String musicPath = sfolder + "\\" + Utility.cleanSFXNaming(sfxName) + ".wav";
                             loadClipSFX(new File(musicPath));
@@ -5737,6 +5773,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         }
                         
                         sfxPlaying = 1;
+                        clipSFX.addLineListener(sfxListener);
                         clipSFX.start();
                     }
                     catch(IOException | LineUnavailableException | UnsupportedAudioFileException e) {
