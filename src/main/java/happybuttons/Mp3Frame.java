@@ -7,10 +7,14 @@ package happybuttons;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -47,10 +51,29 @@ import ws.schild.jave.encode.EncodingAttributes;
 public class Mp3Frame extends javax.swing.JFrame {
     String theme = HappyButtons.uiTheme;
     DefaultListModel listModelBak = new DefaultListModel();
+    JFrame frame = this;
     
     public Mp3Frame() {
         initComponents();
         super.setTitle("Music Player");
+        
+        // close the frame when clicked outside
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addVetoableChangeListener(
+            "focusedWindow", new VetoableChangeListener() {
+                private boolean gained = false;
+
+                @Override
+                public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
+                    if(evt.getNewValue() == frame) {
+                        gained = true;
+                    }
+
+                    if(gained && evt.getNewValue() != frame) {
+                        frame.dispose();
+                    }
+                }
+            }
+        );
                 
         // set frame icon
         ImageIcon imgIcon = new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));

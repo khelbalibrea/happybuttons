@@ -143,18 +143,12 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static Mp3Frame mp3;
     
     public MainFrame() {
-//        System.out.println(HappyButtons.standardScreen);
         if(HappyButtons.standardScreen) {
-//            setMaximumSize(new Dimension(1366, 768));
-//            setMinimumSize(new Dimension(1366, 768));
             setExtendedState(this.MAXIMIZED_BOTH);
         }
         else {
             setSize(1366, 768);
         }
-        
-//        long heapSize = Runtime.getRuntime().totalMemory();
-//        System.out.println("Heap: " + heapSize);
         
         initComponents();
         
@@ -166,7 +160,12 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             prevTimer = 0;
         });
         
-        super.setTitle("Happy Buttons");
+//        if(startup.equals("load")) {
+//            super.setTitle("Happy Buttons - (" + savingProfile + ")");
+//        }
+//        else {
+//            super.setTitle("Happy Buttons");
+//        }
         
         // Line listeners
         sfxListener = (LineEvent event) -> {

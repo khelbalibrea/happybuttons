@@ -8,9 +8,6 @@ import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryMXBean;
-import java.lang.management.MemoryUsage;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
 /**
@@ -51,20 +48,24 @@ public class HappyButtons {
         
         getScreenCount();
         
+        dbo.loadSystemSettings(uiDB, 0);
+        
         mf = new MainFrame();
         mf.setVisible(true);
+        
+        if(MainFrame.startup.equals("load")) {
+            MainFrame.dbLoadedManual = 0;
+            dbo.loadEnvironment(profileDB, MainFrame.loadedIndexProfile);
+            mf.setTitle("Happy Buttons - (" + mf.savingProfile + ")");
+        }
+        else {
+            mf.setTitle("Happy Buttons");
+        }
         
         loadUISettings();
     }
     
     public static void loadUISettings() {
-        dbo.loadSystemSettings(uiDB, 0);
-        
-        if(MainFrame.startup.equals("load")) {
-            MainFrame.dbLoadedManual = 0;
-            dbo.loadEnvironment(profileDB, MainFrame.loadedIndexProfile);
-        }
-        
         SystemClass.UITheme(uiTheme);
         SystemClass.setupElementsStatus();
     }
