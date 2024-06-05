@@ -57,23 +57,25 @@ public class Mp3Frame extends javax.swing.JFrame {
         initComponents();
         super.setTitle("Music Player");
         
+//        MainFrame.frameListener = new VetoableChangeListener() {
+//            private boolean gained = false;
+//
+//            @Override
+//            public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
+//                if(evt.getNewValue() == frame) {
+//                    gained = true;
+//                }
+//
+//                if(gained && evt.getNewValue() != frame) {
+//                    frame.dispose();
+//                }
+//            }
+//        };
+        
         // close the frame when clicked outside
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addVetoableChangeListener(
-            "focusedWindow", new VetoableChangeListener() {
-                private boolean gained = false;
-
-                @Override
-                public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
-                    if(evt.getNewValue() == frame) {
-                        gained = true;
-                    }
-
-                    if(gained && evt.getNewValue() != frame) {
-                        frame.dispose();
-                    }
-                }
-            }
-        );
+//        KeyboardFocusManager.getCurrentKeyboardFocusManager().addVetoableChangeListener(
+//            "focusedWindow", MainFrame.frameListener
+//        );
                 
         // set frame icon
         ImageIcon imgIcon = new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
@@ -296,6 +298,7 @@ public class Mp3Frame extends javax.swing.JFrame {
         
         if(!MainFrame.selectedMp3Item.equals("")) {
             lblSongMp3.setText(Utility.shortenText(MainFrame.selectedMp3Item, 18));
+            lblSongMp3.setToolTipText(MainFrame.selectedMp3Item);
             listMp3.setSelectedIndex(0);
 
             if(theme.equals("light")) {
@@ -308,6 +311,10 @@ public class Mp3Frame extends javax.swing.JFrame {
                 String strIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_pause_mp3_16px.png");
                 btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(strIcon));
             }
+        }
+        else {
+            lblSongMp3.setText("");
+            lblSongMp3.setToolTipText("");
         }
 
         // setup button elements
@@ -734,7 +741,6 @@ public class Mp3Frame extends javax.swing.JFrame {
         }
         
         if(!MainFrame.selectedMp3Item.equals("")) {
-            MainFrame.tfMp3.setText(MainFrame.selectedMp3Item);
             MainFrame.playPauseMp3(0); // 0 means button click
         }
         else {
@@ -743,6 +749,8 @@ public class Mp3Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPlayPauseMp3ActionPerformed
 
     private void btnAddMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMp3ActionPerformed
+//        KeyboardFocusManager.getCurrentKeyboardFocusManager().removeVetoableChangeListener("focusedWindow", MainFrame.frameListener);
+//        KeyboardFocusManager.setCurrentKeyboardFocusManager(null);
         Object[] options = {"Add from App Resource", "Add from My files"};
         
         int choice = JOptionPane.showOptionDialog(this, "Select path where to get MP3 files",
@@ -777,11 +785,9 @@ public class Mp3Frame extends javax.swing.JFrame {
 
                         if(!destCheck.exists()) {
                             FileChannel dest = new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\mp3s\\" + file.getName()).getChannel();
-
                             src.transferTo(0, src.size(), dest);
-
-                            src.close();
                             dest.close();
+                            src.close();
                         }
                         
                         if(MainFrame.strMp3List.equals("")) {
@@ -793,9 +799,10 @@ public class Mp3Frame extends javax.swing.JFrame {
                             MainFrame.strMp3List = MainFrame.strMp3List + ":" + Utility.renameListName(file.getName(), "wav");
                         }
 
-                        if(!MainFrame.mlist.contains(Utility.renameListName(file.getName(), "wav"))) {
+                        if(!(MainFrame.mlist).contains(Utility.renameListName(file.getName(), "wav"))) {
                             MainFrame.mlist.addElement(Utility.renameListName(file.getName(), "wav"));
-                            MainFrame.tfLastOperation.setText("[ADDED MP3]:: " + file.getName());
+                            (MainFrame.tfLastOperation).setText(Utility.shortenText("[ADDED MP3]:: " + file.getName(), 50));
+                            (MainFrame.tfLastOperation).setToolTipText("[ADDED MP3]:: " + file.getName());
                         }
                         
                         if(!Utility.doesStrArrHasElement(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "wav"))) {
@@ -885,11 +892,15 @@ public class Mp3Frame extends javax.swing.JFrame {
                         if(Utility.getFileExtension(file.toString()).equals("MP3")) {
                             if(!MainFrame.mlist.contains(Utility.renameListName(file.getName(), "MP3"))) {
                                 MainFrame.mlist.addElement(Utility.renameListName(file.getName(), "MP3"));
+                                (MainFrame.tfLastOperation).setText(Utility.shortenText("[ADDED MP3]:: " + file.getName(), 50));
+                                (MainFrame.tfLastOperation).setToolTipText("[ADDED MP3]:: " + file.getName());
                             }
                         }
                         else if(Utility.getFileExtension(file.toString()).equals("mp3")) {
                             if(!MainFrame.mlist.contains(Utility.renameListName(file.getName(), "mp3"))) {
                                 MainFrame.mlist.addElement(Utility.renameListName(file.getName(), "mp3"));
+                                (MainFrame.tfLastOperation).setText(Utility.shortenText("[ADDED MP3]:: " + file.getName(), 50));
+                                (MainFrame.tfLastOperation).setToolTipText("[ADDED MP3]:: " + file.getName());
                             }
                         }
                         
@@ -933,9 +944,27 @@ public class Mp3Frame extends javax.swing.JFrame {
             
             // autosave
             if(returnValue == fc.APPROVE_OPTION) {
+//                KeyboardFocusManager.getCurrentKeyboardFocusManager().addVetoableChangeListener(
+//                    "focusedWindow", MainFrame.frameListener
+//                );
+//                
+//                MainFrame.openMp3Frame();
                 autosave();
             }
-            
+//            else if(returnValue == fc.CANCEL_OPTION) {
+//                KeyboardFocusManager.getCurrentKeyboardFocusManager().addVetoableChangeListener(
+//                    "focusedWindow", MainFrame.frameListener
+//                );
+//                
+//                MainFrame.openMp3Frame();
+//            }
+//            else {
+//                KeyboardFocusManager.getCurrentKeyboardFocusManager().addVetoableChangeListener(
+//                    "focusedWindow", MainFrame.frameListener
+//                );
+//                
+//                MainFrame.openMp3Frame();
+//            }
             
 //            LookAndFeel originalLookAndFeel = UIManager.getLookAndFeel();
 //            try {
@@ -954,6 +983,13 @@ public class Mp3Frame extends javax.swing.JFrame {
 //                    e.printStackTrace();
 //                }
 //            }
+        }
+        else { // closes the window
+//            KeyboardFocusManager.getCurrentKeyboardFocusManager().addVetoableChangeListener(
+//                "focusedWindow", MainFrame.frameListener
+//            );
+//            
+//            MainFrame.openMp3Frame();
         }
     }//GEN-LAST:event_btnAddMp3ActionPerformed
 
@@ -1020,8 +1056,6 @@ public class Mp3Frame extends javax.swing.JFrame {
         
         if(!stringList.isEmpty()) { // not empty
             for(int i = 0; i < stringList.size(); i++) {
-//                list = Utility.addElementInStrArr(list.length, list, stringList.get(i));
-//                list = Utility.removeIndexInStrArr(list, i);
                 if(stringList.get(i).equals(MainFrame.selectedMp3Item)) {
                     MainFrame.selectedMp3Item = "";
 
@@ -1033,6 +1067,14 @@ public class Mp3Frame extends javax.swing.JFrame {
                     MainFrame.clipMp3 = null;
                     
                     setElementIcon(2, "play");
+                    if(HappyButtons.uiTheme.equals("light")) {
+                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
+                        MainFrame.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                    }
+                    else if(HappyButtons.uiTheme.equals("dark"))  {
+                        String btnIcon1 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_12px.png");
+                        MainFrame.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon1));
+                    }
 
                     lblSongMp3.setText("");
                 }

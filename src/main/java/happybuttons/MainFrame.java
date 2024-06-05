@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.MouseListener;
+import java.beans.VetoableChangeListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -25,8 +26,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -89,6 +88,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static Clip clipSFX = null;
     public static Clip clipMp3 = null;
     public LineListener bgm1Listener = null, bgm2Listener = null, sfxListener = null;
+    public static VetoableChangeListener frameListener;
     public static int lastFrame1 = 0, lastFrame2 = 0, mp3LastFrame = 0;
     public static int chkSinglePlay = 1, chkStopBGM = 0;
     public static int loop1 = 1, loop2 = 1, loopMp3 = 0;
@@ -160,31 +160,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             prevTimer = 0;
         });
         
-//        if(startup.equals("load")) {
-//            super.setTitle("Happy Buttons - (" + savingProfile + ")");
-//        }
-//        else {
-//            super.setTitle("Happy Buttons");
-//        }
-        
         // Line listeners
         sfxListener = (LineEvent event) -> {
             if(event.getType() == LineEvent.Type.STOP) {
                 clipSFX = null; fcSFX = null; // System.out.println("SFX stopped" + sfxClickCount);
                 clipSFX.removeLineListener(sfxListener);
-//                if(lastFrame1 < clipBGM1.getFrameLength()) {
-//                    clipBGM1.setFramePosition(lastFrame1);
-//                }
-//                else {
-//                    clipBGM1.setFramePosition(0);
-//                }
-//                clipBGM1.start();
-//
-//                pause1 = 0;
-//                String btnIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\pause_12px.png");
-//                btnPlayPauseBGM1.setIcon(new javax.swing.ImageIcon(btnIcon));
-//                btnPlayPauseBGM1.setEnabled(true);
-//                btnStopBGM1.setEnabled(true);
             }
         };
         
@@ -363,6 +343,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         listSFX.setTransferHandler(new DnDListSFX());
         tfBGM1.setTransferHandler(new DnDBGM1Textfield());
         tfBGM2.setTransferHandler(new DnDBGM2Textfield());
+        tfMp3.setTransferHandler(new DnDTextfieldBlank());
         
         lblR1SFX01.setTransferHandler(new DnDSFXLabels());
         lblR1SFX02.setTransferHandler(new DnDSFXLabels());
@@ -1092,7 +1073,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         lblVolBGM1.setPreferredSize(new java.awt.Dimension(60, 22));
 
         chkLoop1.setSelected(true);
-        chkLoop1.setToolTipText("Loop VL (Video loop)");
+        chkLoop1.setToolTipText("Loop BGM1");
         chkLoop1.setOpaque(true);
         chkLoop1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1197,7 +1178,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         lblVolBGM2.setPreferredSize(new java.awt.Dimension(60, 22));
 
         chkLoop2.setSelected(true);
-        chkLoop2.setToolTipText("Loop VL (Video loop)");
+        chkLoop2.setToolTipText("Loop BGM2");
         chkLoop2.setOpaque(true);
         chkLoop2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1306,6 +1287,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         tfMp3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tfMp3MouseClicked(evt);
+            }
+        });
+        tfMp3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfMp3ActionPerformed(evt);
             }
         });
 
@@ -4303,6 +4289,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             
             tfBGM1.setText("");
             tfBGM2.setText("");
+            tfMp3.setText("");
+            tfMp3.setToolTipText("");
             tfLastOperation.setText("NEW WORKSPACE CREATED");
             
             volBGM1.setValue(100); volBGM2.setValue(100); volSFX.setValue(100);
@@ -5015,11 +5003,21 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_btnNextMp3ActionPerformed
    
     private void chkLoop1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkLoop1ActionPerformed
-        // TODO add your handling code here:
+        if(chkLoop1.isSelected()) {
+            loop1 = 1;
+        }
+        else {
+            loop1 = 0;
+        }
     }//GEN-LAST:event_chkLoop1ActionPerformed
 
     private void chkLoop2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkLoop2ActionPerformed
-        // TODO add your handling code here:
+        if(chkLoop2.isSelected()) {
+            loop2 = 1;
+        }
+        else {
+            loop2 = 0;
+        }
     }//GEN-LAST:event_chkLoop2ActionPerformed
 
     private void lblMp3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblMp3MouseClicked
@@ -5056,6 +5054,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             if(!selectedMp3Item.equals("") && Mp3Frame.listMp3.getSelectedIndex() != -1) {
                 if(mp3Playing == 0) { // not pause
                     selectedMp3Item = mp3.listMp3.getSelectedValue();
+                }
+                else {
                     mp3.lblSongMp3.setText(Utility.shortenText(mp3.listMp3.getSelectedValue(), 18));
                 }
 
@@ -5364,6 +5364,10 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 //        ActionEvent actionEvent = new ActionEvent(new Object(), ActionEvent.ACTION_PERFORMED, "command");
 //        checkBoxAction.actionPerformed(actionEvent);
     }//GEN-LAST:event_chkPLModeActionPerformed
+
+    private void tfMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfMp3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfMp3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -6219,7 +6223,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         folder.delete();
     }
     
-    public void openMp3Frame() {
+    public static void openMp3Frame() {
         if(mp3FrameOpened == 0) {
             mp3FrameOpened = 1;
             mp3 = new Mp3Frame();

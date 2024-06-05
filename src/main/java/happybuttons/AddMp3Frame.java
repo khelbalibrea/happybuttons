@@ -5,6 +5,7 @@
 package happybuttons;
 
 import java.awt.Dimension;
+import java.awt.KeyboardFocusManager;
 import java.awt.Toolkit;
 import java.io.File;
 import javax.swing.ImageIcon;
@@ -161,6 +162,12 @@ public class AddMp3Frame extends javax.swing.JDialog {
                 }
                 
                 autosave();
+                
+//                KeyboardFocusManager.getCurrentKeyboardFocusManager().addVetoableChangeListener(
+//                    "focusedWindow", MainFrame.frameListener
+//                );
+//            
+//                MainFrame.openMp3Frame();
 //                Mp3Frame.sortJList(MainFrame.mlist);
             }
         }

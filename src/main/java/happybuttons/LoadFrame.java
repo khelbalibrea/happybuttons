@@ -387,6 +387,7 @@ public class LoadFrame extends javax.swing.JDialog {
         MainFrame.loadedProfile = (HappyButtons.dbo).loadEnvironment(HappyButtons.profileDB, 0);
         MainFrame.loadedIndexProfile = 0;
         
+        clearMp3Queues();
         this.dispose();
     }//GEN-LAST:event_btnLoad1ActionPerformed
 
@@ -395,6 +396,7 @@ public class LoadFrame extends javax.swing.JDialog {
         MainFrame.loadedProfile = (HappyButtons.dbo).loadEnvironment(HappyButtons.profileDB, 1);
         MainFrame.loadedIndexProfile = 1;
         
+        clearMp3Queues();
         this.dispose();
     }//GEN-LAST:event_btnLoad2ActionPerformed
 
@@ -403,6 +405,7 @@ public class LoadFrame extends javax.swing.JDialog {
         MainFrame.loadedProfile = (HappyButtons.dbo).loadEnvironment(HappyButtons.profileDB, 2);
         MainFrame.loadedIndexProfile = 2;
         
+        clearMp3Queues();
         this.dispose();
     }//GEN-LAST:event_btnLoad3ActionPerformed
 
@@ -411,6 +414,7 @@ public class LoadFrame extends javax.swing.JDialog {
         MainFrame.loadedProfile = (HappyButtons.dbo).loadEnvironment(HappyButtons.profileDB, 3);
         MainFrame.loadedIndexProfile = 3;
         
+        clearMp3Queues();
         this.dispose();
     }//GEN-LAST:event_btnLoad4ActionPerformed
 
@@ -419,9 +423,32 @@ public class LoadFrame extends javax.swing.JDialog {
         MainFrame.loadedProfile = (HappyButtons.dbo).loadEnvironment(HappyButtons.profileDB, 4);
         MainFrame.loadedIndexProfile = 4;
         
+        clearMp3Queues();
         this.dispose();
     }//GEN-LAST:event_btnLoad5ActionPerformed
 
+    public void clearMp3Queues() {
+        MainFrame.tfMp3.setText("");
+        MainFrame.selectedMp3Item = "";
+        MainFrame.mp3MainQueue = new String[0];
+        MainFrame.mp3SortedQueue = new String[0];
+        MainFrame.mp3ShuffledQueue = new String[0];
+        MainFrame.mp3Queue = new String[0];
+        MainFrame.iconPlayMp3 = 1;
+        
+        if(HappyButtons.uiTheme.equals("light")) {
+            String btnIcon3 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
+            MainFrame.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon3));
+        }
+        else if(HappyButtons.uiTheme.equals("dark")) {
+            String btnIcon3 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_12px.png");
+            MainFrame.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon3));
+        }
+        
+        MainFrame.clipMp3.removeLineListener(MainFrame.listenMp3);
+        MainFrame.clipMp3.stop();
+    }
+    
     /**
      * @param args the command line arguments
      */

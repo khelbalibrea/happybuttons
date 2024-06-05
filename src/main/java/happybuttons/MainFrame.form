@@ -696,7 +696,7 @@
         <Component class="javax.swing.JCheckBox" name="chkLoop1">
           <Properties>
             <Property name="selected" type="boolean" value="true"/>
-            <Property name="toolTipText" type="java.lang.String" value="Loop VL (Video loop)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Loop BGM1"/>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
           <Events>
@@ -881,7 +881,7 @@
         <Component class="javax.swing.JCheckBox" name="chkLoop2">
           <Properties>
             <Property name="selected" type="boolean" value="true"/>
-            <Property name="toolTipText" type="java.lang.String" value="Loop VL (Video loop)"/>
+            <Property name="toolTipText" type="java.lang.String" value="Loop BGM2"/>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
           <Events>
@@ -1090,6 +1090,7 @@
           </Properties>
           <Events>
             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tfMp3MouseClicked"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfMp3ActionPerformed"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new PlaceHolderTextfield(&quot;Click to open Music player window&quot;)"/>
