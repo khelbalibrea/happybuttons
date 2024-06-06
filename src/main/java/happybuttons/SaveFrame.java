@@ -395,19 +395,26 @@ public class SaveFrame extends javax.swing.JDialog {
             saveDone = 0;
         }
         else {
-            HappyButtons.profileDB[0] = new ProfileDatabase();
-            (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+            int confirm = JOptionPane.showConfirmDialog(HappyButtons.mf, 
+                "Save in this slot? This cannot be undone", 
+                "Save item", 
+                JOptionPane.YES_NO_OPTION);
             
-            Notification panel = new Notification(HappyButtons.mf, 
-                Notification.Type.SUCCESS, 
-                MainFrame.location, 
-                "Success",
-                "Profile saved!"
-            );
-            panel.showNotification();
-            saveDone = 1;
-            
-            this.dispose();
+            if(confirm == 0) {
+                HappyButtons.profileDB[0] = new ProfileDatabase();
+                (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+
+                Notification panel = new Notification(HappyButtons.mf, 
+                    Notification.Type.SUCCESS, 
+                    MainFrame.location, 
+                    "Success",
+                    "Profile saved!"
+                );
+                panel.showNotification();
+                saveDone = 1;
+
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_btnSave1ActionPerformed
 
@@ -441,19 +448,26 @@ public class SaveFrame extends javax.swing.JDialog {
             saveDone = 0;
         }
         else {
-            HappyButtons.profileDB[1] = new ProfileDatabase();
-            (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+            int confirm = JOptionPane.showConfirmDialog(HappyButtons.mf, 
+                "Save in this slot? This cannot be undone", 
+                "Save item", 
+                JOptionPane.YES_NO_OPTION);
             
-            Notification panel = new Notification(HappyButtons.mf, 
-                Notification.Type.SUCCESS, 
-                MainFrame.location, 
-                "Success",
-                "Profile saved!"
-            );
-            panel.showNotification();
-            saveDone = 1;
-            
-            this.dispose();
+            if(confirm == 0) {
+                HappyButtons.profileDB[1] = new ProfileDatabase();
+                (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+
+                Notification panel = new Notification(HappyButtons.mf, 
+                    Notification.Type.SUCCESS, 
+                    MainFrame.location, 
+                    "Success",
+                    "Profile saved!"
+                );
+                panel.showNotification();
+                saveDone = 1;
+
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_btnSave2ActionPerformed
 
@@ -488,19 +502,26 @@ public class SaveFrame extends javax.swing.JDialog {
 //            System.out.println("1: " + dbSlot1 + "\n2: " + dbSlot2 + "\n3: " + dbSlot3 + "\n4: " + dbSlot4 + "\n5: " + dbSlot5);
         }
         else {
-            HappyButtons.profileDB[2] = new ProfileDatabase();
-            (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+            int confirm = JOptionPane.showConfirmDialog(HappyButtons.mf, 
+                "Save in this slot? This cannot be undone", 
+                "Save item", 
+                JOptionPane.YES_NO_OPTION);
             
-            Notification panel = new Notification(HappyButtons.mf, 
-                Notification.Type.SUCCESS, 
-                MainFrame.location, 
-                "Success",
-                "Profile saved!"
-            );
-            panel.showNotification();
-            saveDone = 1;
-            
-            this.dispose();
+            if(confirm == 0) {
+                HappyButtons.profileDB[2] = new ProfileDatabase();
+                (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+
+                Notification panel = new Notification(HappyButtons.mf, 
+                    Notification.Type.SUCCESS, 
+                    MainFrame.location, 
+                    "Success",
+                    "Profile saved!"
+                );
+                panel.showNotification();
+                saveDone = 1;
+
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_btnSave3ActionPerformed
 
@@ -534,19 +555,26 @@ public class SaveFrame extends javax.swing.JDialog {
             saveDone = 0;
         }
         else {
-            HappyButtons.profileDB[3] = new ProfileDatabase();
-            (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+            int confirm = JOptionPane.showConfirmDialog(HappyButtons.mf, 
+                "Save in this slot? This cannot be undone", 
+                "Save item", 
+                JOptionPane.YES_NO_OPTION);
             
-            Notification panel = new Notification(HappyButtons.mf, 
-                Notification.Type.SUCCESS, 
-                MainFrame.location, 
-                "Success",
-                "Profile saved!"
-            );
-            panel.showNotification();
-            saveDone = 1;
-            
-            this.dispose();
+            if(confirm == 0) {
+                HappyButtons.profileDB[3] = new ProfileDatabase();
+                (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+
+                Notification panel = new Notification(HappyButtons.mf, 
+                    Notification.Type.SUCCESS, 
+                    MainFrame.location, 
+                    "Success",
+                    "Profile saved!"
+                );
+                panel.showNotification();
+                saveDone = 1;
+
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_btnSave4ActionPerformed
 
@@ -580,19 +608,26 @@ public class SaveFrame extends javax.swing.JDialog {
             saveDone = 0;
         }
         else {
-            HappyButtons.profileDB[4] = new ProfileDatabase();
-            (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+            int confirm = JOptionPane.showConfirmDialog(HappyButtons.mf, 
+                "Save in this slot? This cannot be undone", 
+                "Save item", 
+                JOptionPane.YES_NO_OPTION);
             
-            Notification panel = new Notification(HappyButtons.mf, 
-                Notification.Type.SUCCESS, 
-                MainFrame.location, 
-                "Success",
-                "Profile saved!"
-            );
-            panel.showNotification();
-            saveDone = 1;
-            
-            this.dispose();
+            if(confirm == 0) {
+                HappyButtons.profileDB[4] = new ProfileDatabase();
+                (HappyButtons.dbo).saveEnvironment(HappyButtons.profileDB, profile);
+
+                Notification panel = new Notification(HappyButtons.mf, 
+                    Notification.Type.SUCCESS, 
+                    MainFrame.location, 
+                    "Success",
+                    "Profile saved!"
+                );
+                panel.showNotification();
+                saveDone = 1;
+
+                this.dispose();
+            }
         }
     }//GEN-LAST:event_btnSave5ActionPerformed
 
