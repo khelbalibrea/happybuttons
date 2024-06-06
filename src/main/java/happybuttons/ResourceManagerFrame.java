@@ -368,59 +368,117 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
     }
     
     public void loadJListVL() {
-        if(MainFrame.loadedIndexProfile >= 0) {
-            String[] arrVL = Utility.strToArr(MainFrame.strVidLoop);
-
-            for(String vid : arrVL) {
-                File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + vid + ".mp4");
-                if(!destCheck.exists()) {
-                    int removedIndex = Utility.findIndexInStrArr(arrVL, vid);
-                    arrVL = Utility.removeIndexInStrArr(arrVL, removedIndex);
-                }
-            }
-
-            if(listModelVL != null) {
-                listModelVL.removeAllElements();
-            }
-
-            for(String vid : arrVL) {
-                listModelVL.addElement(vid);
-            }
-            
-            for(int i = 0; i < listModelVL.size(); i++) {
-                list = Utility.addElementInStrArr(list, listModelVL.getElementAt(i));
-            }
-
-            listVL.setModel(listModelVL);
+//        if(MainFrame.loadedIndexProfile >= 0) {
+//            String[] arrVL = Utility.strToArr(MainFrame.strVidLoop);
+//
+//            for(String vid : arrVL) {
+//                File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + vid + ".mp4");
+//                if(!destCheck.exists()) {
+//                    int removedIndex = Utility.findIndexInStrArr(arrVL, vid);
+//                    arrVL = Utility.removeIndexInStrArr(arrVL, removedIndex);
+//                }
+//            }
+//
+//            if(listModelVL != null) {
+//                listModelVL.removeAllElements();
+//            }
+//
+//            for(String vid : arrVL) {
+//                listModelVL.addElement(vid);
+//            }
+//            
+//            for(int i = 0; i < listModelVL.size(); i++) {
+//                list = Utility.addElementInStrArr(list, listModelVL.getElementAt(i));
+//            }
+//
+//            listVL.setModel(listModelVL);
+//        }
+//        else {
+//            
+//        }
+        if(MainFrame.loadedIndexProfile < 0) {
+            listModelVL.removeAllElements();
         }
+
+        String[] arrVL = Utility.strToArr(MainFrame.strVidLoop);
+
+        for(String vid : arrVL) {
+            File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + vid + ".mp4");
+            if(!destCheck.exists()) {
+                int removedIndex = Utility.findIndexInStrArr(arrVL, vid);
+                arrVL = Utility.removeIndexInStrArr(arrVL, removedIndex);
+            }
+        }
+
+        if(listModelVL != null) {
+            listModelVL.removeAllElements();
+        }
+
+        for(String vid : arrVL) {
+            listModelVL.addElement(vid);
+        }
+
+        for(int i = 0; i < listModelVL.size(); i++) {
+            list = Utility.addElementInStrArr(list, listModelVL.getElementAt(i));
+        }
+
+        listVL.setModel(listModelVL);
     }
     
     public void loadJListVLPlaylist() {
-        if(MainFrame.loadedIndexProfile >= 0) {
-            String[] arrVL = Utility.strToArr(MainFrame.strVidList);
-            
-            for(String vid : arrVL) {
-                File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + vid + ".mp4");
-                if(!destCheck.exists()) {
-                    int removedIndex = Utility.findIndexInStrArr(arrVL, vid);
-                    arrVL = Utility.removeIndexInStrArr(arrVL, removedIndex);
-                }
-            }
+//        if(MainFrame.loadedIndexProfile >= 0) {
+//            String[] arrVL = Utility.strToArr(MainFrame.strVidList);
+//            
+//            for(String vid : arrVL) {
+//                File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + vid + ".mp4");
+//                if(!destCheck.exists()) {
+//                    int removedIndex = Utility.findIndexInStrArr(arrVL, vid);
+//                    arrVL = Utility.removeIndexInStrArr(arrVL, removedIndex);
+//                }
+//            }
+//
+//            if(listModelVL != null) {
+//                listModelVL.removeAllElements();
+//            }
+//
+//            for(String vid : arrVL) {
+//                listModelVL.addElement(vid);
+//            }
+//            
+//            for(int i = 0; i < listModelVL.size(); i++) {
+//                list = Utility.addElementInStrArr(list, listModelVL.getElementAt(i));
+//            }
+//
+//            listVL.setModel(listModelVL);
+//        }
 
-            if(listModelVL != null) {
-                listModelVL.removeAllElements();
-            }
-
-            for(String vid : arrVL) {
-                listModelVL.addElement(vid);
-            }
-            
-            for(int i = 0; i < listModelVL.size(); i++) {
-                list = Utility.addElementInStrArr(list, listModelVL.getElementAt(i));
-            }
-
-            listVL.setModel(listModelVL);
+        if(MainFrame.loadedIndexProfile < 0) {
+            listModelVL.removeAllElements();
         }
+
+        String[] arrVL = Utility.strToArr(MainFrame.strVidList);
+            
+        for(String vid : arrVL) {
+            File destCheck = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + vid + ".mp4");
+            if(!destCheck.exists()) {
+                int removedIndex = Utility.findIndexInStrArr(arrVL, vid);
+                arrVL = Utility.removeIndexInStrArr(arrVL, removedIndex);
+            }
+        }
+
+        if(listModelVL != null) {
+            listModelVL.removeAllElements();
+        }
+
+        for(String vid : arrVL) {
+            listModelVL.addElement(vid);
+        }
+
+        for(int i = 0; i < listModelVL.size(); i++) {
+            list = Utility.addElementInStrArr(list, listModelVL.getElementAt(i));
+        }
+
+        listVL.setModel(listModelVL);
     }
     
     private void btnDeleteBSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteBSActionPerformed

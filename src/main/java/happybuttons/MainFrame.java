@@ -4284,7 +4284,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             
             selectedBGMItem = ""; selectedSFXItem = ""; selectedMp3Item = "";
             profileName1 = ""; profileName2 = ""; profileName3 = ""; profileName4 = ""; profileName5 = "";
-            loadedProfile = ""; savedProfile = ""; strBGM = ""; strSFX = ""; strVidLoop = ""; strMp3List = "";
+            loadedProfile = ""; savedProfile = ""; strBGM = ""; strSFX = ""; strVidLoop = ""; strVidList = ""; strMp3List = "";
             loadedIndexProfile = -1;
             
             tfBGM1.setText("");
