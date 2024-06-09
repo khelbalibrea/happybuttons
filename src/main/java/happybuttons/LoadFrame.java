@@ -445,7 +445,10 @@ public class LoadFrame extends javax.swing.JDialog {
             MainFrame.btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon3));
         }
         
-        MainFrame.clipMp3.removeLineListener(MainFrame.listenMp3);
+        if(MainFrame.clipMp3 != null) {
+            MainFrame.clipMp3.removeLineListener(MainFrame.listenMp3);
+        }
+        
         MainFrame.clipMp3.stop();
     }
     

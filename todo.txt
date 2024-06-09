@@ -1,6 +1,7 @@
 To do:
 x screen selector
 x mp3 seek
+x deletion of profile
 
 PREFERENCES UI:
 Using pichon app:

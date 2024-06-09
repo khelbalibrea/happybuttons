@@ -4813,7 +4813,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                                 shuffleVLList(0);
                             }
                             else { // vlQueue has item
-                                shuffleVLList(1); // it is like re-shuffling
+                                shuffleVLList(0); // it is like re-shuffling
                             }
                         }
                         else {
@@ -4848,6 +4848,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
     public void shuffleVLList(int type) {
         if(type == 0) { // vlQueue has no item
+            vlQueue = new String[0]; // remove this test line of code
             String[] vlList = Utility.strToArr(strVidList);
             int length = vlList.length, min = 1, randomIndex = -1;
             int[] exclusion = new int[]{};
