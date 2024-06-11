@@ -47,13 +47,11 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="lblHappyButtons" max="32767" attributes="0"/>
-                      <Component id="jLabel1" pref="187" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="lblHappyButtons" min="-2" pref="187" max="-2" attributes="0"/>
                   <Component id="jLabel2" min="-2" pref="200" max="-2" attributes="0"/>
+                  <Component id="jLabel1" alignment="0" min="-2" pref="222" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="68" max="32767" attributes="0"/>
+              <EmptySpace pref="46" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -97,7 +95,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="MI-chael   NO-jor   BA-librea"/>
+        <Property name="text" type="java.lang.String" value="MI-chael   NO-jor   BA-librea      (Minoba)"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">

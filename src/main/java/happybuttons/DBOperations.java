@@ -145,7 +145,7 @@ public class DBOperations {
         profileDB[indexDB].setStrVidList(profile.getStrVidList());
         profileDB[indexDB].setStrMp3List(profile.getStrMp3List());
         
-        // =================================================================================================== Get profile name and grp sfx names
+        // =================================================================================================== Get profile name
         profileDB[indexDB].setProfileName(profile.getProfileName());
         
         // =================================================================================================== Get SFXs
@@ -360,7 +360,7 @@ public class DBOperations {
             
             MainFrame.tfLastOperation.setText("PROFILE \"" + profileDB[index].getProfileName() + "\" LOADED");
             
-            if(MainFrame.dbLoadedManual == 1) {
+            if(MainFrame.dbLoadedManual == 1) { // profile is manually loaded
                 Notification panel = new Notification(HappyButtons.mf, 
                     Notification.Type.SUCCESS, 
                     MainFrame.location, 
@@ -369,7 +369,7 @@ public class DBOperations {
                 );
                 panel.showNotification();
             }
-            else {
+            else { // previous profile is loaded
                 Notification panel = new Notification(HappyButtons.mf, 
                     Notification.Type.INFO, 
                     MainFrame.location, 

@@ -11,7 +11,9 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicMenuUI;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 /**
  *
@@ -35,6 +37,14 @@ public class SettingsFrame extends javax.swing.JDialog {
         setIconImage(imgIcon.getImage());
         
         onLoad();
+        
+//        try {
+//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+////            UIManager.setLookAndFeel(new NimbusLookAndFeel()); // Set Nimbus look and feel
+//        }
+//        catch(Exception e) {
+//            e.printStackTrace();
+//        }
     }
     
     public void onLoad() {

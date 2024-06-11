@@ -447,9 +447,8 @@ public class LoadFrame extends javax.swing.JDialog {
         
         if(MainFrame.clipMp3 != null) {
             MainFrame.clipMp3.removeLineListener(MainFrame.listenMp3);
+            MainFrame.clipMp3.stop();
         }
-        
-        MainFrame.clipMp3.stop();
     }
     
     /**

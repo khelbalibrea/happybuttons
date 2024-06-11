@@ -330,7 +330,7 @@ public class Utility {
         if(str.equals(cleanSFXNaming(MainFrame.lblR2SFX12.getText()))) { MainFrame.lblR2SFX12.setText("blank"); }
         if(str.equals(cleanSFXNaming(MainFrame.lblR2SFX13.getText()))) { MainFrame.lblR2SFX13.setText("blank"); }
         if(str.equals(cleanSFXNaming(MainFrame.lblR2SFX14.getText()))) { MainFrame.lblR2SFX14.setText("blank"); }
-//        
+        
         if(str.equals(cleanSFXNaming(MainFrame.lblR3SFX01.getText()))) { MainFrame.lblR3SFX01.setText("blank"); }
         if(str.equals(cleanSFXNaming(MainFrame.lblR3SFX02.getText()))) { MainFrame.lblR3SFX02.setText("blank"); }
         if(str.equals(cleanSFXNaming(MainFrame.lblR3SFX03.getText()))) { MainFrame.lblR3SFX03.setText("blank"); }

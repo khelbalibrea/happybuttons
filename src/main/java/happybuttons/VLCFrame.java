@@ -121,6 +121,7 @@ public class VLCFrame extends javax.swing.JFrame {
         mpf = new MediaPlayerFactory();
         emp = mpf.newEmbeddedMediaPlayer(new Win32FullScreenStrategy(frame));
         emp.setVideoSurface(mpf.newVideoSurface(canvasMain));
+        emp.setVolume(90);
         
         if(screenDevices.length > 1) {
             GraphicsDevice secondScreen = screenDevices[1];
@@ -182,13 +183,14 @@ public class VLCFrame extends javax.swing.JFrame {
         MainFrame.btnStopVL.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(emp != null) {
+                if(emp != null) { System.out.println("Not null");
                     MainFrame.vlcjPlaying = 0;
                     emp.removeMediaPlayerEventListener(videoListener);
                     emp.stop();
                     emp.release();
                     emp = null;
-                    mpf.release();
+//                    mpf.release();
+//                    mpf = null;
                     MainFrame.vlStopClicked = 1;
 
                     MainFrame.btnPlayVL.removeActionListener(playAction);
@@ -286,9 +288,9 @@ public class VLCFrame extends javax.swing.JFrame {
         public void finished(MediaPlayer mediaPlayer) {
             if(MainFrame.chkVLModePL == 0) { // loop mode
                 if(MainFrame.chkVLLoop == 1){
-                    mediaPlayer.prepareMedia(file);
+                    emp.prepareMedia(file);
                     dim = Toolkit.getDefaultToolkit().getScreenSize();
-                    mediaPlayer.play();
+                    emp.play();
                 }
                 else {
                     mediaPlayer.stop();
@@ -301,9 +303,9 @@ public class VLCFrame extends javax.swing.JFrame {
             }
             else { // playlist mode
                 if(MainFrame.chkVLLoop == 1){
-                    mediaPlayer.prepareMedia(file);
+                    emp.prepareMedia(file);
                     dim = Toolkit.getDefaultToolkit().getScreenSize();
-                    mediaPlayer.play();
+                    emp.play();
                 }
                 else { // System.out.println("Length: " + MainFrame.vidQueue.length);
                     if(MainFrame.vidQueue.length <= 1) {
@@ -318,8 +320,9 @@ public class VLCFrame extends javax.swing.JFrame {
 //                        Utility.testPrintStrArray(MainFrame.vidQueue);
                     }
                     
-                    mpf.release();
-                    mpf = new MediaPlayerFactory();
+//                    mpf.release();
+//                    mpf = null;
+//                    mpf = new MediaPlayerFactory();
                     emp = null;
                     emp = mpf.newEmbeddedMediaPlayer(new Win32FullScreenStrategy(frame));
                     emp.setVideoSurface(mpf.newVideoSurface(canvasMain));
@@ -331,9 +334,9 @@ public class VLCFrame extends javax.swing.JFrame {
                     videoFilename = MainFrame.vidQueue[0];
                     MainFrame.cboVidLoop.setSelectedItem(MainFrame.vidQueue[0]);
                     
-                    mediaPlayer.prepareMedia(file);
+                    emp.prepareMedia(file);
                     dim = Toolkit.getDefaultToolkit().getScreenSize();
-                    mediaPlayer.play();
+                    emp.play();
                 }
             }
             

@@ -1,7 +1,9 @@
 To do:
 x screen selector
 x mp3 seek
+x import / export profile
 x deletion of profile
+o mp3 list not saving probably in autosave
 
 PREFERENCES UI:
 Using pichon app:

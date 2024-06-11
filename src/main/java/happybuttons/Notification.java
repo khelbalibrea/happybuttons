@@ -29,6 +29,8 @@ public class Notification extends javax.swing.JComponent {
     private Type type;
     private Location location;
     
+    Color NIGHT_FOREST = new Color(15, 23, 16);
+    
     public Notification(Frame frame, Type type, Location location, String message, String description) {
         this.frame = frame;
         this.type = type;
@@ -51,7 +53,7 @@ public class Notification extends javax.swing.JComponent {
             setBackground(Color.WHITE);
         }
         else if(HappyButtons.uiTheme.equals("dark")) {
-            setBackground(Color.DARK_GRAY);
+            setBackground(NIGHT_FOREST);
         }
         
         dialog = new JDialog(frame);
@@ -91,14 +93,14 @@ public class Notification extends javax.swing.JComponent {
             lblMessageText.setOpaque(true);
         }
         else if(HappyButtons.uiTheme.equals("dark")) {
-            setBackground(Color.DARK_GRAY);
+            setBackground(NIGHT_FOREST);
 
             lblMessage.setForeground(Color.WHITE);
-            lblMessage.setBackground(Color.DARK_GRAY);
+            lblMessage.setBackground(NIGHT_FOREST);
             lblMessage.setOpaque(true);
 
             lblMessageText.setForeground(Color.LIGHT_GRAY);
-            lblMessageText.setBackground(Color.DARK_GRAY);
+            lblMessageText.setBackground(NIGHT_FOREST);
             lblMessageText.setOpaque(true);
         }
         

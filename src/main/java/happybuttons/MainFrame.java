@@ -1402,7 +1402,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         lblVideoLoop.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblVideoLoop.setText("Video Loop:");
 
-        cboVidLoop.setMaximumRowCount(100);
+        cboVidLoop.setMaximumRowCount(20);
         cboVidLoop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboVidLoopActionPerformed(evt);
@@ -4241,18 +4241,17 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
         }
         
-        // Mp3s
-//        int listMp3Size = Mp3Frame.listMp3.getModel().getSize();
-//        strMp3List = "";
-//        
-//        for(int ctr = 0; ctr < listMp3Size; ctr++){
-//            if(ctr == 0) {
-//                strMp3List = Mp3Frame.listMp3.getModel().getElementAt(ctr);
-//            }
-//            else if(ctr > 0 && ctr <= (listSFXSize - 1)) {
-//                strMp3List = MainFrame.strMp3List + ":" + Mp3Frame.listMp3.getModel().getElementAt(ctr);
-//            }
-//        }
+        // Mp3
+        strMp3List = "";
+        
+        for(int ctr = 0; ctr < MainFrame.mlist.size(); ctr++){
+            if(ctr == 0) {
+                MainFrame.strMp3List = MainFrame.mlist.getElementAt(ctr).toString();
+            }
+            else if(ctr > 0 && ctr <= (MainFrame.mlist.size() - 1)) {
+                MainFrame.strMp3List = MainFrame.strMp3List + ":" + MainFrame.mlist.getElementAt(ctr).toString();
+            }
+        }
     }
     
     private void itmNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmNewActionPerformed
@@ -4321,32 +4320,34 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             mp3MainQueue = new String[0]; mp3Queue = new String[0];
             vlQueue = new String[0]; vidQueue = new String[0];
             
-            if(mp3.isShowing()) {
-                mp3.volMp3.setValue(100);
-                mp3Audio = 1; mp3Shuffle = 1; mp3Repeat = 1;
-                mp3.listMp3.removeAll();
-                mp3.lblSongMp3.setText("");
-                
-                if(HappyButtons.uiTheme.equals("light")) {
-                    String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\shuffle_16px.png");
-                    mp3.lblShuffle.setIcon(new javax.swing.ImageIcon(icon));
-                    
-                    String icon2 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\repeat_16px.png");
-                    mp3.lblRepeat.setIcon(new javax.swing.ImageIcon(icon2));
+            if(mp3 != null) {
+                if(mp3.isShowing()) {
+                    mp3.volMp3.setValue(100);
+                    mp3Audio = 1; mp3Shuffle = 1; mp3Repeat = 1;
+                    mp3.listMp3.removeAll();
+                    mp3.lblSongMp3.setText("");
+
+                    if(HappyButtons.uiTheme.equals("light")) {
+                        String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\shuffle_16px.png");
+                        mp3.lblShuffle.setIcon(new javax.swing.ImageIcon(icon));
+
+                        String icon2 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\repeat_16px.png");
+                        mp3.lblRepeat.setIcon(new javax.swing.ImageIcon(icon2));
+                    }
+                    else if(HappyButtons.uiTheme.equals("dark")) {
+                        String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_shuffle_16px.png");
+                        mp3.lblShuffle.setIcon(new javax.swing.ImageIcon(icon));
+
+                        String icon2 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_repeat_16px.png");
+                        mp3.lblRepeat.setIcon(new javax.swing.ImageIcon(icon2));
+                    }
+
+                    mp3.lblShuffle.setToolTipText("Shuffle on");
+                    mp3.lblRepeat.setToolTipText("Repeat list");
+
+                    mp3.dispose();
+                    mp3FrameOpened = 0;
                 }
-                else if(HappyButtons.uiTheme.equals("dark")) {
-                    String icon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_shuffle_16px.png");
-                    mp3.lblShuffle.setIcon(new javax.swing.ImageIcon(icon));
-                    
-                    String icon2 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_repeat_16px.png");
-                    mp3.lblRepeat.setIcon(new javax.swing.ImageIcon(icon2));
-                }
-                
-                mp3.lblShuffle.setToolTipText("Shuffle on");
-                mp3.lblRepeat.setToolTipText("Repeat list");
-                
-                mp3.dispose();
-                mp3FrameOpened = 0;
             }
         }
     }//GEN-LAST:event_itmNewActionPerformed
