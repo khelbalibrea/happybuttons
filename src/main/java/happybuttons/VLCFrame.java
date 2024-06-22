@@ -121,7 +121,7 @@ public class VLCFrame extends javax.swing.JFrame {
         mpf = new MediaPlayerFactory();
         emp = mpf.newEmbeddedMediaPlayer(new Win32FullScreenStrategy(frame));
         emp.setVideoSurface(mpf.newVideoSurface(canvasMain));
-        emp.setVolume(90);
+        emp.setVolume(80);
         
         if(screenDevices.length > 1) {
             GraphicsDevice secondScreen = screenDevices[1];
@@ -323,9 +323,10 @@ public class VLCFrame extends javax.swing.JFrame {
 //                    mpf.release();
 //                    mpf = null;
 //                    mpf = new MediaPlayerFactory();
-                    emp = null;
-                    emp = mpf.newEmbeddedMediaPlayer(new Win32FullScreenStrategy(frame));
-                    emp.setVideoSurface(mpf.newVideoSurface(canvasMain));
+//                    emp = null;
+//                    emp = mpf.newEmbeddedMediaPlayer(new Win32FullScreenStrategy(frame));
+//                    emp.setVideoSurface(mpf.newVideoSurface(canvasMain));
+                    mediaPlayer.stop();
                     
                     file = HappyButtons.documentsPathDoubleSlash + 
                     Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 

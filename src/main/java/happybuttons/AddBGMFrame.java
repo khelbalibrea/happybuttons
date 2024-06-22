@@ -152,7 +152,7 @@ public class AddBGMFrame extends javax.swing.JDialog {
         if(selectedRow != -1) {
             int confirmation = JOptionPane.showConfirmDialog(null, 
                     "Add selected item(s)?", 
-                    "Delete items", 
+                    "Add items", 
                     JOptionPane.YES_NO_OPTION, 
                     JOptionPane.WARNING_MESSAGE);
             

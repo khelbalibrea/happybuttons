@@ -1402,7 +1402,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         lblVideoLoop.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblVideoLoop.setText("Video Loop:");
 
-        cboVidLoop.setMaximumRowCount(20);
+        cboVidLoop.setMaximumRowCount(12);
         cboVidLoop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboVidLoopActionPerformed(evt);
