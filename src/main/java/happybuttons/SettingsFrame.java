@@ -11,9 +11,7 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.UIManager;
 import javax.swing.plaf.basic.BasicMenuUI;
-import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 /**
  *
@@ -37,6 +35,9 @@ public class SettingsFrame extends javax.swing.JDialog {
         setIconImage(imgIcon.getImage());
         
         onLoad();
+        
+        volVideo.setMajorTickSpacing(10);
+        volVideo.setMinorTickSpacing(10);
         
 //        try {
 //            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -91,6 +92,9 @@ public class SettingsFrame extends javax.swing.JDialog {
         else if(MainFrame.locPopup.equals("bottomright")) {
             cboLocationPopup.setSelectedIndex(5);
         }
+        
+        // video volume
+        volVideo.setValue(MainFrame.videoMainVolume);
     }
     
     public void autosave() {
@@ -125,6 +129,14 @@ public class SettingsFrame extends javax.swing.JDialog {
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         cboLocationPopup = new javax.swing.JComboBox<>();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel7 = new javax.swing.JPanel();
+        jPanel8 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        lblVolValue = new javax.swing.JLabel();
+        volVideo = new happybuttons.SliderVidVolGradient();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -262,6 +274,69 @@ public class SettingsFrame extends javax.swing.JDialog {
 
         jTabbedPane1.addTab("Display", jPanel2);
 
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Video loop"));
+
+        jLabel4.setText("Volume (percentage): ");
+
+        lblVolValue.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblVolValue.setText("50");
+
+        volVideo.setMajorTickSpacing(10);
+        volVideo.setMinimum(50);
+        volVideo.setMinorTickSpacing(10);
+        volVideo.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                volVideoStateChanged(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel5.setText("Changes will take effect on next video to be played");
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(volVideo, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblVolValue))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(258, Short.MAX_VALUE))
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(lblVolValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(volVideo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addContainerGap(7, Short.MAX_VALUE))
+        );
+
+        jPanel7.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 700, 90));
+
+        jScrollPane1.setViewportView(jPanel7);
+
+        jPanel6.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(2, 2, 720, 400));
+
+        jTabbedPane1.addTab("Sound", jPanel6);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -342,7 +417,7 @@ public class SettingsFrame extends javax.swing.JDialog {
                 Notification.Type.INFO, 
                 MainFrame.location, 
                 "Message",
-                "Text message"
+                "Sample notification message"
             );
             panel.showNotification();
         }
@@ -350,6 +425,12 @@ public class SettingsFrame extends javax.swing.JDialog {
         firstLoad = 0;
         autosave();
     }//GEN-LAST:event_cboLocationPopupActionPerformed
+
+    private void volVideoStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_volVideoStateChanged
+        MainFrame.videoMainVolume = volVideo.getValue();
+        lblVolValue.setText(String.valueOf(MainFrame.videoMainVolume));
+        autosave();
+    }//GEN-LAST:event_volVideoStateChanged
 
     public class CustomMenuUI extends BasicMenuUI {
         protected void paintText(Graphics g, JComponent c, Rectangle textRect, String text) {
@@ -414,15 +495,23 @@ public class SettingsFrame extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblStartup;
+    private javax.swing.JLabel lblVolValue;
     public static javax.swing.JRadioButton rbtnFullScreen;
     public static javax.swing.JRadioButton rbtnWindowed;
     private javax.swing.JScrollPane scrollDisplay;
+    private javax.swing.JSlider volVideo;
     // End of variables declaration//GEN-END:variables
 }

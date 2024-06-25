@@ -121,7 +121,7 @@ public class VLCFrame extends javax.swing.JFrame {
         mpf = new MediaPlayerFactory();
         emp = mpf.newEmbeddedMediaPlayer(new Win32FullScreenStrategy(frame));
         emp.setVideoSurface(mpf.newVideoSurface(canvasMain));
-        emp.setVolume(80);
+        emp.setVolume(MainFrame.videoMainVolume);
         
         if(screenDevices.length > 1) {
             GraphicsDevice secondScreen = screenDevices[1];
@@ -241,6 +241,15 @@ public class VLCFrame extends javax.swing.JFrame {
         else {
             MainFrame.tfLastOperation.setText("No video to play");
         }
+        
+        if(MainFrame.chkVLFit == 0) {
+            MainFrame.chkVLFit = 1;
+            emp.setAspectRatio(aspectRatio);
+        }
+        else {
+            MainFrame.chkVLFit = 0;
+            emp.setAspectRatio(origRatio);
+        }
     }
     
     public class MediaListener implements MediaPlayerEventListener {
@@ -333,7 +342,7 @@ public class VLCFrame extends javax.swing.JFrame {
                             MainFrame.vidQueue[0] + 
                             ".mp4");
                     videoFilename = MainFrame.vidQueue[0];
-                    MainFrame.cboVidLoop.setSelectedItem(MainFrame.vidQueue[0]);
+                    MainFrame.cboVidLoop.setSelectedItem(videoFilename);
                     
                     emp.prepareMedia(file);
                     dim = Toolkit.getDefaultToolkit().getScreenSize();

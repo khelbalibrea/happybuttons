@@ -67,7 +67,7 @@ import ws.schild.jave.encode.EncodingAttributes;
 public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public Image icon;
     static Timer timer, timerMp;
-    static  MouseListener rightButton, sliderClick;
+    static MouseListener rightButton, sliderClick;
     
     // Globals
     public static int bgmVolumeLink = 0;
@@ -106,6 +106,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     static FloatControl fcBGM1, fcBGM2, fcSFX, fcMp3;
     static float bgmVol1 = 100f, bgmVol2 = 100f, sfxVol = 100f, mp3Vol = 100f;
     public static int iconPlayMp3 = 1, iconVolMp3 = 100, btnNext = 0, mp3VolumeValue = 100;
+    public static int videoMainVolume = 100;
     
     // Jlist
     File bfolder = new File(HappyButtons.documentsPath + "/HappyButtons/bg/");

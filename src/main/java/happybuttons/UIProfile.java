@@ -9,7 +9,7 @@ package happybuttons;
  * @author Michael Balibrea
  */
 public class UIProfile {
-    String prevTheme, vlcjPath, enableAutosave, startup, fullScreenVL, prevProfile, locationPopup, vlShuffle;
+    String prevTheme, vlcjPath, enableAutosave, startup, fullScreenVL, prevProfile, locationPopup, vlShuffle, videoMainVolume;
     
     public String getPrevTheme(){
         return prevTheme;
@@ -75,6 +75,14 @@ public class UIProfile {
         this.vlShuffle = vlShuffle;
     }
     
+    public String getVideoMainVolume(){
+        return videoMainVolume;
+    }
+    
+    public void setVideoMainVolume(String videoMainVolume){
+        this.videoMainVolume = videoMainVolume;
+    }
+    
     public UIProfile(){
         prevTheme = "light";
         vlcjPath = "";
@@ -84,5 +92,6 @@ public class UIProfile {
         prevProfile = "";
         locationPopup = "";
         vlShuffle = "0";
+        videoMainVolume = "90";
     }
 }

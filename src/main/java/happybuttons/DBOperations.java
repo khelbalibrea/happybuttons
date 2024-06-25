@@ -235,6 +235,9 @@ public class DBOperations {
         uiProfile.setVLShuffle(String.valueOf(MainFrame.chkVLShuffle));
         uiPref[0].setVLShuffle(uiProfile.getVLShuffle());
         
+        uiProfile.setVideoMainVolume(String.valueOf(MainFrame.videoMainVolume));
+        uiPref[0].setVideoMainVolume(uiProfile.getVideoMainVolume());
+        
         new BeanHelper().writeToXmlUI(uiPref);
         
         return true;
@@ -250,6 +253,7 @@ public class DBOperations {
         MainFrame.startup = uiPref[index].getStartup();
         MainFrame.fullScreenVL = uiPref[index].getFullScreenVL();
         MainFrame.chkVLShuffle = Integer.parseInt(uiPref[index].getVLShuffle());
+        MainFrame.videoMainVolume = Integer.parseInt(uiPref[index].getVideoMainVolume());
         
         String prevProfile = uiPref[index].getPrevProfile();
         int equal = -1;
