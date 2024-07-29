@@ -754,6 +754,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         lblMp3 = new javax.swing.JLabel();
         tfMp3 = new PlaceHolderTextfield("Click to open Music player window");
         btnPlayPauseMp3 = new javax.swing.JButton();
+        lblCurrentMp3Duration = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         volSFX = new happybuttons.SliderSFXGradient();
         lblVolSFX = new javax.swing.JLabel();
@@ -1310,6 +1311,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
         });
 
+        lblCurrentMp3Duration.setText("00:00:00 / 00:00:00");
+
         javax.swing.GroupLayout panelRow3Layout = new javax.swing.GroupLayout(panelRow3);
         panelRow3.setLayout(panelRow3Layout);
         panelRow3Layout.setHorizontalGroup(
@@ -1328,7 +1331,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 .addComponent(btnPlayPauseMp3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnNextMp3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 270, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblCurrentMp3Duration)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
                 .addComponent(lblLinkBGMVolumes)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(togLinkBGMVol, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1347,7 +1352,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         .addComponent(lblLastOperation)
                         .addComponent(tfLastOperation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(togLinkBGMVol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblLinkBGMVolumes, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblLinkBGMVolumes, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblCurrentMp3Duration))
                     .addGroup(panelRow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lblMp3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(tfMp3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -5237,11 +5243,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             clipMp3.addLineListener(MainFrame.listenMp3);
             clipMp3.start();
             
-            long currentMicroseconds = clipMp3.getMicrosecondPosition();
-            long totalMicroseconds = clipMp3.getMicrosecondLength();
-            
-            System.out.println("Current MS: " + currentMicroseconds + "\nTotal MS: " + totalMicroseconds);
-            
             mp3Duration = Utility.convertSecondsToHMS((int) Math.round(mp3DurationInSeconds));
             Mp3Frame.lblDuration.setText(mp3Duration);
             
@@ -5356,7 +5357,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             Mp3Frame.sliderSongTime.setValue(value);
             
             int currentSeconds = (int) (currentMicroseconds / 1000000);
-            Mp3Frame.lblLastFrame.setText(Utility.convertSecondsToHMS(currentSeconds));
+            String lastFrame = Utility.convertSecondsToHMS(currentSeconds);
+            Mp3Frame.lblLastFrame.setText(lastFrame);
+            
+            // update the Main Frame label
+            lblCurrentMp3Duration.setText(lastFrame + " / " + mp3Duration);
         }
     }
     
@@ -5540,6 +5545,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     private javax.swing.JSeparator jSeparator1;
     public static javax.swing.JLabel lblBGM1;
     public static javax.swing.JLabel lblBGM2;
+    public static javax.swing.JLabel lblCurrentMp3Duration;
     private javax.swing.JLabel lblDeleteSFX;
     public static javax.swing.JLabel lblLastOperation;
     public static javax.swing.JLabel lblLinkBGMVolumes;

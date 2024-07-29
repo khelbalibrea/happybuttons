@@ -383,6 +383,10 @@ public class SystemClass {
             MainFrame.lblLastOperation.setForeground(new JLabel().getForeground());
             MainFrame.lblLastOperation.setOpaque(true);
             
+            MainFrame.lblCurrentMp3Duration.setBackground(new JLabel().getBackground());
+            MainFrame.lblCurrentMp3Duration.setForeground(new JLabel().getForeground());
+            MainFrame.lblCurrentMp3Duration.setOpaque(true);
+            
             MainFrame.lblLinkBGMVolumes.setBackground(new JLabel().getBackground());
             MainFrame.lblLinkBGMVolumes.setForeground(new JLabel().getForeground());
             MainFrame.lblLinkBGMVolumes.setOpaque(true);
@@ -1011,6 +1015,10 @@ public class SystemClass {
             MainFrame.lblLastOperation.setBackground(Color.DARK_GRAY);
             MainFrame.lblLastOperation.setForeground(Color.LIGHT_GRAY);
             MainFrame.lblLastOperation.setOpaque(true);
+            
+            MainFrame.lblCurrentMp3Duration.setBackground(Color.DARK_GRAY);
+            MainFrame.lblCurrentMp3Duration.setForeground(Color.LIGHT_GRAY);
+            MainFrame.lblCurrentMp3Duration.setOpaque(true);
             
             MainFrame.lblLinkBGMVolumes.setBackground(Color.DARK_GRAY);
             MainFrame.lblLinkBGMVolumes.setForeground(Color.LIGHT_GRAY);

@@ -909,7 +909,9 @@
                   <Component id="btnPlayPauseMp3" min="-2" pref="22" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnNextMp3" min="-2" pref="22" max="-2" attributes="0"/>
-                  <EmptySpace pref="270" max="32767" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="lblCurrentMp3Duration" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="163" max="32767" attributes="0"/>
                   <Component id="lblLinkBGMVolumes" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="togLinkBGMVol" min="-2" pref="56" max="-2" attributes="0"/>
@@ -932,6 +934,7 @@
                           <Component id="tfLastOperation" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="togLinkBGMVol" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblLinkBGMVolumes" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
+                          <Component id="lblCurrentMp3Duration" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                           <Component id="lblMp3" alignment="3" max="32767" attributes="0"/>
@@ -1107,6 +1110,14 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPlayPauseMp3ActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblCurrentMp3Duration">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="00:00:00 / 00:00:00"/>
+          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>
