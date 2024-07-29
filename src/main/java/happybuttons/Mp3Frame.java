@@ -276,6 +276,7 @@ public class Mp3Frame extends javax.swing.JFrame {
         
         volMp3.setValue(MainFrame.mp3VolumeValue);
         listModelBak = MainFrame.mlist;
+        lblDuration.setText(MainFrame.mp3Duration);
         
         // Shuffle button
         if(MainFrame.mp3Shuffle == 0) {
@@ -427,6 +428,7 @@ public class Mp3Frame extends javax.swing.JFrame {
             }
         });
 
+        lblLastFrame.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblLastFrame.setText("0:00:00");
 
         tfSearch.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -434,6 +436,9 @@ public class Mp3Frame extends javax.swing.JFrame {
         tfSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 tfSearchKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfSearchKeyTyped(evt);
             }
         });
 
@@ -481,8 +486,16 @@ public class Mp3Frame extends javax.swing.JFrame {
             }
         });
 
-        sliderSongTime.setEnabled(false);
+        sliderSongTime.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sliderSongTimeMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                sliderSongTimeMouseReleased(evt);
+            }
+        });
 
+        lblDuration.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblDuration.setText("0:00:00");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -514,13 +527,13 @@ public class Mp3Frame extends javax.swing.JFrame {
                         .addComponent(lblShuffle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblRepeat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 288, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblLastFrame)
+                        .addComponent(lblLastFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sliderSongTime, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(sliderSongTime, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblDuration, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(lblDuration, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -1290,6 +1303,18 @@ public class Mp3Frame extends javax.swing.JFrame {
         searchList(tfSearch.getText());
     }//GEN-LAST:event_tfSearchKeyReleased
 
+    private void sliderSongTimeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sliderSongTimeMouseClicked
+        
+    }//GEN-LAST:event_sliderSongTimeMouseClicked
+
+    private void sliderSongTimeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sliderSongTimeMouseReleased
+        MainFrame.mp3SliderClicked();
+    }//GEN-LAST:event_sliderSongTimeMouseReleased
+
+    private void tfSearchKeyTyped(java.awt.event.KeyEvent evt) {                                     
+//        searchList(tfSearch.getText());
+    }   
+    
     public void setTheme() {
         if(theme.equals("light")) { // ******************************************************************************** LIGHT THEME
             // ------------------------------------------------------------------------------- PANELS

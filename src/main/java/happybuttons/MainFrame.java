@@ -51,6 +51,8 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
@@ -88,6 +90,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static Clip clipSFX = null;
     public static Clip clipMp3 = null;
     public LineListener bgm1Listener = null, bgm2Listener = null, sfxListener = null;
+    public static ChangeListener mp3SliderListener = null;
     public static VetoableChangeListener frameListener;
     public static int lastFrame1 = 0, lastFrame2 = 0, mp3LastFrame = 0;
     public static int chkSinglePlay = 1, chkStopBGM = 0;
@@ -102,6 +105,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static String[] mp3Queue = new String[0];
     public static String[] vlQueue = new String[0]; // it is the queue use for sorting (either shufflle or not) and copied to vidQueue after
     public static String[] vidQueue = new String[0]; // it is the actual list to be played
+    public static long mp3Frames = 0;
+    public static double mp3CurrentInSeconds, mp3DurationInSeconds;
+    public static String mp3PlayTime = "", mp3Duration = "";
     
     static FloatControl fcBGM1, fcBGM2, fcSFX, fcMp3;
     static float bgmVol1 = 100f, bgmVol2 = 100f, sfxVol = 100f, mp3Vol = 100f;
@@ -912,10 +918,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1366, 768));
         setMinimumSize(new java.awt.Dimension(1200, 700));
         setName("mainFrame"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(1366, 733));
         setResizable(false);
         setSize(new java.awt.Dimension(1366, 733));
 
@@ -1477,9 +1481,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         panelR1S02Layout.setHorizontalGroup(
             panelR1S02Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelR1S02Layout.createSequentialGroup()
-                .addContainerGap(35, Short.MAX_VALUE)
+                .addContainerGap(34, Short.MAX_VALUE)
                 .addComponent(btnR1SFX02, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+                .addGap(34, 34, 34))
             .addGroup(panelR1S02Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblR1SFX02, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -3527,7 +3531,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                             .addComponent(panelSFX1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(panelSFX2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(panelSFX3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(20, Short.MAX_VALUE))))
+                        .addContainerGap(19, Short.MAX_VALUE))))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {chkIB, chkSP});
@@ -5232,6 +5236,16 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             Mp3Frame.listMp3.setSelectedValue(selectedMp3Item, true);
             clipMp3.addLineListener(MainFrame.listenMp3);
             clipMp3.start();
+            
+            long currentMicroseconds = clipMp3.getMicrosecondPosition();
+            long totalMicroseconds = clipMp3.getMicrosecondLength();
+            
+            System.out.println("Current MS: " + currentMicroseconds + "\nTotal MS: " + totalMicroseconds);
+            
+            mp3Duration = Utility.convertSecondsToHMS((int) Math.round(mp3DurationInSeconds));
+            Mp3Frame.lblDuration.setText(mp3Duration);
+            
+            new Timer(100, e -> updateMp3Slider()).start(); // Update slider every 100ms
         }
         catch(IOException ioe){
             JOptionPane.showMessageDialog(HappyButtons.mf, 
@@ -5334,6 +5348,40 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         iconPlayMp3 = 1;
     }
     
+    private static void updateMp3Slider() {
+        if(clipMp3 != null && clipMp3.isRunning()) {
+            long currentMicroseconds = clipMp3.getMicrosecondPosition();
+            long totalMicroseconds = clipMp3.getMicrosecondLength();
+            int value = (int) ((currentMicroseconds * 100) / totalMicroseconds);
+            Mp3Frame.sliderSongTime.setValue(value);
+            
+            int currentSeconds = (int) (currentMicroseconds / 1000000);
+            Mp3Frame.lblLastFrame.setText(Utility.convertSecondsToHMS(currentSeconds));
+        }
+    }
+    
+    public static void mp3SliderClicked() {
+        Notification panel = new Notification(HappyButtons.mf, 
+            Notification.Type.INFO, 
+            MainFrame.location, 
+            "Under development",
+            "Music seeking is not yet functional"
+        );
+        panel.showNotification();
+        
+//        mp3SliderListener = new ChangeListener() {
+//            @Override
+//            public void stateChanged(ChangeEvent e) {
+//                if (!Mp3Frame.sliderSongTime.getValueIsAdjusting()) {
+//                    clipMp3.setMicrosecondPosition(Mp3Frame.sliderSongTime.getValue());
+//                }
+//            }
+//        };
+//    
+//        Mp3Frame.sliderSongTime.addChangeListener(mp3SliderListener);
+//        Mp3Frame.sliderSongTime.removeChangeListener(mp3SliderListener);
+    }
+    
     private void tfMp3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfMp3MouseClicked
         openMp3Frame();
     }//GEN-LAST:event_tfMp3MouseClicked
@@ -5391,6 +5439,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         
         //</editor-fold>
@@ -5675,6 +5726,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 
         AudioFormat format = audioStream.getFormat();
+        mp3Frames = audioStream.getFrameLength();
+        mp3DurationInSeconds = (mp3Frames + 0.0) / format.getFrameRate();
         DataLine.Info info = new DataLine.Info(Clip.class, format);
         clipMp3 = (Clip) AudioSystem.getLine(info);
         clipMp3.open(audioStream);

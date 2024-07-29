@@ -347,6 +347,14 @@ public class Utility {
         if(str.equals(cleanSFXNaming(MainFrame.lblR3SFX14.getText()))) { MainFrame.lblR3SFX14.setText("blank"); }
     }
     
+    public static String convertSecondsToHMS(int totalSeconds) {
+        int hours = totalSeconds / 3600; // 1 hour = 3600 seconds
+        int minutes = (totalSeconds % 3600) / 60; // 1 minute = 60 seconds
+        int seconds = totalSeconds % 60; // Remaining seconds
+        
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+    }
+    
     public static void testPrintIntArray(int[] arr) {
         for(int ctr = 0; ctr < arr.length; ctr++) {
             System.out.println(arr[ctr]);
