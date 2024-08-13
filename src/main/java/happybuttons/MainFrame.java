@@ -434,6 +434,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                             selectedMp3Item = "";
                             Mp3Frame.listMp3.setSelectedIndex(-1);
                             lblCurrentMp3Duration.setText("00:00:00 / 00:00:00");
+                            mp3Duration = "";
+                            Mp3Frame.lblDuration.setText("00:00:00");
                             
                             // set icon manually
                             if(HappyButtons.uiTheme.equals("light")) {
@@ -5131,7 +5133,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
 
             currentMp3Playing = selectedMp3Item;
-            Mp3Frame.lblSongMp3.setText(Utility.shortenText(selectedMp3Item, 18));
+            Mp3Frame.lblSongMp3.setText(Utility.shortenText(selectedMp3Item, 50));
             Mp3Frame.lblSongMp3.setToolTipText(selectedMp3Item);
             tfMp3.setText(Utility.shortenText(selectedMp3Item, 40));
             tfMp3.setToolTipText(selectedMp3Item);
