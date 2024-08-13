@@ -2,8 +2,12 @@ To do:
 x video loop display not totally fitted to screen (vertically)
 x screen selector
 x mp3 seek
-x import / export profile
 x deletion of profile
+x bigger mp3 UI
+x windows explorer LAF in video loop selection
+x fix autosave
+x move dbs t certain folder
+x clear mp3 using right click
 
 PREFERENCES UI:
 Using pichon app:

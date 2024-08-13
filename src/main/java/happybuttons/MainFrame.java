@@ -48,10 +48,10 @@ import javax.swing.JSlider;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -69,7 +69,7 @@ import ws.schild.jave.encode.EncodingAttributes;
 public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public Image icon;
     static Timer timer, timerMp;
-    static MouseListener rightButton, sliderClick;
+    static MouseListener rightButton, rightButtonMp3, sliderClick, mp3FieldClick;
     
     // Globals
     public static int bgmVolumeLink = 0;
@@ -150,12 +150,13 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static Mp3Frame mp3;
     
     public MainFrame() {
-        if(HappyButtons.standardScreen) {
-            setExtendedState(this.MAXIMIZED_BOTH);
-        }
-        else {
-            setSize(1366, 768);
-        }
+//        if(HappyButtons.standardScreen) {
+//            setExtendedState(this.MAXIMIZED_BOTH);
+//        }
+//        else {
+//            setSize(1366, 730);
+//        }
+        setSize(1366, 768);
         
         initComponents();
         
@@ -415,7 +416,44 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         volBGM2.addMouseListener(sliderClick);
         volSFX.addMouseListener(sliderClick);
         
-        // -------------------------------------------------------------------------------------------------------------- RIGHT CLICK LABELS -->
+        // -------------------------------------------------------------------------------------------------------------- LEFT CLICK TEXT FIEDLS-->
+        mp3FieldClick = new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if(SwingUtilities.isRightMouseButton(e)) {
+                    JComponent sourceComponent = (JComponent) e.getSource();
+                    if(sourceComponent instanceof JTextField) {
+                        JTextField sourceButton = (JTextField) sourceComponent;
+                        sourceButton.setText("");
+                        
+                        if(clipMp3 != null) {
+                            clipMp3.removeLineListener(listenMp3);
+                            clipMp3.stop();
+                            clipMp3.addLineListener(listenMp3);
+                            clipMp3 = null;
+                            selectedMp3Item = "";
+                            Mp3Frame.listMp3.setSelectedIndex(-1);
+                            lblCurrentMp3Duration.setText("00:00:00 / 00:00:00");
+                            
+                            // set icon manually
+                            if(HappyButtons.uiTheme.equals("light")) {
+                                String btnIcon3 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\play_mp3_12px.png");
+                                btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon3));
+                            }
+                            else if(HappyButtons.uiTheme.equals("dark")) {
+                                String btnIcon3 = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_play_mp3_12px.png");
+                                btnPlayPauseMp3.setIcon(new javax.swing.ImageIcon(btnIcon3));
+                            }
+                        }
+                    }
+                }
+                else {
+                    openMp3Frame();
+                }
+            }
+        };
+        
+        // -------------------------------------------------------------------------------------------------------------- RIGHT CLICK LABELS AND FIELDS -->
         rightButton = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -429,6 +467,28 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 }
             }
         };
+        
+//        rightButtonMp3 = new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                if(SwingUtilities.isRightMouseButton(e)) {
+//                    tfMp3.removeMouseListener(mp3FieldClick);
+//                    JComponent sourceComponent = (JComponent) e.getSource();
+//                    if(sourceComponent instanceof JTextField) {
+//                        JTextField sourceButton = (JTextField) sourceComponent;
+//                        sourceButton.setText("");
+//                        
+//                        if(clipMp3 != null) {
+//                            clipMp3.stop();
+//                            clipMp3 = null;
+//                        }
+//                    }
+//                    tfMp3.addMouseListener(mp3FieldClick);
+//                }
+//            }
+//        };
+        
+        tfMp3.addMouseListener(mp3FieldClick);
         
         lblR1SFX01.addMouseListener(rightButton);
         lblR1SFX02.addMouseListener(rightButton);
@@ -919,10 +979,13 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(1200, 700));
+        setMaximumSize(new java.awt.Dimension(1366, 730));
+        setMinimumSize(new java.awt.Dimension(1366, 730));
         setName("mainFrame"); // NOI18N
+        setPreferredSize(new java.awt.Dimension(1366, 730));
         setResizable(false);
-        setSize(new java.awt.Dimension(1366, 733));
+        setSize(new java.awt.Dimension(1366, 730));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         panelJList.setPreferredSize(new java.awt.Dimension(1354, 180));
 
@@ -983,25 +1046,24 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         panelJListLayout.setHorizontalGroup(
             panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelJListLayout.createSequentialGroup()
-                .addGroup(panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelJListLayout.createSequentialGroup()
                         .addComponent(btnAddBGM, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDeleteBGM, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(629, 629, 629))
-                    .addGroup(panelJListLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addComponent(btnDeleteBGM, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelJListLayout.createSequentialGroup()
+                        .addGap(11, 11, 11)
                         .addComponent(btnAddSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDeleteSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(24, 24, 24)
                         .addComponent(lblDeleteSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane3))
-                .addContainerGap())
+                        .addContainerGap(560, Short.MAX_VALUE))
+                    .addGroup(panelJListLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane3))))
         );
         panelJListLayout.setVerticalGroup(
             panelJListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1019,7 +1081,12 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        getContentPane().add(panelJList, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 106, 1317, 202));
+
+        panelRow1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         lblBGM1.setText("BGM1:");
+        panelRow1.add(lblBGM1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 9, -1, -1));
 
         tfBGM1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         tfBGM1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -1035,6 +1102,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 tfBGM1KeyPressed(evt);
             }
         });
+        panelRow1.add(tfBGM1, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 6, 500, -1));
 
         btnClearBGM1.setToolTipText("Clear BGM1 and stop");
         btnClearBGM1.setMaximumSize(new java.awt.Dimension(22, 22));
@@ -1044,6 +1112,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 btnClearBGM1ActionPerformed(evt);
             }
         });
+        panelRow1.add(btnClearBGM1, new org.netbeans.lib.awtextra.AbsoluteConstraints(547, 6, 22, 22));
 
         btnStopBGM1.setToolTipText("Stop BGM1");
         btnStopBGM1.setMaximumSize(new java.awt.Dimension(22, 22));
@@ -1053,6 +1122,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 btnStopBGM1ActionPerformed(evt);
             }
         });
+        panelRow1.add(btnStopBGM1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1289, 6, 22, 22));
 
         btnPlayPauseBGM1.setToolTipText("Play or pause BGM1");
         btnPlayPauseBGM1.setMaximumSize(new java.awt.Dimension(22, 22));
@@ -1062,6 +1132,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 btnPlayPauseBGM1ActionPerformed(evt);
             }
         });
+        panelRow1.add(btnPlayPauseBGM1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1255, 6, 22, 22));
 
         volBGM1.setToolTipText("BGM1 volume");
         volBGM1.setValue(100);
@@ -1072,11 +1143,13 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 volBGM1StateChanged(evt);
             }
         });
+        panelRow1.add(volBGM1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1037, 6, -1, -1));
 
         lblVolBGM1.setText("Vol1: 100");
         lblVolBGM1.setMaximumSize(new java.awt.Dimension(60, 22));
         lblVolBGM1.setMinimumSize(new java.awt.Dimension(60, 22));
         lblVolBGM1.setPreferredSize(new java.awt.Dimension(60, 22));
+        panelRow1.add(lblVolBGM1, new org.netbeans.lib.awtextra.AbsoluteConstraints(971, 8, -1, 20));
 
         chkLoop1.setSelected(true);
         chkLoop1.setToolTipText("Loop BGM1");
@@ -1086,50 +1159,14 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 chkLoop1ActionPerformed(evt);
             }
         });
+        panelRow1.add(chkLoop1, new org.netbeans.lib.awtextra.AbsoluteConstraints(575, 8, -1, -1));
 
-        javax.swing.GroupLayout panelRow1Layout = new javax.swing.GroupLayout(panelRow1);
-        panelRow1.setLayout(panelRow1Layout);
-        panelRow1Layout.setHorizontalGroup(
-            panelRow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRow1Layout.createSequentialGroup()
-                .addComponent(lblBGM1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnClearBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chkLoop1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblVolBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(volBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnPlayPauseBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnStopBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        panelRow1Layout.setVerticalGroup(
-            panelRow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRow1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelRow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnPlayPauseBGM1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnStopBGM1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRow1Layout.createSequentialGroup()
-                        .addGap(0, 2, Short.MAX_VALUE)
-                        .addGroup(panelRow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblBGM1)
-                                .addComponent(tfBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnClearBGM1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(volBGM1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRow1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblVolBGM1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(chkLoop1))))))
-        );
+        getContentPane().add(panelRow1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 0, 1317, -1));
+
+        panelRow2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblBGM2.setText("BGM2:");
+        panelRow2.add(lblBGM2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 9, -1, -1));
 
         tfBGM2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         tfBGM2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -1140,6 +1177,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 tfBGM2PropertyChange(evt);
             }
         });
+        panelRow2.add(tfBGM2, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 6, 500, -1));
 
         btnClearBGM2.setToolTipText("Clear BGM2 and stop");
         btnClearBGM2.setMaximumSize(new java.awt.Dimension(22, 22));
@@ -1149,6 +1187,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 btnClearBGM2ActionPerformed(evt);
             }
         });
+        panelRow2.add(btnClearBGM2, new org.netbeans.lib.awtextra.AbsoluteConstraints(547, 6, 22, 22));
 
         btnStopBGM2.setToolTipText("Stop BGM2");
         btnStopBGM2.setMaximumSize(new java.awt.Dimension(22, 22));
@@ -1158,6 +1197,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 btnStopBGM2ActionPerformed(evt);
             }
         });
+        panelRow2.add(btnStopBGM2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1289, 6, 22, 22));
 
         btnPlayPauseBGM2.setToolTipText("Play or pause BGM2");
         btnPlayPauseBGM2.setMaximumSize(new java.awt.Dimension(22, 22));
@@ -1167,6 +1207,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 btnPlayPauseBGM2ActionPerformed(evt);
             }
         });
+        panelRow2.add(btnPlayPauseBGM2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1255, 6, 22, 22));
 
         volBGM2.setToolTipText("BGM2 volume");
         volBGM2.setValue(100);
@@ -1177,11 +1218,13 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 volBGM2StateChanged(evt);
             }
         });
+        panelRow2.add(volBGM2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1037, 6, -1, -1));
 
         lblVolBGM2.setText("Vol2: 100");
         lblVolBGM2.setMaximumSize(new java.awt.Dimension(60, 22));
         lblVolBGM2.setMinimumSize(new java.awt.Dimension(60, 22));
         lblVolBGM2.setPreferredSize(new java.awt.Dimension(60, 22));
+        panelRow2.add(lblVolBGM2, new org.netbeans.lib.awtextra.AbsoluteConstraints(971, 8, -1, 20));
 
         chkLoop2.setSelected(true);
         chkLoop2.setToolTipText("Loop BGM2");
@@ -1191,55 +1234,21 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 chkLoop2ActionPerformed(evt);
             }
         });
+        panelRow2.add(chkLoop2, new org.netbeans.lib.awtextra.AbsoluteConstraints(575, 9, -1, -1));
 
-        javax.swing.GroupLayout panelRow2Layout = new javax.swing.GroupLayout(panelRow2);
-        panelRow2.setLayout(panelRow2Layout);
-        panelRow2Layout.setHorizontalGroup(
-            panelRow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRow2Layout.createSequentialGroup()
-                .addComponent(lblBGM2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnClearBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chkLoop2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblVolBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(volBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnPlayPauseBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnStopBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        panelRow2Layout.setVerticalGroup(
-            panelRow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRow2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelRow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnPlayPauseBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnStopBGM2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRow2Layout.createSequentialGroup()
-                        .addGap(0, 1, Short.MAX_VALUE)
-                        .addGroup(panelRow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(lblBGM2)
-                                .addComponent(tfBGM2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(btnClearBGM2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(volBGM2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblVolBGM2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(chkLoop2, javax.swing.GroupLayout.Alignment.TRAILING)))))
-        );
+        getContentPane().add(panelRow2, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 31, 1317, -1));
+
+        panelRow3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblLastOperation.setText("Last Operation:");
+        panelRow3.add(lblLastOperation, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 9, -1, -1));
 
         tfLastOperation.setEditable(false);
         tfLastOperation.setForeground(new java.awt.Color(0, 0, 0));
         tfLastOperation.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         tfLastOperation.setMaximumSize(new java.awt.Dimension(22, 600));
         tfLastOperation.setMinimumSize(new java.awt.Dimension(22, 600));
+        panelRow3.add(tfLastOperation, new org.netbeans.lib.awtextra.AbsoluteConstraints(96, 6, 310, -1));
 
         togLinkBGMVol.setText("OFF");
         togLinkBGMVol.setToolTipText("Toggle this ON when you want to inversely link BGM1 vol and BGM2 vol");
@@ -1251,9 +1260,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 togLinkBGMVolActionPerformed(evt);
             }
         });
+        panelRow3.add(togLinkBGMVol, new org.netbeans.lib.awtextra.AbsoluteConstraints(1258, 7, 56, -1));
 
         lblLinkBGMVolumes.setText("Link BGM Volumes");
         lblLinkBGMVolumes.setToolTipText("");
+        panelRow3.add(lblLinkBGMVolumes, new org.netbeans.lib.awtextra.AbsoluteConstraints(1142, 6, -1, 23));
 
         btnPrevMp3.setToolTipText("Play / pause Mp3");
         btnPrevMp3.setMaximumSize(new java.awt.Dimension(22, 22));
@@ -1264,6 +1275,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 btnPrevMp3ActionPerformed(evt);
             }
         });
+        panelRow3.add(btnPrevMp3, new org.netbeans.lib.awtextra.AbsoluteConstraints(788, 6, -1, -1));
 
         btnNextMp3.setToolTipText("Stop Mp3");
         btnNextMp3.setMaximumSize(new java.awt.Dimension(22, 22));
@@ -1274,6 +1286,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 btnNextMp3ActionPerformed(evt);
             }
         });
+        panelRow3.add(btnNextMp3, new org.netbeans.lib.awtextra.AbsoluteConstraints(844, 6, -1, -1));
 
         lblMp3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblMp3.setText("Music Player:");
@@ -1286,6 +1299,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 lblMp3MouseClicked(evt);
             }
         });
+        panelRow3.add(lblMp3, new org.netbeans.lib.awtextra.AbsoluteConstraints(458, 9, 73, -1));
 
         tfMp3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         tfMp3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -1300,6 +1314,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 tfMp3ActionPerformed(evt);
             }
         });
+        panelRow3.add(tfMp3, new org.netbeans.lib.awtextra.AbsoluteConstraints(537, 6, 245, -1));
 
         btnPlayPauseMp3.setToolTipText("Play / pause Mp3");
         btnPlayPauseMp3.setMaximumSize(new java.awt.Dimension(22, 22));
@@ -1310,57 +1325,13 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 btnPlayPauseMp3ActionPerformed(evt);
             }
         });
+        panelRow3.add(btnPlayPauseMp3, new org.netbeans.lib.awtextra.AbsoluteConstraints(816, 6, -1, 23));
 
         lblCurrentMp3Duration.setText("00:00:00 / 00:00:00");
+        panelRow3.add(lblCurrentMp3Duration, new org.netbeans.lib.awtextra.AbsoluteConstraints(878, 9, -1, -1));
 
-        javax.swing.GroupLayout panelRow3Layout = new javax.swing.GroupLayout(panelRow3);
-        panelRow3.setLayout(panelRow3Layout);
-        panelRow3Layout.setHorizontalGroup(
-            panelRow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRow3Layout.createSequentialGroup()
-                .addComponent(lblLastOperation)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfLastOperation, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
-                .addComponent(lblMp3, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfMp3, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnPrevMp3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnPlayPauseMp3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnNextMp3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblCurrentMp3Duration)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 163, Short.MAX_VALUE)
-                .addComponent(lblLinkBGMVolumes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(togLinkBGMVol, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
-        );
-        panelRow3Layout.setVerticalGroup(
-            panelRow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelRow3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelRow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelRow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(btnPrevMp3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnNextMp3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnPlayPauseMp3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblLastOperation)
-                        .addComponent(tfLastOperation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(togLinkBGMVol, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblLinkBGMVolumes, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lblCurrentMp3Duration))
-                    .addGroup(panelRow3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblMp3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(tfMp3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-
-        panelRow3Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnNextMp3, btnPrevMp3});
+        getContentPane().add(panelRow3, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 66, 1320, -1));
+        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 320, 1317, 10));
 
         volSFX.setToolTipText("BGM1 volume");
         volSFX.setValue(100);
@@ -1371,14 +1342,17 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 volSFXStateChanged(evt);
             }
         });
+        getContentPane().add(volSFX, new org.netbeans.lib.awtextra.AbsoluteConstraints(85, 336, -1, -1));
 
         lblVolSFX.setText("SFX Vol: 100");
         lblVolSFX.setMaximumSize(new java.awt.Dimension(85, 22));
         lblVolSFX.setMinimumSize(new java.awt.Dimension(85, 22));
         lblVolSFX.setPreferredSize(new java.awt.Dimension(85, 22));
+        getContentPane().add(lblVolSFX, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 336, 73, -1));
 
         lblSFXState.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblSFXState.setText("SFX State:");
+        getContentPane().add(lblSFXState, new org.netbeans.lib.awtextra.AbsoluteConstraints(303, 339, -1, -1));
 
         chkSP.setSelected(true);
         chkSP.setText("SP");
@@ -1389,6 +1363,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 chkSPActionPerformed(evt);
             }
         });
+        getContentPane().add(chkSP, new org.netbeans.lib.awtextra.AbsoluteConstraints(366, 337, 45, -1));
 
         chkIB.setText("IB");
         chkIB.setToolTipText("Interrupt BGM");
@@ -1399,6 +1374,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 chkIBActionPerformed(evt);
             }
         });
+        getContentPane().add(chkIB, new org.netbeans.lib.awtextra.AbsoluteConstraints(423, 337, 45, -1));
 
         btnStopSFX.setToolTipText("Stop SFX");
         btnStopSFX.setMaximumSize(new java.awt.Dimension(22, 22));
@@ -1409,9 +1385,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 btnStopSFXActionPerformed(evt);
             }
         });
+        getContentPane().add(btnStopSFX, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 336, -1, -1));
 
         lblVideoLoop.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblVideoLoop.setText("Video Loop:");
+        getContentPane().add(lblVideoLoop, new org.netbeans.lib.awtextra.AbsoluteConstraints(808, 339, -1, -1));
 
         cboVidLoop.setMaximumRowCount(12);
         cboVidLoop.addActionListener(new java.awt.event.ActionListener() {
@@ -1419,6 +1397,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 cboVidLoopActionPerformed(evt);
             }
         });
+        getContentPane().add(cboVidLoop, new org.netbeans.lib.awtextra.AbsoluteConstraints(879, 336, 235, 22));
 
         panelR1S01.setMaximumSize(new java.awt.Dimension(90, 88));
         panelR1S01.setMinimumSize(new java.awt.Dimension(90, 88));
@@ -2055,6 +2034,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 .addGap(1, 1, 1))
         );
 
+        getContentPane().add(panelSFX1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 364, -1, -1));
+
         panelR2S01.setMaximumSize(new java.awt.Dimension(90, 88));
         panelR2S01.setMinimumSize(new java.awt.Dimension(90, 88));
 
@@ -2689,6 +2670,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                     .addComponent(panelR2S14, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(1, 1, 1))
         );
+
+        getContentPane().add(panelSFX2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 446, -1, -1));
 
         panelR3S01.setMaximumSize(new java.awt.Dimension(90, 88));
         panelR3S01.setMinimumSize(new java.awt.Dimension(90, 88));
@@ -3325,6 +3308,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 .addGap(1, 1, 1))
         );
 
+        getContentPane().add(panelSFX3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 528, -1, -1));
+
         btnPlayVL.setToolTipText("Play Video loop");
         btnPlayVL.setMaximumSize(new java.awt.Dimension(22, 22));
         btnPlayVL.setMinimumSize(new java.awt.Dimension(22, 22));
@@ -3334,6 +3319,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 btnPlayVLActionPerformed(evt);
             }
         });
+        getContentPane().add(btnPlayVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 336, -1, -1));
 
         btnStopVL.setToolTipText("Stop Video loop");
         btnStopVL.setMaximumSize(new java.awt.Dimension(22, 22));
@@ -3344,6 +3330,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 btnStopVLActionPerformed(evt);
             }
         });
+        getContentPane().add(btnStopVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(1148, 336, -1, -1));
 
         chkLoopVL.setSelected(true);
         chkLoopVL.setText("Loop");
@@ -3353,6 +3340,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 chkLoopVLActionPerformed(evt);
             }
         });
+        getContentPane().add(chkLoopVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(1176, 338, -1, -1));
 
         chkMuteVL.setSelected(true);
         chkMuteVL.setText("Mute");
@@ -3362,6 +3350,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 chkMuteVLActionPerformed(evt);
             }
         });
+        getContentPane().add(chkMuteVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(1234, 338, -1, -1));
 
         chkFitVL.setText("Fit");
         chkFitVL.setToolTipText("Fit / stretch video");
@@ -3370,14 +3359,19 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 chkFitVLActionPerformed(evt);
             }
         });
+        getContentPane().add(chkFitVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(1293, 338, -1, -1));
 
         chkPLMode.setText("PL Mode");
         chkPLMode.setToolTipText("VL Playlist mode");
+        chkPLMode.setMaximumSize(new java.awt.Dimension(65, 16));
+        chkPLMode.setMinimumSize(new java.awt.Dimension(65, 16));
+        chkPLMode.setPreferredSize(new java.awt.Dimension(65, 16));
         chkPLMode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chkPLModeActionPerformed(evt);
             }
         });
+        getContentPane().add(chkPLMode, new org.netbeans.lib.awtextra.AbsoluteConstraints(715, 337, 80, 20));
 
         jMenuBar1.setName("mbrMain"); // NOI18N
         jMenuBar1.setOpaque(true);
@@ -3484,104 +3478,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         jMenuBar1.add(itmAS);
 
         setJMenuBar(jMenuBar1);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(panelJList, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 1317, Short.MAX_VALUE)
-                                    .addComponent(panelRow3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addGap(16, 16, 16))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblVolSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(volSFX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblSFXState, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chkSP, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(chkIB, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnStopSFX, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(chkPLMode)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblVideoLoop)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnPlayVL, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnStopVL, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chkLoopVL)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chkMuteVL)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chkFitVL)
-                        .addGap(41, 41, 41))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(panelRow2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelRow1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelSFX1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelSFX2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panelSFX3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(19, Short.MAX_VALUE))))
-        );
-
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {chkIB, chkSP});
-
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panelRow1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addComponent(panelRow2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelRow3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5)
-                .addComponent(panelJList, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE, false)
-                            .addComponent(lblVolSFX, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblSFXState)
-                            .addComponent(chkIB, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(chkSP))
-                        .addComponent(volSFX, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cboVidLoop, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblVideoLoop)
-                            .addComponent(chkPLMode))
-                        .addComponent(btnStopSFX, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnPlayVL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnStopVL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(chkLoopVL)
-                        .addComponent(chkMuteVL)
-                        .addComponent(chkFitVL)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelSFX1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelSFX2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelSFX3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 47, Short.MAX_VALUE))
-        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -4971,13 +4867,13 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_chkFitVLActionPerformed
 
     private void btnPrevMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevMp3ActionPerformed
-        Notification panel = new Notification(HappyButtons.mf, 
-            Notification.Type.INFO, 
-            MainFrame.location, 
-            "Under development",
-            "Previous button still on work"
-        );
-        panel.showNotification();
+//        Notification panel = new Notification(HappyButtons.mf, 
+//            Notification.Type.INFO, 
+//            MainFrame.location, 
+//            "Under development",
+//            "Previous button still on work"
+//        );
+//        panel.showNotification();
         
         mp3.prevQueue();
         
@@ -5240,7 +5136,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             tfMp3.setText(Utility.shortenText(selectedMp3Item, 40));
             tfMp3.setToolTipText(selectedMp3Item);
             Mp3Frame.listMp3.setSelectedValue(selectedMp3Item, true);
-            clipMp3.addLineListener(MainFrame.listenMp3);
+            clipMp3.addLineListener(listenMp3);
             clipMp3.start();
             
             mp3Duration = Utility.convertSecondsToHMS((int) Math.round(mp3DurationInSeconds));
@@ -5388,7 +5284,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }
     
     private void tfMp3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfMp3MouseClicked
-        openMp3Frame();
+//        openMp3Frame();
     }//GEN-LAST:event_tfMp3MouseClicked
 
     private void chkPLModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPLModeActionPerformed

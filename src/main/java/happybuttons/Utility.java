@@ -24,7 +24,7 @@ public class Utility {
         int i = filename.lastIndexOf('.');
         int p = Math.max(filename.lastIndexOf('/'), filename.lastIndexOf('\\'));
 
-        if (i > p) {
+        if(i > p) {
             extension = filename.substring(i + 1);
         }
         
@@ -54,7 +54,7 @@ public class Utility {
         return "<html><center>" + name + "</center></html>";
     }
     
-    public static String reduceLabelNaming(String name) {
+    public static String reduceLabelNaming(String name) { // this function not finalized, not used
         return "";
     }
     

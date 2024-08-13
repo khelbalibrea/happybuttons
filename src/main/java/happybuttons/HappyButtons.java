@@ -254,7 +254,7 @@ public class HappyButtons {
         int screenHeight = displayMode.getHeight();
         System.out.println(screenWidth + "x" + screenHeight);
         
-        if(screenWidth <= 1366 || screenHeight <= 768) {
+        if(screenWidth <= 1366 && screenHeight <= 768) {
             standardScreen = true;
         }
     }
