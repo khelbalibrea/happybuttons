@@ -3,6 +3,7 @@ x mp3 seek
 ? deletion of profile
 x windows explorer LAF in video loop selection
 x fix autosave
+x make update log in About Frame
 
 PREFERENCES UI:
 Using pichon app:

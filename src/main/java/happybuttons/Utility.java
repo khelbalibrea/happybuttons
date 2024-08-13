@@ -54,6 +54,15 @@ public class Utility {
         return "<html><center>" + name + "</center></html>";
     }
     
+    public static String htmlText(String str, int type) { // 0-bold
+        if(type == 0) {
+            return "<html><strong>" + str + "</strong></html>";
+        }
+        else {
+            return str;
+        }
+    }
+    
     public static String reduceLabelNaming(String name) { // this function not finalized, not used
         return "";
     }
