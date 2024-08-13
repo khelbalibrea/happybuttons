@@ -1,10 +1,8 @@
 To do:
 x mp3 seek
-x deletion of profile
-x bigger mp3 UI
+? deletion of profile
 x windows explorer LAF in video loop selection
 x fix autosave
-x move dbs at certain folder
 
 PREFERENCES UI:
 Using pichon app:

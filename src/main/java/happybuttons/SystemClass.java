@@ -1251,7 +1251,9 @@ public class SystemClass {
         
         // ------------------------------------------------------------------------ MP3 UI
         if(MainFrame.mp3FrameOpened == 1) {
-            MainFrame.mp3.dispose();
+            if(MainFrame.mp3 != null) {
+                MainFrame.mp3.dispose();
+            }
 //            MainFrame.mp3 = null;
             MainFrame.mp3 = new Mp3Frame();
             MainFrame.mp3.setVisible(true);

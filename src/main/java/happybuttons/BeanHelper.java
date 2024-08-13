@@ -22,7 +22,7 @@ public class BeanHelper {
         try {
             XMLEncoder encoder = new XMLEncoder(
                 new BufferedOutputStream(
-                    new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\happyDB.xml")
+                    new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\dtbs\\happyDB.xml")
                 )
             );
 
@@ -32,7 +32,7 @@ public class BeanHelper {
             return true;
         }
         catch (FileNotFoundException fnfe) {
-            JOptionPane.showMessageDialog(null, "XML write error: " + fnfe.toString());
+            JOptionPane.showMessageDialog(null, "Main DB XML write error: " + fnfe.toString());
             return false;
         }
     }
@@ -43,7 +43,7 @@ public class BeanHelper {
         try {
             XMLDecoder decoder = new XMLDecoder(
                 new BufferedInputStream(
-                    new FileInputStream(HappyButtons.documentsPath + "\\HappyButtons\\happyDB.xml")
+                    new FileInputStream(HappyButtons.documentsPath + "\\HappyButtons\\dtbs\\happyDB.xml")
                 )
             );
 
@@ -51,7 +51,7 @@ public class BeanHelper {
             decoder.close();
         }
         catch (FileNotFoundException fnfe) {
-            JOptionPane.showMessageDialog(null, "XML read error: " + fnfe.toString());
+            JOptionPane.showMessageDialog(null, "Main DB XML read error: " + fnfe.toString());
         }
         
         return ProfileDatabase;
@@ -62,7 +62,7 @@ public class BeanHelper {
         try {
             XMLEncoder encoder = new XMLEncoder(
             new BufferedOutputStream(
-            new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\uidb.xml")));
+            new FileOutputStream(HappyButtons.documentsPath + "\\HappyButtons\\dtbs\\uidb.xml")));
 
             encoder.writeObject(uiDB);
             encoder.close();
@@ -70,7 +70,7 @@ public class BeanHelper {
             return true;
         }
         catch (FileNotFoundException fnfe) {
-            JOptionPane.showMessageDialog(null, "XML write error: " + fnfe.toString());
+            JOptionPane.showMessageDialog(null, "UI XML write error: " + fnfe.toString());
             return false;
         }
     }
@@ -81,13 +81,13 @@ public class BeanHelper {
         try {
             XMLDecoder decoder = new XMLDecoder(
             new BufferedInputStream(
-            new FileInputStream(HappyButtons.documentsPath + "\\HappyButtons\\uidb.xml")));
+            new FileInputStream(HappyButtons.documentsPath + "\\HappyButtons\\dtbs\\uidb.xml")));
 
             UIPreference = (UIPreference[]) decoder.readObject();
             decoder.close();
         }
         catch (FileNotFoundException fnfe) {
-            JOptionPane.showMessageDialog(null, "XML read error: " + fnfe.toString());
+            JOptionPane.showMessageDialog(null, "UI XML read error: " + fnfe.toString());
         }
         
         return UIPreference;

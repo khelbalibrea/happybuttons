@@ -188,7 +188,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         
         if(HappyButtons.bgFolderChk == 1) {
             JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "\"" + HappyButtons.documentsPath + "\\HappyButtons\\bg\" folder not found\n\n\"bg\" folder is created.\nNote that bg sounds involve in some profile saves may gone missing", 
+                "App resource \"BG\" folder not found\n\n\"BGM\" folder is created.\nNote that bg sounds involve in some profile saves may gone missing", 
                 "CRITICAL FOLDER MISSING", 
                 JOptionPane.WARNING_MESSAGE);
             
@@ -197,7 +197,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         
         if(HappyButtons.sfxFolderChk == 1) {
             JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "\"" + HappyButtons.documentsPath + "\\HappyButtons\\sfx\" folder not found\n\n\"sfx\" folder is created.\nNote that sfx sounds involve in some profile saves may gone missing", 
+                "App resource \"SFX\" folder not found\n\n\"SFX\" folder is created.\nNote that sfx sounds involve in some profile saves may gone missing", 
                 "CRITICAL FOLDER MISSING", 
                 JOptionPane.WARNING_MESSAGE);
             
@@ -206,7 +206,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         
         if(HappyButtons.happyloopFolderChk == 1) {
             JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "\"" + HappyButtons.documentsPath + "\\HappyButtons\\hlvids\" folder not found\n\n\"hlvids\" folder is created.\nNote that Happy Loop videos involve in some profile saves may gone missing", 
+                "App resource \"VIDEO LOOP\" folder not found\n\n\"Video loop\" folder is created.\nNote that Happy Loop videos involve in some profile saves may gone missing", 
                 "CRITICAL FOLDER MISSING", 
                 JOptionPane.WARNING_MESSAGE);
             
@@ -215,7 +215,16 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         
         if(HappyButtons.mp3FolderChk == 1) {
             JOptionPane.showMessageDialog(HappyButtons.mf, 
-                "\"" + HappyButtons.documentsPath + "\\HappyButtons\\mp3s\" folder not found\n\n\"mp3s\" folder is created.\nNote that Mp3 files involve in some profile saves may gone missing", 
+                "App resource \"MP3\" folder not found\n\n\"MP3\" folder is created.\nNote that Mp3 files involve in some profile saves may gone missing", 
+                "CRITICAL FOLDER MISSING", 
+                JOptionPane.WARNING_MESSAGE);
+            
+            HappyButtons.mp3FolderChk = 0;
+        }
+        
+        if(HappyButtons.dtbsFolderChk == 1) {
+            JOptionPane.showMessageDialog(HappyButtons.mf, 
+                "Database folder not found\n\n\"Database\" folder is created.\nNote that new blank database is made. Files you saved may gone missing", 
                 "CRITICAL FOLDER MISSING", 
                 JOptionPane.WARNING_MESSAGE);
             

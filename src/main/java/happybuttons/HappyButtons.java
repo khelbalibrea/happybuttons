@@ -18,7 +18,13 @@ public class HappyButtons {
     public static String documentsPath = "";
     public static String documentsPathDoubleSlash = "";
     public static String firstCheck = "";
-    public static int mainFolderChk = 0, bgFolderChk = 0, sfxFolderChk = 0, happyloopFolderChk = 0, vlcjFolderChk = 0, mp3FolderChk = 0; // if this sets to 1 means required folders aren't found, so it is created
+    public static int mainFolderChk = 0, // if this sets to 1 means required folders aren't found, so it is created
+            bgFolderChk = 0, 
+            sfxFolderChk = 0, 
+            happyloopFolderChk = 0, 
+            vlcjFolderChk = 0, 
+            mp3FolderChk = 0, 
+            dtbsFolderChk = 0;
     public static MainFrame mf;
     public static boolean go = false, standardScreen = false;
     
@@ -180,11 +186,25 @@ public class HappyButtons {
         catch(Exception e){
             
         }
+        
+        // checking DBs folder
+        try {
+            File subPath1 = new File(documentsPath + "\\HappyButtons\\dtbs");
+           
+            if(!subPath1.exists()){
+                subPath1.mkdir();
+                dtbsFolderChk = 1;
+            }
+        }
+        catch(Exception e){
+            
+        }
+        
     }
     
     // initialize XML as database
     public static void initializeDatabase(){
-        File dbPath = new File(documentsPath + "\\HappyButtons\\happyDB.xml");
+        File dbPath = new File(documentsPath + "\\HappyButtons\\dtbs\\happyDB.xml");
         
         if(dbPath.exists()){
             for(int ctr = 0; ctr < profileDB.length; ctr++) {
@@ -193,7 +213,7 @@ public class HappyButtons {
             }
         }
         else {
-            File file = new File(documentsPath + "\\HappyButtons\\happyDB.xml");
+            File file = new File(documentsPath + "\\HappyButtons\\dtbs\\happyDB.xml");
             
             try {
                 file.createNewFile();
@@ -219,7 +239,7 @@ public class HappyButtons {
     }
     
     public static void setupUIPreferences(){
-        File dbPath = new File(documentsPath + "\\HappyButtons\\uidb.xml");
+        File dbPath = new File(documentsPath + "\\HappyButtons\\dtbs\\uidb.xml");
         
         if(dbPath.exists()){
             for(int ctr = 0; ctr < uiDB.length; ctr++) {
@@ -228,7 +248,7 @@ public class HappyButtons {
             }
         }
         else {
-            File file = new File(documentsPath + "\\HappyButtons\\uidb.xml");
+            File file = new File(documentsPath + "\\HappyButtons\\dtbs\\uidb.xml");
             
             try {
                 file.createNewFile();
