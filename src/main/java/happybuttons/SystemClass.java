@@ -6,6 +6,7 @@ package happybuttons;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -1286,5 +1287,10 @@ public class SystemClass {
         else {
             MainFrame.itmAS.setVisible(false);
         }
+    }
+    
+    public static void checkVideoThumbnails() {
+        File vlFolder = new File(HappyButtons.documentsPath + "/HappyButtons/hlvids/");
+        File[] vlFileList = vlFolder.listFiles();
     }
 }

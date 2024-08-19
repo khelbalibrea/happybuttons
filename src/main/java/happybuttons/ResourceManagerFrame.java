@@ -15,6 +15,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,6 +27,7 @@ import javax.swing.Timer;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import org.jcodec.api.JCodecException;
 
 /**
  *
@@ -344,6 +347,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         getContentPane().add(tabPanel, java.awt.BorderLayout.PAGE_START);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void setupTheme() {
@@ -619,6 +623,10 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                     tblModelVL.insertRow(tblModelVL.getRowCount(), new Object[]{
                         Utility.renameVideoName(file.getName()), ""
                     });
+                    
+                    // video thumbnail generator
+                    VidThumbnailGenerator gen = new VidThumbnailGenerator();
+                    gen.createThumbnail(file.getName());
                 }
 
                 autosave();
@@ -629,6 +637,9 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                     "Error reading/writing file",
                     "IO Error", 
                     JOptionPane.ERROR_MESSAGE);
+            }
+            catch (JCodecException ex) {
+                Logger.getLogger(ResourceManagerFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_btnAddVLActionPerformed

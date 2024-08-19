@@ -44,6 +44,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JFrame;
 import javax.swing.JSlider;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -1403,6 +1404,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         getContentPane().add(lblVideoLoop, new org.netbeans.lib.awtextra.AbsoluteConstraints(808, 339, -1, -1));
 
         cboVidLoop.setMaximumRowCount(12);
+        cboVidLoop.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cboVidLoopMouseClicked(evt);
+            }
+        });
         cboVidLoop.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboVidLoopActionPerformed(evt);
@@ -5331,6 +5337,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     private void tfMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfMp3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfMp3ActionPerformed
+
+    private void cboVidLoopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboVidLoopMouseClicked
+        ExplorerVideo videoExplorer = new ExplorerVideo(HappyButtons.mf, true);
+        videoExplorer.setVisible(true);
+    }//GEN-LAST:event_cboVidLoopMouseClicked
 
     /**
      * @param args the command line arguments

@@ -42,7 +42,7 @@ public class UpdateLogFrame extends javax.swing.JDialog {
         try {
             doc.insertString(doc.getLength(), "[August 13, 2024]\n", boldAttrs);
             doc.insertString(doc.getLength(), "• [Add] Mp3 text field in Main Frame can be cleared via right click. The music will also stop.\n"
-                    + "• [Add] Updates log under About Frame."
+                    + "• [Add] Updates log under About Frame.\n"
                     + "• [Modify] Bigger Mp3 UI.\n"
                     + "• [Modify] Minor changes for database location path.\n\n", plainAttrs);
             doc.insertString(doc.getLength(), "[July 30, 2024]\n", boldAttrs);

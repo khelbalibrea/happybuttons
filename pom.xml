@@ -85,5 +85,24 @@
             <artifactId>timingframework</artifactId>
             <version>1.0</version>
         </dependency>
+        
+        <!-- JCODEC -->
+        <dependency>
+            <groupId>org.jcodec</groupId>
+            <artifactId>jcodec</artifactId>
+            <version>0.2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jcodec</groupId>
+            <artifactId>jcodec-javase</artifactId>
+            <version>0.2.5</version>
+        </dependency>
+        
+        <!-- FOR FFMPEG FRAME GRABBER -->
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv-platform</artifactId>
+            <version>1.5.6</version> <!-- Check for the latest version -->
+        </dependency>
     </dependencies>
 </project>

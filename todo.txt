@@ -2,8 +2,8 @@ To do:
 x mp3 seek
 ? deletion of profile
 x windows explorer LAF in video loop selection
+x video thumbnail checker in resource manager frame in video tab
 x fix autosave
-x make update log in About Frame
 
 PREFERENCES UI:
 Using pichon app:

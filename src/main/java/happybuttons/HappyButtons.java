@@ -159,6 +159,18 @@ public class HappyButtons {
             
         }
         
+        // checking Video thumbnails folder
+        try {
+            File subPath1 = new File(documentsPath + "\\HappyButtons\\dtbs\\thumbnails");
+           
+            if(!subPath1.exists()){
+                subPath1.mkdir();
+            }
+        }
+        catch(Exception e){
+            
+        }
+        
         // checking VLCj plugins folder
         try {
             File subPath1 = new File(documentsPath + "\\HappyButtons\\plugins");
@@ -199,7 +211,6 @@ public class HappyButtons {
         catch(Exception e){
             
         }
-        
     }
     
     // initialize XML as database
