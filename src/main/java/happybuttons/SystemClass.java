@@ -6,7 +6,6 @@ package happybuttons;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -82,6 +81,11 @@ public class SystemClass {
             MainFrame.itmSettings.setBackground(new JMenuItem().getBackground());
             MainFrame.itmSettings.setForeground(new JMenuItem().getForeground());
             MainFrame.itmSettings.setIcon(new javax.swing.ImageIcon(itmSettingsIcon));
+            
+            String itmToolsIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\full_tool_storage_box_12px.png");
+            MainFrame.itmSystemTools.setBackground(new JMenuItem().getBackground());
+            MainFrame.itmSystemTools.setForeground(new JMenuItem().getForeground());
+            MainFrame.itmSystemTools.setIcon(new javax.swing.ImageIcon(itmToolsIcon));
                         
             // -------------------------------------------------------------------------------------- PANELS
             MainFrame.panelRow1.setBackground(new JPanel().getBackground());
@@ -592,8 +596,8 @@ public class SystemClass {
             MainFrame.chkFitVL.setBackground(new JCheckBox().getBackground());
             MainFrame.chkFitVL.setForeground(new JCheckBox().getForeground());
             
-            MainFrame.chkPLMode.setBackground(new JCheckBox().getBackground());
-            MainFrame.chkPLMode.setForeground(new JCheckBox().getForeground());
+            MainFrame.chkVLMode.setBackground(new JCheckBox().getBackground());
+            MainFrame.chkVLMode.setForeground(new JCheckBox().getForeground());
             
             // -------------------------------------------------------------------------------------- RADIO BUTTON
             MainFrame.chkSP.setBackground(new JRadioButton().getBackground());
@@ -734,6 +738,11 @@ public class SystemClass {
             MainFrame.itmSettings.setBackground(Color.darkGray);
             MainFrame.itmSettings.setForeground(Color.lightGray);
             MainFrame.itmSettings.setIcon(new javax.swing.ImageIcon(itmSettingsIcon));
+            
+            String itmToolsIcon = HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\dark_theme\\dark_full_tool_storage_box_12px.png");
+            MainFrame.itmSystemTools.setBackground(Color.darkGray);
+            MainFrame.itmSystemTools.setForeground(Color.lightGray);
+            MainFrame.itmSystemTools.setIcon(new javax.swing.ImageIcon(itmToolsIcon));
             
             // -------------------------------------------------------------------------------------- PANELS
             MainFrame.panelRow1.setBackground(Color.DARK_GRAY);
@@ -1226,8 +1235,8 @@ public class SystemClass {
             MainFrame.chkFitVL.setBackground(Color.DARK_GRAY);
             MainFrame.chkFitVL.setForeground(Color.LIGHT_GRAY);
             
-            MainFrame.chkPLMode.setBackground(Color.DARK_GRAY);
-            MainFrame.chkPLMode.setForeground(Color.LIGHT_GRAY);
+            MainFrame.chkVLMode.setBackground(Color.DARK_GRAY);
+            MainFrame.chkVLMode.setForeground(Color.LIGHT_GRAY);
             
             // -------------------------------------------------------------------------------------- RADIO BUTTON
             MainFrame.chkSP.setBackground(Color.DARK_GRAY);
@@ -1287,10 +1296,5 @@ public class SystemClass {
         else {
             MainFrame.itmAS.setVisible(false);
         }
-    }
-    
-    public static void checkVideoThumbnails() {
-        File vlFolder = new File(HappyButtons.documentsPath + "/HappyButtons/hlvids/");
-        File[] vlFileList = vlFolder.listFiles();
     }
 }

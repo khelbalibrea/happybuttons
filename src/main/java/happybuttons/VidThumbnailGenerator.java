@@ -22,21 +22,21 @@ public class VidThumbnailGenerator {
     File path;
     int frameNumber = 100;
     
-    public void createThumbnail(String filename) throws IOException, JCodecException {
+    public void createThumbnail(String filename) throws IOException, JCodecException { // System.out.println("Rename: " + Utility.renameVideoName(filename));
         frameNumber = (int)((double)getFrameTotal(filename) * 0.1);
-        System.out.println("num frames: " + frameNumber);
+//        System.out.println("num frames: " + frameNumber);
         
         try {
             path = new File(HappyButtons.documentsPath + "\\HappyButtons\\hlvids\\" + filename);
             Picture picture = FrameGrab.getFrameFromFile(new File(path.toString()), frameNumber);
             BufferedImage bufferedImage = AWTUtil.toBufferedImage(picture);
-            ImageIO.write(bufferedImage, "png", new File(HappyButtons.documentsPath + "\\HappyButtons\\dtbs\\thumbnails\\" + Utility.renameVideoName(filename) + ".png"));
+            ImageIO.write(bufferedImage, "png", new File(HappyButtons.documentsPath + "\\HappyButtons\\data\\thumbnails\\" + Utility.renameVideoName(filename) + ".png"));
         }
         catch(IOException | JCodecException e1) {
-            
+            System.out.println("Error2: " + e1.toString());
         }
         
-        resizeImage(HappyButtons.documentsPath + "\\HappyButtons\\dtbs\\thumbnails\\" + Utility.renameVideoName(filename) + ".png");
+        resizeImage(HappyButtons.documentsPath + "\\HappyButtons\\data\\thumbnails\\" + Utility.renameVideoName(filename) + ".png");
     }
     
     public int getFrameTotal(String filename) {
@@ -48,7 +48,7 @@ public class VidThumbnailGenerator {
             grabber.start();
             frameCount = grabber.getLengthInFrames();
             grabber.stop();
-            System.out.println("Total frames: " + frameCount);
+//            System.out.println("Total frames: " + frameCount);
         }
         catch(Exception e) {
             e.printStackTrace();
@@ -71,10 +71,10 @@ public class VidThumbnailGenerator {
         return resizedImage;
     }
     
-    public static void resizeImage(String filename) {
+    public static void resizeImage(String filename) { System.out.println("Resize: " + filename);
         try {
             // Load the original image
-            File inputFile = new File(filename); // Change this to your image file path
+            File inputFile = new File(filename + ".png"); // Change this to your image file path
             BufferedImage originalImage = ImageIO.read(inputFile);
             
             // getting original size

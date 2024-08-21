@@ -44,7 +44,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JFrame;
 import javax.swing.JSlider;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -71,6 +70,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public Image icon;
     static Timer timer, timerMp;
     static MouseListener rightButton, rightButtonMp3, sliderClick, mp3FieldClick;
+    public static ActionEvent actEvt;
     
     // Globals
     public static int bgmVolumeLink = 0;
@@ -104,7 +104,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static String[] mp3ShuffledQueue = new String[0];
     public static String[] mp3MainQueue = new String[0];
     public static String[] mp3Queue = new String[0];
-    public static String[] vlQueue = new String[0]; // it is the queue use for sorting (either shufflle or not) and copied to vidQueue after
+    public static String[] vlQueue = new String[0]; // it is the queue use for sorting (either shuffle or not) and copied to vidQueue after
     public static String[] vidQueue = new String[0]; // it is the actual list to be played
     public static long mp3Frames = 0;
     public static double mp3CurrentInSeconds, mp3DurationInSeconds;
@@ -129,8 +129,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static String currentMp3Playing = null; // currently Mp3 playing
     public static int hour, minute, second; // for time 
     public static int vlcjPlaying = 0, // if VLC is playing, 0 -> not playing; 1 -> playing
-            chkVLLoop = 1, // for checkbox VL loop
-            chkVLMute = 1, // for checkbox VL mute
+            chkVLLoop = 0, // for checkbox VL loop
+            chkVLMute = 0, // for checkbox VL mute
             chkVLFit = 0, // for checkbox VL fit
             chkVLShuffle = 0, // for checkbox VL shuffle
             chkVLModePL = 0, // for checkbox VL playlist mode
@@ -139,7 +139,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             mp3FrameOpened = 0, // check is MP3 frame is opened, 0 -> closed; 1 -> opened
             prevSong = 0, // this is in prev button in music player; if 0->song will restart, 1->back to previous song
             prevTimer = 0,
-            cboVLType = 0, // 0->forlooping videos, 1->playlist mode
+            cboVLType = 1, // 0->forlooping videos, 1->playlist mode
             vlStopClicked = 1, // for allowing to play vl loop when video item is same as the previous
             sfxClickCount = 0; // increments whenever the sfx buttons are clicked
     public static String enableAutosave = "on", // autosave status
@@ -479,6 +479,29 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 }
             }
         };
+        
+        // -------------------------------------------------------------------------------------------------------------- COMBO BOX -->
+        // Set a custom renderer to hide the arrow
+//        cboVidLoop.setUI(new BasicComboBoxUI() {
+//            @Override
+//            protected JButton createArrowButton() {
+//                JButton button = new JButton();
+//                button.setPreferredSize(new Dimension(0, 0)); // Hide the button
+//                button.setBorder(BorderFactory.createEmptyBorder()); // Remove the border
+//                return button;
+//            }
+//        });
+        
+        cboVidLoop.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                // Prevent the dropdown from appearing
+                cboVidLoop.setPopupVisible(false);
+            }
+        });
+        
+//        cboVidLoop.setBackground(new JComboBox().getBackground());
+//        cboVidLoop.setBackground(Color.DARK_GRAY);
         
 //        rightButtonMp3 = new MouseAdapter() {
 //            @Override
@@ -970,7 +993,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         chkLoopVL = new javax.swing.JCheckBox();
         chkMuteVL = new javax.swing.JCheckBox();
         chkFitVL = new javax.swing.JCheckBox();
-        chkPLMode = new javax.swing.JCheckBox();
+        chkVLMode = new javax.swing.JCheckBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itmNew = new javax.swing.JMenuItem();
@@ -982,6 +1005,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         itmTools = new javax.swing.JMenu();
         itmResourceManager = new javax.swing.JMenuItem();
         itmPlugins = new javax.swing.JMenuItem();
+        itmSystemTools = new javax.swing.JMenuItem();
         itmAbout = new javax.swing.JMenu();
         jMenuTime = new javax.swing.JMenu();
         itmAS = new javax.swing.JMenu();
@@ -991,10 +1015,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1366, 730));
         setMinimumSize(new java.awt.Dimension(1366, 730));
         setName("mainFrame"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(1366, 730));
         setResizable(false);
         setSize(new java.awt.Dimension(1366, 730));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1117,6 +1139,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         panelRow1.add(tfBGM1, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 6, 500, -1));
 
         btnClearBGM1.setToolTipText("Clear BGM1 and stop");
+        btnClearBGM1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnClearBGM1.setMaximumSize(new java.awt.Dimension(22, 22));
         btnClearBGM1.setMinimumSize(new java.awt.Dimension(22, 22));
         btnClearBGM1.addActionListener(new java.awt.event.ActionListener() {
@@ -1127,6 +1150,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         panelRow1.add(btnClearBGM1, new org.netbeans.lib.awtextra.AbsoluteConstraints(547, 6, 22, 22));
 
         btnStopBGM1.setToolTipText("Stop BGM1");
+        btnStopBGM1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnStopBGM1.setMaximumSize(new java.awt.Dimension(22, 22));
         btnStopBGM1.setMinimumSize(new java.awt.Dimension(22, 22));
         btnStopBGM1.addActionListener(new java.awt.event.ActionListener() {
@@ -1137,6 +1161,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         panelRow1.add(btnStopBGM1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1289, 6, 22, 22));
 
         btnPlayPauseBGM1.setToolTipText("Play or pause BGM1");
+        btnPlayPauseBGM1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPlayPauseBGM1.setMaximumSize(new java.awt.Dimension(22, 22));
         btnPlayPauseBGM1.setMinimumSize(new java.awt.Dimension(22, 22));
         btnPlayPauseBGM1.addActionListener(new java.awt.event.ActionListener() {
@@ -1148,6 +1173,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
         volBGM1.setToolTipText("BGM1 volume");
         volBGM1.setValue(100);
+        volBGM1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         volBGM1.setMaximumSize(new java.awt.Dimension(200, 20));
         volBGM1.setMinimumSize(new java.awt.Dimension(200, 20));
         volBGM1.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -1165,6 +1191,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
         chkLoop1.setSelected(true);
         chkLoop1.setToolTipText("Loop BGM1");
+        chkLoop1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         chkLoop1.setOpaque(true);
         chkLoop1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1192,6 +1219,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         panelRow2.add(tfBGM2, new org.netbeans.lib.awtextra.AbsoluteConstraints(41, 6, 500, -1));
 
         btnClearBGM2.setToolTipText("Clear BGM2 and stop");
+        btnClearBGM2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnClearBGM2.setMaximumSize(new java.awt.Dimension(22, 22));
         btnClearBGM2.setMinimumSize(new java.awt.Dimension(22, 22));
         btnClearBGM2.addActionListener(new java.awt.event.ActionListener() {
@@ -1202,6 +1230,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         panelRow2.add(btnClearBGM2, new org.netbeans.lib.awtextra.AbsoluteConstraints(547, 6, 22, 22));
 
         btnStopBGM2.setToolTipText("Stop BGM2");
+        btnStopBGM2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnStopBGM2.setMaximumSize(new java.awt.Dimension(22, 22));
         btnStopBGM2.setMinimumSize(new java.awt.Dimension(22, 22));
         btnStopBGM2.addActionListener(new java.awt.event.ActionListener() {
@@ -1212,6 +1241,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         panelRow2.add(btnStopBGM2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1289, 6, 22, 22));
 
         btnPlayPauseBGM2.setToolTipText("Play or pause BGM2");
+        btnPlayPauseBGM2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPlayPauseBGM2.setMaximumSize(new java.awt.Dimension(22, 22));
         btnPlayPauseBGM2.setMinimumSize(new java.awt.Dimension(22, 22));
         btnPlayPauseBGM2.addActionListener(new java.awt.event.ActionListener() {
@@ -1223,6 +1253,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
         volBGM2.setToolTipText("BGM2 volume");
         volBGM2.setValue(100);
+        volBGM2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         volBGM2.setMaximumSize(new java.awt.Dimension(200, 20));
         volBGM2.setMinimumSize(new java.awt.Dimension(200, 20));
         volBGM2.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -1240,6 +1271,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
         chkLoop2.setSelected(true);
         chkLoop2.setToolTipText("Loop BGM2");
+        chkLoop2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         chkLoop2.setOpaque(true);
         chkLoop2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1264,6 +1296,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
         togLinkBGMVol.setText("OFF");
         togLinkBGMVol.setToolTipText("Toggle this ON when you want to inversely link BGM1 vol and BGM2 vol");
+        togLinkBGMVol.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         togLinkBGMVol.setMaximumSize(new java.awt.Dimension(50, 22));
         togLinkBGMVol.setMinimumSize(new java.awt.Dimension(50, 22));
         togLinkBGMVol.setPreferredSize(new java.awt.Dimension(50, 22));
@@ -1279,6 +1312,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         panelRow3.add(lblLinkBGMVolumes, new org.netbeans.lib.awtextra.AbsoluteConstraints(1142, 6, -1, 23));
 
         btnPrevMp3.setToolTipText("Play / pause Mp3");
+        btnPrevMp3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPrevMp3.setMaximumSize(new java.awt.Dimension(22, 22));
         btnPrevMp3.setMinimumSize(new java.awt.Dimension(22, 22));
         btnPrevMp3.setPreferredSize(new java.awt.Dimension(22, 22));
@@ -1290,6 +1324,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         panelRow3.add(btnPrevMp3, new org.netbeans.lib.awtextra.AbsoluteConstraints(788, 6, -1, -1));
 
         btnNextMp3.setToolTipText("Stop Mp3");
+        btnNextMp3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnNextMp3.setMaximumSize(new java.awt.Dimension(22, 22));
         btnNextMp3.setMinimumSize(new java.awt.Dimension(22, 22));
         btnNextMp3.setPreferredSize(new java.awt.Dimension(22, 22));
@@ -1329,6 +1364,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         panelRow3.add(tfMp3, new org.netbeans.lib.awtextra.AbsoluteConstraints(537, 6, 245, -1));
 
         btnPlayPauseMp3.setToolTipText("Play / pause Mp3");
+        btnPlayPauseMp3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPlayPauseMp3.setMaximumSize(new java.awt.Dimension(22, 22));
         btnPlayPauseMp3.setMinimumSize(new java.awt.Dimension(22, 22));
         btnPlayPauseMp3.setPreferredSize(new java.awt.Dimension(22, 22));
@@ -1347,6 +1383,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
         volSFX.setToolTipText("BGM1 volume");
         volSFX.setValue(100);
+        volSFX.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         volSFX.setMaximumSize(new java.awt.Dimension(200, 20));
         volSFX.setMinimumSize(new java.awt.Dimension(200, 20));
         volSFX.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -1369,6 +1406,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         chkSP.setSelected(true);
         chkSP.setText("SP");
         chkSP.setToolTipText("Single play");
+        chkSP.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         chkSP.setFocusable(false);
         chkSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1389,6 +1427,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         getContentPane().add(chkIB, new org.netbeans.lib.awtextra.AbsoluteConstraints(423, 337, 45, -1));
 
         btnStopSFX.setToolTipText("Stop SFX");
+        btnStopSFX.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnStopSFX.setMaximumSize(new java.awt.Dimension(22, 22));
         btnStopSFX.setMinimumSize(new java.awt.Dimension(22, 22));
         btnStopSFX.setPreferredSize(new java.awt.Dimension(22, 22));
@@ -1400,10 +1439,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         getContentPane().add(btnStopSFX, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 336, -1, -1));
 
         lblVideoLoop.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblVideoLoop.setText("Video Loop:");
-        getContentPane().add(lblVideoLoop, new org.netbeans.lib.awtextra.AbsoluteConstraints(808, 339, -1, -1));
+        lblVideoLoop.setText("Videos:");
+        getContentPane().add(lblVideoLoop, new org.netbeans.lib.awtextra.AbsoluteConstraints(788, 339, 50, -1));
 
         cboVidLoop.setMaximumRowCount(12);
+        cboVidLoop.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cboVidLoop.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 cboVidLoopMouseClicked(evt);
@@ -1414,7 +1454,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 cboVidLoopActionPerformed(evt);
             }
         });
-        getContentPane().add(cboVidLoop, new org.netbeans.lib.awtextra.AbsoluteConstraints(879, 336, 235, 22));
+        getContentPane().add(cboVidLoop, new org.netbeans.lib.awtextra.AbsoluteConstraints(844, 336, 270, 22));
 
         panelR1S01.setMaximumSize(new java.awt.Dimension(90, 88));
         panelR1S01.setMinimumSize(new java.awt.Dimension(90, 88));
@@ -3328,10 +3368,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         getContentPane().add(panelSFX3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 528, -1, -1));
 
         btnPlayVL.setToolTipText("Play Video loop");
+        btnPlayVL.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnPlayVL.setMaximumSize(new java.awt.Dimension(22, 22));
         btnPlayVL.setMinimumSize(new java.awt.Dimension(22, 22));
         btnPlayVL.setPreferredSize(new java.awt.Dimension(22, 22));
-        btnPlayVL.addActionListener(new java.awt.event.ActionListener() {
+        btnPlayVL.addActionListener(new java.awt.event.ActionListener () {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPlayVLActionPerformed(evt);
             }
@@ -3339,6 +3380,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         getContentPane().add(btnPlayVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 336, -1, -1));
 
         btnStopVL.setToolTipText("Stop Video loop");
+        btnStopVL.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnStopVL.setMaximumSize(new java.awt.Dimension(22, 22));
         btnStopVL.setMinimumSize(new java.awt.Dimension(22, 22));
         btnStopVL.setPreferredSize(new java.awt.Dimension(22, 22));
@@ -3352,6 +3394,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         chkLoopVL.setSelected(true);
         chkLoopVL.setText("Loop");
         chkLoopVL.setToolTipText("Loop VL (Video loop)");
+        chkLoopVL.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         chkLoopVL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chkLoopVLActionPerformed(evt);
@@ -3362,6 +3405,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         chkMuteVL.setSelected(true);
         chkMuteVL.setText("Mute");
         chkMuteVL.setToolTipText("Mute VL (Video loop)");
+        chkMuteVL.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         chkMuteVL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chkMuteVLActionPerformed(evt);
@@ -3371,6 +3415,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
         chkFitVL.setText("Fit");
         chkFitVL.setToolTipText("Fit / stretch video");
+        chkFitVL.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         chkFitVL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chkFitVLActionPerformed(evt);
@@ -3378,22 +3423,24 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         });
         getContentPane().add(chkFitVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(1293, 338, -1, -1));
 
-        chkPLMode.setText("PL Mode");
-        chkPLMode.setToolTipText("VL Playlist mode");
-        chkPLMode.setMaximumSize(new java.awt.Dimension(65, 16));
-        chkPLMode.setMinimumSize(new java.awt.Dimension(65, 16));
-        chkPLMode.setPreferredSize(new java.awt.Dimension(65, 16));
-        chkPLMode.addActionListener(new java.awt.event.ActionListener() {
+        chkVLMode.setText("VL Mode");
+        chkVLMode.setToolTipText("Video Loop mode");
+        chkVLMode.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        chkVLMode.setMaximumSize(new java.awt.Dimension(65, 16));
+        chkVLMode.setMinimumSize(new java.awt.Dimension(65, 16));
+        chkVLMode.setPreferredSize(new java.awt.Dimension(65, 16));
+        chkVLMode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chkPLModeActionPerformed(evt);
+                chkVLModeActionPerformed(evt);
             }
         });
-        getContentPane().add(chkPLMode, new org.netbeans.lib.awtextra.AbsoluteConstraints(715, 337, 80, 20));
+        getContentPane().add(chkVLMode, new org.netbeans.lib.awtextra.AbsoluteConstraints(705, 337, 80, 20));
 
         jMenuBar1.setName("mbrMain"); // NOI18N
         jMenuBar1.setOpaque(true);
 
         jMenu1.setText("File");
+        jMenu1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jMenu1.setName("menuFile"); // NOI18N
 
         itmNew.setMnemonic('N');
@@ -3467,6 +3514,14 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
         });
         itmTools.add(itmPlugins);
+
+        itmSystemTools.setText("System Tools");
+        itmSystemTools.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itmSystemToolsActionPerformed(evt);
+            }
+        });
+        itmTools.add(itmSystemTools);
 
         jMenuBar1.add(itmTools);
 
@@ -4165,6 +4220,18 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
         }
         
+        int cboHappyListSize = cboModelPlaylist.getSize();
+        strVidList = "";
+        
+        for(int ctr = 0; ctr < cboHappyListSize; ctr++) {
+            if(ctr == 0) {
+                strVidList = cboModelPlaylist.getElementAt(ctr).toString();
+            }
+            else if(ctr > 0 && ctr <= (cboHappyListSize - 1)) {
+                strVidList = strVidList + ":" + cboModelPlaylist.getElementAt(ctr).toString();
+            }
+        }
+        
         // Mp3
         strMp3List = "";
         
@@ -4727,8 +4794,12 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         // TODO add your handling code here:
     }//GEN-LAST:event_cboVidLoopActionPerformed
 
-    private void btnPlayVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayVLActionPerformed
-        if(cboVidLoop.getSelectedItem() != null) { //System.out.println("VP: " + vlcjPlaying);
+    public void btnPlayVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayVLActionPerformed
+        playVid();
+    }//GEN-LAST:event_btnPlayVLActionPerformed
+
+    public static void playVid() {
+        if(cboVidLoop.getSelectedItem() != null) { // System.out.println("VP: " + cboVidLoop.getSelectedItem());
             if((!HappyButtons.vlcjPath.isEmpty() || !HappyButtons.vlcjPath.isBlank() || 
             !HappyButtons.vlcjPath.equals("") || HappyButtons.vlcjPath != null)){
                 if(vlcjPlaying == 0){ //chkVLModePL
@@ -4769,9 +4840,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 tfLastOperation.setToolTipText("VIDEO:: Unable to start video loop. VLCj plugin not found/set");
             }
         }
-    }//GEN-LAST:event_btnPlayVLActionPerformed
-
-    public void shuffleVLList(int type) {
+    }
+    
+    public static void shuffleVLList(int type) {
         if(type == 0) { // vlQueue has no item
             vlQueue = new String[0]; // remove this test line of code
             String[] vlList = Utility.strToArr(strVidList);
@@ -4810,7 +4881,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         vidQueue = vlQueue;
     }
     
-    public void sortVLList(int type) {
+    public static void sortVLList(int type) {
         if(type == 0) {
             vlQueue = Utility.strToArr(strVidList);
         }
@@ -5304,20 +5375,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 //        openMp3Frame();
     }//GEN-LAST:event_tfMp3MouseClicked
 
-    private void chkPLModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkPLModeActionPerformed
-        if(chkPLMode.isSelected()) {
-            chkVLModePL = 1;
-            cboVidLoop.setModel(cboModelPlaylist);
-            VLType = "playlist";
-            cboVLType = 1; // playlist
-            
-            chkVLLoop = 0;
-            chkLoopVL.setSelected(false);
-            
-//            chkVLMute = 0;
-//            chkMuteVL.setSelected(false);
-        }
-        else {
+    private void chkVLModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkVLModeActionPerformed
+        if(chkVLMode.isSelected()) {
             chkVLModePL = 0;
             cboVidLoop.setModel(cboModelForLoop);
             VLType = "forloop";
@@ -5329,10 +5388,22 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 //            chkVLMute = 1;
 //            chkMuteVL.setSelected(true);
         }
+        else {
+            chkVLModePL = 1;
+            cboVidLoop.setModel(cboModelPlaylist);
+            VLType = "playlist";
+            cboVLType = 1; // playlist
+            
+            chkVLLoop = 0;
+            chkLoopVL.setSelected(false);
+            
+//            chkVLMute = 0;
+//            chkMuteVL.setSelected(false);
+        }
         
 //        ActionEvent actionEvent = new ActionEvent(new Object(), ActionEvent.ACTION_PERFORMED, "command");
 //        checkBoxAction.actionPerformed(actionEvent);
-    }//GEN-LAST:event_chkPLModeActionPerformed
+    }//GEN-LAST:event_chkVLModeActionPerformed
 
     private void tfMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfMp3ActionPerformed
         // TODO add your handling code here:
@@ -5342,6 +5413,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         ExplorerVideo videoExplorer = new ExplorerVideo(HappyButtons.mf, true);
         videoExplorer.setVisible(true);
     }//GEN-LAST:event_cboVidLoopMouseClicked
+
+    private void itmSystemToolsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSystemToolsActionPerformed
+        SystemToolsFrame frame = new SystemToolsFrame(HappyButtons.mf, true);
+        frame.setVisible(true);
+    }//GEN-LAST:event_itmSystemToolsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -5441,8 +5517,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JCheckBox chkLoop2;
     public static javax.swing.JCheckBox chkLoopVL;
     public static javax.swing.JCheckBox chkMuteVL;
-    public static javax.swing.JCheckBox chkPLMode;
     public static javax.swing.JCheckBox chkSP;
+    public static javax.swing.JCheckBox chkVLMode;
     public static javax.swing.JMenuItem itemSave;
     public static javax.swing.JMenu itmAS;
     public static javax.swing.JMenu itmAbout;
@@ -5451,6 +5527,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JMenuItem itmPlugins;
     public static javax.swing.JMenuItem itmResourceManager;
     public static javax.swing.JMenuItem itmSettings;
+    public static javax.swing.JMenuItem itmSystemTools;
     public static javax.swing.JMenu itmTools;
     public static javax.swing.JMenuItem itmUITheme;
     public static javax.swing.JMenu jMenu1;

@@ -4,10 +4,12 @@
 
 package happybuttons;
 
+import java.awt.Dimension;
 import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
+import java.io.IOException;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
 /**
@@ -211,6 +213,19 @@ public class HappyButtons {
         catch(Exception e){
             
         }
+        
+        // checking data folder
+        try {
+            File subPath1 = new File(documentsPath + "\\HappyButtons\\data");
+           
+            if(!subPath1.exists()){
+                subPath1.mkdir();
+//                dataFolderChk = 1;
+            }
+        }
+        catch(Exception e){
+            
+        }
     }
     
     // initialize XML as database
@@ -288,5 +303,92 @@ public class HappyButtons {
         if(screenWidth <= 1366 && screenHeight <= 768) {
             standardScreen = true;
         }
+    }
+    
+    public static void checkVideoThumbnails() {
+        File vlFolder = new File(documentsPath + "/HappyButtons/hlvids/");
+        File[] vlFileList = vlFolder.listFiles();
+
+        File thumbFolder = new File(documentsPath + "/HappyButtons/data/thumbnails/");
+        File[] thumbFileList = thumbFolder.listFiles();
+
+        String videoList[] = {};
+        String thumbList[] = {};
+
+        for(File f : vlFileList) {
+            videoList = Utility.addElementInStrArr(videoList, Utility.renameListName(f.getName(), "mp4"));
+        }
+
+        for(File f : thumbFileList) {
+            thumbList = Utility.addElementInStrArr(thumbList, Utility.renameListName(f.getName(), "png"));
+        }
+        
+//        for(int ctr = 0; ctr < videoList.length; ctr++) {
+//            System.out.println(ctr + 1 + ". " + videoList[ctr]);
+//        }
+
+        for(int ctr = 0; ctr < videoList.length; ctr++) {
+            String file = videoList[ctr]; // sample: video_name.mp4
+            boolean found = Utility.doesStrArrHasElement(thumbList, file); //System.out.println(file + " -> " + found);
+
+            if(!found) { 
+                // generate video thumbnail
+                try{
+                    VidThumbnailGenerator gen = new VidThumbnailGenerator();
+                    gen.createThumbnail(vlFileList[ctr].getName());
+                }
+                catch(Exception e) {
+                    System.out.println("\n\nError1: \n" + e.toString());
+                }
+            }
+            else {
+                continue;
+            }
+        }
+        
+        SystemToolsFrame.textResult.setText("");
+        SystemToolsFrame.textResult.setText("VIDEO THUMBNAILS:\n\nTask done. Note that this is not guaranteed. If video still doesn't generate thumbnails, delete the video and add it again manually.");
+    }
+    
+    public static void fixResizeImage() throws IOException {
+        File imgFolder = new File(documentsPath + "/HappyButtons/data/thumbnails/");
+        File[] imgFileList = imgFolder.listFiles();
+        
+        String toReduceSize[] = {};
+        String result = "";
+
+        for(File f : imgFileList) {
+            Dimension imgDim = Utility.getImageDimension(f);
+            
+            if(imgDim.width > imgDim.height) {
+                if(imgDim.width > 96 || imgDim.height > 72) {
+                    toReduceSize = Utility.addElementInStrArr(toReduceSize, f.getName());
+                }
+            }
+            else {
+                if(imgDim.width > 72 || imgDim.height > 96) {
+                    toReduceSize = Utility.addElementInStrArr(toReduceSize, f.getName());
+                }
+            }
+        }
+        
+//        for(int ctr = 0; ctr < toReduceSize.length; ctr++) {
+//            System.out.println((ctr + 1) + ". " + toReduceSize[ctr]);
+//        }
+        
+        if(toReduceSize.length > 0) {
+            for(int ctr = 0; ctr < toReduceSize.length; ctr++) {
+                Dimension imgDim = Utility.getImageDimension(new File(HappyButtons.documentsPath + "/HappyButtons/data/thumbnails/" + toReduceSize[ctr]));
+                Utility.resizeImage(HappyButtons.documentsPath + "/HappyButtons/data/thumbnails/" + toReduceSize[ctr]);
+                
+                result = result + "Resized image: " + toReduceSize[ctr] + " (" + imgDim.width + "x" + imgDim.height + ")\nSuccess!\n\n";
+            }
+        }
+        else {
+            result = "All images are good in size";
+        }
+        
+        SystemToolsFrame.textResult.setText("");
+        SystemToolsFrame.textResult.setText("RESIZING IMAGE\n\n" + result);
     }
 }

@@ -361,7 +361,6 @@ public class DBOperations {
             loadJElements(profileDB, index);
             
             // loading mp3 queue
-            
             MainFrame.tfLastOperation.setText("PROFILE \"" + profileDB[index].getProfileName() + "\" LOADED");
             
             if(MainFrame.dbLoadedManual == 1) { // profile is manually loaded
@@ -394,6 +393,10 @@ public class DBOperations {
             
             HappyButtons.canAutosave = 1;
             MainFrame.savingProfile = profileName;
+            
+            MainFrame.chkVLMode.setSelected(false);
+            MainFrame.chkVLModePL = 1;
+            MainFrame.cboVLType = 1;
             
             return profileName;
         }
@@ -435,7 +438,7 @@ public class DBOperations {
             (MainFrame.cboModelPlaylist).addElement(vid);
         }
         
-        (MainFrame.cboVidLoop).setModel(MainFrame.cboModelForLoop);
+        (MainFrame.cboVidLoop).setModel(MainFrame.cboModelPlaylist);
     }
     
     public void loadJElements(ProfileDatabase profileDB[], int index) {

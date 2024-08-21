@@ -24,6 +24,9 @@
         <Menu class="javax.swing.JMenu" name="jMenu1">
           <Properties>
             <Property name="text" type="java.lang.String" value="File"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Default Cursor"/>
+            </Property>
             <Property name="name" type="java.lang.String" value="menuFile" noResource="true"/>
           </Properties>
           <AuxValues>
@@ -131,6 +134,17 @@
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
               </AuxValues>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="itmSystemTools">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="System Tools"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itmSystemToolsActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+              </AuxValues>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="itmAbout">
@@ -175,16 +189,10 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
-    <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[1366, 730]"/>
-    </Property>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[1366, 730]"/>
     </Property>
     <Property name="name" type="java.lang.String" value="mainFrame" noResource="true"/>
-    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[1366, 730]"/>
-    </Property>
     <Property name="resizable" type="boolean" value="false"/>
     <Property name="size" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[1366, 730]"/>
@@ -474,6 +482,9 @@
         <Component class="javax.swing.JButton" name="btnClearBGM1">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Clear BGM1 and stop"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[22, 22]"/>
             </Property>
@@ -496,6 +507,9 @@
         <Component class="javax.swing.JButton" name="btnStopBGM1">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Stop BGM1"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[22, 22]"/>
             </Property>
@@ -518,6 +532,9 @@
         <Component class="javax.swing.JButton" name="btnPlayPauseBGM1">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Play or pause BGM1"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[22, 22]"/>
             </Property>
@@ -541,6 +558,9 @@
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="BGM1 volume"/>
             <Property name="value" type="int" value="100"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 20]"/>
             </Property>
@@ -587,6 +607,9 @@
           <Properties>
             <Property name="selected" type="boolean" value="true"/>
             <Property name="toolTipText" type="java.lang.String" value="Loop BGM1"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
           <Events>
@@ -659,6 +682,9 @@
         <Component class="javax.swing.JButton" name="btnClearBGM2">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Clear BGM2 and stop"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[22, 22]"/>
             </Property>
@@ -681,6 +707,9 @@
         <Component class="javax.swing.JButton" name="btnStopBGM2">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Stop BGM2"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[22, 22]"/>
             </Property>
@@ -703,6 +732,9 @@
         <Component class="javax.swing.JButton" name="btnPlayPauseBGM2">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Play or pause BGM2"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[22, 22]"/>
             </Property>
@@ -726,6 +758,9 @@
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="BGM2 volume"/>
             <Property name="value" type="int" value="100"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[200, 20]"/>
             </Property>
@@ -772,6 +807,9 @@
           <Properties>
             <Property name="selected" type="boolean" value="true"/>
             <Property name="toolTipText" type="java.lang.String" value="Loop BGM2"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
           <Events>
@@ -846,6 +884,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="OFF"/>
             <Property name="toolTipText" type="java.lang.String" value="Toggle this ON when you want to inversely link BGM1 vol and BGM2 vol"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[50, 22]"/>
             </Property>
@@ -885,6 +926,9 @@
         <Component class="javax.swing.JButton" name="btnPrevMp3">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Play / pause Mp3"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[22, 22]"/>
             </Property>
@@ -910,6 +954,9 @@
         <Component class="javax.swing.JButton" name="btnNextMp3">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Stop Mp3"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[22, 22]"/>
             </Property>
@@ -992,6 +1039,9 @@
         <Component class="javax.swing.JButton" name="btnPlayPauseMp3">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="Play / pause Mp3"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[22, 22]"/>
             </Property>
@@ -1040,6 +1090,9 @@
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="BGM1 volume"/>
         <Property name="value" type="int" value="100"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Hand Cursor"/>
+        </Property>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[200, 20]"/>
         </Property>
@@ -1103,6 +1156,9 @@
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="SP"/>
         <Property name="toolTipText" type="java.lang.String" value="Single play"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Hand Cursor"/>
+        </Property>
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
       <Events>
@@ -1139,6 +1195,9 @@
     <Component class="javax.swing.JButton" name="btnStopSFX">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="Stop SFX"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Hand Cursor"/>
+        </Property>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[22, 22]"/>
         </Property>
@@ -1166,14 +1225,14 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="12" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Video Loop:"/>
+        <Property name="text" type="java.lang.String" value="Videos:"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="808" y="339" width="-1" height="-1"/>
+          <AbsoluteConstraints x="788" y="339" width="50" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -1182,6 +1241,9 @@
         <Property name="maximumRowCount" type="int" value="12"/>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
+        </Property>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Hand Cursor"/>
         </Property>
       </Properties>
       <Events>
@@ -1194,7 +1256,7 @@
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="879" y="336" width="235" height="22"/>
+          <AbsoluteConstraints x="844" y="336" width="270" height="22"/>
         </Constraint>
       </Constraints>
     </Component>
@@ -4771,6 +4833,9 @@
     <Component class="javax.swing.JButton" name="btnPlayVL">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="Play Video loop"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Hand Cursor"/>
+        </Property>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[22, 22]"/>
         </Property>
@@ -4796,6 +4861,9 @@
     <Component class="javax.swing.JButton" name="btnStopVL">
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value="Stop Video loop"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Hand Cursor"/>
+        </Property>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[22, 22]"/>
         </Property>
@@ -4823,6 +4891,9 @@
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Loop"/>
         <Property name="toolTipText" type="java.lang.String" value="Loop VL (Video loop)"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Hand Cursor"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkLoopVLActionPerformed"/>
@@ -4841,6 +4912,9 @@
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Mute"/>
         <Property name="toolTipText" type="java.lang.String" value="Mute VL (Video loop)"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Hand Cursor"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkMuteVLActionPerformed"/>
@@ -4858,6 +4932,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Fit"/>
         <Property name="toolTipText" type="java.lang.String" value="Fit / stretch video"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Hand Cursor"/>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkFitVLActionPerformed"/>
@@ -4871,10 +4948,13 @@
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="chkPLMode">
+    <Component class="javax.swing.JCheckBox" name="chkVLMode">
       <Properties>
-        <Property name="text" type="java.lang.String" value="PL Mode"/>
-        <Property name="toolTipText" type="java.lang.String" value="VL Playlist mode"/>
+        <Property name="text" type="java.lang.String" value="VL Mode"/>
+        <Property name="toolTipText" type="java.lang.String" value="Video Loop mode"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Hand Cursor"/>
+        </Property>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[65, 16]"/>
         </Property>
@@ -4886,14 +4966,14 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkPLModeActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkVLModeActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="715" y="337" width="80" height="20"/>
+          <AbsoluteConstraints x="705" y="337" width="80" height="20"/>
         </Constraint>
       </Constraints>
     </Component>

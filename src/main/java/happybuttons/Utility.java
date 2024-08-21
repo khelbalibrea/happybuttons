@@ -4,7 +4,19 @@
  */
 package happybuttons;
 
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import static java.lang.Math.log;
+import java.util.Iterator;
 import java.util.regex.Pattern;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.FileImageInputStream;
+import javax.imageio.stream.ImageInputStream;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -85,11 +97,11 @@ public class Utility {
         return count;
     }
     
-    public static int findIndexInStrArr(String arr[], String str) {
+    public static int findIndexInStrArr(String arr[], String search) {
         int index = -1;
         
         for(int ctr = 0; ctr < arr.length; ctr++) {
-            if(arr[ctr].equals(str)) {
+            if(arr[ctr].equals(search)) {
                 index = ctr;
             }
         }
@@ -248,10 +260,8 @@ public class Utility {
     }
     
     public static String shortenText(String str, int limit) {
-        int maxLength = limit;
-        
-        if(str.length() > maxLength) {
-            return str.substring(0, maxLength) + "...";
+        if(str.length() > limit) {
+            return str.substring(0, limit) + "...";
         }
         else {
             return str;
@@ -373,6 +383,91 @@ public class Utility {
     public static void testPrintStrArray(String[] arr) {
         for(int ctr = 0; ctr < arr.length; ctr++) {
             System.out.println(arr[ctr]);
+        }
+    }
+    
+    public static Dimension getImageDimension(File imgFile) throws IOException {
+        BufferedImage image = ImageIO.read(imgFile);
+        int width = image.getWidth();
+        int height = image.getHeight();
+//        System.out.println("Width: " + width + ", Height: " + height);
+
+        return new Dimension(width, height);
+//        int pos = imgFile.getName().lastIndexOf(".");
+//        
+//        if(pos == -1) {
+//            throw new IOException("No extension for file: " + imgFile.getAbsolutePath());
+//        }
+//          
+//        String suffix = imgFile.getName().substring(pos + 1);
+//        Iterator<ImageReader> iter = ImageIO.getImageReadersBySuffix(suffix);
+//        
+//        while(iter.hasNext()) {
+//          ImageReader reader = iter.next();
+//          
+//          try {
+//            ImageInputStream stream = new FileImageInputStream(imgFile);
+//            reader.setInput(stream);
+//            int width = reader.getWidth(reader.getMinIndex());
+//            int height = reader.getHeight(reader.getMinIndex());
+//            return new Dimension(width, height);
+//          }
+//          catch (IOException e) {
+//            System.err.println("Error reading: " + imgFile.getAbsolutePath() + "\nErr: " + e);
+//          } finally {
+//            reader.dispose();
+//          }
+//        }
+//        
+//        throw new IOException("Not a known image file: " + imgFile.getAbsolutePath());
+    }
+    
+    public static BufferedImage resizeProcess(BufferedImage originalImage, int newWidth, int newHeight) {
+        // Create a new BufferedImage with the specified width and height
+        BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, originalImage.getType());
+
+        // Create a Graphics2D object to draw the resized image
+        Graphics2D g = resizedImage.createGraphics();
+
+        // Draw the original image scaled to the new size
+        g.drawImage(originalImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH), 0, 0, null);
+        g.dispose(); // Dispose of the graphics context
+
+        return resizedImage;
+    }
+    
+    public static void resizeImage(String filename) { // System.out.println("Resize: " + filename);
+        try {
+            // Load the original image
+            File inputFile = new File(filename); // Change this to your image file path
+            BufferedImage originalImage = ImageIO.read(inputFile);
+            
+            // getting original size
+            int origWidth = originalImage.getWidth();
+            int origHeight = originalImage.getHeight();
+
+            // Specify the new width and height
+            int newWidth = 96; // Set your desired width
+            int newHeight = 72; // Set your desired height
+            
+            // retain image orientation
+            if(origHeight > origWidth) {
+                int tempHeight = newHeight;
+                newHeight = newWidth;
+                newWidth = tempHeight;
+            }
+
+            // Resize the image
+            BufferedImage resizedImage = resizeProcess(originalImage, newWidth, newHeight);
+
+            // Save the resized image to a new file
+            File outputFile = new File(filename); // Change this to your output file path
+            ImageIO.write(resizedImage, "jpg", outputFile); // Specify the format (e.g., "jpg", "png")
+
+//            System.out.println("Image resized successfully!");
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

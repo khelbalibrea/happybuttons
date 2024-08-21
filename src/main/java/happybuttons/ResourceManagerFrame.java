@@ -151,7 +151,6 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         panelHappyLoop = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblVideoLoop = new javax.swing.JTable();
-        btnDeleteVL = new javax.swing.JButton();
         btnAddVL = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -164,6 +163,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         lblNS3 = new javax.swing.JLabel();
         cboVLType = new javax.swing.JComboBox<>();
         chkShuffleVL = new javax.swing.JCheckBox();
+        btnDeleteVL = new javax.swing.JButton();
         panelMp3 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblMusic = new javax.swing.JTable();
@@ -235,15 +235,8 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
 
         panelHappyLoop.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 540, 280));
 
-        btnDeleteVL.setText("Delete");
-        btnDeleteVL.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteVLActionPerformed(evt);
-            }
-        });
-        panelHappyLoop.add(btnDeleteVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 130, -1));
-
         btnAddVL.setText("Add");
+        btnAddVL.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnAddVL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddVLActionPerformed(evt);
@@ -280,7 +273,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         lblNS2.setForeground(new java.awt.Color(255, 51, 51));
         lblNS2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lblNS2.setText("Nothing selected");
-        panelHappyLoop.add(lblNS2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 330, 110, 20));
+        panelHappyLoop.add(lblNS2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 300, 120, 30));
 
         lblNS1.setForeground(new java.awt.Color(255, 51, 51));
         lblNS1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -308,6 +301,14 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             }
         });
         panelHappyLoop.add(chkShuffleVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 330, 60, -1));
+
+        btnDeleteVL.setText("Delete");
+        btnDeleteVL.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteVLActionPerformed(evt);
+            }
+        });
+        panelHappyLoop.add(btnDeleteVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 130, -1));
 
         tabPanel.addTab("Video Loop", panelHappyLoop);
 
@@ -644,94 +645,6 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnAddVLActionPerformed
 
-    private void btnDeleteVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteVLActionPerformed
-        int selectedRow = tblVideoLoop.getSelectedRow(); // for checking only if atleast one item is selected
-        int[] selectedRows = tblVideoLoop.getSelectedRows();
-        File filePath = null;
-        String[] fileError = {};
-        int[] deleteRow = new int[]{};
-        
-        Timer timer = new Timer(3000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                lblNS1.setVisible(false);
-            }
-        });
-        
-        if(selectedRow != -1) {
-            int confirmation = JOptionPane.showConfirmDialog(null, 
-                    "Some item(s) may be used in other profiles.\nProceed to permanently delete selected item(s)?", 
-                    "Delete items", 
-                    JOptionPane.YES_NO_OPTION, 
-                    JOptionPane.WARNING_MESSAGE);
-            
-            if(confirmation == 0) {
-                String selectedItem = "";
-                
-                for(int i = 0; i < (selectedRows.length); i++) {
-                    selectedItem = tblModelVL.getValueAt(selectedRows[i], 0).toString();
-                    filePath = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\hlvids\\" + selectedItem + ".mp4");
-                    
-                    if(filePath.delete()) {
-                        // collect first the rows to be removed in table
-                        deleteRow = Utility.addElementInIntArr(deleteRow, selectedRows[i]);
-                        
-                        if(MainFrame.VLType.equals("forloop")) {
-                            (MainFrame.cboModelForLoop).removeElement(selectedItem);
-                        }
-                        else if(MainFrame.VLType.equals("playlist")){
-                            (MainFrame.cboModelPlaylist).removeElement(selectedItem);
-                        }
-                        
-                        if(listModelVL.contains(selectedItem)) {
-                            listModelVL.removeElement(selectedItem);
-                        }
-                        
-                        selectedItem = "";
-                        autosave();
-                    }
-                    else {
-                        fileError = Utility.addElementInStrArr(fileError, selectedItem);
-                        selectedItem = "";
-                    }
-                }
-                
-                // removing the collected rows to be deleted in table 
-                if(deleteRow.length > 0) {
-                    for(int i = (deleteRow.length-1); i >= 0; i--) {
-                        tblModelVL.removeRow(deleteRow[i]);
-                    }
-                    
-                    deleteRow = null;
-                }
-                
-                if(fileError.length > 0) {
-                    String err = "", strListDown = "";
-                    
-                    err = fileError.length + " item(s)\nNote: The file may be deleted already, renamed, or currently playing\n";
-                    strListDown = "";
-                    
-                    for(int i = 0; i < fileError.length; i++) {
-                        strListDown = strListDown + "\n(" + (i+1) + ") " + fileError[i] + ".mp4";
-                    }
-                    
-                    JOptionPane.showMessageDialog(HappyButtons.mf, 
-                        "Error in deleting " + err + strListDown, 
-                        "File deletion error", 
-                        JOptionPane.ERROR_MESSAGE);
-                }
-                
-                tblVideoLoop.setModel(tblModelVL);
-            }
-        }
-        else {
-            lblNS1.setVisible(true);
-            
-            timer.setRepeats(false);
-            timer.start();
-        }
-    }//GEN-LAST:event_btnDeleteVLActionPerformed
-
     private void btnAddToListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddToListActionPerformed
         int selectedRow = tblVideoLoop.getSelectedRow(); // for checking only if atleast one item is selected
         int[] selectedRows = tblVideoLoop.getSelectedRows();
@@ -1006,6 +919,94 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             loadJListVLPlaylist();
         }
     }//GEN-LAST:event_tabPanelMouseClicked
+
+    private void btnDeleteVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteVLActionPerformed
+        int selectedRow = tblVideoLoop.getSelectedRow(); // for checking only if atleast one item is selected
+        int[] selectedRows = tblVideoLoop.getSelectedRows();
+        File filePath = null;
+        String[] fileError = {};
+        int[] deleteRow = new int[]{};
+        
+        Timer timer = new Timer(3000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lblNS1.setVisible(false);
+            }
+        });
+        
+        if(selectedRow != -1) {
+            int confirmation = JOptionPane.showConfirmDialog(null, 
+                    "Some item(s) may be used in other profiles.\nProceed to permanently delete selected item(s)?", 
+                    "Delete items", 
+                    JOptionPane.YES_NO_OPTION, 
+                    JOptionPane.WARNING_MESSAGE);
+            
+            if(confirmation == 0) {
+                String selectedItem = "";
+                
+                for(int i = 0; i < (selectedRows.length); i++) {
+                    selectedItem = tblModelVL.getValueAt(selectedRows[i], 0).toString();
+                    filePath = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\hlvids\\" + selectedItem + ".mp4");
+                    
+                    if(filePath.delete()) {
+                        // collect first the rows to be removed in table
+                        deleteRow = Utility.addElementInIntArr(deleteRow, selectedRows[i]);
+                        
+                        if(MainFrame.VLType.equals("forloop")) {
+                            (MainFrame.cboModelForLoop).removeElement(selectedItem);
+                        }
+                        else if(MainFrame.VLType.equals("playlist")){
+                            (MainFrame.cboModelPlaylist).removeElement(selectedItem);
+                        }
+                        
+                        if(listModelVL.contains(selectedItem)) {
+                            listModelVL.removeElement(selectedItem);
+                        }
+                        
+                        selectedItem = "";
+                        autosave();
+                    }
+                    else {
+                        fileError = Utility.addElementInStrArr(fileError, selectedItem);
+                        selectedItem = "";
+                    }
+                }
+                
+                // removing the collected rows to be deleted in table 
+                if(deleteRow.length > 0) {
+                    for(int i = (deleteRow.length-1); i >= 0; i--) {
+                        tblModelVL.removeRow(deleteRow[i]);
+                    }
+                    
+                    deleteRow = null;
+                }
+                
+                if(fileError.length > 0) {
+                    String err = "", strListDown = "";
+                    
+                    err = fileError.length + " item(s)\nNote: The file may be deleted already, renamed, or currently playing\n";
+                    strListDown = "";
+                    
+                    for(int i = 0; i < fileError.length; i++) {
+                        strListDown = strListDown + "\n(" + (i+1) + ") " + fileError[i] + ".mp4";
+                    }
+                    
+                    JOptionPane.showMessageDialog(HappyButtons.mf, 
+                        "Error in deleting " + err + strListDown, 
+                        "File deletion error", 
+                        JOptionPane.ERROR_MESSAGE);
+                }
+                
+                tblVideoLoop.setModel(tblModelVL);
+            }
+        }
+        else {
+            lblNS1.setVisible(true);
+            
+            timer.setRepeats(false);
+            timer.start();
+        }
+    }//GEN-LAST:event_btnDeleteVLActionPerformed
     
     public void autosave() {
         if(MainFrame.enableAutosave.equals("on")) {
