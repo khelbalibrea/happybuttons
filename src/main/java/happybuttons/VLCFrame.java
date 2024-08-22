@@ -41,7 +41,7 @@ public class VLCFrame extends javax.swing.JFrame {
     GraphicsDevice[] screenDevices = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
     
     int screenWidth = 0, screenHeight = 0;
-    String aspectRatio = "", origRatio = "";
+    String screenRatio = "", vidOrigRatio = "";
     
     public VLCFrame() {
         super.setTitle("Video");
@@ -59,11 +59,11 @@ public class VLCFrame extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent e) {
                 if(MainFrame.chkVLFit == 0) {
                     MainFrame.chkVLFit = 1;
-                    emp.setAspectRatio(aspectRatio);
+                    emp.setAspectRatio(screenRatio);
                 }
                 else {
                     MainFrame.chkVLFit = 0;
-                    emp.setAspectRatio(origRatio);
+                    emp.setAspectRatio(vidOrigRatio);
                 }
             }
         };
@@ -110,6 +110,13 @@ public class VLCFrame extends javax.swing.JFrame {
                         emp.prepareMedia(file);
                         emp.addMediaPlayerEventListener(videoListener);
                         emp.play();
+                        
+                        if(MainFrame.chkVLFit == 0) {
+                            emp.setAspectRatio(vidOrigRatio);
+                        }
+                        else {
+                            emp.setAspectRatio(screenRatio);
+                        }
 //                    }
                 }
                 else {
@@ -148,7 +155,7 @@ public class VLCFrame extends javax.swing.JFrame {
             int ratioWidth = screenWidth / 120;
             int ratioHeight = (int) Math.ceil(screenHeight / 120);
             
-            aspectRatio = ratioWidth + ":" + ratioHeight;
+            screenRatio = ratioWidth + ":" + ratioHeight;
 
             MainFrame.tfLastOperation.setText(Utility.shortenText(reso + "  (" + ratioWidth + ":" + ratioHeight + ")", 50));
             MainFrame.tfLastOperation.setToolTipText(reso + "  (" + ratioWidth + ":" + ratioHeight + ")");
@@ -175,12 +182,18 @@ public class VLCFrame extends javax.swing.JFrame {
             int ratioWidth = screenWidth / 120;
             int ratioHeight = (int) Math.ceil(screenHeight / 120);
             
-            aspectRatio = ratioWidth + ":" + ratioHeight;
+            screenRatio = ratioWidth + ":" + ratioHeight;
 
             MainFrame.tfLastOperation.setText(Utility.shortenText(reso + "  (" + ratioWidth + ":" + ratioHeight + ")", 50));
             MainFrame.tfLastOperation.setToolTipText(reso + "  (" + ratioWidth + ":" + ratioHeight + ")");
         }
         
+//        if(MainFrame.chkVLFit == 0) {
+//            emp.setAspectRatio(aspectRatio);
+//        }
+//        else {
+//            emp.setAspectRatio(origRatio);
+//        }
         frame.setVisible(true);
         
         MainFrame.btnStopVL.addActionListener(new ActionListener() {
@@ -210,13 +223,13 @@ public class VLCFrame extends javax.swing.JFrame {
                     Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 
                             MainFrame.cboVidLoop.getSelectedItem() + 
                             ".mp4");
-            origRatio = emp.getAspectRatio();
+            vidOrigRatio = emp.getAspectRatio();
             
             if(MainFrame.chkVLFit == 0) {
-                emp.setAspectRatio(origRatio);
+                emp.setAspectRatio(vidOrigRatio);
             }
             else {
-                emp.setAspectRatio(aspectRatio);
+                emp.setAspectRatio(screenRatio);
             }
             
             if(MainFrame.fullScreenVL.equals("window")) {
@@ -245,14 +258,12 @@ public class VLCFrame extends javax.swing.JFrame {
             MainFrame.tfLastOperation.setText("No video to play");
         }
         
-        if(MainFrame.chkVLFit == 0) {
-            MainFrame.chkVLFit = 1;
-            emp.setAspectRatio(aspectRatio);
-        }
-        else {
-            MainFrame.chkVLFit = 0;
-            emp.setAspectRatio(origRatio);
-        }
+//        if(MainFrame.chkVLFit == 0) {
+//            emp.setAspectRatio(vidOrigRatio);
+//        }
+//        else {
+//            emp.setAspectRatio(screenRatio);
+//        }
     }
     
     public class MediaListener implements MediaPlayerEventListener {
@@ -349,7 +360,16 @@ public class VLCFrame extends javax.swing.JFrame {
                     
                     emp.prepareMedia(file);
                     dim = Toolkit.getDefaultToolkit().getScreenSize();
+                    
                     emp.play();
+                    
+                    if(MainFrame.chkVLFit == 0) {
+                        emp.setAspectRatio(vidOrigRatio);
+                    }
+                    else {
+                        emp.setAspectRatio(screenRatio);
+                    }
+                    
                 }
             }
             

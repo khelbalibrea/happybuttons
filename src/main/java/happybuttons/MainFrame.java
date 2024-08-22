@@ -4856,6 +4856,13 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                             vlc.emp.prepareMedia(vlc.file);
                             vlc.emp.addMediaPlayerEventListener(vlc.videoListener);
                             vlc.emp.play();
+                            
+                            if(MainFrame.chkVLFit == 0) { System.out.println("No fit");
+                                vlc.emp.setAspectRatio(vlc.vidOrigRatio);
+                            }
+                            else { System.out.println("Fit");
+                                vlc.emp.setAspectRatio(vlc.screenRatio);
+                            }
     //                    }
                     }
                 }
