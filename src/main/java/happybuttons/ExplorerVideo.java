@@ -112,6 +112,8 @@ public class ExplorerVideo extends javax.swing.JDialog {
         // set frame icon
         ImageIcon imgIcon = new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
         setIconImage(imgIcon.getImage());
+        
+        setupTheme();
     }
                             
     private void initComponents() {
@@ -141,8 +143,8 @@ public class ExplorerVideo extends javax.swing.JDialog {
         setPreferredSize(new java.awt.Dimension(800, 600));
         setResizable(false);
         
-        lblWarning.setForeground(new java.awt.Color(255, 51, 51));
-        Font font = new Font("Segoe UI", Font.BOLD, 9); // Font name, style, size
+        lblWarning.setForeground(new java.awt.Color(255, 0, 0));
+        Font font = new Font("Segoe UI", Font.PLAIN, 11); // Font name, style, size
         lblWarning.setFont(font);
         
         try {
@@ -167,7 +169,7 @@ public class ExplorerVideo extends javax.swing.JDialog {
                     lblText = lblText + "(" + (ctr + 1) + ") " + notLoadedVids[ctr];
                 }
             }
-            lblWarning.setToolTipText(lblText);
+            lblWarning.setToolTipText("Click to view");
             
             javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
             jPanel1.setLayout(jPanel1Layout);
@@ -194,6 +196,15 @@ public class ExplorerVideo extends javax.swing.JDialog {
                         .addComponent(btnPlayNow))
                     .addContainerGap())
             );
+            
+            lblWarning.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    VideoNotFoundListFrame frame = new VideoNotFoundListFrame(dialog, true, notLoadedVids);
+                    frame.setVisible(true);
+                }
+            });
+            
         }
         else {
             javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -353,7 +364,8 @@ public class ExplorerVideo extends javax.swing.JDialog {
             btnJustSelect.setText("Just Select");
         }
         else if(button == 1) {
-            
+            btnPlayNow.setForeground(new JButton().getForeground());
+            btnPlayNow.setText("Play Now");
         }
     }
     
@@ -388,6 +400,37 @@ public class ExplorerVideo extends javax.swing.JDialog {
                 return panel;
             }
             return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+        }
+    }
+    
+    public void setupTheme() {
+        if(HappyButtons.uiTheme.equals("light")) { // ------------------------------------------------------------------ LIGHT THEME -->
+            // --------------------------------------------------------------------------------- FRAME -->
+            dialog.getContentPane().setBackground(new JPanel().getBackground());
+            
+            // --------------------------------------------------------------------------------- PANELS -->
+            jPanel1.setBackground(new JPanel().getBackground());
+            
+            // --------------------------------------------------------------------------------- BUTTONS -->
+            btnJustSelect.setForeground(new JButton().getForeground());
+            btnJustSelect.setBackground(new JButton().getBackground());
+            
+            btnPlayNow.setForeground(new JButton().getForeground());
+            btnPlayNow.setBackground(new JButton().getBackground());
+        }
+        else if(HappyButtons.uiTheme.equals("dark")) { // ------------------------------------------------------------------ DARK THEME -->
+            // --------------------------------------------------------------------------------- FRAME -->
+            dialog.getContentPane().setBackground(Color.LIGHT_GRAY);
+            
+            // --------------------------------------------------------------------------------- PANELS -->
+            jPanel1.setBackground(Color.LIGHT_GRAY);
+            
+            // --------------------------------------------------------------------------------- BUTTONS -->
+            btnJustSelect.setForeground(Color.WHITE);
+            btnJustSelect.setBackground(Color.DARK_GRAY);
+            
+            btnPlayNow.setForeground(Color.WHITE);
+            btnPlayNow.setBackground(Color.DARK_GRAY);
         }
     }
     
