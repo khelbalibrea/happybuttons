@@ -3375,7 +3375,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         btnPlayVL.setMaximumSize(new java.awt.Dimension(22, 22));
         btnPlayVL.setMinimumSize(new java.awt.Dimension(22, 22));
         btnPlayVL.setPreferredSize(new java.awt.Dimension(22, 22));
-        btnPlayVL.addActionListener(new java.awt.event.ActionListener () {
+        btnPlayVL.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPlayVLActionPerformed(evt);
             }
@@ -3394,7 +3394,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         });
         getContentPane().add(btnStopVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(1148, 336, -1, -1));
 
-        chkLoopVL.setSelected(true);
         chkLoopVL.setText("Loop");
         chkLoopVL.setToolTipText("Loop VL (Video loop)");
         chkLoopVL.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -3405,7 +3404,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         });
         getContentPane().add(chkLoopVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(1176, 338, -1, -1));
 
-        chkMuteVL.setSelected(true);
         chkMuteVL.setText("Mute");
         chkMuteVL.setToolTipText("Mute VL (Video loop)");
         chkMuteVL.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
