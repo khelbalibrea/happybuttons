@@ -383,6 +383,7 @@ public class DBOperations {
             }
             
             MainFrame.dbLoadedManual = 0;
+            MainFrame.tfVideoLoop.setText("");
             
             String profileName = profileDB[index].getProfileName();
             HappyButtons.loadedDB = index;
@@ -427,7 +428,7 @@ public class DBOperations {
         Arrays.sort(dataLoop);
         Arrays.sort(dataList);
         
-        (MainFrame.cboVidLoop).removeAllItems();
+//        (MainFrame.cboVidLoop).removeAllItems();
         (MainFrame.cboModelForLoop).removeAllElements();
         (MainFrame.cboModelPlaylist).removeAllElements();
         
@@ -438,7 +439,7 @@ public class DBOperations {
             (MainFrame.cboModelPlaylist).addElement(vid);
         }
         
-        (MainFrame.cboVidLoop).setModel(MainFrame.cboModelPlaylist);
+//        (MainFrame.cboVidLoop).setModel(MainFrame.cboModelPlaylist);
     }
     
     public void loadJElements(ProfileDatabase profileDB[], int index) {

@@ -317,7 +317,7 @@ public class ExplorerVideo extends javax.swing.JDialog {
     
     private void btnJustSelectActionPerformed(java.awt.event.ActionEvent evt) {
         if(!selectedItem.equals("")) {
-            MainFrame.cboVidLoop.setSelectedItem(selectedItem);
+            MainFrame.tfVideoLoop.setText(selectedItem);
             selectedItem = "";
             dialog.setVisible(false);
         }
@@ -332,7 +332,7 @@ public class ExplorerVideo extends javax.swing.JDialog {
     
     private void btnPlayNowActionPerformed(java.awt.event.ActionEvent evt) {
         if(!selectedItem.equals("")) {
-            MainFrame.cboVidLoop.setSelectedItem(selectedItem);
+            MainFrame.tfVideoLoop.setText(selectedItem);
             dialog.setVisible(false);
             selectedItem = "";
             MainFrame.btnPlayVLActionPerformed(null);

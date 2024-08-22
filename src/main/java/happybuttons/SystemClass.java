@@ -36,8 +36,8 @@ public class SystemClass {
             MainFrame.jMenuBar1.setBackground(new JMenuBar().getBackground());
             
             // -------------------------------------------------------------------------------------- COMBO BOX
-            MainFrame.cboVidLoop.setBackground(new JComboBox().getBackground());
-            MainFrame.cboVidLoop.setForeground(new JComboBox().getForeground());
+//            MainFrame.cboVidLoop.setBackground(new JComboBox().getBackground());
+//            MainFrame.cboVidLoop.setForeground(new JComboBox().getForeground());
             
             // -------------------------------------------------------------------------------------- MENUS
             MainFrame.jMenu1.setForeground(new JMenu().getForeground());
@@ -367,6 +367,9 @@ public class SystemClass {
             MainFrame.tfMp3.setBackground(new JTextField().getBackground());
             MainFrame.tfMp3.setForeground(new JTextField().getForeground());
             
+            MainFrame.tfVideoLoop.setBackground(new JTextField().getBackground());
+            MainFrame.tfVideoLoop.setForeground(new JTextField().getForeground());
+            
             // -------------------------------------------------------------------------------------- LABELS
             MainFrame.lblBGM1.setBackground(new JLabel().getBackground());
             MainFrame.lblBGM1.setForeground(new JLabel().getForeground());
@@ -693,8 +696,8 @@ public class SystemClass {
             MainFrame.jMenuBar1.setForeground(Color.WHITE);
             
             // -------------------------------------------------------------------------------------- COMBO BOX
-            MainFrame.cboVidLoop.setBackground(Color.DARK_GRAY);
-            MainFrame.cboVidLoop.setForeground(Color.lightGray);
+//            MainFrame.cboVidLoop.setBackground(Color.DARK_GRAY);
+//            MainFrame.cboVidLoop.setForeground(Color.lightGray);
             
             // -------------------------------------------------------------------------------------- MENUS
             MainFrame.jMenu1.setForeground(Color.lightGray);
@@ -1004,6 +1007,9 @@ public class SystemClass {
             
             MainFrame.tfMp3.setBackground(Color.DARK_GRAY);
             MainFrame.tfMp3.setForeground(Color.LIGHT_GRAY);
+            
+            MainFrame.tfVideoLoop.setBackground(Color.DARK_GRAY);
+            MainFrame.tfVideoLoop.setForeground(Color.LIGHT_GRAY);
             
             // -------------------------------------------------------------------------------------- LABELS
             MainFrame.lblBGM1.setBackground(Color.DARK_GRAY);

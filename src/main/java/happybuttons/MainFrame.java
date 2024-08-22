@@ -495,13 +495,13 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 //            }
 //        });
         
-        cboVidLoop.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                // Prevent the dropdown from appearing
-                cboVidLoop.setPopupVisible(false);
-            }
-        });
+//        cboVidLoop.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mousePressed(MouseEvent e) {
+//                // Prevent the dropdown from appearing
+//                cboVidLoop.setPopupVisible(false);
+//            }
+//        });
         
 //        cboVidLoop.setBackground(new JComboBox().getBackground());
 //        cboVidLoop.setBackground(Color.DARK_GRAY);
@@ -861,7 +861,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         chkIB = new javax.swing.JCheckBox();
         btnStopSFX = new javax.swing.JButton();
         lblVideoLoop = new javax.swing.JLabel();
-        cboVidLoop = new javax.swing.JComboBox<>();
         panelSFX1 = new javax.swing.JPanel();
         panelR1S01 = new javax.swing.JPanel();
         btnR1SFX01 = new javax.swing.JButton();
@@ -997,6 +996,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         chkMuteVL = new javax.swing.JCheckBox();
         chkFitVL = new javax.swing.JCheckBox();
         chkVLMode = new javax.swing.JCheckBox();
+        tfVideoLoop = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itmNew = new javax.swing.JMenuItem();
@@ -1444,20 +1444,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         lblVideoLoop.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblVideoLoop.setText("Videos:");
         getContentPane().add(lblVideoLoop, new org.netbeans.lib.awtextra.AbsoluteConstraints(788, 339, 50, -1));
-
-        cboVidLoop.setMaximumRowCount(12);
-        cboVidLoop.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cboVidLoop.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cboVidLoopMouseClicked(evt);
-            }
-        });
-        cboVidLoop.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboVidLoopActionPerformed(evt);
-            }
-        });
-        getContentPane().add(cboVidLoop, new org.netbeans.lib.awtextra.AbsoluteConstraints(844, 336, 270, 22));
 
         panelR1S01.setMaximumSize(new java.awt.Dimension(90, 88));
         panelR1S01.setMinimumSize(new java.awt.Dimension(90, 88));
@@ -3437,6 +3423,19 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         });
         getContentPane().add(chkVLMode, new org.netbeans.lib.awtextra.AbsoluteConstraints(705, 337, 80, 20));
 
+        tfVideoLoop.setEditable(false);
+        tfVideoLoop.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        tfVideoLoop.setToolTipText("Click to select video");
+        tfVideoLoop.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        tfVideoLoop.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tfVideoLoop.setFocusable(false);
+        tfVideoLoop.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tfVideoLoopMouseClicked(evt);
+            }
+        });
+        getContentPane().add(tfVideoLoop, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 336, 270, 20));
+
         jMenuBar1.setName("mbrMain"); // NOI18N
         jMenuBar1.setOpaque(true);
 
@@ -4209,15 +4208,15 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         }
         
         // Happy Loop videos
-        int cboHappyLoopSize = cboVidLoop.getModel().getSize();
+        int cboHappyLoopSize = cboModelForLoop.getSize();
         strVidLoop = "";
         
         for(int ctr = 0; ctr < cboHappyLoopSize; ctr++) {
             if(ctr == 0) {
-                strVidLoop = cboVidLoop.getModel().getElementAt(ctr);
+                strVidLoop = cboModelForLoop.getElementAt(ctr).toString();
             }
             else if(ctr > 0 && ctr <= (cboHappyLoopSize - 1)) {
-                strVidLoop = strVidLoop + ":" + cboVidLoop.getModel().getElementAt(ctr);
+                strVidLoop = strVidLoop + ":" + cboModelForLoop.getElementAt(ctr).toString();
             }
         }
         
@@ -4259,7 +4258,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             
             clipBGM1 = null; clipBGM2 = null; clipSFX = null; clipMp3 = null;
             blist.removeAllElements(); slist.removeAllElements(); mlist.removeAllElements();
-            cboVidLoop.removeAllItems(); cboModelForLoop.removeAllElements(); cboModelPlaylist.removeAllElements();
+            // cboVidLoop.removeAllItems();
+            cboModelForLoop.removeAllElements(); cboModelPlaylist.removeAllElements();
             bgmVolumeLink = 0;
             
             draggedList = -1;
@@ -4791,16 +4791,12 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         // TODO add your handling code here:
     }//GEN-LAST:event_itmAboutActionPerformed
 
-    private void cboVidLoopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboVidLoopActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cboVidLoopActionPerformed
-
     public static void btnPlayVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayVLActionPerformed
         playVid();
     }//GEN-LAST:event_btnPlayVLActionPerformed
 
     public static void playVid() { // System.out.println("PlayVid");
-        if(cboVidLoop.getSelectedItem() != null) { // System.out.println("VP: " + cboVidLoop.getSelectedItem());
+        if(!tfVideoLoop.getText().equals("")) { // System.out.println("VP: " + cboVidLoop.getSelectedItem());
             if((!HappyButtons.vlcjPath.isEmpty() || !HappyButtons.vlcjPath.isBlank() || 
             !HappyButtons.vlcjPath.equals("") || HappyButtons.vlcjPath != null)){
                 if(vlcjPlaying == 0){ //chkVLModePL
@@ -4836,7 +4832,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                     vlStopClicked = 0;
                 }
                 else {
-                    if(!((cboVidLoop).getSelectedItem().toString()).equals(vlc.videoFilename)) { // System.out.println("Play Action");
+                    if(!(tfVideoLoop.getText().equals(vlc.videoFilename))) { // System.out.println("Play Action");
     //                    if(MainFrame.vlStopClicked == 1) {
                             vlc.emp.removeMediaPlayerEventListener(vlc.videoListener);
                             vlc.emp.stop();
@@ -4850,17 +4846,17 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
                             vlc.file = HappyButtons.documentsPathDoubleSlash + 
                             Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 
-                                    cboVidLoop.getSelectedItem() + 
+                                    tfVideoLoop.getText() + 
                                     ".mp4");
-                            vlc.videoFilename = cboVidLoop.getSelectedItem().toString();
+                            vlc.videoFilename = tfVideoLoop.getText();
                             vlc.emp.prepareMedia(vlc.file);
                             vlc.emp.addMediaPlayerEventListener(vlc.videoListener);
                             vlc.emp.play();
                             
-                            if(MainFrame.chkVLFit == 0) { System.out.println("No fit");
+                            if(MainFrame.chkVLFit == 0) { //System.out.println("No fit");
                                 vlc.emp.setAspectRatio(vlc.vidOrigRatio);
                             }
-                            else { System.out.println("Fit");
+                            else { //System.out.println("Fit");
                                 vlc.emp.setAspectRatio(vlc.screenRatio);
                             }
     //                    }
@@ -4872,6 +4868,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 tfLastOperation.setToolTipText("VIDEO:: Unable to start video loop. VLCj plugin not found/set");
             }
         }
+        else {
+            tfLastOperation.setText("[VIDEO]: Nothing to play");
+        }
     }
     
     public static void shuffleVLList(int type) {
@@ -4882,8 +4881,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             int[] exclusion = new int[]{};
             Random random = new Random();
 
-            exclusion = Utility.addElementInIntArr(exclusion, Utility.getIndexOfStrArrElement(vlList, cboVidLoop.getSelectedItem().toString()));
-            vlQueue = Utility.addElementInStrArr(vlQueue, cboVidLoop.getSelectedItem().toString());
+            exclusion = Utility.addElementInIntArr(exclusion, Utility.getIndexOfStrArrElement(vlList, tfVideoLoop.getText()));
+            vlQueue = Utility.addElementInStrArr(vlQueue, tfVideoLoop.getText());
 
             for(int i = min; i < length; i++) {
                 do {
@@ -4897,7 +4896,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         }
         else if(type == 1) { // vlQueue has item
             String[] vlList = new String[vlQueue.length];
-            int startedIndex = Utility.getIndexOfStrArrElement(vlQueue, cboVidLoop.getSelectedItem().toString());
+            int startedIndex = Utility.getIndexOfStrArrElement(vlQueue, tfVideoLoop.getText());
             
             for(int i = 0; i < (vlQueue.length); i++) {
                 if((startedIndex + i) >= vlQueue.length) {
@@ -4919,7 +4918,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         }
         else if(type == 1) {
             String[] vlList = new String[vlQueue.length];
-            int startedIndex = Utility.getIndexOfStrArrElement(vlQueue, cboVidLoop.getSelectedItem().toString());
+            int startedIndex = Utility.getIndexOfStrArrElement(vlQueue, tfVideoLoop.getText());
             
             for(int i = 0; i < (vlQueue.length); i++) {
                 if((startedIndex + i) >= vlQueue.length) {
@@ -5410,7 +5409,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     private void chkVLModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkVLModeActionPerformed
         if(chkVLMode.isSelected()) {
             chkVLModePL = 0;
-            cboVidLoop.setModel(cboModelForLoop);
+//            cboVidLoop.setModel(cboModelForLoop);
             VLType = "forloop";
             cboVLType = 0; // forloop
             
@@ -5422,7 +5421,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         }
         else {
             chkVLModePL = 1;
-            cboVidLoop.setModel(cboModelPlaylist);
+//            cboVidLoop.setModel(cboModelPlaylist);
             VLType = "playlist";
             cboVLType = 1; // playlist
             
@@ -5441,15 +5440,15 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         // TODO add your handling code here:
     }//GEN-LAST:event_tfMp3ActionPerformed
 
-    private void cboVidLoopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboVidLoopMouseClicked
-        ExplorerVideo videoExplorer = new ExplorerVideo(HappyButtons.mf, true);
-        videoExplorer.setVisible(true);
-    }//GEN-LAST:event_cboVidLoopMouseClicked
-
     private void itmSystemToolsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itmSystemToolsActionPerformed
         SystemToolsFrame frame = new SystemToolsFrame(HappyButtons.mf, true);
         frame.setVisible(true);
     }//GEN-LAST:event_itmSystemToolsActionPerformed
+
+    private void tfVideoLoopMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfVideoLoopMouseClicked
+        ExplorerVideo videoExplorer = new ExplorerVideo(HappyButtons.mf, true);
+        videoExplorer.setVisible(true);
+    }//GEN-LAST:event_tfVideoLoopMouseClicked
 
     /**
      * @param args the command line arguments
@@ -5542,7 +5541,6 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JButton btnStopBGM2;
     public static javax.swing.JButton btnStopSFX;
     public static javax.swing.JButton btnStopVL;
-    public static javax.swing.JComboBox<String> cboVidLoop;
     public static javax.swing.JCheckBox chkFitVL;
     public static javax.swing.JCheckBox chkIB;
     public static javax.swing.JCheckBox chkLoop1;
@@ -5680,6 +5678,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static javax.swing.JTextField tfBGM2;
     public static javax.swing.JTextField tfLastOperation;
     public static javax.swing.JTextField tfMp3;
+    public static javax.swing.JTextField tfVideoLoop;
     public static javax.swing.JToggleButton togLinkBGMVol;
     public static javax.swing.JSlider volBGM1;
     public static javax.swing.JSlider volBGM2;

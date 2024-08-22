@@ -702,10 +702,10 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                 }
                 
                 if(MainFrame.cboVLType == 0) {
-                    MainFrame.cboVidLoop.setModel(MainFrame.cboModelForLoop);
+//                    MainFrame.cboVidLoop.setModel(MainFrame.cboModelForLoop);
                 }
                 else if(MainFrame.cboVLType == 1) {
-                    MainFrame.cboVidLoop.setModel(MainFrame.cboModelPlaylist);
+//                    MainFrame.cboVidLoop.setModel(MainFrame.cboModelPlaylist);
                 }
 
                 listVL.setModel(listModelVL);

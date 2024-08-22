@@ -90,7 +90,7 @@ public class VLCFrame extends javax.swing.JFrame {
         playAction = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!((MainFrame.cboVidLoop).getSelectedItem().toString()).equals(videoFilename)) { System.out.println("Play Action");
+                if(!((MainFrame.tfVideoLoop).getText()).equals(videoFilename)) { // System.out.println("Play Action");
 //                    if(MainFrame.vlStopClicked == 1) {
                         emp.removeMediaPlayerEventListener(videoListener);
                         emp.stop();
@@ -104,9 +104,9 @@ public class VLCFrame extends javax.swing.JFrame {
 
                         file = HappyButtons.documentsPathDoubleSlash + 
                         Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 
-                                (MainFrame.cboVidLoop).getSelectedItem() + 
+                                (MainFrame.tfVideoLoop).getText() + 
                                 ".mp4");
-                        videoFilename = (MainFrame.cboVidLoop).getSelectedItem().toString();
+                        videoFilename = (MainFrame.tfVideoLoop).getText();
                         emp.prepareMedia(file);
                         emp.addMediaPlayerEventListener(videoListener);
                         emp.play();
@@ -217,11 +217,11 @@ public class VLCFrame extends javax.swing.JFrame {
             }
         });
 
-        videoFilename = (MainFrame.cboVidLoop).getSelectedItem().toString();
-        if((MainFrame.cboVidLoop).getSelectedItem() != null) {
+        videoFilename = (MainFrame.tfVideoLoop).getText();
+        if(!(MainFrame.tfVideoLoop).getText().equals("")) {
             file = HappyButtons.documentsPathDoubleSlash + 
                     Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 
-                            MainFrame.cboVidLoop.getSelectedItem() + 
+                            MainFrame.tfVideoLoop.getText() + 
                             ".mp4");
             vidOrigRatio = emp.getAspectRatio();
             
@@ -356,7 +356,7 @@ public class VLCFrame extends javax.swing.JFrame {
                             MainFrame.vidQueue[0] + 
                             ".mp4");
                     videoFilename = MainFrame.vidQueue[0];
-                    MainFrame.cboVidLoop.setSelectedItem(videoFilename);
+                    MainFrame.tfVideoLoop.setText(videoFilename);
                     
                     emp.prepareMedia(file);
                     dim = Toolkit.getDefaultToolkit().getScreenSize();
