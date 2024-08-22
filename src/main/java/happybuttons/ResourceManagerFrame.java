@@ -61,7 +61,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         setupTheme();
         populateBSTable();
         populateVLTable();
-        loadJListVL();
+        loadJListVLPlaylist();
         populateMp3Table();
         
         chkShuffleVL.setVisible(false);
@@ -285,7 +285,7 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
         lblNS3.setText("Nothing selected");
         panelHappyLoop.add(lblNS3, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 10, 100, -1));
 
-        cboVLType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "For looping", "Playlist" }));
+        cboVLType.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Playlist", "For looping" }));
         cboVLType.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboVLTypeActionPerformed(evt);
@@ -889,14 +889,14 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
 
     private void cboVLTypeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboVLTypeActionPerformed
         if(cboVLType.getSelectedIndex() == 0) {
-            MainFrame.VLType = "forloop";
-            loadJListVL();
-            chkShuffleVL.setVisible(false);
-        }
-        else {
             MainFrame.VLType = "playlist";
             loadJListVLPlaylist();
             chkShuffleVL.setVisible(true);
+        }
+        else {
+            MainFrame.VLType = "forloop";
+            loadJListVL();
+            chkShuffleVL.setVisible(false);
         }
     }//GEN-LAST:event_cboVLTypeActionPerformed
 
@@ -912,10 +912,10 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
     }//GEN-LAST:event_chkShuffleVLActionPerformed
 
     private void tabPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabPanelMouseClicked
-        if(cboVLType.getSelectedIndex() == 0) {
+        if(cboVLType.getSelectedIndex() == 1) {
             loadJListVL();
         }
-        else if(cboVLType.getSelectedIndex() == 1) {
+        else if(cboVLType.getSelectedIndex() == 0) {
             loadJListVLPlaylist();
         }
     }//GEN-LAST:event_tabPanelMouseClicked
