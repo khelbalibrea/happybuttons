@@ -32,7 +32,7 @@ import uk.co.caprica.vlcj.runtime.RuntimeUtil;
  */
 public class VLCFrame extends javax.swing.JFrame {
     MediaListener videoListener = new MediaListener();
-    static ActionListener playAction, checkBoxAction, fitAction;
+    public static ActionListener playAction, checkBoxAction, fitAction;
     MediaPlayerFactory mpf = null;
     String file = "", videoFilename = "";
     EmbeddedMediaPlayer emp;
@@ -90,7 +90,7 @@ public class VLCFrame extends javax.swing.JFrame {
         playAction = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!((MainFrame.cboVidLoop).getSelectedItem().toString()).equals(videoFilename)) {
+                if(!((MainFrame.cboVidLoop).getSelectedItem().toString()).equals(videoFilename)) { System.out.println("Play Action");
 //                    if(MainFrame.vlStopClicked == 1) {
                         emp.removeMediaPlayerEventListener(videoListener);
                         emp.stop();
@@ -111,6 +111,9 @@ public class VLCFrame extends javax.swing.JFrame {
                         emp.addMediaPlayerEventListener(videoListener);
                         emp.play();
 //                    }
+                }
+                else {
+                    System.out.println("Play Action else");
                 }
             }
         };
@@ -535,6 +538,6 @@ public class VLCFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private java.awt.Canvas canvasMain;
+    public java.awt.Canvas canvasMain;
     // End of variables declaration//GEN-END:variables
 }

@@ -120,8 +120,7 @@ public class ExplorerVideo extends javax.swing.JDialog {
         btnPlayNow = new javax.swing.JButton();
         btnJustSelect = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        lblWarning = new javax.swing.JLabel(ctrVideoNotLoaded + " video(s) not listed, probably no thumbnail generated on it");
-        lblNothing = new javax.swing.JLabel("Nothing selected");
+        lblWarning = new javax.swing.JLabel(ctrVideoNotLoaded + " video(s) not listed, probably no thumbnail generated with it");
         
         btnPlayNow.setText("Play now");
         btnJustSelect.setText("Just select");
@@ -142,7 +141,6 @@ public class ExplorerVideo extends javax.swing.JDialog {
         setPreferredSize(new java.awt.Dimension(800, 600));
         setResizable(false);
         
-        lblNothing.setForeground(new java.awt.Color(255, 51, 51));
         lblWarning.setForeground(new java.awt.Color(255, 51, 51));
         Font font = new Font("Segoe UI", Font.BOLD, 9); // Font name, style, size
         lblWarning.setFont(font);
@@ -159,7 +157,7 @@ public class ExplorerVideo extends javax.swing.JDialog {
         // Set the tooltip display duration
         ToolTipManager.sharedInstance().setDismissDelay(10000);
 
-        if(ctrVideoNotLoaded > 0) { System.out.println("Meron");
+        if(ctrVideoNotLoaded > 0) {
             String lblText = "";
             for(int ctr = 0; ctr < notLoadedVids.length; ctr++) {
                 if(ctr == (notLoadedVids.length - 1)) {
@@ -197,7 +195,7 @@ public class ExplorerVideo extends javax.swing.JDialog {
                     .addContainerGap())
             );
         }
-        else { System.out.println("Wala");
+        else {
             javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
             jPanel1.setLayout(jPanel1Layout);
             jPanel1Layout.setHorizontalGroup(
@@ -337,7 +335,8 @@ public class ExplorerVideo extends javax.swing.JDialog {
             MainFrame.cboVidLoop.setSelectedItem(selectedItem);
             dialog.setVisible(false);
             selectedItem = "";
-            MainFrame.playVid();
+            MainFrame.btnPlayVLActionPerformed(null);
+//            MainFrame.playVid();
         }
         else {
             btnPlayNow.setForeground(new java.awt.Color(255, 51, 51));
@@ -398,5 +397,4 @@ public class ExplorerVideo extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblWarning;
-    private javax.swing.JLabel lblNothing;
 }

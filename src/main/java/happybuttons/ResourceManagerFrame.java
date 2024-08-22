@@ -963,6 +963,12 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
                             listModelVL.removeElement(selectedItem);
                         }
                         
+                        // delete its thumbnail
+                        File thumbnailFile = new File(HappyButtons.documentsPathDoubleSlash + "\\HappyButtons\\data\\thumbnails\\" + selectedItem + ".png");
+                        if(thumbnailFile.exists()) {
+                            thumbnailFile.delete();
+                        }
+                        
                         selectedItem = "";
                         autosave();
                     }

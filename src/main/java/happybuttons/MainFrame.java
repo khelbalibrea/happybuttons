@@ -59,6 +59,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import uk.co.caprica.vlcj.player.MediaPlayerFactory;
+import uk.co.caprica.vlcj.player.embedded.windows.Win32FullScreenStrategy;
 import ws.schild.jave.Encoder;
 import ws.schild.jave.MultimediaObject;
 import ws.schild.jave.encode.AudioAttributes;
@@ -149,6 +151,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             VLType = "forloop"; // for detecting what combobox type will show in video loop
     public static Notification.Location location = Notification.Location.TOP_CENTER;
     public static Mp3Frame mp3;
+    public static VLCFrame vlc;
     
     public MainFrame() {
 //        if(HappyButtons.standardScreen) {
@@ -4794,11 +4797,11 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         // TODO add your handling code here:
     }//GEN-LAST:event_cboVidLoopActionPerformed
 
-    public void btnPlayVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayVLActionPerformed
+    public static void btnPlayVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayVLActionPerformed
         playVid();
     }//GEN-LAST:event_btnPlayVLActionPerformed
 
-    public static void playVid() {
+    public static void playVid() { // System.out.println("PlayVid");
         if(cboVidLoop.getSelectedItem() != null) { // System.out.println("VP: " + cboVidLoop.getSelectedItem());
             if((!HappyButtons.vlcjPath.isEmpty() || !HappyButtons.vlcjPath.isBlank() || 
             !HappyButtons.vlcjPath.equals("") || HappyButtons.vlcjPath != null)){
@@ -4817,7 +4820,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         }
 
                         vlcjPlaying = 1;
-                        new VLCFrame();
+                        vlc = new VLCFrame();
                     }
                     else { // not shuffled
                         if(chkVLModePL == 1) {
@@ -4830,9 +4833,33 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         }
                         
                         vlcjPlaying = 1;
-                        new VLCFrame();
+                        vlc = new VLCFrame();
                     }
                     vlStopClicked = 0;
+                }
+                else {
+                    if(!((cboVidLoop).getSelectedItem().toString()).equals(vlc.videoFilename)) { // System.out.println("Play Action");
+    //                    if(MainFrame.vlStopClicked == 1) {
+                            vlc.emp.removeMediaPlayerEventListener(vlc.videoListener);
+                            vlc.emp.stop();
+                            vlc.emp.release();
+                            vlc.mpf.release();
+
+                            vlc.mpf = new MediaPlayerFactory();
+                            vlc.emp = null;
+                            vlc.emp = vlc.mpf.newEmbeddedMediaPlayer(new Win32FullScreenStrategy(vlc.frame));
+                            vlc.emp.setVideoSurface(vlc.mpf.newVideoSurface(vlc.canvasMain));
+
+                            vlc.file = HappyButtons.documentsPathDoubleSlash + 
+                            Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 
+                                    cboVidLoop.getSelectedItem() + 
+                                    ".mp4");
+                            vlc.videoFilename = cboVidLoop.getSelectedItem().toString();
+                            vlc.emp.prepareMedia(vlc.file);
+                            vlc.emp.addMediaPlayerEventListener(vlc.videoListener);
+                            vlc.emp.play();
+    //                    }
+                    }
                 }
             }
             else {
