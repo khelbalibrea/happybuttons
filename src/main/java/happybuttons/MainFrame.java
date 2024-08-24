@@ -120,7 +120,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     // Jlist
     File bfolder = new File(HappyButtons.documentsPath + "/HappyButtons/bg/");
     File sfolder = new File(HappyButtons.documentsPath + "/HappyButtons/sfx/");
-    static String selectedBGMItem = "", selectedSFXItem = "", selectedMp3Item = "";
+    public static String selectedBGMItem = "", selectedSFXItem = "", selectedMp3Item = "", selectedLoopVideoItem = "", selectedPlaylistVideoItem = "";
+    public static String selectedVideoItem = "";
     
     // Profiles
     public static String profileName1 = "", profileName2 = "", profileName3 = "", profileName4 = "", profileName5 = "";
@@ -135,7 +136,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             chkVLMute = 0, // for checkbox VL mute
             chkVLFit = 0, // for checkbox VL fit
             chkVLShuffle = 0, // for checkbox VL shuffle
-            chkVLModePL = 0, // for checkbox VL playlist mode
+            playlistVideoMode = 1, // for checkbox VL playlist mode
             dbLoadedManual = -1, // to check whether load function is manually clicked(1) or auto via load prev profile(0)
             chkShuffle = 0, // for checkbox Shuffle
             mp3FrameOpened = 0, // check is MP3 frame is opened, 0 -> closed; 1 -> opened
@@ -143,6 +144,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             prevTimer = 0,
             cboVLType = 1, // 0->forlooping videos, 1->playlist mode
             vlStopClicked = 1, // for allowing to play vl loop when video item is same as the previous
+            videoFirstTime = 1, // indicates whether video playing is done first time from the time system is ran. 0 -> not first time, 1 -> first time
             sfxClickCount = 0; // increments whenever the sfx buttons are clicked
     public static String enableAutosave = "on", // autosave status
             startup = "new", // new -> clean workspace after startup; load -> load previous loaded profile in startup
@@ -3410,7 +3412,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         });
         getContentPane().add(chkFitVL, new org.netbeans.lib.awtextra.AbsoluteConstraints(1293, 338, -1, -1));
 
-        chkVLMode.setText("VL Mode");
+        chkVLMode.setText("Loop Mode");
         chkVLMode.setToolTipText("Video Loop mode");
         chkVLMode.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         chkVLMode.setMaximumSize(new java.awt.Dimension(65, 16));
@@ -3421,7 +3423,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 chkVLModeActionPerformed(evt);
             }
         });
-        getContentPane().add(chkVLMode, new org.netbeans.lib.awtextra.AbsoluteConstraints(705, 337, 80, 20));
+        getContentPane().add(chkVLMode, new org.netbeans.lib.awtextra.AbsoluteConstraints(685, 337, 100, 20));
 
         tfVideoLoop.setEditable(false);
         tfVideoLoop.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -4792,38 +4794,47 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_itmAboutActionPerformed
 
     public static void btnPlayVLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlayVLActionPerformed
-        playVid();
+        playVid(); // System.out.println("Hi");
     }//GEN-LAST:event_btnPlayVLActionPerformed
 
-    public static void playVid() { // System.out.println("PlayVid");
+    public static void playVid() { // System.out.println("PlayVid"); // MY IF CONDITIONS HERE ARE MAGULO
         if(!tfVideoLoop.getText().equals("")) { // System.out.println("VP: " + cboVidLoop.getSelectedItem());
             if((!HappyButtons.vlcjPath.isEmpty() || !HappyButtons.vlcjPath.isBlank() || 
             !HappyButtons.vlcjPath.equals("") || HappyButtons.vlcjPath != null)){
-                if(vlcjPlaying == 0){ //chkVLModePL
+                if(vlcjPlaying == 0){
                     if(chkVLShuffle == 1) {
-                        if(chkVLModePL == 1) {
+                        if(playlistVideoMode == 1) {
                             if(vlQueue.length == 0) { // vlQueue has no item
                                 shuffleVLList(0);
                             }
                             else { // vlQueue has item
                                 shuffleVLList(0); // it is like re-shuffling
                             }
+                            
+                            chkVLLoop = 0;
+                            chkLoopVL.setSelected(false);
                         }
                         else {
                             shuffleVLList(0);
+                            
+                            chkVLLoop = 1;
+                            chkLoopVL.setSelected(true);
                         }
 
                         vlcjPlaying = 1;
                         vlc = new VLCFrame();
                     }
                     else { // not shuffled
-                        if(chkVLModePL == 1) {
+                        if(playlistVideoMode == 1) {
                             if(vlQueue.length == 0) {
                                 sortVLList(0);
                             }
                             else {
                                 sortVLList(1);
                             }
+                            
+                            chkVLLoop = 0;
+                            chkLoopVL.setSelected(false);
                         }
                         
                         vlcjPlaying = 1;
@@ -4831,8 +4842,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                     }
                     vlStopClicked = 0;
                 }
-                else {
-                    if(!(tfVideoLoop.getText().equals(vlc.videoFilename))) { // System.out.println("Play Action");
+                else { // System.out.println("Selected1: " + selectedVideoItem + "\nVideo file name1: " + vlc.videoFilename);
+                    if(!MainFrame.tfVideoLoop.equals("")) {
+                        if(!(tfVideoLoop.getText().equals(vlc.videoFilename))) {
     //                    if(MainFrame.vlStopClicked == 1) {
                             vlc.emp.removeMediaPlayerEventListener(vlc.videoListener);
                             vlc.emp.stop();
@@ -4848,7 +4860,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                             Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 
                                     tfVideoLoop.getText() + 
                                     ".mp4");
-                            vlc.videoFilename = tfVideoLoop.getText();
+                            vlc.videoFilename = selectedVideoItem;
                             vlc.emp.prepareMedia(vlc.file);
                             vlc.emp.addMediaPlayerEventListener(vlc.videoListener);
                             vlc.emp.play();
@@ -4860,6 +4872,15 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                                 vlc.emp.setAspectRatio(vlc.screenRatio);
                             }
     //                    }
+                            if(playlistVideoMode == 1) {
+                                chkVLLoop = 0;
+                                chkLoopVL.setSelected(false);
+                            }
+                            else {
+                                chkVLLoop = 1;
+                                chkLoopVL.setSelected(true);
+                            }
+                        }
                     }
                 }
             }
@@ -5408,25 +5429,35 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
 
     private void chkVLModeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkVLModeActionPerformed
         if(chkVLMode.isSelected()) {
-            chkVLModePL = 0;
+            playlistVideoMode = 0;
 //            cboVidLoop.setModel(cboModelForLoop);
             VLType = "forloop";
             cboVLType = 0; // forloop
             
-            chkVLLoop = 1;
-            chkLoopVL.setSelected(true);
+            if(vlcjPlaying != 1) {
+                chkVLLoop = 1;
+                chkLoopVL.setSelected(true);
+            }
+            
+            tfVideoLoop.setText(selectedLoopVideoItem);
+            tfVideoLoop.moveCaretPosition(0);
             
 //            chkVLMute = 1;
 //            chkMuteVL.setSelected(true);
         }
         else {
-            chkVLModePL = 1;
+            playlistVideoMode = 1;
 //            cboVidLoop.setModel(cboModelPlaylist);
             VLType = "playlist";
             cboVLType = 1; // playlist
             
-            chkVLLoop = 0;
-            chkLoopVL.setSelected(false);
+            if(vlcjPlaying != 1) {
+                chkVLLoop = 0;
+                chkLoopVL.setSelected(false);
+            }
+            
+            tfVideoLoop.setText(selectedPlaylistVideoItem);
+            tfVideoLoop.moveCaretPosition(0);
             
 //            chkVLMute = 0;
 //            chkMuteVL.setSelected(false);
@@ -5434,6 +5465,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         
 //        ActionEvent actionEvent = new ActionEvent(new Object(), ActionEvent.ACTION_PERFORMED, "command");
 //        checkBoxAction.actionPerformed(actionEvent);
+        System.out.println("CHK mode: " + playlistVideoMode);
     }//GEN-LAST:event_chkVLModeActionPerformed
 
     private void tfMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfMp3ActionPerformed

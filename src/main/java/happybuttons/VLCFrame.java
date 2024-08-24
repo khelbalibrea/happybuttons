@@ -34,7 +34,8 @@ public class VLCFrame extends javax.swing.JFrame {
     MediaListener videoListener = new MediaListener();
     public static ActionListener playAction, checkBoxAction, fitAction;
     MediaPlayerFactory mpf = null;
-    String file = "", videoFilename = "";
+    String file = "", // str just for file here locally in class
+        videoFilename = ""; // currently playing or prepared video
     EmbeddedMediaPlayer emp;
     Dimension dim;
     JFrame frame = this;
@@ -90,7 +91,7 @@ public class VLCFrame extends javax.swing.JFrame {
         playAction = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!((MainFrame.tfVideoLoop).getText()).equals(videoFilename)) { // System.out.println("Play Action");
+                if((!(MainFrame.tfVideoLoop.getText().equals(videoFilename))) && !MainFrame.tfVideoLoop.equals("")) { // System.out.println("Selected2: " + selectedItem + "\nVideo2: " + videoFilename);
 //                    if(MainFrame.vlStopClicked == 1) {
                         emp.removeMediaPlayerEventListener(videoListener);
                         emp.stop();
@@ -104,9 +105,9 @@ public class VLCFrame extends javax.swing.JFrame {
 
                         file = HappyButtons.documentsPathDoubleSlash + 
                         Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 
-                                (MainFrame.tfVideoLoop).getText() + 
+                                MainFrame.tfVideoLoop.getText() + 
                                 ".mp4");
-                        videoFilename = (MainFrame.tfVideoLoop).getText();
+                        videoFilename = MainFrame.tfVideoLoop.getText();
                         emp.prepareMedia(file);
                         emp.addMediaPlayerEventListener(videoListener);
                         emp.play();
@@ -188,18 +189,12 @@ public class VLCFrame extends javax.swing.JFrame {
             MainFrame.tfLastOperation.setToolTipText(reso + "  (" + ratioWidth + ":" + ratioHeight + ")");
         }
         
-//        if(MainFrame.chkVLFit == 0) {
-//            emp.setAspectRatio(aspectRatio);
-//        }
-//        else {
-//            emp.setAspectRatio(origRatio);
-//        }
         frame.setVisible(true);
         
         MainFrame.btnStopVL.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(emp != null) { System.out.println("Not null");
+                if(emp != null) { // System.out.println("Not null");
                     MainFrame.vlcjPlaying = 0;
                     emp.removeMediaPlayerEventListener(videoListener);
                     emp.stop();
@@ -209,7 +204,7 @@ public class VLCFrame extends javax.swing.JFrame {
 //                    mpf = null;
                     MainFrame.vlStopClicked = 1;
 
-                    MainFrame.btnPlayVL.removeActionListener(playAction);
+//                    MainFrame.btnPlayVL.removeActionListener(playAction);
                     MainFrame.chkMuteVL.removeActionListener(checkBoxAction);
                     MainFrame.chkFitVL.removeActionListener(fitAction);
                     frame.dispose();
@@ -217,8 +212,15 @@ public class VLCFrame extends javax.swing.JFrame {
             }
         });
 
-        videoFilename = (MainFrame.tfVideoLoop).getText();
-        if(!(MainFrame.tfVideoLoop).getText().equals("")) {
+        videoFilename = MainFrame.tfVideoLoop.getText();
+        if(MainFrame.playlistVideoMode == 1) {
+            MainFrame.selectedPlaylistVideoItem = videoFilename;
+        }
+        else {
+            MainFrame.selectedLoopVideoItem = videoFilename;
+        }
+                
+        if(!MainFrame.tfVideoLoop.getText().equals("")) {
             file = HappyButtons.documentsPathDoubleSlash + 
                     Utility.strDoubleSlash("\\HappyButtons\\hlvids\\" + 
                             MainFrame.tfVideoLoop.getText() + 
@@ -250,12 +252,12 @@ public class VLCFrame extends javax.swing.JFrame {
                 emp.mute(false);
             }
             
-            MainFrame.btnPlayVL.addActionListener(playAction);
+//            MainFrame.btnPlayVL.addActionListener(playAction);
             MainFrame.chkMuteVL.addActionListener(checkBoxAction);
             MainFrame.chkFitVL.addActionListener(fitAction);
         }
         else {
-            MainFrame.tfLastOperation.setText("No video to play");
+            MainFrame.tfLastOperation.setText("VIDEO: Nothing to play");
         }
         
 //        if(MainFrame.chkVLFit == 0) {
@@ -309,7 +311,7 @@ public class VLCFrame extends javax.swing.JFrame {
 
         @Override
         public void finished(MediaPlayer mediaPlayer) {
-            if(MainFrame.chkVLModePL == 0) { // loop mode
+            if(MainFrame.playlistVideoMode == 0) { // video loop mode
                 if(MainFrame.chkVLLoop == 1){
                     emp.prepareMedia(file);
                     dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -317,7 +319,7 @@ public class VLCFrame extends javax.swing.JFrame {
                 }
                 else {
                     mediaPlayer.stop();
-                    MainFrame.btnPlayVL.removeActionListener(playAction);
+//                    MainFrame.btnPlayVL.removeActionListener(playAction);
                     MainFrame.chkMuteVL.removeActionListener(checkBoxAction);
                     MainFrame.chkFitVL.removeActionListener(fitAction);
                     frame.dispose();
@@ -356,7 +358,10 @@ public class VLCFrame extends javax.swing.JFrame {
                             MainFrame.vidQueue[0] + 
                             ".mp4");
                     videoFilename = MainFrame.vidQueue[0];
-                    MainFrame.tfVideoLoop.setText(videoFilename);
+                    MainFrame.tfVideoLoop.setText(MainFrame.vidQueue[0]);
+                    MainFrame.tfVideoLoop.setToolTipText(MainFrame.vidQueue[0]);
+                    MainFrame.selectedPlaylistVideoItem = MainFrame.vidQueue[0];
+                    MainFrame.tfVideoLoop.moveCaretPosition(0);
                     
                     emp.prepareMedia(file);
                     dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -370,6 +375,8 @@ public class VLCFrame extends javax.swing.JFrame {
                         emp.setAspectRatio(screenRatio);
                     }
                     
+                    MainFrame.chkVLLoop = 0;
+                    MainFrame.chkLoopVL.setSelected(false);
                 }
             }
             

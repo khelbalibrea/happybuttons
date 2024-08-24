@@ -36,7 +36,7 @@ public class VidThumbnailGenerator {
             System.out.println("Error2: " + e1.toString());
         }
         
-        resizeImage(HappyButtons.documentsPath + "\\HappyButtons\\data\\thumbnails\\" + Utility.renameVideoName(filename) + ".png");
+//        resizeImage(HappyButtons.documentsPath + "\\HappyButtons\\data\\thumbnails\\" + Utility.renameVideoName(filename) + ".png");
     }
     
     public int getFrameTotal(String filename) {

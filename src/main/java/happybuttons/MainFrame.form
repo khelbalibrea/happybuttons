@@ -4924,7 +4924,7 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="chkVLMode">
       <Properties>
-        <Property name="text" type="java.lang.String" value="VL Mode"/>
+        <Property name="text" type="java.lang.String" value="Loop Mode"/>
         <Property name="toolTipText" type="java.lang.String" value="Video Loop mode"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Hand Cursor"/>
@@ -4947,7 +4947,7 @@
       </AuxValues>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="705" y="337" width="80" height="20"/>
+          <AbsoluteConstraints x="685" y="337" width="100" height="20"/>
         </Constraint>
       </Constraints>
     </Component>

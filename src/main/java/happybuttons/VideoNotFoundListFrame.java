@@ -4,8 +4,12 @@
  */
 package happybuttons;
 
+import java.awt.Color;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  *
@@ -26,6 +30,7 @@ public class VideoNotFoundListFrame extends javax.swing.JDialog {
         ImageIcon imgIcon = new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
         setIconImage(imgIcon.getImage());
         
+        setupTheme();
         displayList();
     }
 
@@ -50,6 +55,7 @@ public class VideoNotFoundListFrame extends javax.swing.JDialog {
         textList.setLineWrap(true);
         textList.setRows(5);
         textList.setWrapStyleWord(true);
+        textList.setBorder(null);
         textList.setFocusable(false);
         jScrollPane1.setViewportView(textList);
 
@@ -141,6 +147,31 @@ public class VideoNotFoundListFrame extends javax.swing.JDialog {
         }
         
         textList.setText(text);
+    }
+    
+    public void setupTheme() {
+        if(HappyButtons.uiTheme.equals("light")) { // ------------------------------------------------------------------ LIGHT THEME -->
+            // --------------------------------------------------------------------------------- FRAME -->
+            dialog.getContentPane().setBackground(new JPanel().getBackground());
+            
+            // --------------------------------------------------------------------------------- BUTTONS -->
+            btnOK.setForeground(new JButton().getForeground());
+            btnOK.setBackground(new JButton().getBackground());
+            
+            // --------------------------------------------------------------------------------- TEXT AREA -->
+            textList.setBackground(new JTextField().getBackground());
+        }
+        else if(HappyButtons.uiTheme.equals("dark")) { // ------------------------------------------------------------------ DARK THEME -->
+            // --------------------------------------------------------------------------------- FRAME -->
+            dialog.getContentPane().setBackground(new JPanel().getBackground());
+            
+            // --------------------------------------------------------------------------------- BUTTONS -->
+            btnOK.setForeground(Color.WHITE);
+            btnOK.setBackground(Color.DARK_GRAY);
+            
+            // --------------------------------------------------------------------------------- TEXT AREA -->
+            textList.setBackground(new JTextField().getBackground());
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -396,8 +396,9 @@ public class DBOperations {
             MainFrame.savingProfile = profileName;
             
             MainFrame.chkVLMode.setSelected(false);
-            MainFrame.chkVLModePL = 1;
-            MainFrame.cboVLType = 1;
+            MainFrame.playlistVideoMode = 1;
+            MainFrame.chkVLLoop = 0;
+            MainFrame.cboVLType = 1; // setting to playlist mode
             
             return profileName;
         }

@@ -40,11 +40,15 @@ public class UpdateLogFrame extends javax.swing.JDialog {
         SimpleAttributeSet plainAttrs = new SimpleAttributeSet();
         
         try {
-            doc.insertString(doc.getLength(), "[August 13, 2024]\n", boldAttrs);
+            doc.insertString(doc.getLength(), "[August 23, 2024]\n", boldAttrs);
             doc.insertString(doc.getLength(), "• [Add] Mp3 text field in Main Frame can be cleared via right click. The music will also stop.\n"
                     + "• [Add] Updates log under About Frame.\n"
+                    + "• [Add] System Tools menu tab for Video thumbnail checker and Image resizer.\n"
                     + "• [Modify] Bigger Mp3 UI.\n"
-                    + "• [Modify] Minor changes for database location path.\n\n", plainAttrs);
+                    + "• [Modify] Minor changes for database location path.\n" 
+                    + "• [Modify] Video explorer look and feel (LAF) frame.\n"
+                    + "• [Modify] Made some changes in main user interface (UI).\n"
+                    + "• [Modify] Video playlist is now selected first instead of video loop in Video Selection.\n\n", plainAttrs);
             doc.insertString(doc.getLength(), "[July 30, 2024]\n", boldAttrs);
             doc.insertString(doc.getLength(), "• [Added] Mp3 slider for song duration and current duration, and timer for it.\n"
                     + "• [Add] Mp3 song timer in Main Frame also.\n\n", plainAttrs);

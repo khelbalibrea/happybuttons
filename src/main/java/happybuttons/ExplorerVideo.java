@@ -328,12 +328,23 @@ public class ExplorerVideo extends javax.swing.JDialog {
     
     private void btnJustSelectActionPerformed(java.awt.event.ActionEvent evt) {
         if(!selectedItem.equals("")) {
+            if(MainFrame.playlistVideoMode == 1) {
+                MainFrame.selectedPlaylistVideoItem = selectedItem;
+            }
+            else {
+                MainFrame.selectedLoopVideoItem = selectedItem;
+            }
+            
             MainFrame.tfVideoLoop.setText(selectedItem);
-            selectedItem = "";
+            MainFrame.tfVideoLoop.setToolTipText(selectedItem);
+            MainFrame.tfVideoLoop.moveCaretPosition(0);
+            
+//            selectedItem = "";
             dialog.setVisible(false);
         }
         else {
-            btnJustSelect.setForeground(new java.awt.Color(255, 51, 51));
+            btnJustSelect.setForeground(new Color(164, 0, 0));
+            btnJustSelect.setBackground(new Color(255, 113, 113));
             btnJustSelect.setText("Nothing selected");
             
             just.stop();
@@ -343,14 +354,50 @@ public class ExplorerVideo extends javax.swing.JDialog {
     
     private void btnPlayNowActionPerformed(java.awt.event.ActionEvent evt) {
         if(!selectedItem.equals("")) {
+            if(MainFrame.playlistVideoMode == 1) {
+                MainFrame.selectedPlaylistVideoItem = selectedItem;
+            }
+            else {
+                MainFrame.selectedLoopVideoItem = selectedItem;
+            }
+            
             MainFrame.tfVideoLoop.setText(selectedItem);
+            MainFrame.tfVideoLoop.setToolTipText(selectedItem);
+            MainFrame.tfVideoLoop.moveCaretPosition(0);
+            
             dialog.setVisible(false);
-            selectedItem = "";
-            MainFrame.btnPlayVLActionPerformed(null);
-//            MainFrame.playVid();
+            
+            if(MainFrame.videoFirstTime == 1) {
+                MainFrame.videoFirstTime = 0;
+                
+                MainFrame.playVid();
+            }
+            
+//            selectedItem = "";
+
+//            new java.awt.event.ActionListener() {
+//                public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                    MainFrame.btnPlayVLActionPerformed(evt);
+//                }
+//            };
+//            new java.awt.event.ActionListener() {
+//                public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                    evtPlay = evt;
+//                }
+//            }
+
+
+            //do not merge with the code above, stay as is
+            if(MainFrame.videoFirstTime == 1) {
+                MainFrame.playVid();
+            }
+            else {
+                MainFrame.btnPlayVLActionPerformed(null);
+            }
         }
         else {
-            btnPlayNow.setForeground(new java.awt.Color(255, 51, 51));
+            btnPlayNow.setForeground(new Color(164, 0, 0));
+            btnPlayNow.setBackground(new Color(255, 113, 113));
             btnPlayNow.setText("Nothing selected");
             
             now.stop();
@@ -359,13 +406,31 @@ public class ExplorerVideo extends javax.swing.JDialog {
     }
     
     public void buttonChangeText(int button) {
-        if(button == 0) {
+        if(button == 0) { // just select
             btnJustSelect.setForeground(new JButton().getForeground());
             btnJustSelect.setText("Just Select");
+            
+            if(HappyButtons.uiTheme.equals("light")) {
+                btnJustSelect.setForeground(new JButton().getForeground());
+                btnJustSelect.setBackground(new JButton().getBackground());
+            }
+            else if(HappyButtons.uiTheme.equals("dark")) {
+                btnJustSelect.setForeground(Color.WHITE);
+                btnJustSelect.setBackground(Color.DARK_GRAY);
+            }
         }
-        else if(button == 1) {
+        else if(button == 1) { // play now
             btnPlayNow.setForeground(new JButton().getForeground());
             btnPlayNow.setText("Play Now");
+            
+            if(HappyButtons.uiTheme.equals("light")) {
+                btnPlayNow.setForeground(new JButton().getForeground());
+                btnPlayNow.setBackground(new JButton().getBackground());
+            }
+            else if(HappyButtons.uiTheme.equals("dark")) {
+                btnPlayNow.setForeground(Color.WHITE);
+                btnPlayNow.setBackground(Color.DARK_GRAY);
+            }
         }
     }
     
