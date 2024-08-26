@@ -422,6 +422,18 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             btnDeleteBS.setBackground(new JButton().getBackground());
             btnDeleteBS.setForeground(new JButton().getForeground());
             
+            btnAddVL.setBackground(new JButton().getBackground());
+            btnAddVL.setForeground(new JButton().getForeground());
+            
+            btnDeleteVL.setBackground(new JButton().getBackground());
+            btnDeleteVL.setForeground(new JButton().getForeground());
+            
+            btnAddToList.setBackground(new JButton().getBackground());
+            btnAddToList.setForeground(new JButton().getForeground());
+            
+            btnRemove.setBackground(new JButton().getBackground());
+            btnRemove.setForeground(new JButton().getForeground());
+            
             btnDeleteMusic.setBackground(new JButton().getBackground());
             btnDeleteMusic.setForeground(new JButton().getForeground());
         }
@@ -430,6 +442,18 @@ public class ResourceManagerFrame extends javax.swing.JDialog {
             
             btnDeleteBS.setBackground(Color.GRAY);
             btnDeleteBS.setForeground(Color.WHITE);
+            
+            btnAddVL.setBackground(Color.GRAY);
+            btnAddVL.setForeground(Color.WHITE);
+            
+            btnDeleteVL.setBackground(Color.GRAY);
+            btnDeleteVL.setForeground(Color.WHITE);
+            
+            btnAddToList.setBackground(Color.GRAY);
+            btnAddToList.setForeground(Color.WHITE);
+            
+            btnRemove.setBackground(Color.GRAY);
+            btnRemove.setForeground(Color.WHITE);
             
             btnDeleteMusic.setBackground(Color.GRAY);
             btnDeleteMusic.setForeground(Color.WHITE);
