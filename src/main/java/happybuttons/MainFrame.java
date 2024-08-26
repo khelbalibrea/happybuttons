@@ -150,7 +150,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             startup = "new", // new -> clean workspace after startup; load -> load previous loaded profile in startup
             fullScreenVL = "window", // whether the screen in Video loop is windowed(window) or full screen(full)
             locPopup = "topcenter", // String value for notification popup; used in saving UI
-            VLType = "forloop"; // for detecting what combobox type will show in video loop
+            VLType = "playlist"; // for detecting what combobox type will show in video loop
     public static Notification.Location location = Notification.Location.TOP_CENTER;
     public static Mp3Frame mp3;
     public static VLCFrame vlc;
@@ -5465,7 +5465,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         
 //        ActionEvent actionEvent = new ActionEvent(new Object(), ActionEvent.ACTION_PERFORMED, "command");
 //        checkBoxAction.actionPerformed(actionEvent);
-        System.out.println("CHK mode: " + playlistVideoMode);
+//        System.out.println("CHK mode: " + playlistVideoMode);
     }//GEN-LAST:event_chkVLModeActionPerformed
 
     private void tfMp3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfMp3ActionPerformed

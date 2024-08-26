@@ -10,13 +10,8 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import static java.lang.Math.log;
-import java.util.Iterator;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
-import javax.imageio.stream.FileImageInputStream;
-import javax.imageio.stream.ImageInputStream;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -257,6 +252,19 @@ public class Utility {
         }
         
         return found;
+    }
+    
+    public static boolean removeItemInTable(DefaultTableModel table, String strRemove) {
+        boolean bool = false;
+        
+        for(int i = 0; i < table.getRowCount(); i++) {
+            if(table.getValueAt(i, 0).equals(strRemove)) { // Check the first column
+                table.removeRow(i);
+                bool = true;
+            }
+        }
+        
+        return bool;
     }
     
     public static String shortenText(String str, int limit) {
