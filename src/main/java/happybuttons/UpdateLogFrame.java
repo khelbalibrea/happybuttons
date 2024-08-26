@@ -40,6 +40,8 @@ public class UpdateLogFrame extends javax.swing.JDialog {
         SimpleAttributeSet plainAttrs = new SimpleAttributeSet();
         
         try {
+            doc.insertString(doc.getLength(), "[September 1, 2024]\n", boldAttrs);
+            doc.insertString(doc.getLength(), "• [Add] Search bar in Resources Table [BGM and SFX, Video loop, Mp3].\n\n", plainAttrs);
             doc.insertString(doc.getLength(), "[August 23, 2024]\n", boldAttrs);
             doc.insertString(doc.getLength(), "• [Add] Mp3 text field in Main Frame can be cleared via right click. The music will also stop.\n"
                     + "• [Add] Updates log under About Frame.\n"
