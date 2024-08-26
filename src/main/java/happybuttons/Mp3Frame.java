@@ -115,9 +115,10 @@ public class Mp3Frame extends javax.swing.JFrame {
                         if(MainFrame.mp3Queue.length != 0) {
                             MainFrame.selectedMp3Item = MainFrame.mp3Queue[0];
                             
-                            MainFrame.tfMp3.setText(Utility.shortenText(MainFrame.selectedMp3Item, 18));
+                            MainFrame.tfMp3.setText(MainFrame.selectedMp3Item);
                             MainFrame.tfMp3.setToolTipText(MainFrame.selectedMp3Item);
-                            lblSongMp3.setText(Utility.shortenText(MainFrame.selectedMp3Item, 18));
+                            MainFrame.tfMp3.moveCaretPosition(0);
+                            lblSongMp3.setText(Utility.shortenText(MainFrame.selectedMp3Item, 50));
                             lblSongMp3.setToolTipText(MainFrame.selectedMp3Item);
                             
                             MainFrame.playPauseMp3(2); // 2 means play next queue
@@ -135,9 +136,10 @@ public class Mp3Frame extends javax.swing.JFrame {
                         if(MainFrame.mp3Queue.length != 0) {
                             MainFrame.selectedMp3Item = MainFrame.mp3Queue[0];
                             
-                            MainFrame.tfMp3.setText(Utility.shortenText(MainFrame.selectedMp3Item, 18));
+                            MainFrame.tfMp3.setText(MainFrame.selectedMp3Item);
                             MainFrame.tfMp3.setToolTipText(MainFrame.selectedMp3Item);
-                            lblSongMp3.setText(Utility.shortenText(MainFrame.selectedMp3Item, 18));
+                            MainFrame.tfMp3.moveCaretPosition(0);
+                            lblSongMp3.setText(Utility.shortenText(MainFrame.selectedMp3Item, 50));
                             lblSongMp3.setToolTipText(MainFrame.selectedMp3Item);
                             
                             MainFrame.playPauseMp3(2); // 2 means play next queue
@@ -148,9 +150,10 @@ public class Mp3Frame extends javax.swing.JFrame {
                             MainFrame.mp3Queue = MainFrame.mp3MainQueue;
                             MainFrame.selectedMp3Item = MainFrame.mp3Queue[0];
                             
-                            MainFrame.tfMp3.setText(Utility.shortenText(MainFrame.selectedMp3Item, 18));
+                            MainFrame.tfMp3.setText(MainFrame.selectedMp3Item);
                             MainFrame.tfMp3.setToolTipText(MainFrame.selectedMp3Item);
-                            lblSongMp3.setText(Utility.shortenText(MainFrame.selectedMp3Item, 18));
+                            MainFrame.tfMp3.moveCaretPosition(0);
+                            lblSongMp3.setText(Utility.shortenText(MainFrame.selectedMp3Item, 50));
                             lblSongMp3.setToolTipText(MainFrame.selectedMp3Item);
                             
                             MainFrame.playPauseMp3(2); // 2 means play next queue
@@ -167,7 +170,7 @@ public class Mp3Frame extends javax.swing.JFrame {
                     if(index != -1) {
 //                        String selectedItem = (String)MainFrame.mlist.getElementAt(index);
                         String selectedItem = listMp3.getSelectedValue();
-                        lblSongMp3.setText(Utility.shortenText(selectedItem, 18));
+                        lblSongMp3.setText(Utility.shortenText(selectedItem, 50));
                         lblSongMp3.setToolTipText(selectedItem);
                         MainFrame.tfMp3.setText(selectedItem);
                         MainFrame.mp3Playing = 0;
@@ -299,7 +302,7 @@ public class Mp3Frame extends javax.swing.JFrame {
         }
         
         if(!MainFrame.selectedMp3Item.equals("")) {
-            lblSongMp3.setText(Utility.shortenText(MainFrame.selectedMp3Item, 18));
+            lblSongMp3.setText(Utility.shortenText(MainFrame.selectedMp3Item, 50));
             lblSongMp3.setToolTipText(MainFrame.selectedMp3Item);
             listMp3.setSelectedIndex(0);
 
@@ -659,8 +662,9 @@ public class Mp3Frame extends javax.swing.JFrame {
             
             if(MainFrame.mp3Queue.length == 0) {
                 if(MainFrame.mp3Repeat == 0) {
-                    MainFrame.tfLastOperation.setText(Utility.shortenText("MP is not in repeat mode. Songs in list are done playing", 50));
+                    MainFrame.tfLastOperation.setText("MP is not in repeat mode. Songs in list are done playing");
                     MainFrame.tfLastOperation.setToolTipText("MP is not in repeat mode. Songs in list are done playing");
+                    MainFrame.tfLastOperation.moveCaretPosition(0);
                     MainFrame.iconPlayMp3 = 1;
                     setElementIcon(2, "play");
                 }
@@ -676,8 +680,9 @@ public class Mp3Frame extends javax.swing.JFrame {
                     setElementIcon(2, "pause");
                 }
                 else if(MainFrame.mp3Repeat == 2) {
-                    MainFrame.tfLastOperation.setText(Utility.shortenText("MP is not in repeat mode. Songs in list are done playing", 50));
+                    MainFrame.tfLastOperation.setText("MP is not in repeat mode. Songs in list are done playing");
                     MainFrame.tfLastOperation.setToolTipText("MP is not in repeat mode. Songs in list are done playing");
+                    MainFrame.tfLastOperation.moveCaretPosition(0);
                     MainFrame.iconPlayMp3 = 1;
                     setElementIcon(2, "play");
                 }
@@ -687,8 +692,9 @@ public class Mp3Frame extends javax.swing.JFrame {
                     MainFrame.mp3Queue = Utility.removeIndexInStrArr(MainFrame.mp3Queue, 0);
                     if(MainFrame.mp3Queue.length == 0) {
                         if(MainFrame.mp3Repeat == 0) {
-                            MainFrame.tfLastOperation.setText(Utility.shortenText("MP is not in repeat mode. Songs in list are done playing", 50));
+                            MainFrame.tfLastOperation.setText("MP is not in repeat mode. Songs in list are done playing");
                             MainFrame.tfLastOperation.setToolTipText("MP is not in repeat mode. Songs in list are done playing");
+                            MainFrame.tfLastOperation.moveCaretPosition(0);
                             MainFrame.iconPlayMp3 = 1;
                             setElementIcon(2, "play");
                         }
@@ -704,8 +710,9 @@ public class Mp3Frame extends javax.swing.JFrame {
                             setElementIcon(2, "pause");
                         }
                         else if(MainFrame.mp3Repeat == 2) {
-                            MainFrame.tfLastOperation.setText(Utility.shortenText("MP is not in repeat mode. Songs in list are done playing", 50));
+                            MainFrame.tfLastOperation.setText("MP is not in repeat mode. Songs in list are done playing");
                             MainFrame.tfLastOperation.setToolTipText("MP is not in repeat mode. Songs in list are done playing");
+                            MainFrame.tfLastOperation.moveCaretPosition(0);
                             MainFrame.iconPlayMp3 = 1;
                             setElementIcon(2, "play");
                         }
@@ -728,8 +735,9 @@ public class Mp3Frame extends javax.swing.JFrame {
         else { // clip not running
             if(MainFrame.mp3Queue.length == 0) {
                 if(MainFrame.mp3Repeat == 0) {
-                    MainFrame.tfLastOperation.setText(Utility.shortenText("MP is not in repeat mode. Songs in list are done playing", 50));
+                    MainFrame.tfLastOperation.setText("MP is not in repeat mode. Songs in list are done playing");
                     MainFrame.tfLastOperation.setToolTipText("MP is not in repeat mode. Songs in list are done playing");
+                    MainFrame.tfLastOperation.moveCaretPosition(0);
                     MainFrame.iconPlayMp3 = 1;
                 }
                 else if(MainFrame.mp3Repeat == 1) {
@@ -742,8 +750,9 @@ public class Mp3Frame extends javax.swing.JFrame {
                     MainFrame.playPauseMp3(2);
                 }
                 else if(MainFrame.mp3Repeat == 2) {
-                    MainFrame.tfLastOperation.setText(Utility.shortenText("MP is not in repeat mode. Songs in list are done playing", 50));
+                    MainFrame.tfLastOperation.setText("MP is not in repeat mode. Songs in list are done playing");
                     MainFrame.tfLastOperation.setToolTipText("MP is not in repeat mode. Songs in list are done playing");
+                    MainFrame.tfLastOperation.moveCaretPosition(0);
                     MainFrame.iconPlayMp3 = 1;
                 }
             }
@@ -767,6 +776,7 @@ public class Mp3Frame extends javax.swing.JFrame {
         }
         else {
             MainFrame.tfLastOperation.setText("[MP]:: NOTHING TO PLAY");
+            MainFrame.tfLastOperation.setToolTipText("[MP]:: NOTHING TO PLAY");
         }
     }//GEN-LAST:event_btnPlayPauseMp3ActionPerformed
 
@@ -823,8 +833,9 @@ public class Mp3Frame extends javax.swing.JFrame {
 
                         if(!(MainFrame.mlist).contains(Utility.renameListName(file.getName(), "wav"))) {
                             MainFrame.mlist.addElement(Utility.renameListName(file.getName(), "wav"));
-                            (MainFrame.tfLastOperation).setText(Utility.shortenText("[ADDED MP3]:: " + file.getName(), 50));
-                            (MainFrame.tfLastOperation).setToolTipText("[ADDED MP3]:: " + file.getName());
+                            (MainFrame.tfLastOperation).setText("[ADDED MP3]:: " + Utility.renameListName(file.getName(), "wav"));
+                            (MainFrame.tfLastOperation).setToolTipText("[ADDED MP3]:: " + Utility.renameListName(file.getName(), "wav"));
+                            (MainFrame.tfLastOperation).moveCaretPosition(0);
                         }
                         
                         if(!Utility.doesStrArrHasElement(MainFrame.mp3MainQueue, Utility.renameListName(file.getName(), "wav"))) {
@@ -914,15 +925,17 @@ public class Mp3Frame extends javax.swing.JFrame {
                         if(Utility.getFileExtension(file.toString()).equals("MP3")) {
                             if(!MainFrame.mlist.contains(Utility.renameListName(file.getName(), "MP3"))) {
                                 MainFrame.mlist.addElement(Utility.renameListName(file.getName(), "MP3"));
-                                (MainFrame.tfLastOperation).setText(Utility.shortenText("[ADDED MP3]:: " + file.getName(), 50));
-                                (MainFrame.tfLastOperation).setToolTipText("[ADDED MP3]:: " + file.getName());
+                                (MainFrame.tfLastOperation).setText("[ADDED MP3]:: " + Utility.renameListName(file.getName(), "MP3"));
+                                (MainFrame.tfLastOperation).setToolTipText("[ADDED MP3]:: " + Utility.renameListName(file.getName(), "MP3"));
+                                (MainFrame.tfLastOperation).moveCaretPosition(0);
                             }
                         }
                         else if(Utility.getFileExtension(file.toString()).equals("mp3")) {
                             if(!MainFrame.mlist.contains(Utility.renameListName(file.getName(), "mp3"))) {
                                 MainFrame.mlist.addElement(Utility.renameListName(file.getName(), "mp3"));
-                                (MainFrame.tfLastOperation).setText(Utility.shortenText("[ADDED MP3]:: " + file.getName(), 50));
-                                (MainFrame.tfLastOperation).setToolTipText("[ADDED MP3]:: " + file.getName());
+                                (MainFrame.tfLastOperation).setText("[ADDED MP3]:: " + Utility.renameListName(file.getName(), "mp3"));
+                                (MainFrame.tfLastOperation).setToolTipText("[ADDED MP3]:: " + Utility.renameListName(file.getName(), "mp3"));
+                                (MainFrame.tfLastOperation).moveCaretPosition(0);
                             }
                         }
                         
@@ -1120,7 +1133,9 @@ public class Mp3Frame extends javax.swing.JFrame {
             }
         }
         else {
-            MainFrame.tfLastOperation.setText(Utility.shortenText("[DELETE Music]:: Nothing selected", 50));
+            MainFrame.tfLastOperation.setText("[DELETE Music]:: Nothing selected");
+            MainFrame.tfLastOperation.setToolTipText("[DELETE Music]:: Nothing selected");
+            MainFrame.tfLastOperation.moveCaretPosition(0);
         }
         
 //        if(listMp3.getSelectedIndex() != -1) {

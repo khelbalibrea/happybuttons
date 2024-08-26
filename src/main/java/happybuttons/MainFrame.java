@@ -1297,7 +1297,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         tfLastOperation.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         tfLastOperation.setMaximumSize(new java.awt.Dimension(22, 600));
         tfLastOperation.setMinimumSize(new java.awt.Dimension(22, 600));
-        panelRow3.add(tfLastOperation, new org.netbeans.lib.awtextra.AbsoluteConstraints(96, 6, 310, -1));
+        panelRow3.add(tfLastOperation, new org.netbeans.lib.awtextra.AbsoluteConstraints(96, 6, 340, -1));
 
         togLinkBGMVol.setText("OFF");
         togLinkBGMVol.setToolTipText("Toggle this ON when you want to inversely link BGM1 vol and BGM2 vol");
@@ -3573,7 +3573,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             playing1 = 0;
             pause1 = 0;
 
-            tfLastOperation.setText("[Clear] BGM1: " + tfBGM1.getText());
+            tfLastOperation.setText("[CLEARED BGM1]:: " + tfBGM1.getText());
+            tfLastOperation.setToolTipText("[CLEARED BGM1]:: " + tfBGM1.getText());
+            tfLastOperation.moveCaretPosition(0);
             tfBGM1.setText("");
         }
     }//GEN-LAST:event_btnClearBGM1ActionPerformed
@@ -3814,6 +3816,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         if(!blist.contains(Utility.renameListName(file.getName(), "mp3"))) {
                             blist.addElement(Utility.renameListName(file.getName(), "mp3"));
                             tfLastOperation.setText("[ADDED BGM]:: " + Utility.renameListName(file.getName(), "mp3"));
+                            tfLastOperation.setToolTipText("[ADDED BGM]:: " + Utility.renameListName(file.getName(), "mp3"));
+                            tfLastOperation.moveCaretPosition(0);
                         }
 
                         listBGM.setModel(blist);
@@ -3920,6 +3924,8 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                         if(!slist.contains(Utility.renameListName(file.getName(), "mp3"))) {
                             slist.addElement(Utility.renameListName(file.getName(), "mp3"));
                             tfLastOperation.setText("[ADDED SFX]:: " + Utility.renameListName(file.getName(), "mp3"));
+                            tfLastOperation.setToolTipText("[ADDED SFX]:: " + Utility.renameListName(file.getName(), "mp3"));
+                            tfLastOperation.moveCaretPosition(0);
                         }
 
                         listSFX.setModel(slist);
@@ -3954,7 +3960,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             playing2 = 0;
             pause2 = 0;
 
-            tfLastOperation.setText("[Clear] BGM2: " + tfBGM2.getText());
+            tfLastOperation.setText("[CLEARED BGM2]:: " + tfBGM2.getText());
+            tfLastOperation.setToolTipText("[CLEARED BGM2]:: " + tfBGM2.getText());
+            tfLastOperation.moveCaretPosition(0);
             tfBGM2.setText("");
         }
     }//GEN-LAST:event_btnClearBGM2ActionPerformed
@@ -4094,7 +4102,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     
     private void btnDeleteBGMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteBGMActionPerformed
         if(selectedBGMItem != "") {
-            tfLastOperation.setText("[DELETE BGM]:: " + selectedBGMItem);
+            tfLastOperation.setText("[REMOVE BGM]:: " + selectedBGMItem);
+            tfLastOperation.setToolTipText("[REMOVE BGM]:: " + selectedBGMItem);
+            tfLastOperation.moveCaretPosition(0);
             blist.removeElement(selectedBGMItem);
             selectedBGMItem = "";
             
@@ -4134,12 +4144,16 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                     Utility.blankSFXLabel(selectedSFXItem);
                     
                     tfLastOperation.setText("[REMOVE SFX]:: " + selectedSFXItem);
+                    tfLastOperation.setToolTipText("[REMOVE SFX]:: " + selectedSFXItem);
+                    tfLastOperation.moveCaretPosition(0);
                     slist.removeElement(selectedSFXItem);
                     selectedSFXItem = "";
                 }
             }
             else {
                 tfLastOperation.setText("[REMOVE SFX]:: " + selectedSFXItem);
+                tfLastOperation.setToolTipText("[REMOVE SFX]:: " + selectedSFXItem);
+                tfLastOperation.moveCaretPosition(0);
                 slist.removeElement(selectedSFXItem);
                 selectedSFXItem = "";
             }
@@ -5105,12 +5119,13 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                     selectedMp3Item = mp3.listMp3.getSelectedValue();
                 }
                 else {
-                    mp3.lblSongMp3.setText(Utility.shortenText(mp3.listMp3.getSelectedValue(), 18));
+                    mp3.lblSongMp3.setText(Utility.shortenText(mp3.listMp3.getSelectedValue(), 50));
                 }
 
                 if(clipMp3 == null) {
                     if(selectedMp3Item.equals("")){
                         tfLastOperation.setText("[MP]:: NOTHING TO PLAY");
+                        tfLastOperation.setToolTipText("[MP]:: NOTHING TO PLAY");
 
                         errorOccurred = 1;
                         iconPlayMp3 = 1;
@@ -5148,6 +5163,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             }
             else {
                 tfLastOperation.setText("[MP]:: NOTHING TO PLAY");
+                tfLastOperation.setToolTipText("[MP]:: NOTHING TO PLAY");
 
                 errorOccurred = 1;
                 iconPlayMp3 = 1;
@@ -5273,8 +5289,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             currentMp3Playing = selectedMp3Item;
             Mp3Frame.lblSongMp3.setText(Utility.shortenText(selectedMp3Item, 50));
             Mp3Frame.lblSongMp3.setToolTipText(selectedMp3Item);
-            tfMp3.setText(Utility.shortenText(selectedMp3Item, 40));
+            tfMp3.setText(selectedMp3Item);
             tfMp3.setToolTipText(selectedMp3Item);
+            tfMp3.moveCaretPosition(0);
             Mp3Frame.listMp3.setSelectedValue(selectedMp3Item, true);
             clipMp3.addLineListener(listenMp3);
             clipMp3.start();
