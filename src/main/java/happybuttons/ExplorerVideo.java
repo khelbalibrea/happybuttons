@@ -47,7 +47,14 @@ public class ExplorerVideo extends javax.swing.JDialog {
     
     public ExplorerVideo(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        super.setTitle("Open Video");
+        
+        if(MainFrame.chkVLMode.isSelected()) {
+            super.setTitle("Open Video [LOOP mode]");
+        }
+        else {
+            super.setTitle("Open Video [PLAYLIST mode]");
+        }
+        
         setLayout(new BorderLayout());
         
         videoSelect = new MouseAdapter() {
@@ -123,6 +130,8 @@ public class ExplorerVideo extends javax.swing.JDialog {
         btnJustSelect = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         lblWarning = new javax.swing.JLabel(ctrVideoNotLoaded + " video(s) not listed, probably no thumbnail generated with it");
+        tfSearch = new PlaceHolderTextfield("Search here");
+        tfSearch.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         
         btnPlayNow.setText("Play now");
         btnJustSelect.setText("Just select");
@@ -174,27 +183,32 @@ public class ExplorerVideo extends javax.swing.JDialog {
             javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
             jPanel1.setLayout(jPanel1Layout);
             jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.CENTER)
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1)
+                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                    .addComponent(tfSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                )
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                    .addComponent(lblWarning)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                    .addContainerGap(218, Short.MAX_VALUE)
-                    .addComponent(btnJustSelect)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(lblWarning, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(18, 18, 18)
                     .addComponent(btnPlayNow)
-                    .addContainerGap())
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(btnJustSelect)
+                )
+                
             );
             jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                 .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                    .addComponent(tfSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, Short.MAX_VALUE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblWarning)
                         .addComponent(btnJustSelect)
-                        .addComponent(btnPlayNow))
-                    .addContainerGap())
+                        .addComponent(btnPlayNow)
+                        .addComponent(lblWarning))
+                )
             );
             
             lblWarning.addMouseListener(new MouseAdapter() {
@@ -207,27 +221,55 @@ public class ExplorerVideo extends javax.swing.JDialog {
             
         }
         else {
+//            javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+//            jPanel1.setLayout(jPanel1Layout);
+//            jPanel1Layout.setHorizontalGroup(
+//                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+//                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.CENTER)
+//                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+//                    .addContainerGap(218, Short.MAX_VALUE)
+//                    .addComponent(btnJustSelect)
+//                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+//                    .addComponent(btnPlayNow)
+//                    .addContainerGap())
+//            );
+//            jPanel1Layout.setVerticalGroup(
+//                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+//                .addGroup(jPanel1Layout.createSequentialGroup()
+//                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+//                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+//                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+//                        .addComponent(btnJustSelect)
+//                        .addComponent(btnPlayNow))
+//                    .addContainerGap())
+//            );
             javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
             jPanel1.setLayout(jPanel1Layout);
             jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.CENTER)
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1)
+                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                    .addComponent(tfSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                )
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                    .addContainerGap(218, Short.MAX_VALUE)
-                    .addComponent(btnJustSelect)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(btnPlayNow)
-                    .addContainerGap())
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(btnJustSelect)
+                )
+                
             );
             jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                 .addGroup(jPanel1Layout.createSequentialGroup()
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                    .addComponent(tfSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, Short.MAX_VALUE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnJustSelect)
-                        .addComponent(btnPlayNow))
-                    .addContainerGap())
+                        .addComponent(btnPlayNow)
+                    )
+                )
             );
         }
 
@@ -505,4 +547,5 @@ public class ExplorerVideo extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblWarning;
+    private javax.swing.JTextField tfSearch;
 }
