@@ -34,6 +34,7 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.ToolTipManager;
 import javax.swing.border.EmptyBorder;
+import java.util.regex.*;
 
 public class ExplorerVideo extends javax.swing.JDialog {
     DefaultListModel<ImageLabel> model = new DefaultListModel<>();
@@ -90,10 +91,6 @@ public class ExplorerVideo extends javax.swing.JDialog {
             }
         }
         
-//        for(int ctr = 0; ctr < vidList.length; ctr++) {
-//            System.out.println(ctr + 1 + ". " + vidList[ctr]);
-//        }
-        
         // Load images and add them to the model with labels
         try {
             for(int i = 0; i < vidList.length; i++) {
@@ -132,6 +129,12 @@ public class ExplorerVideo extends javax.swing.JDialog {
         lblWarning = new javax.swing.JLabel(ctrVideoNotLoaded + " video(s) not listed, probably no thumbnail generated with it");
         tfSearch = new PlaceHolderTextfield("Search here");
         tfSearch.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        
+        tfSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfSearchBSKeyReleased(evt);
+            }
+        });
         
         btnPlayNow.setText("Play now");
         btnJustSelect.setText("Just select");
@@ -538,6 +541,58 @@ public class ExplorerVideo extends javax.swing.JDialog {
             
             btnPlayNow.setForeground(Color.WHITE);
             btnPlayNow.setBackground(Color.DARK_GRAY);
+        }
+    }
+    
+    private void tfSearchBSKeyReleased(java.awt.event.KeyEvent evt) {
+        model.removeAllElements();
+        
+        if(tfSearch.getText().equals("")) {
+            reloadContent();
+        }
+        else {
+            searchContent(tfSearch.getText());
+        }
+    }
+    
+    public void searchContent(String searchItem) {
+        String search = ".*" + searchItem + ".*";
+        Pattern pattern = Pattern.compile(search, Pattern.CASE_INSENSITIVE);
+        
+        try {
+            for(int i = 0; i < vidList.length; i++) {
+                Matcher matcher = pattern.matcher(vidList[i]);
+                
+                if(matcher.find()) {
+                    File f = new File(HappyButtons.documentsPath + "\\HappyButtons\\data\\thumbnails\\" + vidList[i] + ".png");
+                
+                    if(f.exists()) {
+                        BufferedImage img = ImageIO.read(f);
+                        String label = Utility.prepareLabelNaming(Utility.shortenText(vidList[i], 20)); // Change this to your desired label
+                        model.addElement(new ImageLabel(new ImageIcon(img), label, vidList[i]));
+                    }
+                }
+            }
+        }
+        catch(Exception e) {
+            System.err.println(e.toString());
+        }
+    }
+    
+    private void reloadContent() {
+        try {
+            for(int i = 0; i < vidList.length; i++) {
+                File f = new File(HappyButtons.documentsPath + "\\HappyButtons\\data\\thumbnails\\" + vidList[i] + ".png");
+                
+                if(f.exists()) {
+                    BufferedImage img = ImageIO.read(f);
+                    String label = Utility.prepareLabelNaming(Utility.shortenText(vidList[i], 20)); // Change this to your desired label
+                    model.addElement(new ImageLabel(new ImageIcon(img), label, vidList[i]));
+                }
+            }
+        }
+        catch(Exception e) {
+            System.err.println(e.toString());
         }
     }
     
