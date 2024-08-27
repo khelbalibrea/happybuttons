@@ -998,7 +998,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         chkMuteVL = new javax.swing.JCheckBox();
         chkFitVL = new javax.swing.JCheckBox();
         chkVLMode = new javax.swing.JCheckBox();
-        tfVideoLoop = new javax.swing.JTextField();
+        tfVideoLoop = new PlaceHolderTextfield("Click to select video");
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itmNew = new javax.swing.JMenuItem();
