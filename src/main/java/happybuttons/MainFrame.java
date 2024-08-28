@@ -128,7 +128,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
     public static String loadedProfile = "", savedProfile = "", savingProfile = "", strBGM = "", strSFX = "", strVidLoop = "", strVidList = "", strMp3List = "";
     public static int loadedIndexProfile = -1;
     
-    // UI Components
+    // UI Variables
     public static String currentMp3Playing = null; // currently Mp3 playing
     public static int hour, minute, second; // for time 
     public static int vlcjPlaying = 0, // if VLC is playing, 0 -> not playing; 1 -> playing
@@ -183,13 +183,15 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         };
         
         if(!HappyButtons.firstCheck.equals("")) {
-            tfLastOperation.setText(Utility.shortenText(HappyButtons.firstCheck, 50));
+            tfLastOperation.setText(HappyButtons.firstCheck);
+            tfLastOperation.moveCaretPosition(0);
             tfLastOperation.setToolTipText(HappyButtons.firstCheck);
         }
         
         if(HappyButtons.mainFolderChk == 1) {
-            tfLastOperation.setText(Utility.shortenText("[SYSTEM] Some system file resources are missing", 50));
-            tfLastOperation.setToolTipText("[SYSTEM] Some system file resources are missing");
+            tfLastOperation.setText("[SYSTEM]:: Some system file resources are missing");
+            tfLastOperation.moveCaretPosition(0);
+            tfLastOperation.setToolTipText("[SYSTEM]:: Some system file resources are missing");
         }
         
         if(HappyButtons.bgFolderChk == 1) {
@@ -197,6 +199,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 "App resource \"BG\" folder not found\n\n\"BGM\" folder is created.\nNote that bg sounds involve in some profile saves may gone missing", 
                 "CRITICAL FOLDER MISSING", 
                 JOptionPane.WARNING_MESSAGE);
+            System.out.println("BG folder" + HappyButtons.bgFolderChk);
             
             HappyButtons.bgFolderChk = 0;
         }
@@ -206,6 +209,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 "App resource \"SFX\" folder not found\n\n\"SFX\" folder is created.\nNote that sfx sounds involve in some profile saves may gone missing", 
                 "CRITICAL FOLDER MISSING", 
                 JOptionPane.WARNING_MESSAGE);
+            System.out.println("SFX folder" + HappyButtons.sfxFolderChk);
             
             HappyButtons.sfxFolderChk = 0;
         }
@@ -215,6 +219,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 "App resource \"VIDEO LOOP\" folder not found\n\n\"Video loop\" folder is created.\nNote that Happy Loop videos involve in some profile saves may gone missing", 
                 "CRITICAL FOLDER MISSING", 
                 JOptionPane.WARNING_MESSAGE);
+            System.out.println("Video folder" + HappyButtons.happyloopFolderChk);
             
             HappyButtons.happyloopFolderChk = 0;
         }
@@ -224,6 +229,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 "App resource \"MP3\" folder not found\n\n\"MP3\" folder is created.\nNote that Mp3 files involve in some profile saves may gone missing", 
                 "CRITICAL FOLDER MISSING", 
                 JOptionPane.WARNING_MESSAGE);
+            System.out.println("Mp3 folder" + HappyButtons.mp3FolderChk);
             
             HappyButtons.mp3FolderChk = 0;
         }
@@ -233,8 +239,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 "Database folder not found\n\n\"Database\" folder is created.\nNote that new blank database is made. Files you saved may gone missing", 
                 "CRITICAL FOLDER MISSING", 
                 JOptionPane.WARNING_MESSAGE);
+            System.out.println("DTBS folder" + HappyButtons.dtbsFolderChk);
             
-            HappyButtons.mp3FolderChk = 0;
+            HappyButtons.dtbsFolderChk = 0;
         }
 
 //        try {
@@ -727,8 +734,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                                 }
                                 else {
                                     if(playing2 == 1) {
-                                        tfLastOperation.setText(Utility.shortenText("BGMs are busy, cannot input selected BGM", 50));
+                                        tfLastOperation.setText("BGMs are busy, cannot input selected BGM");
                                         tfLastOperation.setToolTipText("BGMs are busy, cannot input selected BGM");
+                                        tfLastOperation.moveCaretPosition(0);
                                     }
                                     else {
                                         tfBGM2.setText(selectedItem);
@@ -4266,8 +4274,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
         (clipBGM2 != null && clipBGM2.isRunning()) || 
         (clipMp3 != null && clipMp3.isRunning()) || 
         vlcjPlaying == 1) {
-            tfLastOperation.setText(Utility.shortenText("Cannot create new workspace, please STOP running BGM / SFX / Mp3 or playing VIDEO LOOP", 50));
+            tfLastOperation.setText("Cannot create new workspace, please STOP running BGM / SFX / Mp3 or playing VIDEO LOOP");
             tfLastOperation.setToolTipText("Cannot create new workspace, please STOP running BGM / SFX / Mp3 or playing VIDEO LOOP");
+            tfLastOperation.moveCaretPosition(0);
         }
         else {
             super.setTitle("Happy Buttons");
@@ -4299,6 +4308,7 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
             tfMp3.setText("");
             tfMp3.setToolTipText("");
             tfLastOperation.setText("NEW WORKSPACE CREATED");
+            tfLastOperation.setToolTipText("NEW WORKSPACE CREATED");
             
             volBGM1.setValue(100); volBGM2.setValue(100); volSFX.setValue(100);
             chkLoop1.setSelected(true); chkLoop2.setSelected(true);
@@ -4899,8 +4909,9 @@ public final class MainFrame extends javax.swing.JFrame implements Runnable {
                 }
             }
             else {
-                tfLastOperation.setText(Utility.shortenText("VIDEO:: Unable to start video loop. VLCj plugin not found/set", 50));
+                tfLastOperation.setText("VIDEO:: Unable to start video loop. VLCj plugin not found/set");
                 tfLastOperation.setToolTipText("VIDEO:: Unable to start video loop. VLCj plugin not found/set");
+                tfLastOperation.moveCaretPosition(0);
             }
         }
         else {

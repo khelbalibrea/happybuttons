@@ -74,8 +74,8 @@ public class Utility {
         return "";
     }
     
-    public static String[] splitParts(String str) {
-        String[] parts = str.split(Pattern.quote(":"));
+    public static String[] splitParts(String str, String delimiter) {
+        String[] parts = str.split(Pattern.quote(delimiter));
         
         return parts;
     }
@@ -201,7 +201,7 @@ public class Utility {
     public static String arrToStr(String[] arr, String delimiter) {
         String arrStr = "";
         for(String data : arr) {
-            if (arrStr.equals("")) {
+            if(arrStr.equals("")) {
                 arrStr = data;
             }
             else {

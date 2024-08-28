@@ -238,7 +238,7 @@ public class Mp3Frame extends javax.swing.JFrame {
     public void load() {
         // Load mp3 Jlist
         if(MainFrame.loadedIndexProfile != -1) {
-            String[] arrMp3 = Utility.splitParts(HappyButtons.profileDB[MainFrame.loadedIndexProfile].getStrMp3List());
+            String[] arrMp3 = Utility.splitParts(HappyButtons.profileDB[MainFrame.loadedIndexProfile].getStrMp3List(), ":");
             String goneMp3s = "";
             String mp3Gone = "";
             int mp3Lost = 0;

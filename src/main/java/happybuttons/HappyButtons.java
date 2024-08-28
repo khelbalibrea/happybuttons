@@ -243,7 +243,7 @@ public class HappyButtons {
             
             try {
                 file.createNewFile();
-                firstCheck = "[SYSTEM] No database found";
+                firstCheck = "[SYSTEM]:: No database found";
                 noDB = 1;
                 
                 Profile profile = new Profile();
