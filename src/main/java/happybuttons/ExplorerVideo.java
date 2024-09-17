@@ -113,6 +113,41 @@ public class ExplorerVideo extends javax.swing.JDialog {
         
         initComponents();
         
+        listVideos.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if(e.getClickCount() == 2) { // System.out.println("2 click " + selectedItem);
+                    if(!MainFrame.tfVideoLoop.getText().equals(selectedItem)) {
+                        
+                    }
+                    if(MainFrame.playlistVideoMode == 1) {
+                        MainFrame.selectedPlaylistVideoItem = selectedItem;
+                    }
+                    else {
+                        MainFrame.selectedLoopVideoItem = selectedItem;
+                    }
+
+                    MainFrame.tfVideoLoop.setText(selectedItem);
+                    MainFrame.tfVideoLoop.setToolTipText(selectedItem);
+                    MainFrame.tfVideoLoop.moveCaretPosition(0);
+
+//                    dialog.setVisible(false);
+
+                    if(MainFrame.videoFirstTime == 1) {
+                        MainFrame.videoFirstTime = 0;
+                        
+                        MainFrame.playVid();
+                    }
+                    
+                    if(MainFrame.videoFirstTime == 1) {
+                        MainFrame.playVid();
+                    }
+                    else {
+                        MainFrame.btnPlayVLActionPerformed(null);
+                    }
+                }
+            }
+        });
+        
         // set frame icon
         ImageIcon imgIcon = new ImageIcon(HappyButtons.documentsPathDoubleSlash + Utility.strDoubleSlash("\\HappyButtons\\res\\icon\\wave.png"));
         setIconImage(imgIcon.getImage());
@@ -320,13 +355,17 @@ public class ExplorerVideo extends javax.swing.JDialog {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
+        }
+        catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(ExplorerVideo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
+        }
+        catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(ExplorerVideo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
+        }
+        catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(ExplorerVideo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        }
+        catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(ExplorerVideo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -509,6 +548,7 @@ public class ExplorerVideo extends javax.swing.JDialog {
 
                 return panel;
             }
+            
             return super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         }
     }
