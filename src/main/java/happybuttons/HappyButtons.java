@@ -18,7 +18,7 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
 /**
  *
- * @author Michael Balibrea (khel) & •
+ * @author Michael N. Balibrea (khel) & •
  */
 public class HappyButtons {
     public static String documentsPath = "";
