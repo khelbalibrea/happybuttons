@@ -10,6 +10,10 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.DosFileAttributeView;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileSystemView;
 /**
@@ -71,6 +75,7 @@ public class HappyButtons {
         }
         
         loadUISettings();
+//        setFolderHidden();
     }
     
     public static void loadUISettings() {
@@ -390,5 +395,31 @@ public class HappyButtons {
         
         SystemToolsFrame.textResult.setText("");
         SystemToolsFrame.textResult.setText("RESIZING IMAGE\n\n" + result);
+    }
+    
+    public static void setFolderHidden() {
+        // Specify the existing folder path
+        Path folderPath = Paths.get(documentsPathDoubleSlash);
+
+        try {
+            // Check if the folder exists
+            if (Files.exists(folderPath)) {
+                // Set the folder as hidden (Windows specific)
+                DosFileAttributeView view = Files.getFileAttributeView(folderPath, DosFileAttributeView.class);
+                
+                if (view != null) {
+                    view.setHidden(true);
+                    System.out.println("Folder set to hidden.");
+                }
+                else {
+                    System.out.println("This file system does not support the hidden attribute.");
+                }
+            }
+            else {
+                System.out.println("The specified folder does not exist.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
